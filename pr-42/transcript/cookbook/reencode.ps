@@ -1,0 +1,176 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Re-encoding an Entire Font     Number: 23
+%-----------------------------------------------------------------------------
+%
+/reencodedict 5 dict def                    % Local storage for the procedure
+					    % ``ReEncode.''
+/ReEncode                                   % ReEncode generates a new font
+  { reencodedict begin                      % given the name of the font to be
+    /newencoding exch def                   % re-encoded, a new name, and a
+    /newfontname exch def                   % new encoding vector. ReEncode
+    /basefontname exch def                  % copies the existing font
+					    % dictionary, replacing the
+					    % FontName and Encoding fields,
+					    % then generates a new FID and
+					    % enters the new name in
+					    % FontDirectory with the
+					    % ``definefont'' operator. The new
+					    % name provided can later be used
+					    % in a ``findfont'' operation.
+    /basefontdict basefontname findfont def % Get the dictionary of the font
+					    % on which the re-encoded version
+					    % will be based.
+    /newfont basefontdict maxlength dict def% Create a dictionary to hold the
+					    % description for the re-encoded
+					    % font.
+    basefontdict                            % Copy all the entries in the base
+     {exch dup /FID ne dup /Encoding ne and % font dictionary to the new
+	{ exch newfont 3 1 roll put }       % dictionary except for the FID
+					    % and Encoding fields.
+	{ pop pop }                         % Ignore FID and Encoding pairs.
+	ifelse
+     } forall
+	     
+    newfont /FontName newfontname put       % Install the new name and the new
+    newfont /Encoding newencoding put       % encoding vector in the font.
+									  
+    newfontname newfont definefont pop      % Now make the re-encoded font
+    end                                     % dictionary into a PostScript
+   } def                                    % font. We will ignore the
+					    % modified dictionary returned on
+					    % the operand stack by the
+					    % ``definefont'' operator.
+								      
+/EBCDIC 256 array def                       % To illustrate how the ReEncode
+0 1 255 { EBCDIC exch /.notdef put } for    % procedure is used, we will
+EBCDIC                                      % re-encode one of the standard
+  dup 64 /space put                         % PostScript fonts to support the
+					    % EBCDIC encoding. (The EBCDIC
+  dup 74 /cent put                          % encoding used is referenced in
+  dup 75 /period put                        % ``IBM System/360: Principles of
+  dup 76 /less put                          % Operation,'' Appendix F.) The
+  dup 77 /parenleft put                     % first step in doing this is to
+  dup 78 /plus put                          % define an array containing that
+  dup 79 /bar put                           % encoding. This array is referred
+  dup 80 /ampersand put                     % to as an ``encoding vector.''
+					    % The encoding vector should be
+					    % 256 entries long. Since the
+					    % encoding vector is rather
+					    % sparse, all the entries are
+					    % initialized to ``/.notdef.''
+					    % Then those entries which
+					    % correspond to characters in the
+					    % EBCDIC encoding are filled in
+					    % with the proper character name.
+									     
+  dup 90 /exclam put
+  dup 91 /dollar put
+  dup 92 /asterisk put
+  dup 93 /parenright put
+  dup 94 /semicolon put
+  dup 95 /asciitilde put
+  dup 96 /hyphen put
+  dup 97 /slash put
+		   
+  dup 107 /comma put                        % Continuation of the EBCDIC
+					    % encoding vector definition.
+  dup 108 /percent put
+  dup 109 /underscore put
+  dup 110 /greater put
+  dup 111 /question put
+		       
+  dup 122 /colon put
+  dup 123 /numbersign put
+  dup 124 /at put
+  dup 125 /quoteright put
+  dup 126 /equal put
+  dup 127 /quotedbl put
+		       
+  dup 129 /a put    dup 134 /f put
+  dup 130 /b put    dup 135 /g put
+  dup 131 /c put    dup 136 /h put
+  dup 132 /d put    dup 137 /i put
+  dup 133 /e put
+		
+  dup 145 /j put    dup 150 /o put
+  dup 146 /k put    dup 151 /p put
+  dup 147 /l put    dup 152 /q put
+  dup 148 /m put    dup 153 /r put
+  dup 149 /n put
+		
+  dup 162 /s put    dup 166 /w put
+  dup 163 /t put    dup 167 /x put
+  dup 164 /u put    dup 168 /y put
+  dup 165 /v put    dup 169 /z put
+				  
+  dup 193 /A put    dup 198 /F put
+  dup 194 /B put    dup 199 /G put
+  dup 195 /C put    dup 200 /H put
+  dup 196 /D put    dup 201 /I put
+  dup 197 /E put
+		
+  dup 209 /J put    dup 214 /O put
+  dup 210 /K put    dup 215 /P put
+  dup 211 /L put    dup 216 /Q put
+  dup 212 /M put    dup 217 /R put
+  dup 213 /N put
+		
+  dup 226 /S put    dup 230 /W put
+  dup 227 /T put    dup 231 /X put
+  dup 228 /U put    dup 232 /Y put
+  dup 229 /V put    dup 233 /Z put
+				  
+  dup 240 /zero put   dup 245 /five put
+  dup 241 /one put    dup 246 /six put
+  dup 242 /two put    dup 247 /seven put
+  dup 243 /three put  dup 248 /eight put
+  dup 244 /four put   dup 249 /nine put
+pop                                         % Remove the array from the
+					    % operand stack.
+							    
+/TR /Times-Roman findfont 7 scalefont def   % Now we will print a table
+/Times-Roman /Times-Roman-EBCDIC EBCDIC     % comparing the standard
+  ReEncode                                  % PostScript character set
+/TRE /Times-Roman-EBCDIC findfont 7         % encoding with the EBCDIC
+  scalefont def                             % encoding. First we will set up
+					    % the fonts to be used: Times
+					    % Roman with the standard encoding
+					    % and Times Roman with the EBCDIC
+					    % encoding.
+						       
+TR setfont                                  % Print each column heading in the
+					    % standard Times Roman.
+0 1 3
+  { /count exch def
+    72 count 127 mul add 560 moveto
+    (Decimal   Standard    EBCDIC) show
+    72 count 127 mul add 560 7 sub moveto
+    (Number      Char        Char) show
+  } for
+       
+/yline 538 def                              % Print the table of character
+/xstart 82 def                              % codes and corresponding
+					    % characters.
+0 1 255                                     % For each character code from 0
+  { /count exch def                         % to 255, print the corresponding
+    /charstring ( ) dup 0 count put def     % standard and EBCDIC characters.
+    TR setfont
+    xstart yline moveto
+    count (   ) cvs show                    % Print the character code in
+					    % decimal.
+    xstart 28 add yline moveto
+    charstring show                         % Print the corresponding standard
+					    % character.
+    TRE setfont
+    xstart 56 add yline moveto
+    charstring show                         % Print the corresponding EBCDIC
+					    % character.
+    /yline yline 7 sub def                  % Move down one line.
+    count 1 add 64 mod 0 eq                 % If we have gotten to the 64th
+      { /xstart xstart 127 add def          % line, move over by a column and
+	/yline 538 def                      % start at the top again.
+      } if
+  } for
+       
+showpage

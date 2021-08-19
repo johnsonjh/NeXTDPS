@@ -1,0 +1,69 @@
+% switch.ps
+% created: mccoy 8 July 86
+% last edit: Bill McCoy: Tue Jan 13 10:13:33 PST 1987
+% last edit: taft - Tue Nov 14 13:14:51 1989
+% last edit: Paula Bardell: Wed Jun 8 10:28:33 PDT 1988
+% dummy product-specific code to work with newserver.ps
+% this code knows about the switch-setting arrays.
+% it was factored out of server.ps
+% see comments at end of newserver.ps
+
+% Copyright (c) 1986, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+setrom
+
+statusdict begin % for bind
+serverdict begin
+
+/saveswitch -1 def
+
+% Procedures called from the server (see comments at end of server.ps)
+
+/productsetstreams
+  { firstjobfileopen firstjob not and
+      {firstjobfile closefile /firstjobfileopen false def} if
+    saveswitch switchsetting ne saveswitch 0 ge and
+      {switchclose saveswitch get exec} if
+    /saveswitch switchsetting def
+    /savepagetype pagetype def
+    switchopen switchsetting get exec
+  } bind readonly def
+
+%% if there is a SwitchWatcher
+/productexec
+  { serverdict begin firstjob {4} {switchsetting} ifelse end
+    serverdict /switchexec get exch get
+    exec
+  } bind readonly def
+
+%% if no SwitchWatcher
+%/productexec
+%  { statusdict begin switchsetting end
+%    serverdict begin saveswitch end eq
+%    { serverdict begin firstjob
+%      {firstjobdone 0 8#61 put %(1)
+%       4 end
+%      }
+%      {switchsetting end}
+%      ifelse
+%      serverdict /switchexec get exch get
+%      exec
+%    } if
+%  } bind readonly def
+%%
+
+end % serverdict
+end % statusdict
+
+setram

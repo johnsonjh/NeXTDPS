@@ -1,0 +1,21 @@
+
+# Copyright 1985,1987 (C) Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# PostScript is a registered trademark of Adobe Systems Incorporated
+# TranScript is a trademark of Adobe Systems Incorporated
+# RCSID: $Header: printer.sysv,v 2.2 87/11/17 16:54:04 byron Rel $
+
+# this is a shell script that gets "sourced" when installing
+# PostScript printers for use with TranScript software
+
+# user and group id of the line printer spooler and associated directories.
+# On System V, these "lp" and "bin" respectively.
+SPOOLUSER=lp
+SPOOLGROUP=bin
+
+# SPOOLDIR is the top-level spooling directory
+# On System V, the files SPOOLDIR/transcript/PRINTER* will be used for
+# printer-specific things.
+SPOOLDIR=/usr/spool/lp
+
+export SPOOLUSER SPOOLGROUP SPOOLDIR

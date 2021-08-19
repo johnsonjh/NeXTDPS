@@ -1,0 +1,95 @@
+.\" Copyright (c) 1988 NeXT, Inc.
+.\" All rights reserved.
+.\"
+.\"	@(#)prebuild.1	1.0 (NeXT) 02/16/89
+.\"
+.TH PREBUILD 1 "January 12, 1989"
+.UC 4
+.SH NAME
+prebuild \- Build PostScript prebuilt font file from bitmap description files
+.SH SYNOPSIS
+.B /usr/bin/prebuild
+.B fontname
+.B fonttype
+.B fontuniqueid
+.B fontcharactersetname
+.B bdffile ...
+.SH DESCRIPTION
+.I prebuild
+is used to build a binary file format known as the prebuilt
+file for use by the NextStep(tm) Window Server.
+It takes as input a number of standard
+Adobe Bitmap Description format files and
+produces a much more compact binary representation
+of the bits in those files.  The Bitmap Distribution
+Format files provided as input to
+.B prebuild
+must be given in order from smallest to largest.
+.PP
+In Display PostScript, every face of every font is defined
+by a PostScript program (see the PostScript(R) Language
+Reference Manual for more details on how to create a 
+PostScript font).  In order for the NextStep system to
+use a font, the font creator must provide the PostScript
+language file defining the outlines of the characters
+of the font, and an Adobe Font Metrics file describing
+separately the widths of those characters.
+.PP
+To allow the window server to see this new font, the outline
+and afm files for it must be placed in the appropriate
+subdirectories one of the three
+standard Fonts directories:
+.I /NextLibrary/Fonts,
+.I /LocalLibrary/Fonts,
+or
+.I ~/Library/Fonts.
+Below each of these three directories there are three
+subdirectories, named, respectively:
+.I outline,
+to contain the PostScript-language outline fonts definitions;
+.I afm,
+to contain the afm files; and
+.I bitmap,
+to contain the files output by
+.B prebuild.
+.PP
+.B prebuild
+outputs a file in the current directory whose name is the name
+of the font followed by the suffix indicating the byte sex of
+the file (
+.I .bepf
+for big-endian files, and
+.I .lepf
+for little-endian file).  This file should be placed in the
+.I bitmap
+subdirectory of the appropriate 
+.I Fonts
+directory.  By convention, the BDF files used as input to
+.B prebuild
+may be kept in a fourth subdirectory of
+.I Fonts,
+called
+.I bitmapSources,
+however this is not required by 
+.B prebuild.
+.LP
+.PP
+Options:
+.PP
+.SH SEE ALSO
+.PP
+screenafm(1)
+.SH FILES
+.nf
+.ta \w'/LocalLibrary/Fonts/{outline,bitmap,afm}   'u
+/NextLibrary/Fonts/{outline,bitmap,afm}	location of NeXT-provided fonts
+/LocalLibrary/Fonts/{outline,bitmap,afm}	location of locally-provided fonts
+~/Library/Fonts/{outline,bitmap,afm}	location of user-provided fonts
+.fi
+.DT
+.SH BUGS
+.B prebuild
+should output both a .bepf and a .lepf file.  This will 
+be fixed.  
+The fonttype and fontuniqueid are actually ignored.
+

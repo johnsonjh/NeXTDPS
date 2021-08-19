@@ -1,0 +1,132 @@
+
+
+
+
+
+
+                    POSTSCRIPT(R) Books
+
+
+
+
+The _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l (ISBN 0-201-10174-2,  $22.95,
+336 pages, illustrated) and the _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _T_u_t_o_r_i_a_l _a_n_d _C_o_o_k_-
+_b_o_o_k (ISBN 0-201-10179-3, $16.95, 256  pages,  illustrated)  are  pub-
+lished by Addison-Wesley Publishing Company of Reading, Mass.
+
+The _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l is  the  complete  definitive
+reference  guide to the POSTSCRIPT language.  It begins with a discus-
+sion  of  the  basic  ideas  that  underlie  POSTSCRIPT,  followed  by
+comprehensive  presentations of the language and its graphics and font
+facilities.  The precise semantics of  every  POSTSCRIPT  operator  is
+detailed in a convenient dictionary-like format.  The manual concludes
+with four appendices on the  standard  fonts,  implementation  limits,
+structuring conventions, and the Apple LaserWriter.
+
+The _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _T_u_t_o_r_i_a_l _a_n_d  _C_o_o_k_b_o_o_k  provides  a  thorough,
+clearly  written  guide  to  POSTSCRIPT that outlines the features and
+capabilities of the language and shows practical ways to create useful
+POSTSCRIPT programs.  Using annotated examples and short programs, the
+tutorial provides a step-by-step guided tour of POSTSCRIPT, highlight-
+ing  those qualities that make it such a unique and powerful language.
+The cookbook offers a collection of some of the most useful techniques
+and procedures available to POSTSCRIPT programmers.
+
+These books should be available in your local  bookstore.  Most  book-
+stores  will accept orders using the ISBN (International Standard Book
+Number) codes given above.  If you are unable to locate the  books  in
+your  area, Adobe will sell them for list price plus shipping and han-
+dling (see below).
+
+To purchase the books from Adobe Systems, fill in the  bottom  section
+of this page and send it with remittance to:
+
+        POSTSCRIPT Language Books
+        Adobe Systems Incorporated
+        1585 Charleston Road
+        P.O. Box 7900
+        Mountain View, CA   94309-7900
+
+Please send me
+__ copies of the _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l,  (@  $28.00  in
+the 48 states, $33.00 elsewhere), and
+__ copies of the _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _T_u_t_o_r_i_a_l _a_n_d _C_o_o_k_b_o_o_k, (@  $22.00
+in the 48 states, $27.00 elsewhere), or
+__ copies of both books (@ $45.00 in the 48 states, $50.00 elsewhere).
+_________________________
+POSTSCRIPT is a registered trademark of  Adobe  Systems
+Incorporated.
+Apple and LaserWriter are trademarks of Apple Computer.
+
+
+
+
+
+
+
+
+
+
+                                - 2 -
+
+
+Enclosed  is  a  check  payable  to  Adobe  Systems  Incorporated  for
+$__________.
+My return address is:
+
+     ________________________________________
+
+     ________________________________________
+
+     ________________________________________
+
+     ________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

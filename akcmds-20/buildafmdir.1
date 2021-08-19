@@ -1,0 +1,12 @@
+.TH BUILDAFMDIR 1 "June 14, 1989" "NeXT, Inc."
+.SH NAME
+buildafmdir \- builds font index information
+.SH SYNOPSIS
+buildafmdir directory
+.SH DESCRIPTION
+Information about what fonts are available in a given Fonts directory is condensed into an index by buildafmdir.  This index is used by the FontManager in the Application Kit to do intelligent font conversion.  The directory passed as its argument should be one of /NextLibrary/Fonts, /LocalLibrary/Fonts or ~/Fonts (the three directories searched by the Application Kit and the Window Server to find fonts).  buildafmdir creates a file named .fontdirectory in the specified directory.
+.PP
+This command should be run after any afm file is installed in a Fonts directory until a font installation application is available.
+.PP
+buildafmdir is only as accurate as the information in the afm files (which has been know to be relatively unreliable).
+

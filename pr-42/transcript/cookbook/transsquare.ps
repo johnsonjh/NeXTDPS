@@ -1,0 +1,62 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Translated Squares     Number: 2
+%-----------------------------------------------------------------------------
+%
+/inch {72 mul} def
+/inchsquare                                 % We redefine the ``inchsquare''
+  { newpath                                 % routine from the previous
+      0 0 moveto                            % program to always ``moveto'' to
+      0 1 inch rlineto                      % the coordinate system origin
+      1 inch 0 rlineto                      % (the point (0,0)). It might
+      0 -1 inch rlineto                     % appear that we will lose the
+    closepath                               % ability to place this box
+  } def                                     % anywhere on the page by doing so
+					    % but this is not true.
+gsave                                       % Make a snapshot of all the
+					    % parameters that control graphics
+					    % output. This ``gsave'' will
+					    % snapshot all of the default
+					    % parameters, since we haven't
+					    % done anything yet.
+1 inch 6.5 inch translate                   % Imagine that a path is first
+					    % constructed in a stencil, which
+					    % is then used by ``stroke'' and
+					    % ``fill'' to draw their output on
+					    % the page. All positions
+					    % mentioned in paths are relative
+					    % to the placement of this
+					    % stencil. Initially, the
+					    % stencil's origin is placed at
+					    % the lower left corner of the
+					    % paper. The ``translate''
+					    % operation moves the stencil to a
+					    % new position. This position is
+					    % first located within the current
+					    % stencil, and a new stencil is
+					    % positioned with its origin at
+					    % that position.
+inchsquare                                  % We lay down an ``inchsquare'' at
+					    % the stencil's origin. By moving
+					    % the origin of the coordinate
+					    % system, we have caused an
+					    % absolutely positioned path to be
+					    % moved around on the paper.
+3 setlinewidth
+stroke
+grestore                                    % Restore all the graphics
+					    % parameters to the values they
+					    % had at the last ``gsave''. In
+					    % particular, this restores the
+					    % stencil position back to the
+					    % paper's lower left corner.
+gsave                                       % Remember the defaults again.
+3.75 inch 4 inch translate                  % Move the stencil (coordinate
+					    % system) to a new place.
+inchsquare fill
+grestore                                    % Return to the default coordinate
+					    % system again.
+6.5 inch 1.5 inch translate
+0.75 setgray
+inchsquare fill
+showpage

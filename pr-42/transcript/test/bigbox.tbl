@@ -1,0 +1,10 @@
+\"  tbl bigbox.tbl | ptroff     (Don't use ms macros -- not needed)
+\" This is used to make sure the corners of tbl boxes meet correctly.
+.ps 48
+.vs 50p
+.sp 3i
+.TS
+center box linesize (36);
+c.
+TEST
+.TE

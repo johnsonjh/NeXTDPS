@@ -1,0 +1,38 @@
+StartFontMetrics 2.0
+Comment Copyright (c) 1985,1986,1987 Adobe Systems Incorporated.
+Comment All Rights Reserved.
+Comment shore Wed Apr 23 09:23:28 1986
+Comment This is a hacked up AFM file for the DITroff hack font.
+Comment The bounding boxes assume stroke width is 40 (setlinewidth=20).
+Comment Character names are two-letter ditroff codes.
+FontName DIThacks
+Weight Medium
+ItalicAngle 0.0
+IsFixedPitch false
+Version 002.200
+FontBBox -250 -250 833 840
+StartCharMetrics 22
+C 32 ; WX 500 ; N space ; B 0 0 0 0 ;
+C 72 ; WX 250 ; N rc ; B -250 -200 40 820 ;
+C 73 ; WX 250 ; N lt ; B 0 -200 250 820 ;
+C 74 ; WX 250 ; N bv ; B 0 -200 40 800 ;
+C 75 ; WX 250 ; N lk ; B -250 -200 40 800 ;
+C 76 ; WX 250 ; N lb ; B 0 -220 250 800 ;
+C 77 ; WX 250 ; N rt ; B -250 -200 40 800 ;
+C 78 ; WX 250 ; N rk ; B 0 -200 250 800 ;
+C 79 ; WX 250 ; N rb ; B -250 -220 40 800 ;
+C 80 ; WX 250 ; N rf ; B -250 -220 40 800 ;
+C 81 ; WX 250 ; N lf ; B 0 -200 250 800 ;
+C 82 ; WX 250 ; N lc ; B 0 -200 250 820 ;
+C 96 ; WX 750 ; N sq ; B 60 -20 740 660 ;
+C 97 ; WX 750 ; N bx ; B 80 0 720 640 ;
+C 98 ; WX 750 ; N ci ; B 167 27 833 693 ;
+C 99 ; WX 0 ; N br ; B 0 -270 40 770 ;
+C 100 ; WX 500 ; N rn ; B 0 730 500 770 ;
+C 101 ; WX 0 ; N vr ; B 0 30 40 800 ;
+C 102 ; WX 350 ; N ob ; B -20 30 420 470 ;
+C 103 ; WX 350 ; N bu ; B 0 50 400 450 ;
+C 104 ; WX 500 ; N ru ; B 0 -20 500 20 ;
+C 105 ; WX 500 ; N ul ; B 0 -270 500 -230 ;
+EndCharMetrics
+EndFontMetrics

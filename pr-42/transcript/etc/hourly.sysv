@@ -1,0 +1,14 @@
+
+#  etc/hourly.sysv
+#
+# hourly care and feeding of PostScript printers on System V
+# this is a template run by cron with the following crontab entry
+# 17 * * * * sh < /usr/adm/hourly.ctl >/usr/adm/hourly.log 2>&1
+
+# replace LIST OF POSTSCRIPT PRINTERS with the names of your printers
+printers="LIST OF POSTSCRIPT PRINTERS"
+HFILES="PSLIBDIR/ehandler.ps PSLIBDIR/uartpatch.ps"
+for p in $printers
+do
+	lp -s -d$p $HFILES
+done

@@ -1,0 +1,352 @@
+% server.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88, '89 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original: shore
+% last edit: taft - Thu Nov 30 17:16:13 1989
+% last edit: lent - lent - Thu Apr 28 16:53:24 1988
+% last edit: Bill McCoy: Thu Aug 25 10:08:17 PDT 1988
+% Generic PostScript server (start, job execution, etc.);
+% see comments at end of file for description of product-specific procedures
+% this version does not know about switch settings; see switch.ps
+
+% Note: the "<code> $trace" commands should be on a line by themselves
+% so that they can be commented or uncommented by simple edits.
+
+% PostScript executes start to get the world going.
+% start does various things like initialization, printing the
+% power-on page, and diving into the main supervisor loop
+
+/serverdict 80 trickydict def
+
+serverdict begin
+/firstjob false def % set true in productinit to run (Sys/Start) file
+/firstjobfileopen false def	% set true when (Sys/Start) is open
+end % serverdict
+
+setrom
+
+statusdict begin		% all statusdict operators will be bound
+
+systemdict begin
+
+/start
+   {
+%    16#1 $trace
+    % initialization
+    0 setobjectformat
+    disableinterrupt
+    serverdict begin
+%    16#2 $trace
+    setstreams
+%    16#3 $trace
+
+    % ensure that all built-in names are in the name cache at the
+    % outer save level; this makes things a bit faster and decreases
+    % vm utilization at inner save levels.
+    serverdict statusdict userdict systemdict 4
+       {begin currentdict {pop load pop} forall end} repeat
+
+    $error /initializing //false put     %  turn on normal error reporting
+
+    % product-specific initialization
+%    16#4 $trace
+    productinit
+%    16#5 $trace
+
+    % startup test page
+    dostartpage
+       {userdict begin
+	save /svlv exchdef
+	statusdict /jobstate (printing test page) put
+	   {  printstartpage }  stopped pop
+	clear cleardictstack 
+	svlv restore
+	disableinterrupt	% in case a printererror happened
+       } if
+
+    cleardictstack
+%    16#6 $trace
+
+    % main supervisor loop: no save/restore
+    % alternate server/administrator chances
+       {//serverdict /firstjob get
+	   {//$error /newerror //false put
+	    //$error /errorname //null put
+	   }
+	   {//serverdict /server get exec}
+	ifelse
+%	16#7 $trace
+        //serverdict begin
+        setstreams
+	setnulldevice
+	/execjob load
+	end % serverdict
+	exec
+	//serverdict /firstjob //false put
+       } loop			% if we fall out, we EXIT!
+   } bind def
+
+end % systemdict (but still in statusdict context)
+
+serverdict begin		% all other server-related functions will be
+				% defined in serverdict
+
+/stdin 0 def			% dummy definitions
+/stdout 0 def
+/stdname null def
+
+/protect {} def			% no protection outside server loop
+
+/secretdict 2 trickydict def	% note: OK for trickydict to be in ROM
+
+secretdict begin
+/svlv 0 def
+/exitloop false def
+end
+
+
+% server is the inner server loop
+% it enforces "pristine" state on a file-by-file basis
+
+/server
+   [
+       {//$error /newerror //false put
+	//$error /errorname //null put
+	//serverdict begin
+	setstreams
+%	16#100 $trace
+	setnulldevice
+        end % serverdict
+%	16#102 $trace
+	disableinterrupt
+	clear cleardictstack
+	/svlv save /exitloop //false
+	//secretdict begin def def end
+%	16#104 $trace
+	//false accesson
+	enableinterrupt
+%	16#105 $trace
+
+	//serverdict /protect
+	   {//serverdict readonly pop
+            save pop		% backstop current device and gsave level
+	   } put
+%	16#106 $trace
+
+	//serverdict /execjob get
+        stopped pop
+
+%	16#107 $trace
+	disableinterrupt
+	clear cleardictstack
+	//secretdict begin exitloop svlv end
+	restore
+%	16#108 $trace
+	enableinterrupt
+	{exit} if
+       } bind executeonly
+    /loop load
+    % exitloop was set, return to main
+   ] cvx bind executeonly def
+
+% execute a job (file).
+/execjob
+   {2 vmreclaim			% garbage collect shared VM
+
+    //statusdict begin
+%    16#90 $trace
+    /jobstate (idle) def
+    /jobname //null def
+    end
+    //$error /doclose //true put
+    //serverdict /productexec get
+
+    % this is where the job gets executed.
+    % strange dance with nested "stopped" is to foil perverse programs that
+    % terminate with the operand stack close to overflowing.
+       {stopped mark 1 2 3 cleartomark {stop} if
+%	16#91 $trace
+	//false setshared
+	//serverdict begin cleanupjob end
+       } stopped
+
+    % code after here must protect itself against arbitrary changes
+    % to the VM made by the user's program.
+    disableinterrupt
+    //false setshared
+
+       {% if an error occurs in here (e.g., timeout or ioerror), catch it
+	% and abort the rest of the cleanup processing
+%	16#92 $trace
+        defaulttimeouts //serverdict begin settimeouts end
+	clearinterrupt		% so timeout can occur
+
+           {% if error occurred in job, do error action; the "if" after
+	    % this block tests the result returned by "stopped".
+%	    16#93 $trace
+            clear cleardictstack
+	    //$error begin //serverdict begin
+	    newerror //handleerror if
+	    //false setshared
+	    stdin status doclose and
+	    errorname /timeout eq errorname /interrupt eq or
+	    stdin bytesavailable 0 eq and not and
+	       {% flush input unless we are not to close standard i/o
+		% or error was a timeout
+%		16#94 $trace
+	        (%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%) =
+		flush
+	        stdin flushfile
+	       } if
+%	    16#95 $trace
+	    cleanupjob
+%	    16#96 $trace
+	    end end % $error serverdict
+           } if
+
+	flush
+       } stopped
+       disableinterrupt
+       {
+        % the cleanup code itself encountered an error.
+        % the error might be a timeout due to i/o stream getting wedged.
+	% try very hard to force it into a good state, and then invoke
+	% normal close regardless of what went on before.
+%	16#97 $trace
+	//serverdict begin
+        stdin resetfile stdout resetfile
+	end
+	//$error /doclose //true put
+%	16#98 $trace
+       } if
+
+%    16#9A $trace
+    clear
+    //serverdict begin
+    defaulttimeouts settimeouts
+    //$error /doclose get
+       {{enableinterrupt stdout closefile disableinterrupt} stopped
+        {enableinterrupt stdin closefile disableinterrupt} stopped
+	disableinterrupt
+       } if
+%    16#9B $trace
+    0 0 0 settimeouts
+    clear cleardictstack	% this of course ends serverdict
+    initgraphics erasepage
+   } bind def
+
+/settimeouts  % job manualfeed wait
+   {//statusdict begin
+    /waittimeout exchdef
+    /manualfeedtimeout exchdef
+    setjobtimeout
+    end
+   } bind def
+
+/setstreams			% always called in serverdict context
+   {//statusdict /jobsource //null put
+%    16#43 $trace
+    productsetstreams
+%    16#44 $trace
+   } bind def
+
+/dexch  % exchange association of two keys in current name environment
+   {dup load exch 2 index load store store
+   } bind def
+
+/exchdef {exch def} bind def
+
+/exitserver			% <password-integer> exitserver
+   [/checkpassword load
+       {(%%[ exitserver: permanent state may be changed ]%%) = flush
+	//secretdict /exitloop //true put
+	//true accesson
+	//$error /doclose //false put
+	//execdict /quitflag //true put % force exit from executive
+	stop
+       } bind executeonly
+       {/exitserver /invalidaccess .error
+       } bind executeonly
+    /ifelse load
+   ] cvx bind executeonly def
+
+/secretdict 0 def
+% now it is inaccessible by name; only code already bound to it can reach it,
+% and that code is all executeonly.
+
+end % serverdict
+
+end % statusdict
+
+setram
+
+% The following product-specific server procedures are contained in a
+% separate file that is different for each product. All procedures must
+% be defined in serverdict.
+
+% productinit is called once to perform startup-time initialization
+% before printing the start page or executing any jobs. It is invoked
+% with serverdict as the current dictionary.
+
+% printstartpage is called (if dostartpage is true) to print the
+% startup-time test page. It is invoked with userdict as the current
+% dictionary and serverdict below it; the call is protected by save/restore
+% and stopped, in case an error occurs.
+
+% setnulldevice should establish a nulldevice and then set a matrix that
+% corresponds to some default real device; it should not actually touch
+% the print engine hardware. This is for the purpose of idle-time font
+% caching. It is invoked with serverdict as the current dictionary.
+
+% setrealdevice should establish the appropriate default framedevice or
+% banddevice at the start of a job. It must not cause an error, even if
+% the print engine hardware is not working. It is invoked with serverdict as
+% the current dictionary.
+
+% cleanupjob is called upon termination of each job to perform
+% any required product-specific cleanup operations. The typical action of
+% cleanupjob is to wait for completion of printing that is in progress;
+% this is so that any errors that arise from the printing activity will
+% be reported as part of the current job. cleanupjob is called with
+% serverdict as the current dictionary.
+
+
+% At the beginning of a job, the productsetstreams procedure is called.
+% This procedure must ensure that the standard input and output files are
+% created, registered with setstdio, and assigned to the names /stdin and
+% /stdout in serverdict.
+% productsetstreams is responsible for noticing that the
+% setting of the mode of I/O operations has changed, and destroying 
+% channels, shutting down the old I/O driver, etc., before starting up
+% the new mode. This is in contrast to the normal closing of the standard
+% input and output files (by closefile), which is ordinarily performed at 
+% the end of each job by the server loop.
+% If productsetstreams is called when the standard I/O 
+% streams are already open and the I/O mode is not changing (e.g., at the
+% start of a job after an exitserver is done) it must not disturb them. The
+% productsetstreams procedure is called with serverdict as the current
+% dictionary.
+
+% The productexec procedure is called to actually execute the job.
+% This procedure implements the mode of operation (batch, interactive,
+% emulation, etc.) It is responsible for idle-time font caching if desired
+% and for calling the "setrealdevice" procedure to establish the device.
+% It must invoke the "protect" procedure from serverdict after calling
+% setrealdevice but before actually executing user code; this makes
+% serverdict readonly and backstops the current graphics state.The productexec
+% procedure is invoked with NO special dictionaries on the stack; the call is
+% protected by save/restore and stopped, and the caller takes care of
+% error handling and reporting.
+

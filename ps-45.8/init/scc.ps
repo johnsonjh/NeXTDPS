@@ -1,0 +1,115 @@
+% scc.ps
+
+% Copyright (c) 1985, '86, '87, '88, '89 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: taft - Tue Nov 14 13:12:20 1989
+% last edit: Norin Saxe: Fri Mar 31 10:37:45 PST 1989
+
+% SCC communication setup procedures common to many server configurations
+% this version does not know about switch settings; see switch.ps
+
+setrom
+
+statusdict begin		% for bind
+
+/sccbatch {} opdef
+/setsccbatch {} opdef
+/sccinteractive	{} opdef
+/setsccinteractive {} opdef
+/openscc {} opdef
+/closescc {} opdef
+/sccfiles {} opdef
+
+/jobname null def
+/jobsource null def
+/jobstate (initializing) readonly def
+/waittimeout 0 def
+
+serverdict begin
+
+/commhash -1 def
+/altin 0 def
+/altout 0 def
+/altname null def
+/altflag false def
+/baud9 0 def
+/parity9 0 def
+/baud25 0 def
+/parity25 0 def
+/protocol 0 def
+/sccok false def
+
+/hashcommparams			% -- hashcommparams int
+   {% make a hash of the current communication parameters (8 of them)
+    9 sccbatch 25 sccbatch 9 sccinteractive 25 sccinteractive
+    7 {3 bitshift add} repeat
+   } bind def
+
+/setsccstreams	% baud9 parity9 baud25 parity25 protocol setsccstreams --
+   {//serverdict begin
+    /protocol exchdef
+    /parity25 exchdef
+    /baud25 exchdef  //statusdict /debugmode get 0 ne {/baud25 0 def} if
+    /parity9 exchdef
+    /baud9 exchdef
+    baud9 baud25 or 0 eq {/baud9 1200 def /baud25 1200 def} if
+    /altflag baud9 0 ne baud25 0 ne and def
+    % reinit scc if comm params have changed or any of the scc streams
+    % that are supposed to be active have been closed.
+    commhash hashcommparams dup /commhash exchdef eq
+    baud9 0 ne {9 sccfiles status exch status and and} if
+    baud25 0 ne	{25 sccfiles status exch status and and} if
+    /sccok exchdef
+    9 baud9 0 ne
+       {sccok {sccfiles} {baud9 parity9 protocol openscc} ifelse
+	(serial 9)}
+       {closescc} ifelse
+    25 baud25 0 ne
+       {sccok {sccfiles} {baud25 parity25 protocol openscc} ifelse
+	(serial 25)}
+       {closescc} ifelse
+    % now stack contains the following (according to altflag)
+    % if both channels active: instm9 outstm9 name9 instm25 outstm25 name25
+    % if only one channel active: instm outstm name
+    /stdname exchdef /stdout exchdef /stdin exchdef
+    altflag {/altname exchdef /altout exchdef /altin exchdef} if
+    stdin stdout setstdio
+    end
+   } bind def
+
+/watchstreams			% this is the predicate for UseIdleTime
+				% expects interrupt disable level to be 1
+   {//serverdict begin
+    altflag
+       {altin bytesavailable 0 ne
+	   {/stdin /altin dexch
+	    /stdout /altout dexch
+	    /stdname /altname dexch
+	   } if
+       } if
+    stdin bytesavailable 0 ne dup
+       {stdin stdout setstdio
+	//statusdict begin
+	/jobstate (busy) def
+	/jobsource stdname def
+	end
+       } if
+    end
+    enableinterrupt
+    disableinterrupt
+   } bind def
+
+end % serverdict
+end % statusdict
+setram

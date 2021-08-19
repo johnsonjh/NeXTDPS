@@ -1,0 +1,138 @@
+% vaxwriter.ps
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: taft - Mon May 23 17:03:27 1988
+% last edit: brotz Wed Aug 13 10:51:27 1986
+
+/header
+(%!\n\
+/picend 296 def\n\
+/n 0 def\n\
+/ones picend string def /zeros picend string def\n\
+0 1 255{dup ones exch 255 put zeros exch 0 put}for\n\
+/hex picend string def\n\
+/picstr picend string def\n\
+/cst 3 string def\n\
+/thisfile currentfile def\n\
+/doit{2368 3200 true [1 0 0 -1 0 3200]\n\
+{/picst 0 def\n\
+{n 0 ne\n\
+  {/npic picend picst sub def picstr picst npic n gt{/npic n def}if\n\
+  code 0 eq{zeros}{code 1 eq{ones}\n\
+    {thisfile hex 0 npic getinterval readhexstring pop}ifelse}ifelse\n\
+  0 npic getinterval putinterval\n\
+  /n n npic sub def/picst picst npic add def picst picend eq{exit}if}\n\
+  {/code thisfile cst readhexstring pop 0 get def\n\
+  /n cst 1 get 256 mul cst 2 get add def\n\
+  }ifelse}loop\n\
+picstr}imagemask}def\n\
+72 300 div dup scale 91 50 translate doit\n) def
+
+/framewriter
+  {
+  [300 72 div 0 0 -300 72 div -91 3250 ]
+
+   % device width in bytes and height in bits
+   296 3200
+
+   % action to take for showpage:
+   {(Writing file ...) print flush
+    /vfile (vw.ps)(w) file def
+    vfile header writestring
+    vfile false frametohexfile
+    vfile (\n showpage \n) writestring
+    vfile closefile
+    (Done.\n) print flush
+   }
+
+   % now do it:
+   framedevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   60 45 {abs exch abs 2 copy add 1 gt
+            {1 sub dup mul exch 1 sub dup mul add 1 sub}
+            {dup mul exch dup mul add 1 exch sub} ifelse} setscreen
+   {} settransfer
+
+   initgraphics
+   erasepage
+   } def
+
+/bandwriter
+  {
+  [300 72 div 0 0 -300 72 div -91 3250 ]
+
+   % device width in bytes and height in bits
+   296 3200
+
+   % action to take for showpage:
+   {
+    (Writing file ...) print flush
+    /vfile (vw.ps)(w) file def
+    vfile header writestring
+    0 {dup (   ) cvs print ( ) print flush 1 add vfile false bandtohexfile}
+    renderbands pop
+    vfile (\n showpage \n) writestring
+    vfile closefile
+    ( Done.\n) print flush
+   }
+
+   % now do it:
+   banddevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   60 45 {abs exch abs 2 copy add 1 gt
+            {1 sub dup mul exch 1 sub dup mul add 1 sub}
+            {dup mul exch dup mul add 1 exch sub} ifelse} setscreen
+   {} settransfer
+
+   initgraphics
+   erasepage
+   } def
+
+/hybridwriter
+  {
+  [300 72 div 0 0 -300 72 div -91 3250 ]
+
+   % device width in bytes and height in bits
+   296 3200
+
+   % action to take for showpage:
+   {flushbands (Writing file ...) print flush
+    /vfile (vw.ps)(w) file def
+    vfile header writestring
+    vfile false frametohexfile
+    vfile (\n showpage \n) writestring
+    vfile closefile
+    (Done.\n) print flush
+   }
+
+   % now do it:
+   hybriddevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   60 45 {abs exch abs 2 copy add 1 gt
+            {1 sub dup mul exch 1 sub dup mul add 1 sub}
+            {dup mul exch dup mul add 1 exch sub} ifelse} setscreen
+   {} settransfer
+
+   initgraphics
+   erasepage
+   } def
+
+ 

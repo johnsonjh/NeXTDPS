@@ -1,0 +1,181 @@
+/* psgstateops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSconcat(float m[6])
+	m concat
+endps
+
+defineps PScurrentdash()
+	currentdash 
+endps
+
+defineps PScurrentflat( | float *flatness)
+	currentflat flatness 
+endps
+
+defineps PScurrentgray( | float *gray)
+	currentgray gray 
+endps
+
+defineps PScurrentgstate(userobject gst)
+	gst currentgstate 
+endps
+
+defineps PScurrenthalftone()
+	currenthalftone 
+endps
+
+defineps PScurrenthalftonephase( | float *x, *y)
+	currenthalftonephase y x 
+endps
+
+defineps PScurrenthsbcolor( | float *h, *s, *b)
+	currenthsbcolor b s h 
+endps
+
+defineps PScurrentlinecap( | int *linecap)
+	currentlinecap linecap 
+endps
+
+defineps PScurrentlinejoin( | int *linejoin)
+	currentlinejoin linejoin 
+endps
+
+defineps PScurrentlinewidth( | float *width)
+	currentlinewidth width 
+endps
+
+defineps PScurrentmatrix()
+	currentmatrix 
+endps
+
+defineps PScurrentmiterlimit( | float *limit)
+	currentmiterlimit limit 
+endps
+
+defineps PScurrentpoint( | float *x, *y)
+	currentpoint y x 
+endps
+
+defineps PScurrentrgbcolor( | float *r, *g, *b)
+	currentrgbcolor b g r 
+endps
+
+defineps PScurrentscreen()
+	currentscreen 
+endps
+
+defineps PScurrentstrokeadjust( | boolean *b)
+	currentstrokeadjust b 
+endps
+
+defineps PScurrenttransfer()
+	currenttransfer 
+endps
+
+defineps PSdefaultmatrix()
+	defaultmatrix 
+endps
+
+defineps PSgrestore()
+	grestore 
+endps
+
+defineps PSgrestoreall()
+	grestoreall 
+endps
+
+defineps PSgsave()
+	gsave 
+endps
+
+defineps PSgstate()
+	gstate 
+endps
+
+defineps PSinitgraphics()
+	initgraphics 
+endps
+
+defineps PSinitmatrix()
+	initmatrix 
+endps
+
+defineps PSrotate(float angle)
+	angle rotate 
+endps
+
+defineps PSscale(float x, y)
+	x y scale 
+endps
+
+defineps PSsetdash(float pat[size]; int size; float offset)
+	pat offset setdash
+endps
+
+defineps PSsetflat(float flatness)
+	flatness setflat 
+endps
+
+defineps PSsetgray(float gray)
+	gray setgray 
+endps
+
+defineps PSsetgstate(userobject gst)
+	gst setgstate 
+endps
+
+defineps PSsethalftone()
+	sethalftone 
+endps
+
+defineps PSsethalftonephase(float x, y)
+	x y sethalftonephase 
+endps
+
+defineps PSsethsbcolor(float h, s, b)
+	h s b sethsbcolor 
+endps
+
+defineps PSsetlinecap(int linecap)
+	linecap setlinecap 
+endps
+
+defineps PSsetlinejoin(int linejoin)
+	linejoin setlinejoin 
+endps
+
+defineps PSsetlinewidth(float width)
+	width setlinewidth 
+endps
+
+defineps PSsetmatrix()
+	setmatrix 
+endps
+
+defineps PSsetmiterlimit(float limit)
+	limit setmiterlimit 
+endps
+
+defineps PSsetrgbcolor(float r, g, b)
+	r g b setrgbcolor 
+endps
+
+defineps PSsetscreen()
+	setscreen 
+endps
+
+defineps PSsetstrokeadjust(boolean b)
+	b setstrokeadjust 
+endps
+
+defineps PSsettransfer()
+	settransfer 
+endps
+
+defineps PStranslate(float x, y)
+	x y translate 
+endps
+

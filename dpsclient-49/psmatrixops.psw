@@ -1,0 +1,33 @@
+/* psmatrixops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSconcatmatrix()
+	concatmatrix 
+endps
+
+defineps PSdtransform(float x1, y1 | float *x2, *y2)
+	x1 y1 dtransform y2 x2 
+endps
+
+defineps PSidentmatrix()
+	identmatrix 
+endps
+
+defineps PSidtransform(float x1, y1 | float *x2, *y2)
+	x1 y1 idtransform y2 x2 
+endps
+
+defineps PSinvertmatrix()
+	invertmatrix 
+endps
+
+defineps PSitransform(float x1, y1 | float *x2, *y2)
+	x1 y1 itransform y2 x2 
+endps
+
+defineps PStransform(float x1, y1 | float *x2, *y2)
+	x1 y1 transform y2 x2 
+endps
+

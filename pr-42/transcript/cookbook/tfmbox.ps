@@ -1,0 +1,92 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Translate, Rotate and Scale     Number: 3
+%-----------------------------------------------------------------------------
+%
+/unitsquare                                 % The most convenient way to
+  { newpath                                 % define a graphic shape is to
+      0 0 moveto                            % define it in a unit size. While
+      0 1 lineto                            % it may appear that this
+      1 1 lineto                            % definition will give only a
+      1 0 lineto                            % fixed, small square, by using
+    closepath                               % the PostScript transformation
+  } def                                     % operators, ``translate'',
+					    % ``rotate'' and ``scale'', we can
+					    % use this one definition to give
+					    % us a square shape in any
+					    % orientation and size, anywhere
+					    % on the page. Note that this
+					    % definition places the lower left
+					    % corner of the square at the
+					    % coordinate system origin. We
+					    % could have chosen any corner, or
+					    % even the center of the square
+					    % for the origin. When a shape is
+					    % defined in this manner, placing
+					    % the origin can affect the ease
+					    % with which the definition can be
+					    % used later.
+/inch {72 mul} def
+gsave                                       % Take a snapshot of the default
+					    % graphics state.
+1 inch 6.5 inch translate                   % Move the origin to one inch from
+					    % the left edge and 6-1/2 inches
+					    % from the bottom edge of the
+					    % page.
+1.25 inch 1.25 inch scale                   % Change the units to 1-1/4 inch
+					    % in both the x and y directions.
+					    % PostScript allows the x units
+					    % and y units to be scaled
+					    % differently (anamorphically),
+					    % thus the two arguments to the
+					    % ``scale'' operator. Although the
+					    % scale operator allows us this
+					    % flexibility, most scale
+					    % operations are uniform (i.e.,-
+					    % the x and y arguments are
+					    % equal).
+unitsquare fill                             % The unit square, translated and
+					    % scaled, is drawn on the page as
+					    % shown. Note that we performed
+					    % the ``translate'' first, and the
+					    % ``scale'' second. Had we
+					    % performed these operations in
+					    % the opposite order, the
+					    % ``translate'' would have
+					    % translated the origin in terms
+					    % of the expanded 1-1/4 inch long
+					    % units. The 1 inch translation in
+					    % x would have moved the origin 72
+					    % times 1-1/4 inches or 91 inches
+					    % to the right! Always know your
+					    % current units when performing
+					    % these operations.
+grestore gsave                              % Get back to normal coordinates,
+					    % and snapshot them again.
+4.25 inch 3.75 inch translate               % Since units are back to 1/72
+					    % inch, this sequence does what
+					    % we'd expect.
+60 rotate                                   % Rotate the coordinate axes 60
+					    % degrees counterclockwise about
+					    % the current origin. Now the x
+					    % axis points up and to the right,
+					    % and the y axis points up and to
+					    % the left.
+2 inch 2 inch scale unitsquare              % Change the units to two inches
+					    % long each along the coordinate
+					    % axes. Translate first, rotate
+					    % next, and scale last is the
+					    % simplest order in which to
+					    % perform these transformations.
+1 20 div setlinewidth stroke                % Prepare to stroke this path.
+grestore                                    % Careful--the units are 2 inches
+					    % long and the linewidth is
+					    % expressed in terms of units.
+					    % 1/20th of a 2 inch unit will
+					    % give us a 1/10 inch thick line.
+4.5 inch 2 inch translate
+-45 rotate                                  % Rotate the axes forty five
+					    % degrees clockwise.
+1 inch 2 inch scale                         % Let's try an anamorphic scale
+unitsquare .75 setgray fill                 % with the y units twice the
+showpage                                    % length of the x units.

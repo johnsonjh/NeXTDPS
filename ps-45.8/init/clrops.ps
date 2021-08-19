@@ -1,0 +1,37 @@
+% clrops.ps
+% original: lent - Wed Aug 17 11:20:11 1988
+% last edit: taft - Tue Nov 14 11:35:32 1989
+% last edit: lent - Mon Jan  9 18:27:38 1989
+% opdefs for new color operators
+
+% Copyright (c) 1988, '89 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+setrom
+
+systemdict begin
+
+/setcmykcolor {pop pop pop pop} opdef
+/currentcmykcolor {0.0 0.0 0.0 1.0} opdef
+/setcolortransfer {pop pop pop pop} opdef
+/currentcolortransfer { {} {} {} {} } opdef
+/setblackgeneration {pop} opdef
+/currentblackgeneration	{ {} } opdef
+/setundercolorremoval {pop} opdef
+/currentundercolorremoval { {} } opdef
+/setcolorscreen	{ 12 {pop} repeat } opdef
+/currentcolorscreen { 4 {60.0 0.0 {add 0.5 mul}} repeat } opdef
+/colorimage { exch {4 add} {pop 5} ifelse {pop} repeat } opdef
+
+end % systemdict
+setram

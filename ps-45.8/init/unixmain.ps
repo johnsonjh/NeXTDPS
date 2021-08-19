@@ -1,0 +1,39 @@
+% unixmain.ps
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: durham - Mon Jun 27 14:09:34 1988
+% last edit: taft - Mon Dec 18 09:59:03 1989
+
+% stuff for prompt package
+
+setram
+userdict begin
+/$prompt 10 trickydict def
+$prompt /pmpts 32 string put
+end
+setrom
+
+$prompt /in {(%lineedit)(r) file} readonly put
+
+systemdict begin
+
+/start {
+//$error /initializing false put
+{(%stdin) (r) file cvx exec} loop
+} bind readonly def
+
+end % systemdict
+
+setram

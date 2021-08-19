@@ -1,0 +1,55 @@
+.TH PSPLOT 1 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: psplot.1p,v 2.2 87/11/17 16:47:53 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+psplot \- convert plot(5) files to P\s-2OST\s+2S\s-2CRIPT\s+2 format
+.SH SYNOPSIS
+.B psplot
+[
+.BI \-g prologue
+] [
+.I files
+]
+.SH DESCRIPTION
+.I psplot
+reads
+.I files
+in
+.IR plot (5)
+format and converts them to \*(PS format on the 
+standard output.  If no
+.I files
+are specified, the standard input is used.
+The conversion is almost one-for-one, with one \*(PS function call for each
+.I plot 
+primitive.  The behavior of the generated file can be modified by 
+changing the definitions of the \*(PS functions in the prologue.
+If no 
+.B \-g 
+option is specified, the default prologue is used.
+.SH ENVIRONMENT
+PSLIBDIR
+path name of a directory to use instead of XPSLIBDIRX
+for psplot prologue file.
+.SH FILES
+.TP 2.2i
+XPSLIBDIRX/psplot.pro
+default prologue file.
+.SH "SEE ALSO"
+transcript(1), ps4014(1).
+.br
+4.2bsd: graph(1), plot(1), plot(3), plot(5), lpr(1).
+.br
+System V: lp(1).
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH BUGS
+.I plot 
+format has been removed from some newer UNIX systems (e.g.,
+Systems V), but 
+.I psplot
+lives on.
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.

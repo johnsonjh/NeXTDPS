@@ -1,0 +1,37 @@
+% undefinit.ps
+
+% Copyright (c) 1989 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: taft - Sun Nov 26 13:11:52 1989
+
+% Remove definitions of internaldict operators that are needed during
+% VM building but not during product execution
+
+/opdef where pop		% internaldict
+dup /opdef undef
+dup /systemnamemap undef
+dup /definesystemname undef
+dup /trickydict undef
+dup /registernames undef
+dup /registeroperators undef
+dup /abort undef
+dup /setrom undef
+dup /setram undef
+pop
+
+% Get rid of =string in the primordial userdict so that it won't be
+% propagated into the initial userdict of each context
+
+userdict /=string undef
+

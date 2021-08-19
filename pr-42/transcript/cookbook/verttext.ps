@@ -1,0 +1,56 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Vertical Text     Number: 15
+%-----------------------------------------------------------------------------
+%
+/vshowdict 4 dict def                       % Establish a dictionary which can
+					    % later be used as a local work
+					    % space for definitions.
+								    
+/vshow                                      % vshow will display text
+  { vshowdict begin                         % vertically, centering it on a
+    /thestring exch def                     % common center line. vshow takes
+    /lineskip exch def                      % two arguments, the lineskip
+					    % between letters and the string
+					    % to be shown vertically.
+    thestring                               % The forall command allows us to
+      {                                     % repeat the same procedure for
+					    % each character in the string.
+      /charcode exch def                    % forall pushes the character code
+					    % onto the operand stack.
+      /thechar ( ) dup 0 charcode put def   % Convert the character code to a
+					    % string.
+						     
+      0 lineskip neg rmoveto                % Move down by the lineskip
+					    % amount.
+      gsave
+	thechar stringwidth pop 2 div neg   % Move left by half of the
+					    % character width.
+	  0 rmoveto
+	thechar show                        % Display the character.
+      grestore
+      } forall
+    end
+  } def
+       
+       
+/Helvetica findfont 12 scalefont            % Set up the font we wish to use.
+  setfont
+	 
+72 555 moveto                               % Chose the starting position for
+12 (TEXT POSITIONED VERTICALLY) vshow       % the string to be shown. The text
+112 555 moveto                              % will be centered around the line
+					    % x = 72 and it will begin just
+					    % below the line y = 555.
+12 (SHOULD BE CENTERED ON) vshow
+152 555 moveto
+12 (A COMMON CENTER LINE.) vshow            % Notice the order of the
+192 555 moveto                              % arguments in all of the uses of
+12 (VERTICAL TEXT IN CAPITAL) vshow         % vshow: the lineskip comes first
+232 555 moveto                              % followed by the string.
+12 (LETTERS HAS MORE EVEN) vshow
+272 555 moveto
+12 (spacing than lower case letters.)
+  vshow
+       
+showpage

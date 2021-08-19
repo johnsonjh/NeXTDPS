@@ -1,0 +1,28 @@
+# transcript/src/Makefile.makbin
+#
+# Copyright (C) 1985 Adobe Systems Incorporated
+#
+# special makefile to set up for binary distribution
+
+OBJECTS = psbanner.o pscomm.o psrv.o pstext.o \
+	enscript.o ps4014.o ps630.o pscat.o pscatmap.o \
+	psdit.o psplot.o psrev.o 
+
+.SUFFIXES: .oo .o .c
+
+#CFLAGS = -O -DBSD
+CFLAGS = -O -DBSD -DBDEBUG
+
+LDFLAGS = -x -S -r
+
+all:	psutil.o ${OBJECTS}
+
+.c.o:
+	cc -c ${CFLAGS} $*.c
+	mv $*.o $*.oo
+	ld ${LDFLAGS} -o $*.o $*.oo psutil.o getopt.o
+	rm $*.oo
+
+clean:
+	rm -f - *.o *.oo config.c *BAK *CKP .emacs_[0-9]*
+

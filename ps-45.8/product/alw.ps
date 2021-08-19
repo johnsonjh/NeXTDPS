@@ -1,0 +1,64 @@
+% alw.ps  - stubs for various Apple LaserWriter commands. 
+%
+%   These shouldn't really be here, but there are BAD documents that
+%   contain them.
+%
+%   Created - pgraff 5/29/90
+%
+
+
+statusdict begin
+    /pagecount 0 def
+    /pagestackorder false def
+    /setprintername { pop } bind def
+    /printername {(NextWindowServer) exch copy } bind def
+    /setsccbatch { pop pop pop } bind def
+    /sccbatch { pop 9600 0 } bind def
+    /setsccinteractive { pop pop pop } bind def
+    /sccinteractive { pop 9600 0 } bind def
+    /setdostartpage { pop } bind def
+    /dostartpage false def
+    /setmargins { pop pop } bind def
+    /margins { 0 0 } bind def
+    /setpagetype { pop } bind def
+    /pagetype { 0 } bind def
+    /setdefaulttimeouts { pop pop pop } bind def
+    /defaulttimeouts { 0 60 30 } def
+    /setpassword { pop pop true } bind def
+    /checkpassword { pop true } bind def
+    /setidlefonts { cleartomark } bind def
+    /idlefonts { mark } bind def
+    /seteescratch { pop pop } bind def
+    /eescratch { pop 0 } bind def  
+    
+    /setjobtimeout { pop } bind def
+    /jobtimeout 0 def
+    /manualfeedtimeout 60 def
+    /waittimeout 30 def
+    /manualfeed false def
+    /prefeed false def
+    /jobname () def
+    /printererror { pop pop } bind def
+end
+
+% And if that wasn't good enough for you, emulate serverdict, too, proving
+% that Apple puts a lie to the Red Book statement "the exitserver operator
+% is the only operator of interest in serverdict..."
+% Leovitch and Mike Byron 05Nov90
+5 dict dup begin
+    /setrealdevice {} def
+    /execjob {} def
+end
+shareddict /serverdict 3 -1 roll readonly put
+   
+
+% Other Red book stubs
+
+userdict begin
+    [
+	/letter  /lettersmall /11x17 /ledger /legal /executive /a3 /a4 
+	/a4small /b4  /b5 /lettertray /11x17tray /ledgertray /legaltray
+	/statementtray /executivetray /a3tray /a4tray /b4tray /b5tray
+    ] { {} def } forall
+end % userdict
+

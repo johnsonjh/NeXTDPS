@@ -1,0 +1,106 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Making a Poster     Number: 21
+%-----------------------------------------------------------------------------
+%
+/BigPrint                                   % ``BigPrint'' takes a large
+  { /rows exch def                          % picture (larger than 8.5" by
+    /columns exch def                       % 11") and prints it on several
+    /bigpictureproc exch def                % pages according to the number of
+					    % rows and columns specified.
+					    % Imagine superimposing a grid
+					    % composed of the specified number
+					    % of rows and columns on the large
+					    % image. Then each rectangle in
+					    % the grid represents an 8.5" by
+					    % 11" page to be printed.
+					    % ``BigPrint'' takes three
+					    % arguments: a procedure
+					    % representing the large picture,
+					    % the number of columns and the
+					    % number of rows.
+							     
+    newpath                                 % Set up a clipping region for the
+      leftmargin botmargin moveto           % page we will print on. Since
+      0 pageheight rlineto                  % most printers cannot print to
+      pagewidth 0 rlineto                   % the very edge of the paper, we
+      0 pageheight neg rlineto              % will explicitly set up the
+    closepath clip                          % clipping boundary so that it
+					    % lies within the printing
+					    % boundaries of the printer and we
+					    % will compensate for this when we
+					    % print the large image so that
+					    % all parts of the image are
+					    % indeed printed.
+							     
+    leftmargin botmargin translate          % Readjust the origin on the page
+					    % so that it coincides with the
+					    % origin of the clipping boundary.
+									      
+    0 1 rows 1 sub                          % For each row of pages...
+      { /rowcount exch def
+	0 1 columns 1 sub                   % For each page within that row...
+	  { /colcount exch def
+	    gsave
+	      pagewidth colcount mul neg    % Translate the large picture so
+		pageheight rowcount mul neg % that the desired section will be
+		translate                   % imaged on the printed page. We
+					    % must translate the large picture
+					    % in the negative directions so
+					    % that the lower left corner of
+					    % the section to be printed always
+					    % coincides with the origin.
+	      bigpictureproc                % Execute the large picture.
+	      gsave showpage grestore       % Since the ``showpage'' operator
+	    grestore                        % has the side effect of executing
+	  } for                             % the ``initgraphics'' operator
+      } for                                 % (which would reset the clipping
+  } def                                     % region), we wrap it in a "gsave"
+       					    % "grestore", which will preserve
+					    % the clipping region.
+								  
+/inch {72 mul} def
+/leftmargin .5 inch def                     % These are the dimensions of the
+/botmargin .25 inch def                     % clipping boundary.
+/pagewidth 7.5 inch def
+/pageheight 10 inch def
+{ gsave                                     % This procedure draws a large
+					    % sign with a border around it.
+					    % The sign is 22.5 inches wide and
+					    % 19.5 inches high so that it will
+					    % fit comfortably on 6 8.5 inch by
+					    % 11 inch pages (the final result
+					    % will be 2 rows of pages high and
+					    % 3 columns of pages wide).
+    20 setflat                              % Since the letters being printed
+					    % are so large, we can increase
+					    % the flatness parameter used
+					    % without degrading the quality of
+					    % the image. This will
+					    % significantly decrease the
+					    % computation time required.
+    /Times-Roman findfont 500 scalefont
+      setfont
+    2.5 inch 11 inch moveto
+    (SALE) show
+    /Times-Roman findfont 350 scalefont
+      setfont
+    1.45 inch 4 inch moveto
+    .5 setgray (50%) show
+    0 setgray ( OFF) show
+    newpath                                 % Specify the path for the border.
+      .5 inch 18 inch moveto
+      22 inch 18 inch lineto
+      22 inch 2 inch lineto
+      .5 inch 2 inch lineto
+    closepath
+    gsave
+      .75 inch setlinewidth stroke          % First paint the border with a
+					    % thick black stroke.
+    grestore
+    10 setlinewidth 1 setgray stroke        % Then paint a thin white stroke
+					    % down the cneter of the border.
+  grestore                                  % Print the large picture on a
+} 3 2 BigPrint                              % total of 6 pages. The image is
+					    % three columns of pages wide and
+					    % 2 rows of pages high.

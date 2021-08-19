@@ -1,0 +1,11 @@
+p MinStackUnused(contextList->coroutine)
+p MinStackUnused(contextList->next->coroutine)
+p MinStackUnused(contextList->next->next->coroutine)
+p MinStackUnused(contextList->next->next->next->coroutine)
+
+		PS	WS	fiddle 	beeps		Used
+		--	--	------	----		----
+1. Init		30876	30264	30264	30264		2504
+2. Mouse	31020	31020	28468	28468		4300
+3. Workspace		13420	13420	13420		19348
+4. Sound		31020	31020	26960		5808

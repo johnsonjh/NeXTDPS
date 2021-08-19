@@ -1,0 +1,80 @@
+#!/bin/sh
+# shell script to set up TranScript source distribution 
+# for installation on 4.2BSD UNIX
+
+mv Makefile.bsd Makefile
+mv config.bsd config
+mv printer.bsd printer
+
+mv etc/rmprinter.bsd etc/rmprinter
+mv etc/mkprinter.bsd etc/mkprinter
+mv etc/daily.bsd etc/daily.sh
+mv etc/hourly.bsd etc/hourly.sh
+
+mv lib/banner.bsd lib/banner.pro
+mv lib/Makefile.bsd lib/Makefile
+mv lib/troff.font/Makefile.bsd lib/troff.font/Makefile
+mv lib/troff.font/makefontdir.bsd lib/troff.font/makefontdir
+mv lib/ditroff.font/Makefile.bsd lib/ditroff.font/Makefile
+mv lib/ditroff.font/afmdit.bsd lib/ditroff.font/afmdit
+
+mv sh/ptroff.bsd sh/ptroff.sh
+mv sh/psroff.bsd sh/psroff.sh
+
+mv src/Makefile.bsd src/Make.proto
+mv src/pscomm.bsd src/pscomm.c
+mv src/psbanner.bsd src/psbanner.c
+
+mv man/pscomm.bsd man/pscomm.8p
+
+cd lib;
+mv AvGarBk.afm		AvantGarde-Book.afm
+mv AvGarBkO.afm		AvantGarde-BookOblique.afm
+mv AvGarDe.afm		AvantGarde-Demi.afm
+mv AvGarDeO.afm		AvantGarde-DemiOblique.afm
+mv BookDe.afm		Bookman-Demi.afm
+mv BookDeI.afm		Bookman-DemiItalic.afm
+mv BookLi.afm		Bookman-Light.afm
+mv BookLiI.afm		Bookman-LightItalic.afm
+mv Cour.afm		Courier.afm
+mv CourBo.afm		Courier-Bold.afm
+mv CourBoO.afm		Courier-BoldOblique.afm
+mv CourO.afm		Courier-Oblique.afm
+mv Gara.afm		Garamond-Bold.afm
+mv GaraBoI.afm		Garamond-BoldItalic.afm
+mv GaraLi.afm		Garamond-Light.afm
+mv GaraLiI.afm		Garamond-LightItalic.afm
+mv Helv.afm		Helvetica.afm
+mv HelvBo.afm		Helvetica-Bold.afm
+mv HelvBoO.afm		Helvetica-BoldOblique.afm
+mv HelvNa.afm		Helvetica-Narrow.afm
+mv HelvNaBo.afm		Helvetica-Narrow-Bold.afm
+mv HelvNaBoO.afm	Helvetica-Narrow-BoldOblique.afm
+mv HelvNaO.afm		Helvetica-Narrow-Oblique.afm
+mv HelvO.afm		Helvetica-Oblique.afm
+mv LubGrBk.afm		LubalinGraph-Book.afm
+mv LubGrBkO.afm		LubalinGraph-BookOblique.afm
+mv LubGrDe.afm		LubalinGraph-Demi.afm
+mv LubGrDeO.afm		LubalinGraph-DemiOblique.afm
+mv NewCenBo.afm		NewCenturySchlbk-Bold.afm
+mv NewCenBoI.afm	NewCenturySchlbk-BoldItalic.afm
+mv NewCenI.afm		NewCenturySchlbk-Italic.afm
+mv NewCenRo.afm		NewCenturySchlbk-Roman.afm
+mv Opti.afm		Optima.afm
+mv OptiBo.afm		Optima-Bold.afm
+mv OptiBoO.afm		Optima-BoldOblique.afm
+mv OptiO.afm		Optima-Oblique.afm
+mv PalBo.afm		Palatino-Bold.afm
+mv PalBoI.afm		Palatino-BoldItalic.afm
+mv PalI.afm		Palatino-Italic.afm
+mv PalRo.afm		Palatino-Roman.afm
+mv SouvDe.afm		Souvenir-Demi.afm
+mv SouvDeI.afm		Souvenir-DemiItalic.afm
+mv SouvLi.afm		Souvenir-Light.afm
+mv SouvLiI.afm		Souvenir-LightItalic.afm
+mv TimesBo.afm		Times-Bold.afm
+mv TimesBoI.afm		Times-BoldItalic.afm
+mv TimesI.afm		Times-Italic.afm
+mv TimesRo.afm		Times-Roman.afm
+mv ZapChaMeI.afm	ZapfChancery-MediumItalic.afm
+mv ZapDing.afm		ZapfDingbats.afm

@@ -1,0 +1,42 @@
+%
+%
+%	frags.ps
+%	PostScript fragments used for development -- all
+%	should go away or movet before ship.
+%
+%
+%	CONFIDENTIAL
+%	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+%	All Rights Reserved.
+%
+%	12Jan87  Jack	added setalphagray, setrgbacolor, sethsbacolor
+%	19Jun87  Jack	add setgrayalpha; fix setrgbacolor, sethsbacolor
+%	24Jun87  Jack	smaller overall, better newdev & jnscreen.
+%	07Aug87  Leo	Define nextdict to be the same as customdict
+%	04Sep87  Leo	Do that in makevm.ps directly -- too many
+%            		things depend on it to do otherwise.
+%	21Oct87  Jack	better jnscreen using only a brick.
+%	30Jan88  Jack	move default screen to makevm*.ps,
+%			add /jkn TEMP convenience
+%	30Aug88  Jack	remove combo ops which called setalpha
+%	05Oct88  Leo	change deskWin  -> workspaceWindow
+%	27Jan89  Jack	clean up Printer Ops, add nulldevice to letter, etc.
+%	20Jun89  Jack	remove scroll operator & (incorrectly) shared scrollmtx
+%	21Jun89  Leo	No, had to restore them for compatibility.  FIX!!!
+%	09Feb90	 Dave	Added setwindowlevel to workspaceWindow so it's on
+%			the lowest tier (-2147483648 = 0x80000000 = MININT)
+%	02Mar90	 Terry	Ensure that workspaceWindow exposure color is .333333
+%	27Mar90	 Peter	Added canned pixel dictionaries for machportdevice
+%	26Jul90	 Terry	Moved stuff to {printing,nextconstants}.ps
+%	31Jul90	 Terry	Moved rest of the printing stuff into service.ps
+%	31Jul90	 Terry	File is now obsolete!
+% systemdict /nextdict customdict put
+
+nextdict begin
+
+
+end % nextdict
+
+
+
+

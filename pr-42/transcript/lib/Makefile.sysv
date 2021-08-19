@@ -1,0 +1,41 @@
+# transcript/lib/Makefile.sysv
+#
+# Copyright (c) 1985 Adobe Systems Incorporated. All Rights Reserved. 
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: Makefile.sysv,v 2.2 87/11/17 16:35:37 byron Rel $
+
+FILES = banner.pro enscript.pro pstext.pro \
+	ps4014.pro ps630.pro pscat.pro psplot.pro psdit.pro \
+	ehandler.ps uartpatch.ps bogusmsg.ps \
+	font.map Notice
+
+programs all:
+	sed -e s,XPSLIBDIRX,$$PSLIBDIR,g \
+	    -e s,XPSTEMPDIRX,$$PSTEMPDIR,g \
+	    -e s,XVERBOSELOGX,$$VERBOSELOG,g \
+	    -e s,XBANNERFIRSTX,$$BANNERFIRST,g \
+	    -e s,XBANNERLASTX,$$BANNERLAST,g \
+	    -e s,XREVERSEX,$$REVERSE,g \
+		psint.sysv >psinterface
+
+install: 
+	cd $$PSLIBDIR; rm -rf - ${FILES} *.afm
+	cp ${FILES} *.afm $$PSLIBDIR
+	cd $$PSLIBDIR; chown $$OWNER ${FILES} *.afm; \
+		chgrp $$GROUP ${FILES} *.afm; chmod 644 ${FILES} *.afm
+	-rm -rf $$PSLIBDIR/troff.font $$PSLIBDIR/ditroff.font
+	-mkdir $$PSLIBDIR/troff.font $$PSLIBDIR/ditroff.font
+	cp troff.font/* $$PSLIBDIR/troff.font
+	-cd $$PSLIBDIR/troff.font; make ${MFLAGS} startup $$FONTFAMILIES
+	-cd $$PSLIBDIR/troff.font; chown $$OWNER . * ; chgrp $$GROUP . *
+	cp ditroff.font/* $$PSLIBDIR/ditroff.font
+	-cd $$PSLIBDIR/ditroff.font; \
+		make ${MFLAGS} startup $$FONTFAMILIES install
+	-cd $$PSLIBDIR/ditroff.font; \
+		make ${MFLAGS} -f Make.family doit $$FONTFAMILIES
+	-cd $$PSLIBDIR/ditroff.font; chown $$OWNER . * ; chgrp $$GROUP . *
+
+clean:
+	rm -f - *.BAK *.CKP .emacs_[0-9]*
+	cd troff.font; make ${MFLAGS} clean
+	cd ditroff.font; make ${MFLAGS} clean

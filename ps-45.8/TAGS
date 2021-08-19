@@ -1,0 +1,4549 @@
+
+mousekeyboard/common.c,253
+void CheckShield(104,2525
+void DisplayCursor(34,982
+void LLEventPost(125,3027
+void RemoveCursor(51,1580
+void SysHideCursor(62,1865
+void SysObscureCursor(78,2097
+void SysRevealCursor(86,2208
+void SysShowCursor(68,1936
+void SysSyncCursor(94,2317
+
+mousekeyboard/kbdroutines.c,97
+void CurrentMouse(48,965
+int RightStillDown(33,742
+void SetMouse(39,854
+int StillDown(27,636
+
+mousekeyboard/routines.c,813
+#define CHECKOPEN(66,2218
+void ClearMouseRect(261,7442
+char CurrentGlobalWCEnabled(179,6170
+void HideCursor(193,6411
+int InitMouseEvents(276,7674
+int MouseFd(312,9171
+void ObscureCursor(209,6625
+void RevealCursor(217,6738
+void SetGlobalWCEnabled(172,5999
+void SetMouseMoved(249,7270
+void SetMouseRect(267,7515
+void SetWinCursor(325,9305
+void ShieldCursor(225,6849
+void ShowCursor(201,6518
+void StartCursor(186,6311
+void TermMouseEvents(319,9245
+int TestMouseRect(255,7367
+void UnShieldCursor(237,7069
+#define WCDUMP_SHMEM(52,1885
+extern void WCReceiveEvent(93,3267
+extern void WCSendEvent(70,2458
+extern void WCSetData(128,4733
+extern void WCSetEnabled(156,5565
+#define WCTRACE(49,1699
+#define WCTRACE(56,2066
+#define WCTRACE1(50,1751
+#define WCTRACE2(51,1813
+#define WCTRACE2(58,2113
+
+mousekeyboard/vars.h,0
+
+bintree/bag.c,216
+void BAGCompositeFrom(75,2602
+NXBag *BAGFind(121,4190
+void BAGFree(138,4736
+void BAGInitialize(36,1305
+NXBag *BAGNew(48,1763
+int NXGetWindowInfo(210,7170
+void NXSetHookMask(167,5707
+NXBag *NXWID2Bag(191,6487
+
+bintree/bitpiece.c,824
+void BPAdjust(93,3483
+void BPAllocBag(164,5858
+void BPApplyBounds(179,6298
+void BPApplyBoundsProc(194,6861
+void BPApplyProc(205,7182
+DivPiece *BPBecomeDivAt(215,7464
+void BPCompositeFrom(227,7902
+void BPCompositeTo(317,10744
+BitPiece *BPCopy(384,13063
+void BPCopyBitsFrom(445,15186
+void BPCopyback(408,13774
+static void BPCopybackBounds(402,13642
+DivPiece *BPDivideAt(497,16691
+Bounds *BPFindPieceBounds(513,17244
+void BPFree(525,17553
+void BPInitialize(54,2284
+int BPIsObscured(538,17984
+BitPiece *BPMark(549,18314
+BitPiece *BPNewAt(67,2673
+BitPiece *BPObscureBecause(581,19516
+Piece BPObscureInside(617,20885
+void BPPointScreen(664,22528
+void BPPrintOn(675,22870
+void BPRenderInBounds(709,23923
+void BPReplaceBits(739,25153
+BitPiece *BPRevealBecause(749,25452
+BitPiece *BPRevealInside(813,27464
+
+bintree/bounds.c,318
+void BoundsFromIPrim(59,2067
+BBoxCompareResult DevBoundsCompare(120,3748
+void FindDiffBounds(153,5158
+BBoxCompareResult IntersectAndCompareBounds(198,6678
+int boundBounds(40,1418
+void clipBounds(84,2875
+void collapseBounds(244,8322
+void divBoundsAt(137,4477
+int sectBounds(230,7674
+int withinBounds(257,8728
+
+bintree/causeset.c,295
+CauseSet *CSAdd(62,1838
+CauseSet *CSAddSet(83,2365
+static int CSContains(113,3239
+CauseSet *CSCopy(129,3657
+static CauseSet *CSExpand(146,4119
+void CSFree(171,4805
+void CSInitialize(37,1130
+CauseSet *CSNew(48,1479
+void CSPrintOn(185,5173
+int CSRemove(201,5597
+void CSSwapFor(221,6134
+
+bintree/divpiece.c,545
+void DPAdjust(72,2290
+void DPApplyBoundsProc(93,2881
+void DPApplyProc(108,3488
+DivPiece *DPBecomeDivAt(120,3855
+void DPCompositeFrom(179,5517
+void DPCompositeTo(236,7234
+DivPiece *DPDivideAt(285,8569
+Bounds *DPFindPieceBounds(309,9423
+void DPFree(322,9902
+void DPInitialize(40,1301
+BitPiece *DPMark(337,10344
+DivPiece *DPNewAt(51,1664
+DivPiece *DPObscureBecause(355,10998
+DivPiece *DPObscureInside(368,11432
+void DPPrintOn(386,12087
+DivPiece *DPRevealBecause(411,12798
+Piece DPRevealInside(424,13238
+void DPSwapCause(541,17367
+
+bintree/drivers.c,673
+static void AssignArrayBounds(388,13605
+static void AssignBounds(359,12777
+void DriverInit(623,21004
+extern int (*DynaLoadFile(52,1927
+static int FilterDirProc(159,5584
+static void FreeMon(83,3206
+static void GuaranteeActiveScreen(502,16985
+static int LoadActiveDrivers(214,7334
+static void LoadAllDrivers(180,6299
+static int LoadSingleDriver(102,3785
+static void MatchMonitors(406,14212
+void NXRegisterOps(613,20657
+void NXRegisterScreen(589,20040
+void NXStartDriver(606,20498
+void PingAsyncDrivers(739,24665
+static ni_status ReadNetInfo(298,10613
+static int SanityCheck(539,18322
+static void WriteDefaultNetInfo(255,8769
+static void init_prop(239,7972
+
+bintree/extent.c,391
+#define EXABOVE(60,2062
+static void EXAddToSubList(87,3119
+static void EXAllocDummies(107,3773
+#define EXBELOW(61,2139
+static void EXBuildExtents(153,5641
+static void EXDummyScreens(128,4692
+static void EXFindHoles(223,8151
+void EXInitialize(71,2674
+#define EXLEFT(62,2216
+#define EXRIGHT(63,2289
+#define HADJ(58,1936
+#define SB(56,1886
+#define SE(57,1911
+#define VADJ(59,1999
+
+bintree/layer.c,1886
+static int ComputeHideBounds(255,11330
+static void CopyOffscreen(224,10490
+static void CopyOnscreen(237,10748
+static void ExpandTempCauses(346,13932
+void LAddToDirty(470,18140
+static void LAddToInstance(485,18628
+Bounds *LBackingBounds(560,21342
+Bounds *LBoundsAt(597,22534
+void LCompositeFrom(608,22864
+LocalBitmap *LCopyBitsFrom(748,28057
+void LCopyContents(788,29503
+int LCurrentAlphaState(807,30134
+int LCurrentDepth(818,30466
+int LDepthLimit(829,30799
+void LFill(841,31164
+Layer *LFind(893,32939
+Bounds *LFindPieceBounds(914,33588
+void LFlushBits(933,34308
+void LFree(948,34820
+int LGetBacking(577,21908
+DeviceStatus LGetDeviceStatus(976,35689
+void LGetSize(1006,36648
+void LHideInstance(1018,37085
+static void LHideInstanceIn(1032,37623
+void LInitPage(1056,38400
+static void LInitialize(313,12992
+void LMark(1085,39475
+void LMoveTo(1199,43781
+static Layer *LNew(366,14537
+Layer *LNewAt(385,15197
+Layer *LNewDummyAt(453,17652
+void LNewInstance(1341,49355
+static void LObscureInside(1357,49936
+static void LObscureSubList(1373,50535
+void LOrder(1388,51003
+Layer *LPlaceAt(1469,53802
+int LPreCopyBitsFrom(1563,57263
+void LPrintOn(1576,57647
+static void LPromoteLayer(1616,59029
+void LRedraw(1640,59879
+static void LRemoveFromInstance(1666,60640
+void LRepaintIn(1706,62349
+static void LRevealInside(1737,63295
+static void LRevealSubList(1754,63922
+static void LSetAlphaBits(1770,64483
+static void LSetAlphaOpaque(1802,65749
+void LSetAutofill(1813,66111
+void LSetDepthLimit(1825,66552
+void LSetExposureColor(1850,67344
+void LSetSendRepaint(1867,67880
+int LSetType(1878,68208
+static void LSubListObscure(1900,68969
+static void LSubListReveal(1915,69466
+WindowDevice *Layer2Wd(547,20921
+void LayerInit(295,12605
+void NXApplyBounds(533,20478
+void NXRenderInBounds(514,19733
+static int UniqueCause(330,13430
+void copyCO(212,10088
+
+bintree/pattern.c,130
+void PFree(102,3198
+void PInitialize(38,1194
+Pattern *PNew(55,1810
+Pattern *PNewColorAlpha(83,2673
+void PSetHalftone(69,2180
+
+bintree/windowlist.c,390
+Layer *GetFrontWindow(51,1544
+Layer *GetNextWindow(61,1818
+void GetTLWinBounds(71,2117
+void GetWinBounds(81,2427
+SubList WLAboveButNotAbove(99,3162
+static Layer *WLAt(140,4071
+SubList WLBelowButNotBelow(150,4499
+static void WLExpand(191,5417
+void WLInitialize(40,1204
+static int WLOffsetOf(204,5832
+Layer *WLPutAfter(220,6260
+Layer *WLPutBefore(249,6976
+void WLRemove(277,7635
+
+bintree/piece.030.s,18
+|	Copyright 5,33
+
+bintree/bintreetypes.h,605
+#define		    BAGDelete(188,7114
+#define		    BAGDup(191,7260
+extern void	    BPApplyBoundsProc(201,7615
+extern void	    BPApplyProc(202,7691
+#define CopybackRetained(72,2909
+extern void	    DPApplyBoundsProc(247,9630
+extern void	    DPApplyProc(248,9706
+#define DebugAssert(95,3520
+#define DebugAssert(97,3590
+extern void	    FindDiffBounds(227,8916
+#define ISCONVERTCAUSE(69,2775
+#define MAKECONVERTCAUSE(70,2818
+#define MaxBound(101,3708
+#define MinBound(102,3771
+extern void	    PieceApplyBoundsProc(285,11018
+extern void	    PieceApplyProc(286,11092
+#define STRIPCONVERTCAUSE(71,2863
+
+mp/copyline.c,166
+void RWCOPYBmALine(166,4985
+void RWCOPYBmULine(133,3951
+void WCOPYBmALine(64,1896
+void WCOPYBmULine(29,861
+void WCOPYConLine(112,3343
+void WCOPYPatLine(85,2515
+
+mp/cursor.c,153
+void MPDisplayCursor16(213,6094
+void MPDisplayCursor2(124,2748
+void MPRemoveCursor16(261,7995
+void MPRemoveCursor2(177,4685
+void MPSetCursor(24,590
+
+mp/funcline.c,126
+#define BmALine(54,1600
+#define BmRLine(74,2147
+#define BmULine(28,795
+#define ConLine(123,3636
+#define PatLine(100,2938
+
+mp/hlrect.c,27
+void HighlightRect(29,802
+
+mp/moverect.c,262
+#define BUFFERSOURCE(181,6661
+#define BUFFERSOURCEHW(165,6044
+#define CONSTSOURCE(159,5855
+void MRInitialize(198,7366
+void MRMasks(213,7844
+void MRMoveRect(241,8857
+void MRPatternAdvance(472,15863
+#define SOURCEADVANCE(151,5675
+void SetUpSource(91,3820
+
+mp/mp.c,385
+void MP12SetBitmapExtent(336,10920
+void MPComposite(147,4793
+void MPFreeWindow(211,6619
+void MPInitScreen(221,6921
+void MPMark(244,7709
+void MPMoveWindow(255,8088
+void MPNewAlpha(265,8441
+void MPNewWindow(274,8707
+void MPPromoteWindow(295,9530
+void MPRegisterScreen(323,10533
+int MPStart(105,3512
+int MPWindowSize(372,11809
+#define VMAlloc(55,1972
+#define VMFree(57,2064
+
+mp/soverrect.c,95
+#define DoSover(33,687
+#define Sover(25,477
+#define SoverMask(29,568
+void SoverRect(40,909
+
+mp/mp12.c,461
+void MP12Composite(264,8754
+static void MP12ConvertFrom(370,12470
+static void MP12InitClassVars(685,22976
+static Bitmap *MP12MakePublic(410,13587
+static void MP12MarkDataAndAlpha(426,14175
+static Bitmap *MP12New(117,4070
+static void MP12NewAlpha(170,5676
+static Bitmap *MP12NewFromData(140,4743
+void MP12SetupBits(181,5994
+void MP12SetupPat(209,6880
+static void MP12SetupPattern(652,22011
+static void MP12SizeBits(163,5401
+void MP12_Mark(483,16192
+
+mp/mpconv12.c,333
+#define CONVERT16TO8(47,1186
+#define CONVERT32TO8(54,1365
+#define CONVERT32TO8(61,1549
+#define CONVERT32TO8(69,1839
+void MP12Convert16to2(246,7652
+void MP12Convert2to2(116,3416
+void MP12Convert32to2(359,11226
+static void MP12InitBricks(86,2358
+#define RollRight(78,2113
+#define RollRight(80,2198
+#define RollRight(83,2290
+
+mp/copyrect.030.s,143
+|	CopyRect(24,699
+	cmpl	#3,a6@(48,1292
+	moveml	sp@+,a0-a6/d0-d7	| restore regs 102,3329
+sourceType = rightMask + 4	| Type of source 13,374
+
+mp/devmark.h,0
+
+mp/mp.h,0
+
+mp/mp12.h,108
+#define F0(109,3089
+#define F1(110,3107
+#define F2(111,3137
+#define F3(112,3167
+#define PAABS(166,4959
+
+bitmap/bitmap.c,95
+static void BMFree(53,1497
+static void BMInitClassVars(58,1547
+static Bitmap *BMNew(37,1128
+
+bitmap/bmlocal.c,563
+static void LBMAddTrap(174,4315
+static void LBMBecomePSDevice(118,2740
+static void LBMFree(84,1961
+static void LBMInitClassVars(317,8514
+static inline void LBMInitSinglePrim(165,4097
+static Bitmap *LBMMakePublic(105,2411
+static void LBMMark(207,5379
+static void LBMMarkRun(198,5136
+static Bitmap *LBMNew(25,430
+static void LBMNewAlpha(64,1455
+static Bitmap *LBMNewFromData(47,999
+static void LBMOffset(303,8139
+static void LBMSetupImageArgs(146,3555
+static void LBMSetupMark(151,3654
+static int LBMSizeInfo(308,8236
+static void LBMWakeUp(138,3318
+
+bitmap/bmpattern.c,105
+PatternHandle NXGrayPat(71,1895
+NXGrayPatDestroy(49,1191
+NXGrayPatInfo(58,1346
+NXGrayPatSetup(23,538
+
+bitmap/bm34.c,325
+static void BM34Composite(107,2982
+static void BM34ConvertFrom(202,5692
+static void BM34InitClassVars(268,7411
+static Bitmap *BM34New(47,1541
+static void BM34NewAlpha(92,2625
+static Bitmap *BM34NewFromData(65,1912
+static void BM34SetupPattern(245,6750
+static void BM34SizeBits(86,2432
+static void BM34_Mark(236,6456
+
+bitmap/bm34comp.c,323
+static pixel_t ADDC(46,1439
+#define ALPHA(23,523
+BM34MoveRect(64,2056
+void BMComposite34(139,3955
+#define COLOR(25,591
+#define LOOP32(31,792
+#define MUL(27,625
+#define NEGALPHA(24,554
+//#define SwapMoveLow(62,1993
+#define doLong(59,1879
+#define doShort(57,1770
+#define doSkip(60,1938
+#define isAligned(56,1731
+
+bitmap/bm34conv.c,93
+void BM34Convert2to16(8,173
+void BM34Convert32to16(66,1794
+void BM34Convert8to16(102,2724
+
+bitmap/bm38.c,324
+static void BM38Composite(98,2755
+static void BM38ConvertFrom(187,5209
+static void BM38InitClassVars(250,6875
+static Bitmap *BM38New(40,1241
+static void BM38NewAlpha(83,2404
+static Bitmap *BM38NewFromData(58,1687
+static void BM38SetupPattern(234,6381
+static void BM38SizeBits(77,2205
+static void BM38_Mark(225,6097
+
+bitmap/bm38comp.c,140
+static int ADDC(30,684
+#define ALPHA(22,464
+void BMComposite38(40,988
+#define COLOR(24,532
+#define MUL(26,566
+#define NEGALPHA(23,495
+
+bitmap/bm38conv.c,124
+void BM38Convert16to32(87,2383
+void BM38Convert2to32(30,826
+void BM38Convert8to32(119,3087
+#define CONVERT16TO32(26,706
+
+postscript/contextimpl.c,2436
+private procedure AcquireLock(378,11844
+private procedure BreakLooseCV(259,8105
+private procedure BreakLooseLK(271,8475
+public procedure CheckForPSNotify(618,18305
+public procedure ContextOpsInit 1228,32706
+public PSContext CreateContext 484,14777
+public PSContext CreatePSContext(656,19270
+public PSSpace CreatePSSpace(564,17010
+public procedure DestroyPSContext(761,22000
+public boolean DestroyPSSpace(825,23558
+public procedure DisableCC(1107,30551
+private procedure DoQuit(312,9760
+public procedure EnableCC(1112,30629
+public PSContext ExclusivePSContext(698,20149
+private GenericID GetCurrentContext 1143,31311
+private GenericID GetNextContext 1156,31585
+private PVM GetNextSpace 1199,32226
+private integer GetNotifyAbortCode(451,13892
+public PSContext IDToPSContext 588,17457
+public PSSpace IDToPSSpace 600,17834
+private procedure InnerNotify 303,9539
+private procedure InvalidContext 178,6117
+private procedure MonExitProc(995,28043
+private procedure MonitorExit(443,13697
+private procedure NewCondition 435,13467
+private procedure NewContextID(197,6551
+private procedure NewLock 426,13234
+private procedure NewSpaceID(227,7306
+public procedure NotifyPSContext(796,22810
+public procedure PSAcquireLock(1024,28632
+public procedure PSClrInt(1120,30822
+private procedure PSCoProc(324,10089
+public procedure PSCondition 876,24719
+public ContextID PSContextToID(610,18133
+public procedure PSCurrentContext 882,24806
+public procedure PSDetach 886,24910
+public procedure PSFork 900,25332
+public procedure PSJoin 957,27044
+public procedure PSLock 989,27966
+public procedure PSMonitor 1004,28209
+public procedure PSNotify 1036,28954
+public procedure PSQuit(1045,29116
+public procedure PSReleaseLock(1030,28793
+public procedure PSSetDevice 859,24320
+public procedure PSSetTimeLimit 848,24028
+public SpaceID PSSpaceToID(614,18229
+public procedure PSWait 1050,29202
+private procedure RecycleID(186,6297
+private procedure ReleaseLock(406,12722
+private PCard8 SetCurrentContext 1148,31396
+private procedure SpaceExclusionSemaphore 702,20294
+public boolean SwitchPSContext(744,21516
+public procedure TerminatePSSpace(817,23325
+private procedure TotalExclusionSemaphore 727,21094
+private procedure UnloadContext 368,11596
+private procedure WaitOnJoinable(283,8837
+private procedure YieldByRequest 474,14609
+public procedure YieldOp 1092,30135
+private procedure YieldTimeLimit 479,14693
+
+postscript/control.c,147
+public procedure ControlInit(81,2012
+public procedure PSRealTime(76,1940
+private procedure PSUndef(55,1550
+public procedure PSUserTime(71,1865
+
+postscript/customops.c,1795
+public procedure CustomOpsInit 466,11564
+public boolean PSBuildMasks(371,9403
+public boolean PSClipInfo(393,9881
+public procedure PSDictGetPObj(429,10626
+public boolean PSDictGetTestPObj(446,11110
+public boolean PSExecuteObject(306,7716
+public procedure PSExecuteOperator(290,7226
+public boolean PSExecuteString(311,7802
+public boolean PSGetClip(373,9463
+public PDevice PSGetDevice(336,8393
+public char *PSGetGStateExt(365,9273
+public void PSGetMarkInfo(341,8509
+public PMtx PSGetMatrix(331,8279
+public PSOperandType PSGetObjectType(275,6927
+public PSOperandType PSGetOperandType(125,3117
+public DevTfrFcn *PSGetTfrFcn(355,9025
+public procedure PSHandleExecError(315,7896
+public procedure PSInvalidID(149,3816
+public Object PSLIntObj(405,10093
+public Object PSLNullObj(399,10013
+public PPSGState PSPopGState(321,8005
+public PPSObject PSPopManagedObject(244,6020
+public void PSPopPMtx(281,7034
+public real PSPopReal(143,3622
+public Stm PSPopStream(157,3988
+public void PSPopString(136,3431
+public void PSPopTempObject(171,4250
+public void PSPushObject(178,4480
+public void PSPushPMtx(285,7126
+public procedure PSPushReal(145,3683
+public void PSPushStream(163,4073
+public void PSPushString(151,3883
+public procedure PSPutArray(411,10198
+public boolean PSReduceRect(378,9571
+public void PSRegister(83,1913
+public void PSRegisterStatusDict(87,2017
+public void PSReleaseManagedObject(269,6784
+public void PSRgstOps(93,2167
+public procedure PSSetRealClockAddress(422,10465
+public boolean PSSharedObject(147,3742
+public long int PSStringLength(130,3253
+private procedure RecycleMI(197,4963
+private PSOperandType TypeOfObj(100,2291
+private ManagedItem *ValidatePObj(182,4547
+private procedure myGetRoots(219,5482
+private procedure myTerminateSpace(205,5137
+
+postscript/initmakevm.c,39
+public PVoidProc PSInitMakeVM(33,1067
+
+postscript/package_init.c,32
+void InitializePackages(33,981
+
+postscript/postscript.c,306
+private procedure BuildInitialState 229,6605
+private CheckVersion 215,6295
+private CreateSharedVM 121,3160
+public procedure InitPostScript 271,7671
+private procedure PSAbort(389,10850
+public procedure PostScriptInit(443,12186
+public procedure StateInit 395,10920
+public procedure TopError(353,9830
+
+postscript/psspace.c,196
+public PVM CreatePrivateVM 31,913
+public procedure PSCurrentShared 119,3055
+public procedure PSSetShared 98,2572
+public procedure PSSpaceInit 125,3132
+private procedure RstrSetShared 90,2400
+
+postscript/postscriptnames.h,142
+  Op(55,1986
+  Op(57,2062
+  Op(59,2104
+  Op(61,2142
+  Op(63,2190
+  Op(65,2236
+  Op(67,2292
+  Op(72,2411
+OpSet(53,1917
+OpSet(70,2333
+
+coroutine/corouxfer.c,456
+private ApplyFootprints(108,4552
+public integer CallAsCoroutine(224,8097
+public Coroutine CoReturn(183,7020
+private CoroutineRootProc(120,4933
+public Coroutine CreateCoroutine(142,5625
+public integer CurStackUnused(238,8477
+public DestroyCoroutine(172,6764
+public char *GetCoroutineInfo(200,7544
+public Coroutine InitCoroutine(131,5246
+public integer MinStackUnused(245,8662
+private TempCoroutineProc(214,7826
+extern procedure initxfer(63,2528
+
+coroutine/xfersun.s,217
+#define ENTRY(30,921
+ENTRY(55,1578
+ENTRY(81,2361
+	clrl	a1@(61,1828
+	movl	sp@(16),a1@(62,1876
+	link	a6,#0			| make a normal frame 99,2988
+| initxfer(51,1447
+	jsr	a2@			| call proc(74,2199
+| char *xfer(78,2273
+
+fonts/cachedev.c,692
+public procedure CSRun(315,8495
+public boolean CvtToFixed(53,1422
+private boolean DTfmToFixed(207,5558
+public boolean FSetCharWidth(75,2048
+private procedure GetCPDelta(97,2582
+public boolean MakeCacheDev(266,7090
+public boolean MakeCacheDev2(322,8659
+private boolean NoRoom(147,4041
+public procedure PSSetCchDevice(421,11124
+public procedure PSSetCchDevice2(413,11009
+public procedure PSSetCharWidth(427,11206
+private procedure SetCacheDev(398,10666
+private boolean SetCch(165,4514
+public boolean SetCchDevice(248,6605
+private procedure SetCharWidth(62,1621
+private procedure SetDeltaAndTlate(139,3834
+private integer SetupMaskDev(104,2810
+private boolean TfmToBB(216,5789
+
+fonts/cacheimpl.c,635
+private procedure AddEntry(149,3930
+private PCacheEntHdr AllocHdr(40,987
+public boolean CacheAddEntry(232,6230
+public PCache CacheCreate(285,7388
+public procedure CacheInvalidate(309,7968
+public boolean CacheLookup(197,5151
+public procedure CacheRemoveEntry(255,6702
+public CaData CacheReuseEntry(268,6932
+private PCacheEntHdr DisplaceEntries(98,2474
+private procedure DisposeEntry(71,1658
+private procedure FreeHdr(55,1329
+private PCacheEntHdr Lookup(80,1861
+public procedure PSCacheFlush(366,9569
+public procedure PSCacheInit(385,9967
+public procedure PSCacheStatistics(334,8678
+private procedure UnlinkEntry(63,1490
+
+fonts/cicache.c,863
+public CIOffset CIAlloc(132,3379
+public procedure CIFree(151,3880
+public CheckCI(78,2335
+#define ClearMark(186,4823
+#define CondAssign(181,4585
+#define CondAssignF(184,4706
+public procedure DeleteCIs(359,8497
+public boolean FlushMID(385,9086
+private procedure GetFlushArgs(287,6862
+#define IsAllocatedCI(68,1873
+#define IsConnected(61,1501
+#define IsFreeCI(64,1671
+#define IsMarked(185,4783
+#define IsNonNull(180,4552
+#define IsNormalCI(74,2182
+#define IsNull(179,4522
+#define IsReleasedCI(71,2028
+#define NextAge(177,4446
+public procedure PSFlushFontCache(479,11189
+public integer PSFlushMasks(432,10138
+#define PrevAge(178,4484
+public PurgeCI(412,9706
+private integer ReleaseCI(299,7233
+private procedure RelinkCIItem(268,6356
+public procedure SortCharAges 188,4871
+private boolean TrimCI 313,7558
+private procedure UnlinkCI(250,5888
+
+fonts/compshow.c,741
+#define BytefromString(313,8091
+#define CSGCh(349,9137
+#define CSGetChar(348,9105
+#define CSTestChar(350,9161
+public procedure CompSlowShow 814,21036
+public integer CompositeShow 470,11817
+public procedure CopyDelayedFont(49,1322
+private procedure DMFRestore(176,4414
+public procedure DelayedMakeFont 100,2598
+private Fixed FixedfromString(268,7064
+private procedure GetDMFDict(88,2314
+private procedure GetDMFItem(65,1723
+#define GetInfo(319,8227
+procedure GetInfoSupp 280,7338
+public procedure InvalidateCachedMIDs 238,6308
+#define SSGetChar(341,8987
+private procedure SSRestoreState 302,7855
+public integer ScanCompString 352,9217
+private integer Xxxxx(315,8145
+private procedure ZapDelayedDict 143,3789
+if 803,20821
+
+fonts/fastshow.c,128
+public procedure FSInit(486,14636
+public integer FastShow(150,4118
+FasterShow(68,1897
+public procedure PurgeFSCache(57,1639
+
+fonts/flex.c,437
+#define FRoundF(53,1701
+private procedure FlexCurveTo(64,2101
+public procedure FlexProc(77,2379
+public procedure FlexProc2(230,7673
+#define FntDTfmP(50,1552
+#define FntIDTfmP(52,1650
+#define FntITfmP(51,1601
+#define FntTfmP(49,1505
+private procedure RFlexCurveTo(239,7960
+public procedure RFlexProc(246,8125
+#define ceil(62,2023
+#define floor(61,1986
+#define os_labs(21,705
+#define xshrink(75,2323
+#define yshrink(74,2268
+
+fonts/fontbuild.c,6866
+588,17009
+private Fixed AFixedCar(571,16568
+private procedure ARealCarP(584,16869
+internal Fixed Adjust(1933,55672
+private procedure AdjustBlues(2559,74858
+internal procedure AdjustToStdWidths(1999,57973
+public procedure BCERROR(1026,31720
+private procedure BMRun 4166,123079
+internal procedure BlueLock(2682,79803
+internal procedure BoostBotLocs(2662,79113
+#define Bpick(2474,72276
+public boolean BuildChar(497,14982
+public integer BuildChar(4791,138728
+private procedure BuildGlbCntrs(2935,87636
+private procedure CCBMRun(4268,125918
+private PCCInfo CCBuild(1132,34455
+private procedure CCBuild(1205,36549
+private procedure CCRun(4116,121813
+private PCCInfo CCRunStd(3269,96807
+private procedure CSEndChar(3237,96189
+internal procedure CalcAnchGlbClrLocs(2368,68762
+internal procedure CalcGlbClrLocs(2362,68612
+internal Fixed CalcHW2(2011,58357
+public procedure CantHappen(1030,31905
+public boolean CharStringsVal(4493,131533
+internal procedure CheckBlueScale(2503,73085
+private boolean CheckIfOkToBuild(703,20285
+private boolean ChrMapBuildChar(4346,127472
+#define Decrypt(3073,92148
+private procedure DictGetFontP(3135,93470
+private PFixed DoBlend(2074,59941
+internal procedure DoLock(2373,68917
+internal Fixed DoTriXLock(2394,69722
+internal Fixed DoTriYLock(2397,69857
+#define Encrypt(4526,132238
+internal procedure EnterGlbClr(2305,66810
+private procedure EnterGlbCntr(2916,86993
+internal Fixed EnterTriXLock(2386,69409
+internal Fixed EnterTriYLock(2390,69566
+private Fixed ErodeSW(1065,32743
+internal Fixed ErodeSW(1083,33331
+private procedure F2RMetrics(474,14453
+#define FCeil(111,3294
+#define FCeilF(110,3252
+private procedure FCurveTo(434,13632
+#define FD(50,1458
+private procedure FLineTo(428,13531
+private procedure FMoveTo(422,13430
+#define FRoundF(113,3399
+#define FTruncF(109,3195
+private procedure FamilyBlueLocs(2632,77754
+internal procedure FamilyBlueLocs(2646,78396
+private procedure FinGlbClrLocs(2349,68178
+private PGlbClr FindGlbClr(2334,67843
+private procedure FinishLock(1595,47599
+private Fixed FixedValue(464,14182
+#define FntDTfmP(244,7606
+#define FntIDTfmP(246,7704
+#define FntITfmP(245,7655
+#define FntTfmP(243,7559
+public procedure FontBldDataHandler 4731,137485
+public procedure FontBuildInit(4685,136244
+public procedure FontBuildInit(4744,137668
+private procedure FudgeBlueBands(763,21750
+private procedure GetBlueArrays(1237,37406
+private procedure GetBlueArrays(1262,38419
+private procedure GetBlueValues(1283,39217
+internal procedure GetBlueValues(1293,39564
+private boolean GetDSW(1037,32055
+private boolean GetDSW(1055,32527
+private procedure GetErosion(805,23109
+private procedure GetFontBBox(654,18862
+private Fixed GetFromPrivDict(3126,93226
+private procedure GetITfmX(2253,65370
+private procedure GetITfmY(2261,65541
+private procedure GetMetrics(713,20521
+private boolean GetMetrics2 605,17473
+private procedure GetMtxInfo(3150,93882
+private procedure GetStandardWidths(1461,44690
+internal procedure GetStandardWidths(1473,45047
+private IntX GetStdW(1306,39965
+private IntX GetStdW(1320,40388
+private Fixed GetStemWidth(786,22511
+private procedure GetTfmX(2269,65712
+private procedure GetTfmY(2273,65846
+private IntX GetWeightVector(1485,45418
+internal procedure GlbClrLine(2400,69990
+private procedure GlbFixLocs(2949,88036
+private procedure IniGlbClrBuffs(3029,90954
+internal procedure IniGlbClrBuffs(3031,91005
+#define InitRnum(4523,132142
+private procedure InitSlopes(1851,53764
+private procedure InitSlopes(1871,54199
+private boolean InsertLock(1613,47998
+private boolean InternalBuildChar(4441,130166
+internal procedure InvlFont(1028,31795
+public Cd LockCd(3091,92601
+private procedure LockPFCd(3084,92385
+private Fixed Map(1887,54490
+private Fixed Map(1909,55070
+public procedure ModifyCachingParams 626,18096
+private PGlbClr NewGlbClr(2277,65981
+private PGlbCntr NewGlbCntr(2888,86154
+#define NormalizeSW(1097,33685
+private PGlbClr NxtGClr(2880,85947
+#define OutputEnc(4531,132386
+public procedure PFCdToPRCd(396,12902
+public procedure PRCdToPFCd(401,13011
+private procedure PSAlwaysErode(4660,135610
+private procedure PSBMRun(4324,127076
+public procedure PSCCRun(4320,127002
+private procedure PSCCRun(4330,127168
+public procedure PSErodeSW(1101,33785
+private procedure PSExCheck(4646,135307
+private procedure PSInitWrite(4601,134224
+public procedure PSIntDict(4504,131779
+public procedure PSLck(3118,93130
+private procedure PSSetCSLimit(4661,135676
+private procedure PSSetOFLimit(4662,135737
+public procedure PSSetXLock(3100,92744
+public procedure PSSetYLock(3109,92937
+private procedure PSStFKey(1120,34226
+private procedure PSWriteData(4630,134937
+public procedure PSeCCRun(4296,126473
+private procedure PathEndChar(3168,94334
+private Fixed PopFixed(448,13929
+private procedure PopPFCd(459,14096
+private Fixed PreXLock(2096,60491
+private Fixed PreYLock(2121,61427
+private procedure PrintBlueLocs(2547,74438
+private procedure PrintBlueValues(1224,36999
+private procedure PrintClrs(2484,72569
+private procedure PrintCntrs(2491,72729
+private procedure PrntClr(2478,72357
+internal procedure ProcessGlbClrs(3002,90071
+private procedure PushFixed(442,13833
+private procedure PushPFCd(454,14013
+private procedure PutStdW(1331,40676
+private procedure RBLock(2830,84528
+private procedure RClosePath(418,13368
+private procedure RCurveTo(414,13260
+private procedure RLineTo(410,13191
+private procedure RMLock(2453,71596
+private procedure RMoveTo(406,13122
+public boolean ROkToBuild(671,19250
+private procedure RVLock(2440,71220
+private procedure RYLock(2858,85333
+public procedure RgstFontsSemaphoreProc 483,14686
+#define Rnum8(4524,132173
+private Fixed RoundSW(1107,33907
+private procedure SetFixedPathProcs(3145,93727
+public procedure SetFont(489,14806
+private procedure SetRealPathProcs(3140,93599
+internal procedure SetXLock(1686,49762
+internal procedure SetYLock(1701,50191
+internal procedure SetupBlueLocs(2524,73812
+private boolean SetupCacheDevice(3227,95975
+private IntX SetupStdWs(1399,42994
+private IntX SetupStdWs(1431,43888
+internal procedure StartGlcrLock(1605,47814
+public procedure StartLock(1574,47084
+private procedure TfmLockPt1(2146,62385
+private procedure TfmLockPt2(2165,62860
+private procedure TfmLockPt3(2176,63157
+private procedure TfmLockPt4(2183,63280
+internal procedure TriLock(953,28093
+internal procedure TriLock(2191,63429
+public procedure UndefResult(1029,31851
+internal boolean UseStdWidth(1953,56131
+private procedure fixupmap(1735,51011
+private procedure initslope(1716,50620
+internal procedure mapedges(1771,51956
+#define os_fabs(88,2181
+#define os_labs(86,2122
+#define os_labs(853,24502
+#define os_malloc(89,2222
+#define os_sqrt(87,2151
+private procedure printmap(1836,53427
+private Fixed tfmloc(1827,53187
+
+fonts/fontcache.c,1119
+private procedure AllocRAMArray(371,10229
+private procedure AllocRAMStr(356,9889
+private procedure CheckCompositeFont(385,10541
+private integer CheckPrebuiltOptions(314,8748
+private procedure DictGetPType 288,8115
+private boolean DictTestPType 295,8268
+private char * EncCharNameProc(479,13503
+private integer FDNestedDepth 336,9451
+private boolean FindMaxFID(82,1829
+private boolean FindSibling(125,2979
+private procedure FndFntSibling(161,4154
+public procedure FontCacheInit(650,18387
+private procedure FontDataHandler 704,19825
+public procedure FontsInit(719,20220
+private procedure GenFID(108,2556
+private integer GetBuildingOption(303,8458
+public procedure GetFontDirectory 63,1453
+public procedure GetPrivFontDirectory 71,1656
+private procedure InitFID(96,2203
+private procedure PSDefineFont(536,14970
+private procedure PSFCCheck(643,18303
+private procedure PSFCDebug(638,18242
+private procedure PSFlushCache(610,17679
+public procedure PSUnDefineFont(273,7738
+private procedure PurgeFontRefs(248,7204
+private boolean RgstInitialFont(626,17915
+private integer RgstPrebuiltInfo(494,13965
+
+fonts/fontdisk.c,432
+public procedure FontDiskInit(211,6263
+private procedure InitFontCache(92,2731
+public procedure PSCacheStatus(154,4966
+public procedure PSCrCParams(193,5871
+private procedure PSInitFontCache(63,1789
+public procedure PSSetCacheLimit(152,4897
+public procedure PSStCParams(166,5276
+public procedure ReInitFontCache(209,6224
+public RstrFC(205,6147
+private procedure SetCacheLimit(142,4544
+public procedure StartCache(74,2042
+
+fonts/fontmatrix.c,960
+public Fixed ApproxDLen(211,7758
+public procedure FntITfmP(39,1328
+private Fixed Len1000(223,8179
+private procedure SetMtxProcs(148,6327
+public boolean SetupFntMtx(230,8359
+private procedure adz_fixed_tfm(60,2077
+private procedure adz_frac_tfm(66,2329
+private procedure bcz_fixed_tfm(48,1586
+private procedure bcz_frac_tfm(54,1825
+private procedure d_adz_fixed_tfm(92,3620
+private procedure d_adz_frac_tfm(97,3839
+private procedure d_bcz_fixed_tfm(84,3208
+private procedure d_bcz_frac_tfm(88,3413
+private procedure d_gen_fixed_tfm(102,4063
+private procedure d_gen_frac_tfm(107,4333
+private procedure gen_fixed_tfm(72,2595
+private procedure gen_frac_tfm(78,2895
+private procedure inv_adz_fixed_tfm(117,4843
+private procedure inv_bcz_fixed_tfm(112,4607
+private procedure inv_d_adz_fixed_tfm(132,5603
+private procedure inv_d_bcz_fixed_tfm(128,5396
+private procedure inv_d_gen_fixed_tfm(137,5827
+private procedure inv_gen_fixed_tfm(122,5093
+
+fonts/fontrun.c,2220
+private procedure ActOnKeyword(665,19983
+#define BytesInSeg(294,10980
+private procedure Cleanup(610,18560
+private int ComStmClose(511,16098
+private int ComStmFAvail(523,16373
+private long int ComStmFRead(458,14983
+private int ComStmFSeek(532,16528
+private long int ComStmFTell(542,16706
+private int ComStmFilBuf(441,14641
+private int ComStmFlush(500,15915
+#define ComStmSource(296,11085
+private int ComStmUnGetc(488,15663
+private Stm CreateFilterStm(340,11984
+private procedure DetermineFormat(194,7752
+private procedure FCFreeEntry(1811,61141
+private int FCHashId(1798,60913
+private boolean FCMatch(1804,60991
+private boolean FCOpenStream(1744,59351
+public procedure FetchCharOutline(1895,65086
+public procedure FontRunInit(2016,68456
+private PFileEntry GetFontStream(1728,58888
+long int GetIntBE(304,11314
+long int GetIntLE(323,11693
+#define InvlReturn(151,6175
+private procedure KAArraySubrs(959,29501
+private procedure KABegin(733,22823
+private procedure KACharDef(1129,36956
+private procedure KACharStrings(1121,36777
+private procedure KAClosefile(888,27355
+private procedure KADefSubrs(1024,31605
+private procedure KADefinefont(1479,49187
+private procedure KADict(1350,44376
+private procedure KAEexec(870,27016
+private procedure KAEndCSDict(1187,38787
+private procedure KAFontDirectory(1445,48278
+private procedure KAFontType(744,23059
+private procedure KAFontrunType(764,23440
+private procedure KAHires(773,23605
+private procedure KAKnown(1459,48713
+private procedure KAPassword(754,23245
+private procedure KAPutDef(795,24018
+private procedure KARdSubrsData(984,30209
+private procedure KASaveSubrs(953,29401
+private procedure KASubrs(938,29032
+private procedure NewKeywordTables(590,18014
+private PFontrunState NewState(624,18892
+private boolean OCFetchFromDisk(1921,65915
+private procedure OCFreeEntry(1986,67677
+private int OCHashId(1972,67405
+private boolean OCMatch(1978,67489
+public procedure PSFontRun(1590,54375
+int ReadIBMSegHdr(393,13629
+int ReadMacSegHdr(409,13933
+#define ReadSegHdr(295,11032
+private ReadSegHeader(359,12507
+private procedure RestoreKeywordTables(601,18339
+private procedure RestoreState(651,19715
+#define ValidateObj(155,6256
+
+fonts/fontshow.c,2014
+private procedure CleanShowState(633,17807
+public PCIItem FindInCache(883,23802
+public procedure FontShowInit(1404,38802
+public procedure FontShwDataHandler 1384,38428
+private procedure FreeShowState(574,16536
+private procedure GetFontAndCharInfo(467,13341
+private procedure GetShowFlushArgs(969,26072
+#define IsCleanShowState(550,16024
+private boolean MFMcomp(87,2365
+private procedure MakeCompFont(187,5403
+public MID MakeFont(173,4992
+public MID MakeFontSupp(96,2604
+private integer MinEncodingLength(374,10870
+public procedure MoveToAfterShow(961,25898
+private PShowState NewShowState(562,16318
+public boolean OkFixed(655,18146
+public procedure PSAShow(830,22838
+public procedure PSAWidthShow(864,23414
+public procedure PSCShow(853,23232
+public procedure PSCrFont(460,13228
+public procedure PSKShow(842,23027
+public procedure PSMakeFont(278,8519
+public procedure PSRootFont(465,13285
+public procedure PSScaleFont(289,8701
+public procedure PSSelectFont(302,8950
+public procedure PSSetFont(452,13141
+public procedure PSShow(773,21631
+public procedure PSStrWidth(801,22286
+private procedure PSUsePrebuilts(1402,38735
+public procedure PSWidthShow(814,22512
+public procedure PSXShow(799,22232
+public procedure PSXYShow(797,22127
+public procedure PSYShow(798,22179
+private procedure PopShowState(624,17642
+private boolean PreBuiltChar(923,24672
+private PShowState PushShowState(611,17406
+public boolean ReValidateMID(62,1792
+public boolean SSSOutCall(1294,36136
+private procedure SafeShowMask(909,24379
+public procedure SetFont(394,11402
+public boolean ShowByName(977,26331
+private procedure ShowInternal(666,18426
+public procedure SimpleShow(645,18038
+public procedure SimpleShowByName(1357,37673
+private procedure SlowShow(1315,36573
+private procedure TrimShowStates(599,17157
+public procedure XYShow(783,21869
+if 728,20263
+if 734,20455
+if 741,20722
+if 742,20753
+if 743,20784
+if 744,20818
+if 747,20941
+if 748,20970
+if 750,21019
+if 759,21287
+  if 766,21438
+
+fonts/glbclr.c,537
+private void AlignIsolatedStems(210,6077
+private void ClumpCntrs(436,13164
+private boolean CounterGt(524,15442
+private void CullCounters(119,3486
+private PGlbClr ExtendToAnchr(304,8949
+private void FixBands(243,7041
+private void FixOnePath(331,9568
+public boolean GlobalColoring(548,16066
+private Fixed Overlap(322,9421
+private void SelectionSort(96,3032
+private boolean SimpleCounter(135,3788
+private void SortCounters(194,5765
+private void SortGroupsByFrac(499,14918
+private int SortStems(75,2483
+#define os_labs(25,846
+
+fonts/midcache.c,752
+public CheckMT(76,1934
+public Card16 HashMID(346,7887
+public procedure InitSortMID 574,14018
+public MID InsertMID(364,8536
+#define IsAllocMT(74,1891
+#define IsFreeMT(72,1799
+private boolean MIDPurgedByGC(543,13119
+private boolean MIDPurgedByRestore(524,12616
+public MID MMEldest 193,4435
+public MID MSEldest 213,4758
+private MID MTAlloc(269,5957
+private procedure MTFree(297,6713
+private procedure MTUnlink(322,7307
+public MID MakeMID(434,10524
+public procedure PurgeMID(465,11373
+private procedure PurgeMM(490,11853
+public procedure PurgeOnGC(562,13713
+public procedure PurgeOnRstr(533,12868
+private procedure QuickSort 115,2567
+private procedure SortMIDAges 152,3504
+#define Swap(113,2519
+private boolean TrimEldestMID(239,5165
+
+fonts/selectfont.c,274
+private procedure FreeSelectFont(109,2792
+#define HashSFC(55,1400
+public procedure InitSFCache(207,5150
+public procedure InsertSelectFont(123,3120
+public procedure PurgeSFForKey(158,3963
+public procedure PurgeSFForMID(186,4712
+public boolean SearchSelectFont(60,1540
+
+fonts/debug.c,1438
+private boolean Aborted(46,1323
+private procedure CallFromPS(656,16782
+private DPrintSOP(74,2090
+public DebugInit(676,17241
+public DumpArray(351,8584
+public DumpDefault(295,7153
+public DumpDict(319,7775
+public DumpNameArray(402,10077
+public DumpRoot(409,10242
+public DumpStack(290,7075
+public DumpSysDict(317,7706
+private Stm GetDebugStm(54,1694
+private procedure PSPrObject(425,10856
+private procedure PSPrValue(435,11029
+private procedure PSpEldest(673,17140
+private procedure PSpFD(670,17005
+private procedure PSpMM(671,17050
+private procedure PSpMS(672,17095
+private procedure PSpSFC(674,17193
+private integer PrAryBody(337,8180
+private integer PrNameAryBody(387,9538
+private procedure PrPkdaryBody(358,8741
+private procedure PrStmBody(376,9204
+private PrintAccess(62,1812
+public PrintBlanks(102,2666
+private PrintBoolean(474,12062
+public PrintDOB(262,6351
+private PrintDevCoord(481,12194
+public PrintKeyVal(306,7392
+private PrintMTX(491,12393
+private PrintMidDict(499,12551
+public PrintNameEntry(242,5779
+private PrintNameString(94,2560
+public boolean PrintNode(282,6950
+public PrintObj(118,3006
+public PrintSOP(83,2266
+public PrintVal(213,5185
+private procedure pCIs(561,14702
+private procedure pEldest(626,16039
+private procedure pFD(445,11200
+private pMID(532,13620
+private procedure pMM(589,15435
+private procedure pMS(607,15734
+private procedure pSFC(634,16172
+private pcom(109,2766
+
+fonts/atm.h,0
+
+fonts/cache.h,0
+
+fonts/cacheimpl.h,54
+#define CacheStat(70,2176
+#define CacheStat(72,2216
+
+fonts/diskcache.h,0
+
+fonts/fontbuild.h,0
+
+fonts/fontcache.h,119
+#define DecrSetMIDAge(112,3771
+extern MID InsertMID(81,2364
+#define SetCharAge(114,3871
+#define SetMIDAge(113,3824
+
+fonts/fontdata.h,0
+
+fonts/fontrun.h,122
+#define CharOffsetsPtr(87,2435
+#define FileHashId(189,5981
+#define FontInfoPtr(93,2604
+#define OutlineHashId(167,5346
+
+fonts/fontshow.h,509
+#define AlreadyValidMID(126,4071
+#define FIXCD(147,4527
+#define FIXCD(158,4931
+#define FIXINT(144,4440
+#define FIXINT(155,4847
+#define FIXTOPFLT(143,4397
+#define FIXTOPFLT(154,4805
+#define FIXTOXFIX(149,4701
+#define FIXTOXFIX(160,5007
+#define FROUND(146,4494
+#define FROUND(157,4903
+#define FTRUNC(145,4467
+#define FTRUNC(156,4875
+#define FixedMoveTo(164,5074
+#define PFLTTOFIX(142,4352
+#define PFLTTOFIX(153,4761
+#define UNFIXCD(148,4612
+#define UNFIXCD(159,4967
+#define ValidMID(110,3265
+
+fonts/fontsnames.h,282
+  Op(58,2063
+  Op(60,2127
+  Op(62,2193
+  Op(64,2253
+  Op(66,2301
+  Op(68,2367
+  Op(70,2438
+  Op(72,2498
+  Op(74,2547
+  Op(77,2610
+  Op(79,2675
+  Op(81,2719
+  Op(85,2884
+  Op(87,2932
+  Op(93,3068
+  Op(95,3116
+  Op(97,3158
+  Op(99,3206
+OpSet(56,2009
+OpSet(91,3005
+
+fonts/fontspriv.h,309
+#define BitmapWidthsFID(92,3056
+#define BytesForMTPE(210,7814
+#define GetMTPE(211,7851
+#define SetMTPE(212,7925
+#define TransformFID(93,3128
+#define TypeOfFID(91,2997
+#define forallCI(256,9256
+#define forallMM(253,9100
+#define forallMS(254,9152
+#define forallMT(255,9204
+#define forallSFC(257,9308
+
+fonts/glbclr.h,0
+
+unix_product/unix.c,328
+private character *Bang(106,3233
+private procedure CVT(182,5010
+private character *FilterRegion 56,1822
+private procedure PSChdir(170,4760
+private procedure PSDayTime(205,5489
+private procedure PSMkTemp(153,4400
+private procedure PSUCall(134,3992
+private procedure PSUClRead(141,4112
+public procedure UnixInit(229,5852
+
+graphics/colorops1.c,816
+public Color ChangeColor(163,4228
+private procedure CrRGBColor(268,6615
+public procedure IniClrSpace(450,11412
+public procedure LimitColor(74,1854
+public procedure PSCrCMYKColor(331,8223
+public procedure PSCrGray(212,5310
+public procedure PSCrHSBColor(419,10586
+public procedure PSCrRGBColor(305,7520
+public procedure PSSetCMYKColor(312,7695
+public procedure PSSetGray(204,5178
+public procedure PSSetHSBColor(393,9873
+public procedure PSSetRGBColor(259,6430
+public procedure PopColorValues(87,2070
+private procedure PopLightness(68,1720
+public procedure PopPColorVal(82,1989
+public procedure RemColorRef(152,3924
+public procedure RemGTRef(132,3296
+public procedure RemRndrRef(142,3611
+public procedure SetDevColor(179,4558
+public procedure SetGray(194,4984
+public procedure SetRGBColor(246,6127
+
+graphics/cscan.c,3471
+#define ACTCLASS(2325,75923
+private procedure AddYCross(1326,43299
+private procedure BitmapByte(1024,34650
+private Cxtn BuildCxtn(2533,82653
+private procedure BuildInitialRuns(1139,37629
+private boolean BuildYCross(1066,35594
+#define CHECKRUNBUFF(3350,107147
+public procedure CSClose(878,30938
+private procedure CSNewFCd(893,31177
+internal procedure CSPathPoints(810,28746
+public procedure CScan(3484,110477
+public procedure CScan(3490,110575
+private procedure CheckBlackDown(2068,65910
+#define CheckCol(2941,94974
+private boolean CheckDeletePixel(2815,91605
+private procedure CheckHorizWhite(1901,59981
+#define CheckRow(2937,94819
+private procedure ConnectWhitePairs(3184,101981
+private CrossPtr ConnectedRunOpposite(1866,58951
+#define DEBUGERROR(598,23492
+#define DEBUGERROR(600,23590
+private procedure DebugAbort(602,23692
+private procedure DeletePixel(2838,92251
+private boolean DetermineTieBreaker(3070,98399
+private boolean DoFixupAction(2946,95178
+private procedure DoXInflections(1968,62718
+private procedure EditBlackHoriz(2038,65118
+private procedure EditBlackSpace(2089,66642
+private procedure EditWhiteHoriz(3241,103849
+private procedure EditWhiteSpace(3285,105422
+#define ExchangeCrossPtr(367,13655
+private procedure ExpandCharBBox(1201,39292
+private procedure ExpandWhiteDropOuts(3210,102862
+private boolean ExtendRunDropOut(1497,47937
+private boolean FillInColumn(1638,51772
+private procedure FillInInflection(1599,50426
+private procedure FillInPairs(1841,57893
+private procedure FillInRange(1812,56963
+private procedure FinishPath(721,26340
+private procedure FinishSplice(1271,41478
+private procedure FixCrossFlags(686,25430
+private procedure FixPixelProblem(3099,99210
+private procedure FixRuns(3148,100656
+private boolean FixupExtendLeft(2887,93633
+private boolean FixupExtendRight(2860,92955
+private procedure GetRuleDesc(2719,88380
+private procedure GrowRunBuff(3359,107426
+public procedure IniCScan(983,33686
+public procedure IniCScan(994,33928
+private procedure InitNewPath(885,31082
+private inline Card8 InlineRotateLeft(586,23322
+#define MidPixel(361,13379
+#define NEWCROSS(350,13027
+private CrossPtr NewCross(617,23932
+private CrossPtr NewLinkCross(654,24672
+private CrossPtr NewXtraCross(634,24262
+#define OutOfMemory(35,968
+#define OutOfMemory(81,1719
+#define PATTERN(2384,78181
+#define PATTERNKEY(2228,72211
+#define PathCross(673,24963
+private procedure PatternToActions(2683,87122
+#define Pixel(365,13617
+#define PixelInCxtn(2175,69255
+private boolean PixelIsBlack(2915,94375
+#define PixelOrigin(363,13497
+private procedure PrintBitmap(1037,34942
+#define ROTATECXTN(2181,69577
+#define ROTATELEFT8(580,23108
+#define ROTATELEFT8(584,23264
+#define ROTATEPIXNUM(2182,69634
+#define RelPixelToCxtn(2171,69059
+#define RelPixelToPixNum(2172,69132
+public procedure ResetCScan(917,31783
+public procedure ResizeCrossBuf(903,31430
+private procedure ReturnBits(491,18942
+private procedure ReturnBits(550,21868
+private procedure ReturnBits(3383,108253
+#define RevPathDir(272,10582
+private Cxtn ScanLineCxtn(2474,80857
+#define SetIntersection(282,10960
+private procedure SetLeftFlag(1351,43833
+private boolean SetPixelInDropOut(1558,49239
+private procedure SplicePixel(1374,44425
+private procedure StartSplice(1231,40389
+#define SubtractPtr(286,11060
+#define SubtractPtr(291,11225
+#define ValidateCrossPtr(1214,39578
+#define YCROSS(353,13131
+#define YCROSS(355,13218
+
+graphics/euserpath.c,278
+private integer ComputeDataLen(49,1367
+public procedure DoEUserPath(86,2468
+public boolean EUsrPthCheckMtLt(402,11590
+public procedure GetEUsrPthBBox(75,2117
+public procedure QDoEUsrPth(189,5291
+public int QDoEUsrPthFloat(411,11765
+private character ReadCtrlByte(40,1112
+
+graphics/fastfillquad.c,118
+#define Bubble(40,1104
+#define CanSkipTrap(43,1217
+public procedure FastFillQuad(68,1972
+#define QuadTrap(49,1386
+
+graphics/fflattenpath.c,137
+public procedure FFltnCurve(230,6097
+private procedure FMiniFltn(32,1033
+#define FixedBezDiv(220,5833
+#define FixedMidPoint(216,5717
+
+graphics/graphics.c,2477
+private procedure AddEntry(872,21710
+private procedure AddIntEntry(881,22019
+private procedure AddRealEntry(888,22192
+private procedure AddStringEntry(895,22367
+public BBoxCompareResult BBCompare(565,13742
+public procedure BBInt(539,12878
+public procedure ClNewPt(490,11537
+public procedure Clip(769,19249
+public procedure Cnct(118,2659
+public procedure CrMtx(82,2093
+public procedure DTfmP(174,3540
+public BBoxCompareResult DevBBCompare(577,14161
+public Fixed DevToRdc(478,11283
+public procedure DfMtx(94,2259
+public procedure FClNewPt(493,11631
+private Fixed FDevToRdc(482,11377
+public procedure FFCurveTo(534,12739
+public procedure FontPathBBox(502,11922
+public procedure GetBBoxFromDevBounds(549,13222
+public procedure GetBBoxFromDevLBounds(557,13481
+public procedure IDTfmP(182,3694
+public procedure ITfmP(178,3617
+public procedure IniGraphics(918,22996
+private procedure InitChunk(204,4028
+public procedure InitClip(417,9855
+public procedure InitClipPath(337,7464
+public procedure InitClipPath(370,8423
+public procedure InitFontFlat(525,12516
+public procedure InitMtx(194,3906
+public procedure LinkDP 648,15841
+public procedure MakeRectPath(783,19549
+public procedure MinimumClip(589,14616
+public procedure PFClNewPt(500,11867
+public procedure PSClip(779,19464
+public procedure PSCnct(126,2806
+public procedure PSCopyPage(439,10335
+public procedure PSCrFlatThreshold(857,21394
+public procedure PSCrMtx(85,2148
+public procedure PSCrPoint(186,3774
+public procedure PSDeviceInfo(902,22536
+public procedure PSDfMtx(98,2351
+public procedure PSEOClip(781,19506
+public procedure PSErasePage(419,9913
+private procedure PSRdBytes(834,20857
+public procedure PSSetFlatThreshold(849,21204
+public procedure PSSetMtx(114,2588
+public procedure PSShowPage(428,10090
+public procedure PSWTranslation(859,21459
+public procedure RTfmPCd(165,3331
+public procedure RdBytes(820,20408
+private procedure RdBytesCopy(813,20248
+public Fixed RdcToDev(486,11462
+public procedure ReducePathClipInt(655,15966
+public procedure ReducePathClipInt(724,17979
+public procedure Rtat(155,3186
+public procedure Scal(147,3094
+public procedure SetBBCompMark(514,12195
+public procedure SetMtx(107,2465
+public procedure SetRdcScal(461,10933
+public procedure SetScal(445,10469
+public procedure SetXABounds(226,4703
+public procedure TfmP(168,3447
+public procedure Tlat(134,2879
+public DevPrim *UnlinkDP(632,15582
+public procedure XAReducePath(262,5509
+
+graphics/graphmark.c,499
+public procedure AddRunMark(177,5177
+#define ClipForMark(153,4537
+public procedure DoImageMark(276,8183
+public procedure MarkDevPrim(95,2647
+public procedure MarkInit(345,10349
+private procedure MarkStrokeMasks(328,9779
+private boolean OverlapChunk(79,2246
+public procedure SetTrapBounds(67,1930
+public procedure ShowMask(192,5551
+public procedure StdInitMark(164,4854
+public procedure StdTermMark(172,5053
+private procedure StdTrapsFilled(157,4654
+public procedure StringMark(305,9021
+
+graphics/graphpak.c,39
+public procedure GraphicsInit(39,1144
+
+graphics/gray.c,1257
+public procedure AddScrRef(107,2886
+private procedure CopyThresholds(263,7484
+private procedure DeleteScreen(96,2494
+public procedure FreePatternBase(579,16469
+public integer GCD(104,2780
+public PGrayQ GetPatternBase(567,16120
+private procedure GetSpotDictEntries(184,5098
+private procedure GetThresholdDictEntries(227,6536
+private Screen GetType1Screen(210,5848
+private Screen GetType2Screen(217,6064
+private Screen GetType3Screen(273,7719
+private Screen GetType4Screen(289,8222
+public procedure GrayInit(586,16598
+private procedure InstallNewScreen(331,9793
+private procedure MakeScreenDict(469,13679
+private Screen MakeType1Screen(129,3392
+private Screen MakeType2Screen(152,4032
+private Screen NewScreen(84,2180
+public procedure PSCrColorScreen(545,15683
+public procedure PSCrHalftone(503,14751
+public procedure PSCrScreen(535,15424
+public procedure PSSetColorScreen(366,10599
+public procedure PSSetHalftone(428,12464
+public procedure PSSetScreen(344,10086
+private procedure Push3NullScreens(519,15112
+private procedure PushFakeFreqAngle(514,15012
+private procedure PushSpotFunction(529,15278
+private procedure PutThresholdEntries(452,13159
+public procedure RemScrRef(111,2977
+public procedure SetDefaultHalftone(402,11830
+
+graphics/graypriv.c,519
+private procedure CalcThresholds(294,8972
+private integer ExtendedGCD(56,1666
+private real FractPart(54,1605
+private FreqAngleToNumbers(149,4269
+public procedure GenerateThresholds(373,11122
+public procedure GetValidFreqAngleOctet(232,7152
+public procedure GetValidFreqAnglePair(196,6030
+private procedure GetXDistYDist(185,5698
+private boolean GrayGreaterThan(78,2152
+#define	INIT_RAND(49,1480
+private integer LCM(73,1985
+public integer LCM4(74,2056
+private procedure SortGQ 84,2335
+#define exch(82,2287
+
+graphics/gstates.c,1140
+public PGStack CreateGStack(367,9422
+private procedure GRestoreProc(404,10235
+public procedure GRstr(292,7800
+public procedure GRstrAll(297,7856
+private procedure GSAddRefs(157,4113
+private procedure GSFinalize(415,10406
+private boolean GSHasPrivateStuff(440,10800
+private procedure GSRemRefs(211,5522
+public procedure GSave(198,5227
+private procedure GSaveProc(304,7972
+public procedure GStackClear(312,8114
+public procedure GStackCopy 380,9783
+private procedure GStackRestore(259,6845
+public procedure GStateDataHandler 516,12878
+private procedure GStateEnumerator(613,15378
+public procedure IniGStates(634,15880
+private procedure InitGS(344,8848
+public procedure InitGraphics(320,8294
+public procedure NewDevice(99,2870
+public void NextGStatesProc(675,17419
+public procedure PSCurrentGState(476,11713
+public procedure PSGState(458,11202
+public procedure PSSetGState(492,12185
+public PGState PopGState(143,3752
+private procedure PushGStateItems(577,14319
+private procedure PushGrfxRoots(620,15509
+public procedure SetGStateExtProc(94,2789
+public procedure SetMaskDevice(131,3480
+procedure TracePath(556,13882
+
+graphics/hitdetect.c,585
+private DevPrim *GetAperatureDP(251,6349
+private procedure HitRun(56,1543
+private procedure HitTrap(52,1461
+public boolean InFill(274,6904
+public boolean InStroke(315,7901
+private boolean InUFill(354,8882
+private boolean IntersectDP 61,1626
+public procedure PSInEOFill(304,7705
+public procedure PSInFill(303,7645
+public procedure PSInStroke(352,8822
+public procedure PSInUEOFill(398,9999
+public procedure PSInUFill(397,9937
+public procedure PSInUStroke(400,10065
+public boolean PointInDevPrim(211,5290
+private boolean PointInRun(190,4663
+private XAStrkPthProc 307,7778
+
+graphics/image.c,681
+public procedure DoImage(597,17039
+private procedure GetABComponent(277,7616
+private procedure GetDevComponent(263,7337
+private integer GetInt(625,17774
+private procedure GetLComponent(270,7478
+private procedure GetProcSource(91,2397
+private procedure GetStreamSource(124,3265
+private procedure GetStringSource(70,1846
+private procedure ImageDict(633,17971
+public procedure ImageInternal(331,9501
+private charptr MaxNEW(215,6144
+public procedure PSColorImage(713,20250
+public procedure PSImage(698,19934
+public procedure PSImageMask(709,20150
+private procedure ProcSampleProc(242,6728
+private integer ReadSlices(141,3761
+private procedure TableSampleProc(287,7821
+
+graphics/maketrap.c,469
+public procedure AddTrap(536,13961
+public procedure AppendTraps(510,13240
+public BBoxCompareResult BoxTrapCompare(650,17037
+BresenhamMT(300,8044
+CopyTrimmedEdge(56,1430
+private procedure EdgeInit(257,6742
+IntInterval(46,1167
+MakeBounds(634,16664
+OKTrap(140,3759
+public boolean PointInTraps(748,20424
+public procedure QBresenhamMT(406,10810
+public integer TrapTrapInt(186,4921
+public integer XATrapTrapInt(156,4052
+YDelta(91,2390
+#define lowpart(297,7991
+
+graphics/matrix.c,561
+public procedure MtxToPAry(67,2045
+public procedure PAryToMtx(52,1487
+public procedure PRealValue(41,1247
+public procedure PSCnctMtx(111,3023
+public procedure PSDTfm(219,4481
+public procedure PSIDTfm(263,5123
+public procedure PSITfm(241,4802
+public procedure PSIdentMtx(101,2896
+public procedure PSInvertMtx(123,3194
+public procedure PSMtx(90,2750
+public procedure PSRtat(176,3888
+public procedure PSScal(155,3615
+public procedure PSTfm(197,4164
+public procedure PSTlat(134,3342
+public procedure PopMtx(82,2570
+public procedure PushPMtx(86,2658
+
+graphics/nulldevice.c,405
+public procedure IniNullDevice(73,2133
+private procedure NoOp(50,1413
+private boolean NoOpBool(51,1441
+private procedure NullDefaultBounds(38,1103
+private procedure NullDefaultMtx(35,1012
+public procedure NullDevice(65,1854
+private PDevice NullMakeMaskDevice(42,1246
+private PDevice NullMakeNullDevice(46,1327
+public integer NullRdBytes(54,1498
+private procedure NullWinToDevTranslation 59,1699
+
+graphics/pathbuild.c,1636
+public procedure AddPathRef(181,4904
+private procedure AddToBBox(249,6707
+private procedure AddToPath(271,7324
+public ListPath *AllocListPathRec(99,2862
+public procedure AppendCopyToPath(313,8529
+public procedure Arc(552,14859
+private procedure ArcCenterShift(403,10478
+public procedure ArcInternal(437,11641
+procedure ArcToInternal(595,16098
+private procedure BuildPathFreeList(228,6031
+public real CDist(588,15863
+private procedure CallArc(562,15149
+public boolean CallArcInit(548,14774
+#define CheckCurPt(74,2196
+public procedure CheckForCurrentPoint(78,2347
+public procedure ClosePath(662,18300
+public procedure CopyPath(222,5917
+public procedure CurveTo(377,9732
+public real Dist(578,15583
+private procedure DoArcTo(643,17788
+private procedure FrLstPth(108,3135
+public procedure FrPth(322,8745
+public boolean HasCurrentPoint(62,1849
+public procedure InitPath(85,2482
+public boolean IsPathEmpty(240,6379
+public procedure LineTo(353,9291
+public ListPath *MakeOwnListPath(209,5598
+public procedure MoveTo(329,8837
+public procedure NoOp(83,2454
+public procedure PSArc(574,15495
+public procedure PSArcN(576,15538
+public procedure PSArcT(660,18252
+public procedure PSArcTo(659,18206
+public procedure PSClosePath(675,18756
+public procedure PSCurveTo(384,9941
+public procedure PSLineTo(361,9425
+public procedure PSMoveTo(336,8930
+public procedure PSRCurveTo(393,10188
+public procedure PSRLineTo(369,9573
+public procedure PSRMoveTo(344,9092
+public procedure PathBuildInit(677,18813
+public procedure RemPathRef(129,3676
+public procedure RemReducedRef(116,3316
+private procedure SmallArc(419,10963
+
+graphics/pathextraops.c,110
+private procedure ArcC(47,1320
+private procedure PSArcC(89,2756
+public procedure PathExtraOpsInit(119,3612
+
+graphics/pathops.c,1015
+411,11595
+private procedure AppendPath(68,1741
+#define BezierDivide(278,7918
+public procedure BreakUpPath(180,5261
+public procedure Fill(508,15021
+private procedure FlPthCls(586,16894
+private procedure FlPthLnTo(584,16832
+private procedure FlPthMvTo(582,16770
+public procedure FltnCurve(289,8154
+public Path FltnPth(588,16948
+public procedure GetPathBBoxUserCds(143,4081
+#define MidPoint(276,7840
+public procedure NewPath(137,3937
+public procedure PSCharPath(677,18927
+public procedure PSClipPath(696,19299
+public procedure PSEOFill(552,16240
+public procedure PSFill(550,16174
+public procedure PSFltnPth(604,17286
+public procedure PSPathBBox(165,4925
+public procedure PSPathForAll(408,11516
+public procedure PSReversePath(674,18865
+public procedure PathBBox(135,3866
+public procedure PathForAll(356,10147
+public procedure ReversePath(613,17447
+public procedure Stroke(554,16307
+public procedure TlatBBox(172,5090
+public procedure TlatPath(119,3245
+private procedure XAFillPath(501,14793
+
+graphics/pathpriv.c,800
+private Fixed CDistFixed(129,3594
+#define FIXTOFRAC(57,1636
+#define FracToFixed(127,3558
+public procedure IniPathPriv(502,13025
+public procedure InitOFill(312,8386
+private procedure OFAddRdcTrap(348,9377
+private procedure OFAddRunMark(343,9240
+public procedure OFClose(289,7962
+private procedure OFIntersect(166,4500
+private procedure OFLineTo(233,6363
+public procedure OFLineToP(287,7907
+public procedure OFMark(357,9687
+public procedure OFMoveToP(226,6231
+public procedure OffsetFill(368,9951
+private procedure PSDPathForAll(499,12946
+private procedure PSOffsetFill(487,12712
+private procedure Trace_OFCP(156,4273
+private procedure Trace_OFDone(160,4372
+private procedure Trace_OFInit(147,4046
+private procedure Trace_OFNP(151,4149
+private procedure psTraceOffsetFill(139,3849
+
+graphics/pathreduce.c,1232
+public procedure AddRdcTrap(555,16095
+private procedure AddTrapezoidToPath(76,2391
+public BBoxCompareResult BBoxVsClipBBox(481,13726
+private procedure CallAddTrapToPath(87,2732
+public procedure ConvertToListPath(151,4745
+public DevPrim * DoRdcPth(598,17265
+public DevPrim * DoRdcStroke(1137,32750
+private procedure FRCNextPt(354,10611
+public procedure FeedPathToReducer(441,12357
+private procedure Get16KBBox(130,4199
+private procedure GetDevBBox(121,3948
+public boolean PathIsRect(489,13943
+public boolean QRdcOk(449,12656
+private procedure RCBotClose(417,11923
+private procedure RCBotNew(303,9316
+public procedure RCLastPt(430,12176
+private procedure RCLfClose(378,11181
+public procedure RCNextPt(361,10750
+private procedure RCRtClose(404,11676
+private procedure RCRtNew(320,9755
+private procedure RCTopClose(391,11428
+private procedure RCTopNew(337,10183
+private procedure RdcStrkDumpMasks(1122,32198
+private procedure RdcStrkTermMark(1115,31952
+private procedure ReducePathRun(564,16330
+private procedure ReducePathTrapsFilled(569,16469
+ReduceQuadPath(917,26681
+private DevPrim * ReverseDevPrimList(589,17049
+private procedure SetScalFromBBoxes(578,16733
+public procedure SetUpForRectClip(137,4353
+
+graphics/qreducer.c,527
+private Edge AdvanceEdges(148,4452
+private ScanList AllocScanList(479,14229
+private Edge BuildEdge(387,11719
+private procedure DumpBuff(188,5453
+public procedure IniQReducer(583,16614
+private procedure InsertEdge(485,14358
+private Edge MergeEdges(116,3703
+public procedure QFNewPoint(559,16056
+public procedure QNewPoint(549,15804
+public procedure QPFNewPoint(575,16422
+public procedure QRdcClose(577,16481
+public procedure QReduce(202,5908
+public procedure QResetReducer(566,16248
+private Edge SortEdges(86,2750
+
+graphics/rect.c,354
+public procedure BuildMultiRectPath(314,9419
+private procedure FastRectFill(96,3031
+private procedure FloatRectFill(127,3788
+private procedure MultiRectFill(187,5679
+public procedure PSRectClip(427,12215
+public procedure PSRectFill(228,6861
+public procedure PSRectFill(399,11734
+public procedure PSRectStroke(411,11928
+public ReduceRect(59,1800
+
+graphics/reducer.c,2499
+private procedure Add4(284,6521
+private procedure AddUn4(250,5584
+private procedure CheckIntersection(1196,34035
+private procedure DebugPrintEvent(847,22306
+private procedure DebugPrintIntersect(832,21709
+private procedure DebugPrintMakeLine(552,14156
+private procedure DebugPrintMakePoint(540,13759
+private procedure DebugPrintNewPoint(564,14568
+private procedure DebugPrintRdcClose(572,14805
+private procedure DebugPrintRegions(808,20675
+private procedure Div3By2(380,9055
+private Fixed FixedXatY(895,23704
+private procedure FreeRegion(680,17533
+public procedure IniReducer(1600,46883
+private procedure InitReducer(197,4407
+private procedure Interchange(1146,32545
+public short int Intersect(961,25804
+private procedure LinkRegionFreeList(187,4176
+private procedure MakeLine(623,16041
+private PtOffset MakePoint(580,14994
+private RgOffset MakeRegion(661,17070
+private procedure Mul2By2(371,8653
+private procedure MulUn22(325,7602
+public procedure NewPoint(740,19072
+#define PLn(171,3758
+#define PPq(173,3860
+#define PPt(170,3707
+private procedure PQInsert(688,17675
+#define PRg(172,3807
+private short int PointOnLine(934,24757
+private FourPlace PopFourPlace(497,12985
+private PqOffset PopPQ(722,18726
+private Rational PopRational(478,12639
+private boolean PtLT(599,15364
+private procedure PushFourPlace(488,12809
+private procedure PushRational(469,12479
+public short int RatComp(456,12144
+private Fixed RatToFixed(736,18955
+private procedure RdcBend(1369,39991
+public procedure RdcClip(1575,46494
+public procedure RdcClose(776,19862
+private procedure RdcEntry(1286,37028
+private procedure RdcExit(1406,41347
+public procedure Reduce(1500,44697
+private boolean ReducePSCallBack(1546,45916
+public procedure ResetReducer(214,4798
+private procedure ShipTrapezoid(1056,29649
+private procedure ShortenLine(1132,32147
+private procedure Sub4(304,7052
+private procedure SubUn4(267,6017
+private short int Un4Comp(232,5169
+public Rational XatY(866,22908
+private Rational YatX(914,24259
+1109,31468
+1121,31827
+private procedure psCompRat(506,13172
+private procedure psDiv32(527,13516
+private procedure psFPMult(515,13332
+private procedure psNewPoint(766,19713
+private procedure psRdcClose(804,20608
+private procedure psReduce(1560,46213
+private procedure psReduceAndClip(1568,46357
+private procedure psReducerDebug(1593,46756
+private procedure psResetReducer(225,5077
+private procedure psSetClip(1579,46571
+private procedure psSetFig(1586,46664
+
+graphics/stroke.c,3067
+private boolean AddCircleMask(965,28780
+private procedure AddCirclePath(872,26015
+private real AdjstHW(1217,37364
+private procedure AnamorphicNormStrkWdth(1994,60588
+private boolean CheckForRectangle(1858,56837
+private boolean ClipVect(417,12081
+private Card16 CodePoint(404,11832
+private procedure DTransIfNeed(386,11429
+#define DistAboveFloor(1046,31584
+public boolean DoStroke(2123,64378
+private boolean EnterCircle(904,27022
+private procedure FF_StrkLnTo(1726,53547
+private procedure FF_StrkStrt(1690,52736
+public procedure FF_Vector(1712,53211
+private Fixed F_AdjstHW(1195,36229
+public Fixed F_Dist(639,18406
+private procedure F_FillCircle(1619,50394
+private procedure F_FillJoin(1641,50897
+private procedure F_FillLineSegment(1608,50098
+private procedure F_HalfRoundCap(1625,50490
+private boolean F_MiterPoint(1563,48481
+private procedure F_MvStrk(1723,53476
+private procedure F_NormPair(1002,30076
+private procedure F_StrkCap(1778,54960
+private procedure F_StrkClose(1842,56470
+private procedure F_StrkLnTo(1772,54865
+private procedure F_StrkStrt(1696,52866
+#define F_VecAdd(1542,47690
+private procedure F_VecClose(1837,56400
+#define F_VecMul(1544,47836
+#define F_VecSub(1543,47763
+public integer F_VecTurn(1546,47916
+private procedure F_Vector(1717,53378
+private boolean FalseProc(902,26975
+private procedure FastFillBevel(562,15549
+private procedure FastFillCurveJoin(705,20709
+private procedure FillBevel(754,22403
+private procedure FillCircle(1093,33053
+private procedure FillCurveJoin(817,24029
+private procedure FillJoin(1353,42037
+private procedure FillLineSegment(1311,40681
+private procedure FillQuad(475,13626
+public procedure FinStroke(2300,70187
+public boolean FlushStrokeCircle(2101,63928
+private boolean GetCurveMiddle(688,20251
+private procedure GetMaxBevelChord(666,19268
+private Cd GetNormStrkWdth(1976,60167
+private procedure HalfRoundCap(1297,40190
+private procedure ITransIfNeed(389,11543
+public procedure IniStroke(2321,70739
+private real LengthTfm(651,18780
+private boolean MiterPoint(1254,38303
+private procedure MkCirc(988,29661
+private boolean NormalizePoint(1048,31631
+private procedure NormalizeStrokeWidth(1963,59688
+private boolean OddWidth(1985,60404
+public procedure PSCurrentStrokeAdjust(380,11238
+public procedure PSSetStrokeAdjust(375,11107
+public procedure PreCacheTrapCircles(2112,64146
+private procedure PreStroke(2090,63597
+private procedure Reinitms 464,13425
+public procedure RgstStrokeSemaphoreProc 369,11010
+private procedure SetHalfWidth(2018,61312
+private procedure SetNormMidPts(1954,59468
+private procedure SetupForCircles(2059,62457
+private procedure StrkCap(1464,45561
+private procedure StrkClose(1530,47366
+private procedure StrkCurve(1854,56703
+private procedure StrkLnTo(1416,44156
+public Path StrkPth(2308,70521
+private procedure StrkStrt(1407,43926
+private boolean TransCircle(954,28482
+private procedure TransIfNeed(383,11317
+private procedure VecStrkTrp(1704,52966
+private boolean ccw(1247,38079
+private boolean f_ccw(1555,48235
+
+graphics/strokeops.c,675
+public boolean CheckForAnamorphicMatrix(46,1282
+public procedure DoStrkPth(88,2413
+public procedure PSCrDash(219,5348
+public procedure PSCrLineCap(171,4251
+public procedure PSCrLineJoin(181,4468
+public procedure PSCrLineWidth(160,4038
+public procedure PSCrMiterLimit(191,4678
+public procedure PSSetDash(193,4743
+public procedure PSSetLineCap(163,4103
+public procedure PSSetLineJoin(173,4312
+public procedure PSSetLineWidth(152,3934
+public procedure PSSetMiterLimit(183,4531
+public procedure PSStrkPth(141,3695
+public procedure PSStroke(84,2350
+public procedure SetLineWidth(145,3788
+public procedure StrkInternal(62,1642
+public DevPrim* StrkPthProc(135,3507
+
+graphics/transferimpl.c,934
+public procedure ActivateTfr(371,9497
+public procedure AddTfrRef(124,3172
+private procedure FillInBG(347,8843
+private procedure FillInTfrTbl(308,7821
+private procedure FillInUCR(328,8336
+private boolean GetInactiveTables(299,7590
+private TfrFcn GetTfr(111,2838
+public procedure IniTransfer(406,10542
+private procedure LinkTfr(104,2671
+public procedure PSClrTransfer(279,7270
+public procedure PSCrBlkGeneration(203,5210
+public procedure PSCrTransfer(253,6499
+public procedure PSCrUCRemoval(230,5894
+public procedure PSCurrentHalftonePhase(148,3780
+public procedure PSSetBlkGeneration(188,4765
+public procedure PSSetClrTransfer(263,6677
+public procedure PSSetHalftonePhase(140,3602
+public procedure PSSetTransfer(242,6130
+public procedure PSSetUCRemoval(215,5451
+private procedure ReleaseTables 76,2021
+public procedure RemTfrRef(128,3266
+public procedure SetTransfer(153,3897
+private procedure UnlinkTfr(84,2187
+
+graphics/ucache.c,1319
+private procedure CheckUCache(848,24677
+private procedure EnterCirclesInCache(476,13573
+public integer EnterMask(447,12905
+private PUCache EnterPathInCache(355,10139
+private procedure EnterRdcInCache(521,14883
+private PUCache FindPathInCache(280,7828
+private PRdc FindRdcInCache(591,17008
+public boolean FlushCircle(197,5624
+private procedure FreeCircles(226,6350
+private procedure FreePath(176,5020
+private procedure FreeRdc(244,6821
+public procedure FreeStrokeCircle(212,5936
+private Card32 HashArray(687,20124
+private Card32 HashPath(713,20859
+public procedure IniUCache(1166,32764
+private procedure PSFlushUCache(887,25642
+private procedure PSNormalUCache(893,25763
+public procedure PSSetUCacheParams(1129,31988
+private procedure PSTinyUCache(905,26039
+private procedure PSUCacheHist(911,26126
+public procedure PSUCacheStatus(1120,31826
+private Card32 RdcSize(436,12640
+#define TABLEINDEX(122,3446
+public boolean TransDevPrim(748,21867
+public boolean TransDevPrim(778,22609
+public procedure TransDevRun(729,21353
+private boolean TransRdc(834,24308
+public DevPrim * UCGetDevPrim(1007,28453
+public procedure UCacheDataHandler 1145,32334
+public boolean UCacheMark(1107,31516
+public DevPrim *XADoRdcPth(987,27872
+private DevPrim *XADoRdcStroke(994,28085
+public DevPrim *XARdc(923,26351
+
+graphics/userpath.c,2140
+private procedure CheckFixCd(608,17643
+public boolean CheckForMtx(1416,41134
+private boolean CheckIfEncodedUserPath(938,26943
+private boolean CheckIfUCache(1353,39360
+private boolean CheckPkdMtLt(967,27802
+private boolean DoUAppend(1534,44191
+private procedure DoUserPath(493,14301
+private procedure FTfm(1232,35464
+private procedure FillUserPath(1392,40472
+public procedure FillUserPathEnumerate(1195,34326
+public procedure GetUsrPthAry(1371,39841
+private MakeBBox(71,2343
+private boolean PSExecOpNm(1577,45377
+public procedure PSSetBBox(94,3116
+public procedure PSUAppend(1572,45267
+public procedure PSUEOFill(1414,41080
+public procedure PSUFill(1412,41027
+public procedure PSUPath(1587,45616
+public procedure PSUStroke(1466,42332
+public procedure PSUStrokePath(1698,48517
+private procedure PreEnumerateSetup(1157,33253
+private procedure QDoUserPath(712,20665
+public boolean QEnumOk(1257,36075
+public procedure QFillUserPathEnumerate(1317,38302
+public procedure QStrokeUserPathEnumerate(1332,38770
+public procedure QUsrPthArc(674,19374
+public procedure QUsrPthArcTo(689,19932
+private procedure QUsrPthCurveTo(636,18361
+private procedure QUsrPthLineTo(615,17862
+public procedure StrokeUserPathEnumerate(1211,34835
+private boolean UPArcInit(416,11896
+private procedure UPClosePath(1528,44057
+private procedure UPCurveTo(1523,43881
+private procedure UPLineTo(1517,43738
+private procedure UPMoveTo(1511,43601
+private DevPrim * UStrkPthProc(1674,47948
+private procedure UXAFillPath(1382,40213
+private procedure UXAStroke(1448,41829
+public procedure UsrPthArc(419,12001
+public procedure UsrPthArcTo(455,13222
+public procedure UsrPthBBox(116,3801
+public boolean UsrPthCheckMtLt(1019,29242
+private procedure UsrPthCurveTo(371,10706
+public procedure UsrPthDoClsPth(272,8349
+public procedure UsrPthDoCurveTo(220,6822
+public procedure UsrPthDoFinish(292,8903
+public procedure UsrPthDoLineTo(189,5932
+public procedure UsrPthDoMoveTo(164,5267
+private boolean UsrPthInit(313,9428
+private procedure UsrPthLineTo(341,10014
+private procedure UsrPthMoveTo(318,9537
+public boolean UsrPthQRdcOk(1076,30978
+
+graphics/viewclip.c,759
+#define CurIsFirst(244,7332
+public boolean DevClipIsRect(297,9108
+private PViewClipCacheEntry FindCurrentViewInCache(158,4631
+public BBox GetDevClipBBox(262,7979
+public DevBBox GetDevClipDevBBox(275,8414
+public DevPrim *GetDevClipPrim(249,7515
+public procedure IniViewClip(388,11769
+private procedure NewViewClip(309,9474
+public procedure PSEOViewClip(331,10270
+public procedure PSInitViewClip(361,10938
+public procedure PSRectViewClip(333,10338
+public procedure PSViewClip(330,10205
+public procedure PSViewClipPath(352,10692
+public procedure TermClipDevPrim(136,4023
+private procedure TermViewClip(109,3232
+private procedure TermViewClipIntersection(100,2970
+private procedure VCRestoreProc(377,11383
+private procedure VCSaveProc(365,11006
+
+graphics/atm.h,0
+
+graphics/graphdata.h,0
+
+graphics/graphicsnames.h,893
+  Op(56,2000
+  Op(58,2038
+  Op(60,2086
+  Op(62,2132
+  Op(64,2192
+  Op(66,2243
+  Op(68,2318
+  Op(70,2398
+  Op(72,2468
+  Op(74,2533
+  Op(76,2606
+  Op(78,2693
+  Op(80,2763
+  Op(82,2830
+  Op(84,2900
+  Op(86,2968
+  Op(88,3053
+  Op(90,3124
+  Op(92,3184
+  Op(94,3232
+  Op(96,3286
+  Op(98,3334
+  Op(100,3385
+  Op(102,3432
+  Op(104,3485
+  Op(106,3533
+  Op(108,3589
+  Op(110,3637
+  Op(112,3696
+  Op(114,3758
+  Op(116,3812
+  Op(118,3873
+  Op(120,3921
+  Op(122,3964
+  Op(124,4016
+  Op(126,4074
+  Op(128,4128
+  Op(130,4186
+  Op(132,4254
+  Op(134,4304
+  Op(136,4345
+  Op(138,4415
+  Op(140,4489
+  Op(142,4555
+  Op(144,4614
+  Op(146,4676
+  Op(148,4752
+  Op(150,4816
+  Op(152,4877
+  Op(154,4947
+  Op(156,5017
+  Op(158,5091
+  Op(160,5161
+  Op(162,5212
+  Op(164,5259
+  Op(166,5303
+  Op(168,5363
+  Op(170,5405
+  Op(172,5463
+  Op(174,5525
+OpSet(54,1945
+
+graphics/graphicspriv.h,58
+#define ColorArray(47,1216
+#define ColorIsWhite(48,1255
+
+graphics/gray.h,0
+
+graphics/gstack.h,0
+
+graphics/image.h,0
+
+graphics/path.h,18
+61,2375
+44,1277
+
+graphics/reducer.h,46
+_reducer procedure RdcClip(49,1549
+130,6058
+
+graphics/stroke.h,0
+
+graphics/userpath.h,83
+#define AssertCheck(81,2243
+#define BBoxTest(91,2515
+#define BBoxUpdate(88,2419
+
+graphics/viewclip.h,0
+
+device/blackmask.c,98
+void BlackMasksMark(46,1113
+public procedure BlackMasksMarkReal(99,2694
+void ExpandMask(33,894
+
+device/blackrun.c,38
+public procedure BlackRunMark(31,924
+
+device/clippedmask.c,85
+public procedure ClippedMasksMark(117,3061
+private PSCANTYPE ExpandOneLine(44,1214
+
+device/constantmask.c,43
+public procedure ConstantMasksMark(29,823
+
+device/constantrun.c,41
+public procedure ConstantRunMark(29,922
+
+device/constanttrap.c,87
+private procedure ConstantRectMark(30,912
+public procedure ConstantTrapsMark(72,2353
+
+device/devbounds.c,342
+public BBoxCompareResult BoundsCompare(99,2714
+public DevBounds *DevMaskDevBounds(87,2418
+public DevBounds *DevRunDevBounds(78,2226
+public DevBounds *DevTrapDevBounds(66,1868
+public DevBounds *EmptyDevBounds(37,1039
+public procedure FullBounds(58,1623
+public DevBounds *MergeDevBounds(45,1218
+public boolean OverlapDevBounds(113,3141
+
+device/devcommon.c,194
+public DevColor ConvertColorCMYK 96,3076
+public DevColor ConvertColorRGB 41,1156
+public boolean DevAlwaysFalse 34,976
+public procedure DevNoOp 31,917
+public procedure IniDevCommon(155,5079
+
+device/devinit.c,129
+public integer DevRgstPrebuiltFontInfo(38,1254
+public procedure PSDeviceInit(49,1574
+public procedure SetPrebuiltPath(37,1216
+
+device/devprim.c,838
+public DevPrim *AddBoxDevPrim(253,6929
+public DevPrim *AddDevPrim(235,6373
+private DevPrim *AddDevPrimValue(220,5932
+public DevPrim *AddRunDevPrim(267,7304
+public procedure AddRunIndexes(331,8951
+public DevPrim *ClipDevPrim(351,9447
+public DevPrim *CopyDevPrim(164,4266
+private procedure CopyRun(153,3954
+public procedure DevFlushClip 42,1234
+public integer DevPrimBytes(123,3262
+public boolean DevPrimIsRect(113,2954
+public procedure DisposeDevPrim(84,2177
+public boolean EnclosesRect(442,12284
+public DevPrim *InitDevPrim(71,1850
+public DevPrim *NewDevPrim(54,1497
+private DevPrim *RunRunClip(300,8228
+private procedure RunRunClipCallBack(284,7835
+private DevPrim *RunTrapClip(310,8453
+public PVoidProc SetFlushClipProc 36,1080
+private DevPrim *TrapTrapClip(320,8680
+private procedure TrapTrapClipCallBack(291,7984
+
+device/framedev.c,653
+public procedure AdjustDevMatrix(276,7772
+private DevShort DepthToLog2BD(53,1333
+private procedure FmDeviceInfo(187,5108
+private PSCANTYPE FmGetReadWriteScanline(246,6979
+private PSCANTYPE FmGetWriteScanline(235,6641
+private procedure FmGoAway 154,4047
+private procedure FmMark(367,10520
+private boolean FmPreBuiltChar(181,4946
+private procedure FmSetupImageArgs(257,7321
+private integer FmSetupMark 218,6087
+private boolean FmShowPage 335,9302
+private procedure FmSleep 174,4710
+private procedure FmWakeup 162,4332
+ public PDevice FrameDevice(292,8092
+public procedure IniFmDevImpl(464,14098
+public procedure SetFmDeviceMetrics(67,1591
+
+device/framemaskdev.c,370
+private integer BytesForMask 40,1098
+public boolean CmptMaskBBMin(134,4017
+public PDevice FmMakeMaskDevice 45,1265
+public procedure IniMaskDevImpl(306,8977
+private procedure MaskDeviceInfo(270,8098
+private procedure MaskGoAway(186,5874
+private procedure MaskInitPage 111,3218
+private procedure MaskSetupImageArgs(278,8353
+private integer MaskSetupMark 117,3445
+
+device/genericdev.c,387
+private procedure GenDefaultBounds 37,1133
+private DevHalftone * GenDefaultHalftone 51,1531
+private procedure GenDefaultMtx 32,975
+private procedure GenGoAway 55,1630
+private procedure GenInitPage 63,1803
+private DevLong GenReadRaster 95,2589
+private procedure GenWakeup 59,1717
+private procedure GenWinToDevTranslation 43,1295
+public procedure IniGenDevImpl(120,3438
+104,2861
+
+device/graymask.c,39
+public procedure GrayMasksMark(29,819
+
+device/grayrun.c,37
+public procedure GrayRunMark(31,997
+
+device/graytrap.c,80
+private procedure GrayRectMark(31,950
+public procedure GrayTrapsMark(112,3753
+
+device/halftone.c,264
+public procedure DevAddHalftoneRef(72,1720
+public DevHalftone *DevAllocHalftone(100,2451
+public boolean DevCheckScreenDims 44,1147
+public procedure DevFreeHalftone(57,1406
+public boolean DevIndependentColors 31,934
+public procedure DevRemHalftoneRef(82,1996
+
+device/hostdict.c,316
+#define TIME(41,1153
+void defHostDict(86,2086
+void disposeHostDict(65,1673
+void enumerateHostDict(146,3409
+#define free(30,878
+char *getHostDict(120,2859
+int hashHostDict(158,3688
+void hostDictPurge(174,3968
+HostDict *newHostDict(43,1182
+#define strcmp(32,946
+#define strcpy(31,909
+#define strlen(33,983
+
+device/mark.c,426
+private procedure AddTrap(42,1028
+private procedure ClipRunMasksDispatch(191,5374
+public procedure ClipRunTrapsDispatch(208,5787
+public procedure ClipTrapsRunDispatch(114,3153
+private procedure ClipTrapsStringDispatch(228,6262
+public procedure Mark(314,9472
+public procedure MasksMark(177,4886
+private procedure NoClipMark(136,3683
+public procedure TrapTrapDispatch(52,1247
+public procedure TrapTrapDispatch(61,1529
+
+device/markimage.c,117
+public procedure ImageRun(186,6249
+public procedure ImageTraps(181,6108
+private procedure ImageTrapsOrRun(47,1790
+
+device/maskcache.c,770
+private PBMItem BMAlloc(194,5377
+public procedure BMFree(257,7115
+private procedure BMLink(111,3224
+private procedure BMUnlink(119,3400
+public procedure CheckBM(56,1580
+public procedure CompactBM(134,3793
+public procedure DevAddMaskRef(391,10333
+public integer DevFlushMask(365,9632
+public procedure DevMaskCacheInfo(474,13048
+public procedure DevRemMaskRef(399,10542
+public procedure DevSetMaskCacheSize(481,13198
+private procedure GrowBM(413,10878
+public procedure InitMaskCache(494,13559
+public procedure MCFreeBytes(319,8629
+public procedure MCFreeMask(352,9348
+public procedure MCGetCacheBytes(309,8366
+public PMask MCGetMask(331,8923
+public char *MCGetTempBytes(285,7856
+public integer MCMaskIndex(305,8278
+private procedure ShrinkBM(440,11795
+
+device/nextprebuilt.c,407
+static inline boolean CheckPrebuiltMatrix(282,8239
+integer DevRgstPrebuiltFontInfo(52,1428
+int GetPreBuiltChar(289,8401
+void IniPreBuiltChars(72,2003
+static inline int PrebuiltPathSearch(40,1010
+static boolean buildPrebuilt(185,5375
+static void disposePrebuiltFont(65,1819
+static inline int findMatrixNumber(170,5037
+NextPrebuiltFont *getPrebuiltFont(148,4384
+static void readPrebuiltFile(78,2153
+
+device/nulldev.c,469
+public PDevice CreateNullDevice(69,2122
+public procedure IniNullDevImpl(92,2768
+public PDevice MakeNullDevice(53,1580
+private procedure NullDefaultBounds 36,1112
+private DevHalftone * NullDefaultHalftone 77,2326
+private procedure NullDefaultMtx 31,938
+private procedure NullGoAway 42,1264
+private PDevice NullMakeMaskDevice 46,1352
+private DevLong NullReadRaster 81,2427
+private procedure NullWakeup 73,2239
+private procedure NullWinToDevTranslation 62,1896
+
+device/qintersect.c,326
+public procedure BuildRunIndex(64,2004
+public integer BytesForRunIndex(59,1863
+private procedure DumpBuff(41,1348
+public BBoxCompareResult QCompareBounds(310,10200
+public procedure QIntersect(102,2995
+public procedure QIntersectBounds(298,9839
+public procedure QIntersectTrp(190,6177
+public PInt16 RunArrayRow(81,2455
+
+device/tfrfcn.c,266
+public procedure DevAddTfrFcnRef(103,2759
+public DevTfrFcn *DevAllocTfrFcn 37,1120
+public procedure DevFreeTfrFcn 94,2545
+public procedure DevRemTfrFcnRef(113,3031
+#define GETTABLE(31,941
+#define GETUCRTABLE(34,1034
+private procedure ReclaimDevTfrFcn 84,2154
+
+device/trapprecision.c,48
+public boolean DevMinimizeTrapPrecision(25,743
+
+device/whitemask.c,40
+public procedure WhiteMasksMark(29,820
+
+device/whiterun.c,38
+public procedure WhiteRunMark(24,763
+
+device/blacktrap.030.s,413
+|	public procedure BlackTrapsMark(47,1311
+	movew	a3@(4),a0	|	&& tt->l.xl == FTrunc(207,5148
+	movew	d6,d0		|	FTrunc(213,5287
+	movew	a3@(16),a0	|	&& tt->g.xl == FTrunc(225,5537
+	movew	a3@(6),a0	|	FTrunc(230,5663
+	jle	L2		| if 128,2921
+	cmpw	#1,d6		| if 142,3343
+	jne	L19			| if 253,6336
+	moveq	#1,d7		| } else if 265,6595
+	cmpl	d5,d3		|	if 395,10378
+	cmpl	d3,d5		|	if 446,11795
+	jgt	L94		| if 639,17816
+
+device/whitetrap.030.s,439
+	movew	a3@(4),a0	|	tt->l.xl == FTrunc(213,5608
+	movew	a3@(18),a0	|	tt->g.xg == FTrunc(219,5731
+	movew	a3@(16),a0	|	tt->g.xl == FTrunc(233,6033
+	movew	a3@(6),a0	|	tt->l.xg == FTrunc(239,6161
+|	public procedure WhiteTrapsMark(47,1344
+	andl	d1,a2@(366,9493
+	jle	L2		|    if 135,3398
+	cmpw	#1,d6		|    if 150,3837
+	jne	L19		|    if 262,6804
+L19:				|    } else if 275,7109
+	jge	L51		|    if 373,9714
+	jra	L109		|    while 344,8874
+
+device/devcommon.h,0
+
+device/devmark.h,0
+
+device/devprim.h,0
+
+device/framedev.h,0
+
+device/framemaskdev.h,30
+#define MaskUnitWidth(32,946
+
+device/genericdev.h,0
+
+device/hostdict.h,63
+void enumerateHostDict(48,1258
+HostDict *newHostDict(42,1063
+
+device/maskcache.h,70
+#define Data(64,1711
+#define Header(63,1664
+#define Length(65,1758
+
+device/nextprebuilt.h,0
+
+device/nulldev.h,0
+
+device/prebuiltformat.h,0
+
+devpattern/colorpattern.c,431
+private procedure CMYKConstColorSetup(309,9533
+public integer ColorPatInfo 262,8004
+public procedure ColorSetup(213,6439
+private procedure ComposeColors(105,2997
+public PatternHandle ConstCMYKPattern(330,10173
+private PCachedColor GetCachePlace(54,1482
+private procedure InitCCCache(46,1275
+private integer LCM(102,2850
+private integer LCM3(103,2920
+public PatternHandle RGBPattern(275,8445
+private integer max(260,7936
+
+devpattern/constclrpat.c,87
+public procedure ConstColorSetup(33,950
+public PatternHandle ConstRGBPattern(62,1863
+
+devpattern/constgraypat.c,124
+public PatternHandle ConstGrayPattern(67,1945
+private procedure ConstGraySetup(52,1487
+public SCANTYPE ConstSetup(33,949
+
+devpattern/graypattern.c,250
+private procedure BuildGrayPattern(49,1384
+public integer GrayPatInfo 226,7159
+public PatternHandle GrayPattern(238,7526
+public procedure GraySetup(209,6678
+private SCANTYPE MakeConstValue(36,1084
+public PPatCacheInfo SetupGrayPattern(146,4788
+
+devpattern/grypat4of4.c,156
+private procedure BuildPattern(38,1155
+public procedure Gry4Of4Setup(129,4255
+public PatternHandle GryPat4Of4(208,6411
+private integer PatInfo 196,6063
+
+devpattern/im110.c,32
+public procedure Im110(52,1636
+
+devpattern/ims11d11.c,29
+#define SETUPPARAMS(38,1216
+
+devpattern/ims11d12.c,29
+#define SETUPPARAMS(38,1236
+
+devpattern/ims11d1x.c,29
+#define SETUPPARAMS(39,1271
+
+devpattern/ims12d12notfr.c,40
+public procedure ImS12D12NoTfr(37,1112
+
+devpattern/ims1xd11.c,35
+public procedure ImS1XD11(51,1383
+
+devpattern/ims1xd12.c,29
+#define SETUPPARAMS(54,1461
+
+devpattern/imsupport.c,590
+private GetBuffers(41,1245
+public PSCANTYPE GetGreenPixBuffers(64,1861
+public PSCANTYPE GetPixBuffers(51,1546
+public PSCANTYPE GetRedPixBuffers(59,1756
+public PSCANTYPE GetWhitePixBuffers(69,1974
+public procedure Set1BitCMYKValues(184,5391
+public procedure Set1BitValues(74,2087
+public procedure Set2BitCMYKValues(209,6098
+public procedure Set2BitValues(100,2846
+public procedure Set4BitCMYKValues(237,6937
+public procedure Set4BitValues(129,3739
+public procedure Set8BitCMYKValues(265,7778
+public procedure Set8BitValues(158,4634
+public procedure SetRGBtoCMYKValues(291,8486
+
+devpattern/imsxxd11.c,35
+public procedure ImSXXD11(51,1517
+
+devpattern/imsxxd12.c,29
+#define SETUPPARAMS(42,1294
+
+devpattern/maskpattern.c,113
+public integer MaskPatInfo 44,1246
+public PatternHandle MaskPattern(60,1665
+public procedure MaskSetup(32,908
+
+devpattern/monopattern.c,167
+public integer MonoPatInfo 220,7121
+public procedure MonoSetup(139,4898
+public PatternHandle MonochromePattern(242,7628
+private procedure SetupMonoPattern(37,1121
+
+devpattern/patternimpl.c,1315
+public DevHalftone * AllocHalftone(419,13244
+public PCard8 AllocInfoVector(123,3774
+public integer AllocPatternIndex(153,4689
+public PSCANTYPE AllocPatternStorage(149,4554
+private DevScreen *AllocScreen(369,11777
+private PScreenPrivate AllocScreenPrivate(139,4261
+private integer AllocScrnSlot(238,7210
+public boolean CheckScreenDims 168,5116
+public boolean ConstantColor(541,16907
+private procedure DecStmByteCnt(248,7486
+public procedure DestroyPat 528,16617
+public procedure FlushHalftone(464,14534
+private procedure FlushPatCache(450,14092
+private procedure FreeHalftone 296,9002
+private procedure FreeInfoVector(129,3902
+private integer FreeOldestPattern(91,3069
+private procedure FreePattern(72,2459
+private procedure FreeScreen(261,7858
+#define GETMEM(790,25373
+private boolean GetMemForTA(308,9326
+public PSCANTYPE GetPatternRow 515,16166
+public boolean IndependentColors 174,5292
+private procedure IniDeepOnes(944,31307
+public procedure InitPatternImpl(626,19399
+private procedure InitSLFiles(602,18831
+private PCard8 PatAlloc(107,3451
+public procedure RollPattern 477,14851
+private boolean SendOldestToDisk(213,6618
+private boolean SendTAToDisk(182,5590
+public PPatCacheInfo SetPatInfo(573,18027
+public procedure SetupDeepOnes(792,25433
+public boolean ValidateTA(393,12531
+
+devpattern/imagepriv.h,55
+#define SHIFTPIXEL(32,957
+#define SHIFTPIXEL(34,1019
+
+devpattern/patternpriv.h,0
+
+language/array.c,514
+private procedure AFAProc(177,4116
+public procedure AGetP(99,2606
+private procedure AHead(49,1437
+public procedure APut(88,2383
+public procedure AStore(122,3109
+private procedure ATail(53,1580
+procedure Array(202,4503
+public procedure ArrayInit(235,5307
+public procedure AryForAll(168,3944
+public procedure ForceAGetP(116,2965
+public procedure PSALoad(158,3713
+public procedure PSAStore(150,3606
+public procedure PSArray(139,3433
+public procedure PutArray(79,2229
+public procedure SubPArray(73,1991
+
+language/binaryobject.c,562
+public procedure BinObjInit(795,19673
+public integer GetObjFormat(787,19533
+private procedure InitBOSTypeMap(86,2412
+public procedure PSCrObjFormat(789,19596
+public procedure PSPrObject(761,19128
+public procedure PSStObjFormat(779,19415
+public procedure PSWrObject(767,19190
+public procedure ReadBinObjSeq(125,3417
+public procedure ReadNumAry(366,9494
+#define SWAP2(109,3128
+#define SWAP4(100,2775
+public procedure SetObjFormat(773,19251
+private int StmZero(486,12281
+private procedure SyntaxError(117,3302
+private procedure WriteObject(489,12339
+
+language/dict.c,2214
+private procedure AboutToCollectShared(1110,29085
+public procedure AllocCopyDict(403,11746
+public procedure Begin(580,16454
+private procedure BumpCETimeStamp(153,5156
+public procedure ClearDictStack(610,16986
+public procedure CopyDict(395,11526
+private procedure CopyTrickyDict(422,12143
+private procedure DFAProc(1007,26761
+public procedure Def(570,16274
+public procedure DictCtxDestroy(1161,30513
+private procedure DictFinalize(1122,29489
+public procedure DictForAll(1033,27262
+public procedure DictGetP(803,21688
+public procedure DictInit(1173,30875
+public cardinal DictLength(717,19533
+public procedure DictP(648,17711
+public procedure DictPut(809,22006
+public boolean DictTestP(785,21105
+public procedure DictUnDef(918,24706
+public procedure End(595,16739
+public PKeyVal EnumerateDict(1047,27570
+public procedure ForceGetP(806,21846
+public boolean ForceKnown(747,20321
+public procedure ForcePut(817,22183
+public procedure ForceUnDef(924,24803
+public GenericID GetCETimeStamp(178,5856
+private cardinal HashObject(180,5914
+#define IsFontDirectory(148,5024
+#define KeyName(198,6546
+public boolean Known(741,20229
+public boolean Load(318,9686
+public boolean LoadName(331,9925
+#define	MapFontDirectory(140,4703
+private NextKeyVal(948,25179
+public procedure PSBegin(588,16647
+public procedure PSClearDictStack(616,17144
+public procedure PSCrDict(939,25023
+public procedure PSDef(621,17205
+public procedure PSDict(825,22362
+public procedure PSEnd(603,16862
+public procedure PSKnown(753,20419
+public procedure PSLoad(631,17381
+public procedure PSMaxLength(832,22472
+private procedure PSProbeStats(201,6644
+public procedure PSStore(842,22701
+private procedure PSTrickyDict(709,19411
+public procedure PSUnDef(930,24902
+public procedure PSWhere(761,20552
+private PutInDict(450,12960
+public procedure ReallocDict(414,12016
+public procedure ResetNameCache(1078,28461
+public boolean SearchDict(209,6778
+public procedure SetCETimeStamp(166,5560
+public procedure SetDictAccess(1063,27970
+public procedure TrickyDictP(684,18712
+private procedure UnDef(855,22997
+private procedure copydict(347,10208
+private boolean dknown(725,19739
+private boolean trytoload(247,7813
+
+language/exec.c,1827
+public procedure BindArray(208,5522
+private procedure CExec(870,23636
+private procedure CIFor(975,25702
+private procedure CLoop(1002,26131
+private procedure CRFor(955,25389
+private procedure CRepeat(897,24143
+/*private*/ procedure CRun(1039,26979
+private procedure CStopped(862,23496
+private CarefulPushP(269,6823
+private procedure ClearExecStack(1088,28088
+private procedure EndWholeClothInit(305,7853
+public procedure ExecInit(1140,29268
+private ExecPushP(323,8508
+public integer GetAbort(831,22941
+private procedure HandleStackOverflow(276,6972
+public procedure IncrementTimeUsed 169,4815
+#define	Inline_IncrementTimeUsed(164,4709
+public procedure InvlAccess(1128,28840
+private procedure LanguageDataHandler 1176,30487
+public procedure LanguageInit(1345,35101
+public procedure NotifyAbort 841,23162
+public procedure PSBind(240,6149
+private procedure PSDefUserObj(1264,32999
+public procedure PSError(202,5412
+public procedure PSExec(864,23548
+public procedure PSExecUserObj(1323,34573
+public procedure PSExit(1050,27229
+public procedure PSFor(920,24595
+public procedure PSIf(872,23706
+public procedure PSIfElse(879,23813
+public procedure PSLoop(994,26020
+public procedure PSRepeat(887,23958
+public procedure PSRun(1009,26294
+public int PSSetYieldChecking(189,5167
+public procedure PSSetYieldLocations(182,5044
+public procedure PSStop(849,23304
+private procedure PSStopped(855,23380
+private procedure PSSuperExec(1119,28710
+public procedure PSUndefUserObj(1311,34242
+private procedure PopPNumber(909,24416
+private procedure PushLangRoots(1245,32532
+public procedure RgstContextProcs 1130,28914
+public procedure SetAbort(836,23044
+public procedure SetTimeLimit 154,4526
+private procedure UnwindExecStk(255,6373
+public boolean WannaYield 336,8838
+public boolean psExecute(345,9134
+
+language/math.c,1177
+private boolean LGt(323,6907
+public procedure MathInit(542,11828
+public procedure PSATan(400,8681
+public procedure PSAbs(236,5358
+public procedure PSAdd(45,1318
+public procedure PSAnd(463,9717
+public procedure PSBitShift(499,10492
+public procedure PSCeiling(289,6306
+public procedure PSCos(393,8564
+public procedure PSDiv(167,4052
+public procedure PSEq(363,7877
+public procedure PSExp(411,8908
+public procedure PSFloor(274,6051
+public procedure PSGe(383,8353
+public procedure PSGt(380,8269
+public procedure PSIDiv(198,4657
+public procedure PSLe(377,8175
+public procedure PSLn(430,9218
+public procedure PSLog(421,9084
+public procedure PSLt(374,8091
+public procedure PSMod(208,4825
+public procedure PSMul(127,3156
+public procedure PSNe(371,7995
+public procedure PSNeg(219,5036
+public procedure PSNot(450,9484
+public procedure PSOr(475,9976
+public procedure PSRRand(531,11535
+public procedure PSRand(533,11595
+public procedure PSRound(255,5695
+public procedure PSSRand(523,11351
+public procedure PSSin(386,8447
+public procedure PSSqRt(440,9348
+public procedure PSSub(86,2237
+public procedure PSTruncate(304,6565
+public procedure PSXor(487,10233
+
+language/name.c,766
+private procedure AddToGCTable(418,11850
+public procedure AllocPNameArray(241,6467
+public procedure DestroyNameMap 465,13004
+public procedure FastName(136,4179
+private procedure FinalizeNames(253,6822
+public procedure MakePName(237,6342
+public procedure MakeStaticPName(453,12683
+public procedure NameIndexObj(77,2258
+public procedure NameInit(472,13190
+public procedure NameToPString(50,1448
+private procedure PSDefSysName(395,11355
+public procedure PSDefUserName(376,10876
+public procedure PSDumpNames(289,7914
+private procedure PSNProbeStats(64,1872
+private procedure PSSysNameMap(388,11136
+private procedure PushSharedNames(439,12346
+private procedure PutInNameMap(331,9454
+public procedure StrToName(230,6145
+private procedure newstn(98,2855
+
+language/numstrm.c,796
+private Fixed AObjF(287,6924
+private procedure AObjR(277,6646
+public procedure CopyNumStrmForCache(421,10032
+public boolean EqNumStrmCache(464,11092
+private Fixed HF2F(76,1993
+private procedure HF2R(139,3551
+public Fixed HF4F(35,1007
+private procedure HF4R(104,2698
+private Fixed HIRF(183,4598
+private procedure HIRR(152,3874
+public Fixed HNRF(226,5514
+private procedure HNRR(199,4917
+private Fixed LF2F(90,2348
+private procedure LF2R(144,3693
+private Fixed LF4F(57,1507
+private procedure LF4R(123,3132
+private Fixed LIRF(190,4749
+private procedure LIRR(169,4244
+private Fixed LNRF(243,5838
+private procedure LNRR(214,5223
+private Fixed PkAObjF(267,6412
+private procedure PkAObjR(257,6148
+public procedure SetupNumStrm(297,7172
+public integer SizeNumStrmForCache(406,9707
+
+language/pa_relocator.c,137
+#define CopyObject(42,1067
+#define CopyObject(44,1144
+public procedure RelocateObj(49,1245
+public procedure RgstPARelocator(176,4886
+
+language/packedarray.c,328
+public procedure BindPkdary(380,12561
+#define CopyObject(105,4026
+#define CopyObject(107,4103
+public procedure DecodeObj(242,8194
+private cardinal EncodeObj(111,4202
+private Card32 EnumerateComposites(445,14491
+public procedure PSPkdary(427,13987
+public procedure Pkdary(333,10926
+public procedure PkdaryInit(494,15931
+
+language/scanner.c,662
+private procedure AryToMrk(482,16696
+private boolean ExtendStrStorage(527,17819
+private procedure FreeStrStorage(561,18811
+#define	LStrObj(65,1911
+public boolean LineComplete(1362,39075
+private procedure ObjFromStrStorage(578,19114
+public procedure PSCrPacking(1499,41949
+private procedure PSLBrak(1473,41572
+private procedure PSRBrak(1481,41647
+public procedure PSStPacking(1490,41766
+public procedure PSToken(1442,40827
+private int SafeFilBuf(633,20580
+private procedure SafeUnGetc(647,20776
+public procedure ScannerInit(1505,42019
+public boolean StmToken(689,21868
+public boolean StrToken 1343,38671
+public procedure UndefNameIndex(620,20348
+
+language/stack.c,1816
+public procedure ArrayFromStack(284,7673
+public procedure ArrayToStack(300,8046
+private boolean CheckAllStacks(410,11033
+private boolean CheckStack(397,10771
+private boolean CheckStackElement(346,9255
+public procedure ClearStack(263,7163
+public procedure Copy(215,5819
+public procedure CopyStack(194,5454
+public cardinal CountStack(255,6993
+public cardinal CountToMark(271,7379
+public procedure CreateStacks 137,3837
+public procedure DPopP(185,5296
+public procedure DPushP(184,5224
+public procedure DTopP(180,5020
+public procedure EPopP(178,4886
+public procedure EPushP(177,4815
+public procedure ETopP(181,5089
+public procedure EnumStack(317,8356
+KillStack(187,5366
+private procedure MakeNullObjects(106,3061
+private PStack NewStack(117,3315
+public procedure Overflow(66,1780
+public procedure PSClear(463,12165
+public procedure PSClrToMrk(474,12527
+public procedure PSCntDictStack(467,12356
+public procedure PSCntExecStack(470,12441
+public procedure PSCntToMark(465,12288
+public procedure PSCount(464,12213
+public procedure PSDictStack(511,13178
+public procedure PSDup(431,11491
+public procedure PSExch(440,11725
+public procedure PSExecStack(503,13039
+public procedure PSIndex(492,12857
+public procedure PSMark(485,12762
+public procedure PSPop(429,11439
+public procedure PSRoll(452,11926
+private procedure PSSetStackLimit(520,13340
+private procedure PSStackStats(532,13568
+public procedure PopP(170,4612
+public procedure PushP(176,4747
+procedure PushStackRoots(554,14499
+private Roll(233,6178
+public procedure RstrStack(91,2643
+public procedure StackInit(589,15551
+public procedure StackPopDiscard(420,11243
+StackPopP(154,4279
+public procedure StackPushP(147,4140
+public procedure StackTopP(161,4388
+public procedure TopP(179,4954
+public procedure Underflow(64,1704
+
+language/stodevedit.c,584
+private boolean EBNop(304,8095
+private procedure EDevAttr(296,7971
+private int EIUndef(318,8241
+private Stm EStmCreate(288,7747
+private procedure EUndef(311,8159
+private procedure Erase(77,2233
+private Stm LineEdit(165,4171
+private int LineFAvail(146,3701
+private int LineFClose(135,3463
+private int LineFFlush(128,3364
+private int LineFilBuf(99,2712
+private int LineUnGetc(112,3006
+private procedure PSEcho(280,7581
+private procedure Rewind(67,1972
+private procedure RgstEditorDev(340,8639
+public procedure StoDevEditInit(356,9015
+private procedure Truncate(88,2431
+
+language/stodevsupport.c,586
+private int FFAAction(173,4127
+public procedure PSDeleteFile(118,2867
+public procedure PSDevDisMount(295,7136
+public procedure PSDevForAll(213,5094
+public procedure PSDevFormat(261,6305
+public procedure PSDevMount(276,6693
+public procedure PSDevStatus(237,5705
+public procedure PSFilPos(143,3575
+public procedure PSFileNameForAll(185,4380
+public procedure PSRenameFile(128,3112
+public procedure PSStFilPos(155,3821
+private procedure PopFlName(45,1209
+public Stm StoDevCreateStm(60,1591
+public procedure StoDevStrStatus(84,2126
+public procedure StoDevSupportInit(306,7427
+
+language/stream.c,2107
+private int CStmBFilBuf(303,8220
+private int CStmClose(357,9382
+private int CStmFAvail(371,9795
+private int CStmFSeek(380,9946
+private long int CStmFTell(390,10120
+private int CStmFlush(346,9212
+private int CStmHFilBuf(317,8563
+#define CStmLeftover(301,8169
+#define CStmRndNum(300,8115
+#define CStmSource(299,8067
+private int CStmUnGetc(338,9064
+public procedure CloseFile(186,5168
+private boolean CloseStmForSB(173,4822
+public procedure CrFile(205,5643
+public Stm CreateFileStm(135,3884
+public procedure CreateFileStream(156,4419
+#define Decrypt(281,7422
+public boolean EncryptedStream(442,11388
+private procedure EnumerateStmBody(937,23071
+public longcardinal GetStmDecryptionKey(436,11296
+public procedure HandlePendingEOL(68,1981
+private void InitHexToBin(693,17394
+public Stm InvlStm(217,5923
+public boolean IsCrFile(531,13957
+public Stm MakeDecryptionStm(408,10622
+public procedure MakePStm(78,2163
+public procedure PSBytesAvailable(880,21473
+public procedure PSCloseFile(825,20460
+public procedure PSCrFile(872,21362
+public procedure PSEExec(449,11544
+public procedure PSFile(520,13696
+public procedure PSFls(858,21092
+public procedure PSFlsFile(849,20880
+public procedure PSPrint(505,13396
+public procedure PSRead(538,14128
+public procedure PSReadHexString(705,17760
+public procedure PSReadLine(581,15180
+public procedure PSReadString(655,16567
+public procedure PSResFile(863,21175
+private procedure PSStSKey(287,7568
+public procedure PSStatus(832,20575
+public procedure PSWrite(557,14598
+public procedure PSWrtHexString(794,19778
+public procedure PSWrtString(766,19170
+public procedure PrivateStreamRoots(950,23579
+private int SSClose(246,6568
+private int SSFAvail(248,6632
+private int SSFilBuf(235,6286
+private int SSFlush(244,6495
+private int SSUnGetc(237,6356
+public procedure SetStmDecryptionKey(429,11184
+public procedure StmCtxCreate(897,21890
+public procedure StmCtxDestroy(903,22007
+private procedure StmFinalize(918,22443
+private Stm StrStmCreate(262,7085
+public procedure StreamError(225,6103
+public procedure StreamInit(966,24052
+
+language/string.c,726
+private character DigitEncode(185,4637
+private NumEncode(193,4811
+public procedure PSAnchorSearch(163,4159
+public procedure PSCVN(222,5547
+public procedure PSCVRS(276,6885
+public procedure PSCVS(231,5717
+public procedure PSSearch(136,3480
+public procedure PSString(126,3284
+public procedure PutString(104,2744
+private procedure SFAProc(308,7772
+private procedure SHead(56,1554
+private procedure STail(63,1724
+public procedure StrForAll(300,7571
+private procedure StrIntoStr(216,5394
+public integer StringCompare(82,2149
+public procedure StringInit(325,8093
+public procedure SubPString(96,2507
+private procedure TextIntoString(208,5165
+public StrObj makestring(72,1940
+private boolean sStringMatch(113,2995
+
+language/type.c,1769
+private cardinal CardFromOb(168,4641
+public integer EPopInteger(184,5011
+public procedure EPopPReal(217,5702
+public procedure EPushInteger(274,6852
+public procedure EPushPReal(325,7949
+public procedure EPushReal(328,8053
+public boolean Equal(59,1682
+public procedure FixCd(765,18633
+public procedure PSCopy(560,12946
+public procedure PSCvI(514,11912
+public procedure PSCvLit(502,11634
+public procedure PSCvR(536,12484
+public procedure PSCvX(508,11775
+public procedure PSForAll(744,18149
+public procedure PSGet(610,14254
+public procedure PSGetInterval(665,15542
+public procedure PSLength(333,8158
+public procedure PSNoAccess(468,10970
+public boolean PSPopBoolean(229,5963
+public integer PSPopInteger(176,4838
+public procedure PSPopPCd(288,7107
+public procedure PSPopPReal(205,5440
+public procedure PSPushBoolean(281,6980
+public procedure PSPushInteger(267,6726
+public procedure PSPushPCd(316,7678
+public procedure PSPushPReal(319,7763
+public procedure PSPut(637,14846
+public procedure PSPutInterval(695,16486
+public procedure PSRCheck(358,8687
+public procedure PSReadOnly(441,10402
+public procedure PSSCheck 419,9923
+public procedure PSType(493,11433
+public procedure PSWCheck(388,9291
+public procedure PSXCheck(355,8585
+public procedure PSXctOnly(426,10073
+public cardinal PopCardinal(144,4197
+public Card16 PopLimitCard(160,4496
+public procedure PopPArray(249,6408
+public procedure PopPDict(192,5185
+public procedure PopPRString(243,6264
+public procedure PopPStream(199,5312
+public procedure PopPString(237,6137
+public procedure PushCardinal(260,6590
+public procedure PushReal(322,7866
+public procedure RRoundP(762,18516
+#define StringMatch(57,1594
+public procedure TypeInit(771,18828
+public procedure UnFixCd(768,18731
+
+language/array.h,0
+
+language/classarray.h,0
+
+language/dict.h,26
+#define ILoadPNE(53,1437
+
+language/exec.h,0
+
+language/grammar.h,0
+
+language/langdata.h,0
+
+language/languagenames.h,998
+  Op(57,2042
+  Op(59,2080
+  Op(61,2132
+  Op(63,2176
+  Op(65,2216
+  Op(67,2262
+  Op(69,2326
+  Op(71,2386
+  Op(73,2445
+  Op(75,2481
+  Op(77,2539
+  Op(79,2607
+  Op(81,2662
+  Op(83,2737
+  Op(85,2775
+  Op(87,2809
+  Op(89,2845
+  Op(91,2879
+  Op(93,2952
+  Op(95,3016
+  Op(97,3074
+  Op(99,3130
+  Op(101,3178
+  Op(103,3212
+  Op(105,3250
+  Op(107,3284
+  Op(109,3339
+  Op(111,3397
+  Op(113,3433
+  Op(115,3491
+  Op(117,3541
+  Op(119,3587
+  Op(121,3627
+  Op(123,3659
+  Op(125,3707
+  Op(127,3741
+  Op(129,3785
+  Op(131,3821
+  Op(133,3859
+  Op(135,3895
+  Op(137,3929
+  Op(139,3977
+  Op(141,4011
+  Op(143,4043
+  Op(145,4087
+  Op(147,4130
+  Op(149,4167
+  Op(151,4214
+  Op(153,4266
+  Op(155,4308
+  Op(157,4372
+  Op(159,4430
+  Op(161,4484
+  Op(163,4530
+  Op(165,4572
+  Op(167,4618
+  Op(169,4689
+  Op(171,4736
+  Op(173,4776
+  Op(175,4818
+  Op(177,4862
+  Op(179,4900
+  Op(181,4946
+  Op(183,5008
+  Op(185,5052
+  Op(187,5110
+  Op(189,5171
+OpSet(55,1987
+
+language/name.h,0
+
+language/opcodes.h,0
+
+language/packedarray.h,0
+
+language/scanner.h,0
+
+language/stack.h,0
+
+language/streampriv.h,0
+
+stodev/simplematch.c,35
+public boolean SimpleMatch(31,976
+
+stodev/stodevfont.c,448
+private procedure FontDevAttr(267,6991
+private int FontEnumOneDir(147,4129
+private int FontEnumerate(212,5665
+private boolean FontFind(123,3442
+private procedure FontNop 256,6854
+int FontPathSearch(84,2274
+private procedure FontReadAttr(132,3606
+private Stm FontStmCreate(107,3021
+public procedure FontStoDevInit(302,7919
+private procedure FontUndef 261,6906
+private procedure MapErrno(66,1965
+private procedure RgstFontDevice(287,7600
+
+stodev/stodevimpl.c,230
+public PStoDev FndStoDev(42,1201
+public PStoDev FndStoFile(77,1991
+public procedure RgstStoDevice(102,2517
+public PStoDev StoDevGetNext(133,3139
+public procedure StoDevInit(140,3241
+public procedure UnRgstStoDevice(120,2886
+
+stodev/stodevunix.c,445
+private OSErr MPWUDReadAttr(150,3817
+private procedure MapErrno(108,3049
+private procedure UDDelete(189,4927
+private procedure UDDevAttr(350,8778
+private int UDEnumerate(218,5517
+private procedure UDNop 306,7900
+private procedure UDReadAttr(172,4384
+private procedure UDRename 323,8137
+private procedure UDUndef 312,7951
+private boolean UDiskFind(139,3629
+private Stm UDiskStmCreate(128,3425
+public procedure UnixStoDevInit(372,9344
+
+vm/abmimpl.c,564
+RefAny ABM_Allocate(358,12303
+RefAny ABM_AllocateVM(331,11717
+procedure ABM_ClearAll(368,12631
+procedure ABM_Init(460,15407
+procedure ABM_SetAllocated(390,13344
+#define	AllocInternal(103,3615
+private RefAny AllocLarge(723,24211
+private RefAny AllocSmall(626,20866
+procedure GCInternal_ResetFreePointer(283,10100
+RefAny GC_MoveRecycleRange(896,29374
+private short int OpenPSVMResource(446,15054
+private procedure PSAllocBM(813,26925
+private procedure PSAllocVM(786,26301
+private procedure PSTrashVM(856,28116
+private PCard8 ResetSegFreePtr(544,17642
+
+vm/arguments.c,224
+public procedure BeginParseArguments 40,1220
+public boolean EndParseArguments(53,1559
+public char *GetCArg(74,2003
+public integer GetCSwitch(146,3548
+public integer NumCArg(135,3188
+private integer NumFromStr(104,2615
+
+vm/gcimpl.c,75
+procedure GC_CollectPrivate(97,3422
+private void TracePrivateVM(150,4763
+
+vm/gcmisc.c,1126
+private procedure AddProcToList(653,18537
+GC_Stack *GCInternal_AllocStack(437,12722
+GC_Stack *GCInternal_FreeStack(504,14628
+procedure GCInternal_GrowStack(602,17243
+procedure GCInternal_Init(364,10942
+public PVMSegment GCInternal_LookupSegment(628,17934
+procedure GCInternal_MarkAllocated(171,5804
+PObject GCInternal_Pop(466,13522
+procedure GCInternal_PushNoTest(490,14173
+procedure GCInternal_VMChange(396,11727
+GC_CollectionType GC_GetCollectionType(153,5541
+PVMRoot GC_GetRoot(165,5716
+VMStructure *GC_GetSpace(159,5635
+procedure GC_HandleIndex(318,9737
+procedure GC_Push(184,6049
+procedure GC_RegisterFinalizeProc(224,7171
+procedure GC_RgstGStateEnumerator(243,7501
+procedure GC_RgstGetRootsProc(210,6877
+procedure GC_RgstPkdAryEnumerator(231,7321
+procedure GC_RgstSharedRootsProc(217,7021
+procedure GC_RgstStmEnumerator(237,7415
+boolean GC_WasCollected(249,7593
+boolean GC_WasNECollected(304,9332
+private procedure InitRefArrays(677,19006
+public procedure PSCollect(552,15772
+private procedure PSGCStats(580,16453
+private procedure PSSetGCLog(518,14919
+public procedure PSSetThresh(531,15215
+
+vm/gcsharedimpl.c,181
+public procedure GCInternal_TraceROMDict(770,23812
+procedure GC_CollectShared(81,2732
+private procedure TracePrivateForShared(499,15635
+private procedure TraceSharedVM(130,3930
+
+vm/makevm.c,991
+private int AddMark(148,4119
+#define	AddToMarkTable(147,4068
+private procedure AppendSegmentData(649,15969
+private integer AppendSegmentHeader(659,16227
+private procedure BuildRelocationTable 448,10979
+public procedure InitMakeVM(867,22277
+public procedure NewRelocationEntry 87,2119
+#define	NoteRelocationEntry(124,3034
+private procedure PSMakeVM(775,19707
+private procedure PSdummymakevm 854,21893
+private procedure RelocateFinalizeChain(438,10736
+private procedure RelocateObject(282,7411
+private procedure Relocate_Names 226,6058
+private procedure Relocate_Shared_Root(126,3102
+public procedure RgstPackedArrayRelocator 80,2010
+private procedure ScanFromAry(387,9784
+private procedure ScanFromDict(402,10050
+private procedure ScanNameArray 262,6998
+private procedure ScanPkdAry(343,8797
+private boolean WriteRelocatedVMToFile(687,16955
+private boolean WriteRelocationTable 514,12898
+private boolean WriteVMSection(545,13598
+private boolean WriteVMToFile(594,14866
+
+vm/recycler.c,671
+public procedure ChangeRecyclerExecLevel(216,5198
+public procedure ExtendRecycler(100,2511
+public procedure Init_Recycler(389,9607
+public procedure InvalidateRecycler 269,6697
+public PRecycler NewRecycler 353,8777
+private procedure PSRecyclerStatus(56,1458
+private procedure PSTraceRecycler(71,1817
+#define ReclaimMovedVM(257,6354
+public procedure ReclaimRecyclableVM(117,2905
+public boolean Recyclable(138,3397
+private procedure RecyclerDataHandler 373,9293
+static char *RecyclerName 47,1307
+public procedure RecyclerPop(161,3913
+public procedure RecyclerPush(181,4403
+public procedure ResetRecycler(201,4896
+private procedure TraceInvalidation 233,5712
+
+vm/rgstcmds.c,757
+private procedure AllocCmds(81,2485
+public procedure CmdIndexObj(224,6930
+private OpDefEntry *FindOpDef(376,10819
+private integer FindOpSet(137,4140
+public procedure Init_Cmds 512,14269
+private procedure OpDefProc(393,11322
+private procedure PSOpDef(398,11415
+private procedure PSRgstNames(424,12065
+private procedure PSRgstOps(452,12704
+private procedure PSUnregistered(76,2419
+private PutCmd(68,2269
+private procedure RgstDynamicCmd(250,7614
+public procedure RgstExplicit(324,9889
+public procedure RgstInternal(309,9576
+public procedure RgstMCmds(350,10394
+public procedure RgstMNames(358,10522
+public procedure RgstMark(290,9072
+public RgstObject(313,9719
+public procedure RgstOpSet(169,5221
+public PNameObj RgstPackageNames(101,3075
+
+vm/saverestore.c,1656
+public boolean AddressValidAtLevel(756,19145
+#define CheckSharable(80,1946
+private ForAllRProcs(726,18541
+private procedure ForAllSProcs(718,18390
+private procedure HandleGCFinalize(562,14356
+public procedure Init_SaveRestore(1014,26759
+public procedure LoadVM 961,25253
+public procedure PSRstr(914,23249
+public procedure PSSave(902,22994
+private procedure PerformFinalization(615,15909
+private procedure ResetAllocCounter(796,20422
+private procedure RestoreContextParams 503,12704
+public procedure RgstRstrProc(742,18869
+public procedure RgstSaveProc(734,18681
+public procedure RgstSaveSemaphoreProc 786,20237
+public procedure RgstStackChecker 750,19055
+private RstrDB(686,17693
+private procedure RstrGenericObjects 428,10787
+private procedure RstrObj(657,17047
+public RstrToLevel(820,21044
+#define SavObjMacro(77,1870
+private Save(871,22203
+private procedure SaveRestore_Data_Handler 986,26003
+public procedure VMCarCdr(135,3137
+public procedure VMCopyArray(172,3985
+public procedure VMCopyGeneric 395,10024
+public procedure VMCopyString(212,5204
+public procedure VMGetText(223,5569
+public procedure VMObjForPString(255,6284
+#define VMObjPtr(75,1834
+public procedure VMPutChar(338,8422
+public procedure VMPutDKeyVal(286,7144
+public procedure VMPutDValue(296,7488
+public procedure VMPutDict(264,6500
+public procedure VMPutElem(307,7756
+public procedure VMPutGeneric 350,8628
+public procedure VMPutNChars(240,5914
+public procedure VMPutText(250,6146
+public procedure VMRgstFinalize(528,13281
+public procedure WriteContextParam 456,11515
+public procedure _RecordFinalizableObject(538,13547
+private saveobj(155,3529
+
+vm/staticdata.c,303
+public procedure CallDataProcedures 78,2549
+public PCard8 CreateData 157,4829
+public DestroyData 187,5646
+public procedure Init_StaticData 243,7027
+public procedure LoadData 203,6056
+public procedure LoadPointers 100,3145
+public procedure RegisterData 120,3628
+public PCard8 UnloadData 225,6635
+
+vm/vm.c,605
+public procedure FInvlAccess(195,6382
+public procedure InvlFont(196,6436
+public procedure NoCurrentPoint(198,6540
+public procedure PSLimitCheck(197,6485
+public procedure PSRangeCheck(199,6601
+public procedure PSTypeCheck(200,6656
+public procedure PSUndefFileName(201,6709
+public procedure PSUndefResult(203,6823
+public procedure PSUndefined(202,6770
+private procedure ProcessFinalizeNodes(56,1770
+private procedure ProcessSaveData(73,2262
+private procedure PushSharedVMRoots(142,4532
+private procedure PushVMRoots(166,5499
+public procedure VMERROR(204,6880
+public procedure VMInit(209,7037
+
+vm/vm_alloc.c,262
+public procedure AllocGenericObject 192,5262
+public procedure AllocPArray(174,4838
+public procedure AllocPDict(90,2237
+public procedure AllocPName(43,1143
+public procedure AllocPStream(146,4138
+public procedure AllocPString(140,3938
+VMExpandDict(218,5897
+
+vm/vm_garbage.c,451
+public GenericID Ctxt_GetCurrentCtxt 81,2166
+public GenericID Ctxt_GetNextCtxt 100,2616
+public PVM Ctxt_GetNextSpace 108,2776
+public procedure Ctxt_RestartAllCtxts 75,2056
+public procedure Ctxt_RestartAllSiblings 63,1837
+public procedure Ctxt_SetCurrentCtxt 87,2282
+public procedure Ctxt_StopAllCtxts 69,1950
+public procedure Ctxt_StopAllSiblings 57,1728
+public procedure Init_VM_Garbage(117,2961
+public procedure RgstGCContextProcs 42,1228
+
+vm/vm_memory.c,297
+public PCard8 AppendVM(79,1866
+Init_VM_Memory 157,3804
+private procedure PSDisplayVM(103,2504
+public procedure PSVMStatus(112,2712
+public procedure SetShared 67,1678
+public procedure VMSetRAMAlloc(130,3119
+public procedure VMSetROMAlloc(131,3188
+private procedure VM_Data_Handler 139,3395
+
+vm/vm_relocate.c,253
+public procedure ApplyRelocation(212,5382
+public procedure BuildSegmentTable(80,2194
+private PCard8 DecodeAddress 146,3837
+public PCard8 EncodeAddress 166,4330
+public procedure FreeSegmentTable(139,3703
+public boolean ReadRelocationTable 188,4854
+
+vm/vm_segment.c,1026
+public PCard8 AllocAligned(299,8885
+public PCard8 AllocChars 289,8654
+public PCard8 AllocVMAligned 313,9264
+public procedure ClaimPreallocChars 264,8025
+public procedure ContractVMSection(413,11887
+public procedure CreateSegmentPool 837,24520
+public PVM  CreateVM 620,17927
+public Level CurrentVMSegmentType(602,17464
+public procedure DestroyVM 706,20515
+public procedure DisplayVMSection 113,3242
+private procedure Display_VM_Segment 103,2798
+public procedure ExpandVMSection 435,12342
+private PCard8 FindFreeBytes 183,5464
+public PVMSegment FindVMSegment 144,4189
+private Int32 FreeBytesBehindStack(778,22873
+public procedure FreeSegment 90,2519
+public boolean InVMSection 173,5248
+private PVMSegment NewSegment 53,1425
+public PCard8 PreallocChars 252,7691
+private procedure Reclaim_Reserve 351,10132
+public procedure ResetVMSection 371,10748
+public PVMRoot RootPointer(608,17622
+public procedure SetVMSegmentType(550,15902
+private procedure Use_Reserve 334,9613
+public procedure VM_Usage 802,23674
+
+vm/vm_space.c,159
+public charptr EXPAND(129,3017
+Init_VM_Space 163,3909
+public procedure MFree(140,3326
+public charptr MNew(97,2231
+private procedure PSPrintChunks(73,1757
+
+vm/vm_startfile.c,65
+private boolean ReadVM(55,1550
+public boolean StartVM(114,2960
+
+vm/abm.h,105
+#define	ABM_BitsForBitmap(81,2754
+#define	ABM_BytesForBitmap(90,3103
+#define	ABM_BytesForSize(85,2911
+
+vm/gcinternal.h,289
+#define	CAST(167,6407
+#define ContainsRefs(171,6495
+#define	GCDATA(169,6450
+#define	GCInternal_GetSegHnd(181,6806
+#define	GCInternal_GetSegHnd(186,7014
+#define	GCInternal_Pop(193,7229
+#define	GCInternal_PushNoTest(197,7345
+#define	InSegment(174,6597
+#define IsROMSegment(177,6705
+
+vm/saverestore.h,109
+#define CallFinalizeProc(109,2991
+#define RecordFinalizableObject(97,2469
+#define WantToFinalize(104,2801
+
+vm/vm_memory.h,27
+#define	Is_Shared(45,1119
+
+vm/vm_relocate.h,0
+
+vm/vm_reverse.h,0
+
+vm/vm_segment.h,90
+#define	NoteLevel(117,4085
+#define	RootPointer(110,3939
+#define VMSegmentSize(115,4030
+
+vm/vm_space.h,0
+
+vm/vmnames.h,43
+  Op(56,1968
+  Op(58,2021
+OpSet(54,1914
+
+stream/clrerr.c,25
+void os_clearerr(28,805
+
+stream/fgetc.c,21
+int os_fgetc(26,766
+
+stream/fgets.c,23
+char *os_fgets(26,766
+
+stream/fputc.c,21
+int os_fputc(27,767
+
+stream/fputs.c,21
+int os_fputs(26,766
+
+stream/gets.c,29
+public char *os_gets(29,824
+
+stream/printf.c,91
+public int os_eprintf 56,1315
+public int os_fprintf 32,910
+public int os_printf 45,1130
+
+stream/puts.c,20
+int os_puts(26,759
+
+stream/scanf.c,118
+private int SSUnGetc(57,1313
+public int os_fscanf(43,1083
+public int os_scanf(32,902
+public int os_sscanf(65,1479
+
+stream/sprintf.c,32
+public char *os_sprintf 33,929
+
+stream/streamimpl.c,339
+public Stm StmCreate(69,1872
+public procedure StmDestroy(80,2188
+public int StmErr(36,1152
+public long int StmErrLong(37,1186
+public long int StmFRead(96,2654
+public long int StmFWrite(121,3293
+public procedure StmInit(52,1551
+public int StmUnGetc(144,3907
+public long int StmZeroLong(38,1229
+public procedure os_cleanup(58,1652
+
+stream/unixfopen.c,141
+#define FileFd(67,1665
+#define FileSize(66,1620
+public Stm os_fdopen(162,3642
+public int os_fileno(224,5252
+public Stm os_fopen(75,1859
+
+stream/unixstream.c,281
+private int UFAvail(270,6948
+private int UFClose(245,6409
+private int UFFlush(213,5550
+private int UFPutEOF(282,7158
+private int UFSeek(288,7249
+private long int UFTell(361,9014
+private int UFilBuf(71,2064
+private int UFlsBuf(130,3565
+public procedure UnixStmInit(58,1671
+
+stream/unixstmpriv.h,54
+#define GetPUnixData(47,1466
+#define fileno(48,1518
+
+fp/isinfieee.c,91
+double infinity(63,1768
+public boolean os_isinf(40,1099
+public boolean os_isnan(51,1415
+
+fp/mtxvec.c,898
+public Cd DTfmCd(211,5740
+public procedure DTfmPCd(204,5587
+public procedure FPInit(333,8470
+public Cd IDTfmCd(243,6288
+public procedure IDTfmPCd(234,6091
+public Cd ITfmCd(226,5989
+public procedure ITfmPCd(219,5842
+public procedure IdentityMtx(49,1431
+public procedure MtxCnct(78,2201
+public boolean MtxEqAlmost(91,2510
+public procedure MtxInvert(122,3588
+NumOverflow(295,7829
+private int NumOverflow(303,7970
+private void RaiseHack(289,7737
+#define RealEq(112,3348
+#define RealEq(116,3475
+#define RealEq(118,3539
+public procedure ReportErrno(316,8233
+public procedure RtatMtx(61,1798
+#define RtoILOOPHOLE(115,3430
+public procedure ScalMtx(57,1671
+public Cd TfmCd(196,5488
+public procedure TfmPCd(174,5121
+public procedure TlatMtx(53,1536
+public procedure VecAdd(254,6425
+public procedure VecMul(260,6629
+public procedure VecSub(257,6527
+public integer VecTurn(263,6730
+
+fp/dpintmach.030.s,433
+ENTRY(33,964
+ENTRY(47,1243
+ENTRY(63,1648
+ENTRY(81,2131
+ENTRY(94,2461
+ENTRY(164,4566
+ENTRY(176,4879
+ENTRY(230,6353
+ENTRY(337,9965
+| public procedure dpadd(44,1172
+| public Int32 dpdiv(89,2311
+| public Int32 dpdiv(225,6203
+| public procedure dpmul(78,2058
+| public procedure dpmul(173,4806
+| public procedure dpneg(30,901
+| public procedure dpsub(60,1577
+| public Int32 muldiv(159,4417
+| public Int32 muldiv(334,9892
+
+fp/fixedmach.030.s,1491
+ENTRY(135,4167
+ENTRY(170,5155
+ENTRY(217,6345
+ENTRY(230,6809
+ENTRY(268,7862
+ENTRY(278,8065
+ENTRY(296,8457
+ENTRY(318,8963
+ENTRY(352,9992
+ENTRY(404,11793
+ENTRY(415,12109
+ENTRY(426,12422
+ENTRY(442,12987
+ENTRY(458,13553
+ENTRY(469,13860
+ENTRY(480,14156
+ENTRY(495,14672
+|	jbsr FVSUBR(408,11911
+|	jbsr FVSUBR(419,12226
+|	jbsr FVSUBR(439,12925
+|	jbsr FVSUBR(455,13491
+|	jbsr FVSUBR(461,13641
+|	jbsr FVSUBR(472,13951
+|	jbsr FVSUBR(490,14555
+|	jbsr FVSUBR(505,15071
+fdtwo:	swap	d0			| [d1,d0] = abs(237,6970
+frtwo:	moveq	#0,d0			| [d1,d0] = abs(284,8217
+| Simply compute 132,4109
+| Simply compute 168,5098
+| Same as fixdiv except that we compute 275,7939
+three:	movw	#0x10,d1		| d1.w = count 153,4757
+| fixed dbltofix(81,2618
+| fixed dbltofrac(84,2684
+| fixed fixdiv(50,1947
+| Fixed fixdiv(221,6421
+| fixed fixmul(47,1891
+| Fixed fixmul(129,4070
+| fracd fixratio(56,2090
+| Frac fixratio(272,7899
+| double fixtodbl(75,2465
+| void fixtopflt(87,2751
+| void fracdtopflt(90,2844
+| fracd fracmul(59,2148
+| Frac fracmul(165,5060
+| fixed fracratio(69,2337
+| fracratio(267,7820
+| fracd fracsqrt(66,2271
+| double fractodbl(78,2541
+| fixed fxfrmul(62,2205
+| prescale required for rounding, this is 276,8008
+| consistency with jtc(176,5326
+	| Determine overflow value from signs of parameters 200,6040
+| fixed pflttofix(93,2938
+| fracd pflttofix(96,3019
+| fixed tfixdiv(53,2003
+| Fixed tfixdiv(290,8329
+| fixed ufixratio(72,2395
+| Fixed ufixratio(313,8843
+
+fp/os_math.h,84
+#define CheckErrno(64,1985
+#define ResetErrno(63,1951
+#define ResetErrno(66,2060
+
+fp/DEFSmach.h,164
+#define	ENTRY(61,1536
+#define FVSUBR(58,1497
+#define PARAMX(44,1276
+#define PARAMX(53,1435
+#define RETN(43,1215
+#define RETN(52,1383
+#define	RTENTRY(62,1585
+
+fp/DEFSsun.h,208
+#define	ENTRY(66,1742
+#define PARAMX(42,1201
+#define PARAMX(48,1422
+#define PARAMX(62,1695
+#define RETN(41,1140
+#define RETN(47,1362
+#define RETN(58,1561
+#define RETN(60,1628
+#define	RTENTRY(67,1799
+
+pslib/clockunix.c,70
+public integer os_clock(45,1234
+public integer os_userclock(56,1562
+
+pslib/doublink.c,86
+procedure InitLink(30,890
+procedure InsertLink(46,1162
+procedure RemoveLink(36,973
+
+pslib/except.c,72
+public procedure CantHappen(60,1678
+public procedure os_raise(33,1004
+
+pslib/os_calloc.c,36
+public char *os_sureCalloc(35,1060
+
+pslib/os_malloc.c,36
+public char *os_sureMalloc(39,1189
+
+pslib/pool.c,190
+private PoolElement *GrowPool(84,2756
+public procedure os_freeelement(204,5601
+public procedure os_freepool 170,4910
+public char *os_newelement(189,5311
+public Pool os_newpool(130,3883
+
+pslib/sizes.c,31
+public int ps_getsize 54,1836
+
+pslib/maxminsun.s,26
+| long int os_max(26,785
+
+pslib/setjmpmach.s,111
+	movl	a_ra,a0@(49,1350
+	movl	a1,a0@(51,1404
+	movl	#JB_MAGICNUM,a0@(52,1440
+	fmovem	fpc/fps/fpi,a0@(61,1629
+
+product/coordinates.c,752
+#define CheckWindowDev(46,1711
+public procedure DUserToDevice(117,3511
+private GetBoundsPopCd(163,4742
+public procedure GlobalToLocal(126,3720
+public procedure IniCoordinates(329,8965
+public procedure LocalToGlobal(137,3997
+#define MyCeil(61,2035
+private procedure PSBaseToCurrent(173,4927
+private procedure PSBaseToScreen(184,5152
+private procedure PSCurrentToBase(195,5339
+private procedure PSCurrentToScreen(206,5563
+private procedure PSCurrentWindowBounds(222,6004
+private procedure PSScreenToBase(238,6389
+private procedure PSScreenToCurrent(249,6595
+private procedure PSSizeImage(261,6832
+public procedure PopBounds(63,2076
+#define RealRound(44,1644
+public procedure ScreenToBase(52,1852
+public procedure UserToDevice(154,4535
+
+product/event.c,1364
+static void BeginFlush(457,16023
+public procedure ClearEvent(589,20145
+public procedure DispatchEvents(492,17088
+static void EndFlush(473,16332
+static void EventFlush(462,16106
+public procedure EventInit(905,29420
+private procedure PSCurrentActiveApp(789,25615
+private procedure PSCurrentEventTime(882,28675
+private procedure PSCurrentHowPost(661,21689
+private procedure PSCurrentWaitCursorEnabled(845,27547
+private procedure PSGetEvents(712,23215
+private procedure PSInitEvents(677,22158
+private procedure PSPostEvent(623,20936
+private procedure PSPostEventByContext(633,21104
+private procedure PSSetActiveApp(760,24801
+private procedure PSSetFlushExposures(656,21607
+private procedure PSSetHowPost(643,21319
+private procedure PSSetLastEventSentTime(804,26180
+private procedure PSSetWaitCursorEnabled(819,26776
+private procedure PSStartWaitCursorTimer(871,28274
+private procedure PSTermEvents(706,23127
+private int PopIntValue(598,20376
+public int PostByCode(419,14497
+public procedure PostChanged(553,18972
+public procedure PostDeathEvent(574,19668
+boolean PostEvent(335,11548
+public procedure PostRedraw(534,18410
+private boolean SendEvent(205,7101
+public procedure SetHowPost(431,14863
+private procedure Swap2(132,4219
+private procedure Swap4(127,4109
+private procedure WriteEvent(138,4310
+private procedure popEvent(610,20544
+
+product/init_table.c,0
+
+product/imident.c,70
+public procedure ImIdent(34,979
+public procedure ImIdent32(193,5649
+
+product/imstretch.c,106
+public procedure ImStretch(52,1749
+#define rotate(29,886
+#define rotate(31,972
+#define rotate(34,1065
+
+product/ipcscheduler.c,770
+msg_header_t *AcquireMsg(218,8094
+public procedure ContextYield(272,9829
+private procedure CoroutineTopLevel(105,3715
+public PSSchedulerContext CreateTypedContext(111,3843
+public procedure DidInteract(191,6857
+private boolean HandleDataMsg(407,14492
+private boolean HandleMsg(432,15438
+private boolean HandleNotifyMsg(339,12177
+public procedure MarkSystemContexts(158,5718
+private msg_return_t Msg_Receive(256,9144
+private PSSchedulerContext PickContext(456,16531
+void ReleaseMsg(234,8419
+public procedure Scheduler(531,18836
+public procedure SchedulerInit(612,21447
+private PSSchedulerContext SelectPSContext(489,17458
+public procedure SetPrinterContext(186,6759
+public procedure SetRemotePort(149,5387
+public procedure TerminateUserContexts(171,6131
+
+product/ipcstream.c,513
+public procedure CreateIPCStreams(56,1839
+private int IPCAvail(457,15741
+private int IPCClose(438,15200
+private int IPCFillBuf(194,6683
+private int IPCFlush(395,13742
+private int IPCFlushBuf(427,15016
+public int IPCFlushOutput(346,11989
+public WCParams *IPCGetWCParams(528,17740
+public int IPCInitializeStm(89,3077
+public int IPCNotifyReceived(415,14593
+private int IPCPutEOF(462,15798
+public long int IPCWrite(473,15986
+private int sendAck(158,5638
+private msg_type_long_t *verifyMachType(133,4741
+
+product/listener.c,1039
+private procedure CheckInListenPort(93,2970
+private procedure CheckOutListenPort(101,3168
+private procedure CreateNewContext(133,4327
+public int IsContextWriteProhibited(453,13927
+public procedure ListenerInit(523,15972
+public procedure LoginContextKilled(174,5595
+private void PSCurrentNextStepContext(445,13689
+private procedure PSCurrentUser(394,12344
+private void PSCurrentWriteBlock(430,13278
+private procedure PSListener(276,9072
+private procedure PSLoginExit(321,10325
+private procedure PSResetUser(353,10995
+private procedure PSSetBootstrapPort(474,14362
+private procedure PSSetJobUser(400,12443
+private procedure PSSetLoginContext(313,10140
+private void PSSetNextObjectFormat(458,14048
+private void PSSetNextStepContext(438,13491
+private procedure PSSetPublicListener(327,10436
+private procedure PSSetUser(335,10566
+private void PSSetWriteBlock(425,13180
+private procedure PrivateListenPort(113,3461
+private procedure PublicListenPort(106,3302
+public procedure SetEffectiveUser(237,7818
+SetGroups(197,6338
+
+product/mappedstream.c,290
+#define FileFd(29,595
+#define FileSize(28,550
+private int MFAvail(104,1966
+private int MFClose(86,1614
+private int MFFilBuf(36,766
+private int MFFlush(78,1506
+private long int MFRead(47,934
+private int MFSeek(111,2105
+private long int MFTell(131,2594
+private int MFUnGetc(66,1343
+
+product/miscops.c,665
+public procedure AddMappedFile(182,4899
+private procedure DumpMappedFiles(206,5297
+int FilePathSearch(123,3264
+public procedure MiscOpsInit(331,8589
+private procedure PSCurrentByteCount(288,7462
+private procedure PSCurrentRUsage(71,2103
+private procedure PSFilePath(227,5698
+private procedure PSMStats(219,5602
+private procedure PSPlaySound(245,6188
+private procedure PSResetByteCount(296,7703
+private procedure PSSetCoreLimit(274,7219
+private procedure PSSetMallocDebug(283,7386
+private procedure PSUnixSignal(303,7884
+private PushReal(66,2050
+public procedure RemoveMappedFile(194,5096
+private real TimevalToReal(60,1892
+char *myGetpwdir(95,2811
+
+product/machportdevice.c,764
+#define CarefulFree(95,3108
+static void CopyThresholds(112,3557
+static int DecodeBbox(281,8764
+static void DecodePixelDict(311,9640
+#define ExtractBoolean(306,9400
+#define ExtractBooleanDefault(308,9502
+#define ExtractInt(304,9308
+public procedure IniMpdDevImpl(469,14602
+static void MakeDefaultHalftone(117,3693
+public procedure MpdDevInit(488,15176
+#define New(94,3051
+private PDevice PSMachPortDevice(362,11515
+static char *PopMallocString(102,3366
+static char *SafeMalloc(85,2929
+private procedure mpdGoAway(149,4576
+private procedure mpdInitPage 170,5170
+private boolean mpdShowPage(241,7430
+mpdSleep(144,4512
+private procedure mpdWakeup(133,4211
+private procedure mpdWinToDevXlation 268,8189
+send_asyncronous(198,6070
+send_rpc(219,6817
+
+product/mouse_driver.c,689
+public procedure MouseInit(360,10662
+private procedure PSAdjustCursor(279,8860
+private procedure PSAdjustMouse(293,9164
+private procedure PSButton(194,6655
+private procedure PSCurrentMouse(177,6286
+private procedure PSResetWait(322,9803
+private procedure PSRightButton(200,6789
+private procedure PSRightStillDown(212,7041
+private procedure PSSetCursor(254,8388
+private procedure PSSetMouse(264,8514
+private procedure PSSetWaitCursor(324,9839
+private procedure PSSetWaitEnabled(317,9735
+private procedure PSSetWaitTime(332,9958
+private procedure PSStillDown(206,6928
+public procedure PostNotification(150,5428
+RecalcMouseRect(67,2643
+private procedure SetGSCursor(218,7163
+
+product/nextmain.c,120
+private void NextCustomProc(108,3231
+private procedure PSProf(88,2881
+public integer coSignal(71,2479
+main(138,3940
+
+product/nscontexts.c,230
+int (*DynaLoadFile(41,1240
+void NSAddContextType(172,5242
+NSDestroyContext(260,7085
+NSContextType *NSGetContextType(232,6617
+NSContextType *NSLoadContextType(180,5396
+NSTermContext(267,7257
+RegisterGraphicsPackages(71,2190
+
+product/pscontext.c,522
+public PSSchedulerContext CreateSchedulerContext(98,2774
+public procedure InitPSContextType(222,6402
+public procedure NSCheckNotifyPS(160,4363
+public PSSchedulerContext NSCreatePS(58,1524
+public procedure NSDestroyPS(111,3086
+public PSSchedulerContext NSLoadPS(144,4017
+public procedure NSNotifyPS(155,4278
+public procedure NSTermPS(106,2994
+public procedure NSTimeoutPS(150,4196
+public procedure PSMakeRunnable(199,5715
+public boolean PSNewContextStms(169,4637
+public procedure SelfDestructPSContext(190,5452
+
+product/timelog.c,86
+void InitTimedEvents(76,1742
+void PrintTimedEvents(87,2012
+void TimedEvent(55,1285
+
+product/windowdevice.c,283
+public unsigned int AMulInPlace(55,1937
+private DevLong DevAlwaysTrue(121,3874
+public procedure IniWdDevImpl(133,4465
+public DevColor WdConvertColor(67,2262
+public procedure WdDefaultBounds(86,2935
+public procedure WdDefaultMtx(96,3167
+private procedure WdDeviceInfo(107,3500
+
+product/windowgraphics.c,941
+static int CheckUprightMtx(137,5877
+private int CompositePriv(145,6025
+private procedure CompositeRun(107,5091
+private procedure CompositeTraps(409,13376
+public procedure IniWindowGraphics(827,24069
+#define MyCeil(82,3642
+private procedure PSAlphaImage(491,15183
+private procedure PSComposite(507,15643
+private procedure PSCompositeRect(523,15992
+private procedure PSCurrentAlpha(535,16235
+private procedure PSCurrentWindowAlpha(543,16378
+private procedure PSDissolve(555,16907
+private procedure PSFillWindow(575,17421
+private procedure PSFlushGraphics(591,17821
+private procedure PSHideInstance(597,17926
+private procedure PSNewInstance(606,18116
+private procedure PSReadImage(612,18221
+private procedure PSSetAlpha(761,22448
+private procedure PSSetExposureColor(798,23270
+private procedure PSSetGrayPattern(779,22835
+private procedure PSSetInstance(804,23385
+public int PopNaturalMax(483,15055
+#define RtoI(135,5834
+
+product/windowimage.c,189
+static ImageMessage *FindImageMessage(54,1608
+public procedure IniWindowImage(278,8493
+void MarkNextImage(116,3341
+private procedure PSNextImage(269,8334
+void ReceiveNextImage(79,2101
+
+product/windowops.c,2875
+public procedure ChangedWindowDevice(1269,40595
+private procedure ClearWdNRect(201,7575
+public int CurWindowID(226,8234
+public Bounds *FindPieceBounds(238,8709
+public procedure FlushRedrawRects(253,9161
+public PWindowDevice GetFrontWindowDevice(277,9824
+private Card32 GetMouseMovedMask(286,9976
+public PWindowDevice GetNextWindowDevice(296,10171
+public Layer *ID2Layer(328,11438
+private PWindowDevice ID2PrevWd(342,11935
+public PWindowDevice ID2Wd(358,12428
+public procedure IniWindowOps(1454,46226
+private procedure PSClearNRect(410,13820
+private procedure PSCountFrameBuffers(427,14348
+private procedure PSCountScreenList(438,14794
+private procedure PSCountWindowList(463,15607
+private procedure PSCurrentDefaultDepthLimit(481,16192
+private procedure PSCurrentDeviceInfo(491,16576
+private procedure PSCurrentEventProcedures(504,17008
+private procedure PSCurrentOwner(520,17442
+private procedure PSCurrentWindow(528,17714
+private procedure PSCurrentWindowDepth(538,18075
+private procedure PSCurrentWindowDepthLimit(552,18565
+private procedure PSCurrentWindowDict(564,18976
+private procedure PSCurrentWindowLevel(582,19477
+private procedure PSDumpWindow(596,19918
+private procedure PSDumpWindows(609,20210
+private procedure PSFindWindow(627,20845
+private procedure PSFrameBuffer(664,21780
+private procedure PSGetFrontWindow(692,22744
+private procedure PSGetWindowEventMask(700,23028
+private procedure PSMoveWindow(708,23315
+private procedure PSOrderWindow(758,24921
+private procedure PSPlaceWindow(826,26907
+private procedure PSScreenList(876,29110
+private procedure PSSetAutofill(901,29871
+private procedure PSSetDefaultDepthLimit(916,30338
+private procedure PSSetEventProcedures(948,31302
+private procedure PSSetNRect(977,32220
+private procedure PSSetOwner(1021,33634
+private procedure PSSetSendExposed(1032,33839
+private procedure PSSetWindowDepthLimit(1049,34476
+private procedure PSSetWindowDict(1080,35152
+private procedure PSSetWindowEventMask(1100,35630
+private procedure PSSetWindowLevel(1117,36177
+private procedure PSSetWindowType(1171,37671
+private procedure PSTermWindow(1182,37899
+private procedure PSWindow(1195,38270
+private procedure PSWindowDevice(1224,39276
+private procedure PSWindowDeviceRound(1229,39353
+private procedure PSWindowList(1240,39850
+private int PopIntCoord(392,13500
+public procedure RedrawWindowDevice(1259,40332
+procedure SetWindow(1279,40867
+procedure SetWindowDevice(1287,41177
+private procedure TermNRects(1294,41293
+public procedure TermWindow(1308,41621
+public procedure TermWindowDevice(1332,42415
+public procedure TermWindowsBy(1351,43017
+public short UniqueWindowId(1381,43933
+public Layer *Wd2Layer(1406,44509
+private int checkOrderingValdity(155,6262
+private int highestWindowInTier(309,10839
+private int lowestWindowInTier(376,13132
+private int window(115,4710
+
+product/wbcontext.c,280
+PSSchedulerContext NSCreateWB(142,4105
+void NSDestroyWB(183,5335
+PSSchedulerContext NSLoadWB(203,5706
+void NSTermWB(178,5270
+static void WBCoProc(60,1524
+static void WBError(47,1141
+static msg_return_t WBMsg_send(35,834
+void WBNotifyNewShmem(209,5825
+int WBmain(249,7388
+
+product/windowbitmap.c,307
+void WBChangeBitmap(109,3204
+int WBCloseBitmap(141,4175
+static Layer *WBCopyLayer(273,7920
+static boolean WBCurrentLayer(244,7331
+int WBFlushBitmap(235,7176
+int WBGetBitmap(168,4905
+void WBGetDeviceInfo(190,5678
+static Layer *WBID2Layer(259,7659
+int WBMarkBitmap(214,6473
+int WBOpenBitmap(47,1235
+
+product/dynaloader.c,57
+int (*DynaLoadFile(50,1834
+void DynaUnloadFile(88,3035
+
+product/ipcstream.h,0
+
+product/ipcscheduler.h,132
+#define RestrictInputPort(139,5603
+#define UnrestrictInputPort(146,5748
+#define contextGid(135,5448
+#define contextUid(134,5368
+
+product/nscontexts.h,273
+#define NSCheckNotifyContext(132,4955
+#define NSCreateContext(71,2760
+#define NSCurrentContext(127,4832
+#define NSLoadContext(95,3685
+#define NSNotifyContext(120,4585
+#define NSTimeoutContext(113,4365
+#define NSUnloadContext(104,4034
+#define NSUsesIPCStms(139,5225
+
+product/timelog.h,59
+#define PrintEventTimes(32,598
+#define TimedEvent(30,551
+
+product/timeslice.h,0
+
+product/wbcontext.h,0
+
+product/wberror.h,0
+
+product/wbprotocol.h,0
+
+include/basictypes.h,628
+#define	LAryObj(171,4641
+#define	LBoolObj(161,4206
+#define	LCondObj(197,5758
+#define	LDictObj(168,4524
+#define	LFontObj(180,5033
+#define	LGStateObj(200,5874
+#define	LGenericObj(203,5996
+#define	LIntObj(158,4045
+#define	LLockObj(194,5642
+#define	LMarkObj(177,4917
+#define	LNameArrayObj(206,6141
+#define	LNameObj(160,4151
+#define	LNullObj(157,4011
+#define	LPkdaryObj(174,4775
+#define	LRealObj(159,4097
+#define	LSaveObj(178,4951
+#define	LStmObj(165,4392
+#define	LStrObj(162,4260
+#define	XAryObj(188,5365
+#define	XCmdObj(186,5285
+#define	XNameObj(182,5098
+#define	XPkdaryObj(191,5500
+#define	XStrObj(183,5153
+
+include/bintree.h,347
+#define ALPHAVALUE(471,17995
+#define GRAYPATSTATE(475,18230
+#define INSTANCING(473,18110
+#define NULLBOUNDS(511,19514
+extern void NXApplyBounds(556,21524
+extern void NXRenderBounds(554,21438
+#define OFFSETBOUNDS(508,19410
+#define REALALPHA(472,18051
+#define REALSCALE(474,18171
+#define SETBOUNDS(501,19155
+#define TOUCHBOUNDS(504,19264
+
+include/bitmap.h,440
+#define bm__mark(239,7038
+#define bm_becomePSDevice(236,6927
+#define bm_composite(206,5901
+#define bm_convertFrom(209,5992
+#define bm_delete(200,5756
+#define bm_dup(204,5849
+#define bm_free(198,5678
+#define bm_makePublic(213,6131
+#define bm_mark(216,6255
+#define bm_new(195,5581
+#define bm_newAlpha(219,6363
+#define bm_newFromData(228,6680
+#define bm_offset(221,6442
+#define bm_sizeBits(192,5458
+#define bm_sizeInfo(223,6525
+
+include/controller.h,0
+
+include/copyright.h,0
+
+include/coroutine.h,82
+extern integer CallAsCoroutine(97,4338
+extern Coroutine CreateCoroutine(60,2334
+
+include/customops.h,78
+extern void PSRegister(432,16301
+extern void PSRegisterStatusDict 436,16487
+
+include/devcreate.h,42
+extern procedure SetWindowProc(466,18551
+
+include/device.h,160
+extern procedure QIntersect(156,5973
+extern procedure QIntersectBounds(167,6438
+extern procedure QIntersectTrp(162,6212
+extern integer TrapTrapInt(139,5266
+
+include/devicetypes.h,95
+#define	Fix(57,1654
+#define FracPart(53,1536
+#define	IntPart(52,1507
+#define	Round(55,1598
+
+include/devimage.h,0
+
+include/devmark.h,0
+
+include/devpattern.h,94
+#define DestroyPattern(129,4166
+#define PatternInfo(130,4220
+#define SetupPattern(128,4088
+
+include/disk.h,0
+
+include/environment.h,68
+#define CAT(197,7466
+#define CAT(200,7520
+#define IDENT(199,7501
+
+include/error.h,0
+
+include/event.h,31
+#define EventCodeMask(69,2478
+
+include/except.h,112
+#define Assert(251,9588
+#define DebugAssert(258,9764
+#define DebugAssert(261,9853
+#define	E_RETURN(155,5568
+
+include/filesystem.h,33
+extern int FileDirEnum(168,6755
+
+include/filetypes.h,0
+
+include/fonts.h,0
+
+include/foreground.h,71
+#define FGEnterMonitor(78,3201
+extern procedure FGInitialize(83,3258
+
+include/fp.h,998
+#define CopySwap4(208,8086
+#define DEG(431,14556
+#define FCeil(569,19687
+#define FCeilF(578,20032
+#define FRound(573,19816
+#define FRoundF(579,20074
+#define FTrunc(565,19532
+#define FTruncF(577,19976
+#define FixInt(562,19436
+#define IEEEHighToNative(219,8548
+#define IEEEHighToNative(222,8681
+#define IEEELowToNative(217,8408
+#define IEEELowToNative(224,8823
+#define IsValidReal(435,14681
+#define NativeToIEEEHigh(220,8607
+#define NativeToIEEEHigh(223,8752
+#define NativeToIEEELow(218,8478
+#define NativeToIEEELow(225,8881
+#define RAD(428,14442
+#define RealEq0(409,13780
+#define RealEq0(416,14071
+#define RealGe0(412,13909
+#define RealGe0(419,14169
+#define RealGt0(411,13870
+#define RealGt0(418,14137
+#define RealLe0(414,14016
+#define RealLe0(421,14234
+#define RealLt0(413,13963
+#define RealLt0(420,14202
+#define RealNe0(410,13825
+#define RealNe0(417,14104
+#define RtoILOOPHOLE(408,13735
+#define os_abs(150,5855
+#define os_fabs(424,14284
+#define os_labs(157,6173
+
+include/fpfriends.h,0
+
+include/gc.h,368
+#define GC_MarkAllocated(154,6015
+#define	GC_PrivGCMustTrace(164,6547
+extern procedure GC_RegisterFinalizeProc(105,3892
+extern procedure GC_RgstGStateEnumerator(125,4782
+extern procedure GC_RgstGetRootsProc(95,3408
+extern procedure GC_RgstPkdAryEnumerator(114,4318
+extern procedure GC_RgstSharedRootsProc(85,2920
+extern procedure GC_RgstStmEnumerator(123,4713
+
+include/graphics.h,51
+extern procedure RgstStrokeSemaphoreProc 222,6302
+
+include/imagemessage.h,0
+
+include/init.h,0
+
+include/io.h,0
+
+include/language.h,372
+#define GetStream(404,12311
+#define IPop(236,7854
+#define IPopDiscard(250,8092
+#define IPopDiscard(265,8387
+#define IPopNotEmpty(257,8224
+#define IPopNotEmpty(267,8458
+#define IPopOp(242,7949
+#define	IPopSimple(229,7715
+#define IPush(281,8723
+#define IPushSimple(274,8583
+#define MakeStr(320,9593
+#define MakeXStr(323,9636
+#define	SetRealClockAddress(59,1718
+
+include/monitor.h,0
+
+include/mousekeyboard.h,0
+
+include/mp.h,0
+
+include/orphans.h,93
+#define OpSet(83,3024
+extern procedure RgstOpSet(60,1945
+#define	STATICEVENTFLAG(193,6306
+
+include/package_specs.h,0
+
+include/postscript.h,36
+  CreateSchedulerContext(375,15883
+
+include/printmessage.h,0
+
+include/pslib.h,0
+
+include/publictypes.h,90
+#define MAX(49,1265
+#define MIN(48,1230
+#define StrLen(130,2960
+#define until(42,1146
+
+include/recycler.h,812
+#define AddressInRecyclerRange(92,2431
+#define	ChangeRecyclerExecLevel(303,7510
+#define ConditionalInvalidateRecycler(143,3513
+#define ConditionalResetRecycler(130,3269
+#define	ExtendRecycler(297,7192
+#define InitRecycler(116,3018
+#define IsRecyclable(202,4827
+#define IsRecyclableType(59,1618
+#define	ObjectInRecyclerRange(104,2756
+#define	ReclaimRecyclableVM(298,7255
+#define	Recyclable(299,7309
+#define RecyclerAddress(81,2191
+#define RecyclerForObject(69,1871
+#define	RecyclerPop(300,7359
+#define	RecyclerPush(301,7411
+#define	ResetRecycler(302,7465
+#define _ChangeRecyclerExecLevel(271,6557
+#define	_ExtendRecycler(157,3759
+#define _ReclaimRecyclableVM(169,3975
+#define _Recyclable(188,4500
+#define	_RecyclerPop(212,5098
+#define	_RecyclerPush(228,5461
+#define	_ResetRecycler(249,6018
+
+include/sizes.h,0
+
+include/stodev.h,0
+
+include/stream.h,425
+#define favail(199,7922
+#define fclose(193,7613
+#define feof(237,9814
+#define ferror(241,9997
+#define fflush(183,7077
+#define fputeof(211,8534
+#define fread(171,6486
+#define freset(204,8140
+#define fseek(218,8917
+#define ftell(224,9286
+#define fwrite(177,6787
+#define getc(152,5660
+#define getchar(282,11817
+#define os_rewind(272,11487
+#define putc(163,6113
+#define putchar(285,11927
+#define ungetc(158,5888
+
+include/unix_product.h,0
+
+include/unixstream.h,0
+
+include/vm.h,555
+#define	CurrentShared(459,16948
+#define	DoDictXlat(165,5172
+#define FREE(501,18177
+#define ForAllNames(476,17490
+#define GetVMFirst(467,17161
+#define GetVMLast(468,17205
+#define NEW(498,18115
+_vm	procedure	RgstGCContextProcs(276,9148
+#define StringText(456,16902
+#define SysDictGetP(128,3853
+#define	TrickyDict(162,5065
+#define VMGetChar(470,17249
+#define VMGetDict(471,17294
+#define VMGetElem(472,17345
+#define VMGetKeyVal(473,17394
+#define VMGetValue(474,17439
+extern procedure WriteContextParam 379,13518
+#define	XlatDictRef(168,5285
+
+include/windowdevice.h,56
+#define CheckWindow(109,4106
+#define Wd2Layer(91,3447

@@ -1,0 +1,128 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: A Simple Line Breaking Algorithm     Number: 14
+%-----------------------------------------------------------------------------
+%
+/wordbreak ( ) def                          % Constant used for word breaks
+					    % (ASCII space).
+							    
+/BreakIntoLines                             % The procedure ``BreakIntoLines''
+  { /proc exch def                          % takes a string of text and
+    /linelength exch def                    % breaks it up into a series of
+    /textstring exch def                    % lines, each no longer than the
+					    % maximum line length. The
+					    % algorithm breaks lines at word
+					    % breaks (spaces) only.
+					    % ``BreakIntoLines'' takes three
+					    % arguments: the string of text,
+					    % the maximum line length and a
+					    % procedure to be executed each
+					    % time the end of a line has been
+					    % found. The procedure should be
+					    % written so that it takes one
+					    % argument, a string containing
+					    % the current line.
+    /breaklen wordbreak stringwidth pop     % Get the typeset length of a word
+       def                                  % break in the current font.
+    /curlen 0 def                           % ``curlen'' is the current
+					    % typeset length of the current
+					    % line.
+    /lastwordbreak 0 def                    % ``lastwordbreak'' is the index
+					    % into the string of text of the
+					    % most recent word break
+					    % encountered.
+    /startchar 0 def                        % ``startchar'' is the index of
+					    % the first character on the
+					    % current line.
+    /restoftext textstring def              % ``restoftext'' is a temporary
+					    % variable that holds the
+					    % remaining results of the
+					    % ``search'' operator (see loop
+					    % below).
+						     
+    { restoftext wordbreak search           % The basic strategy for breaking
+	{/nextword exch def pop             % lines is to search the string of
+	 /restoftext exch def               % text (contained in
+	 /wordlen nextword stringwidth      % ``restoftext'') for the next
+	   pop def                          % occurring word break. The
+					    % pre-string returned by the
+					    % ``search'' operator is the word
+					    % preceding the word break. The
+					    % post-string returned gets
+					    % assigned to ``restoftext.''
+	 curlen wordlen add linelength lt   % If the length of the word
+	   { /curlen curlen wordlen add     % returned by the ``search''
+	     breaklen add def }             % operator exceeds the maximum
+	   { textstring startchar           % line length when added to the
+	     lastwordbreak startchar sub    % length of the current line then
+	     getinterval proc               % the substring spanning the
+	     /startchar lastwordbreak def   % current line (from the first
+	     /curlen wordlen breaklen       % character on the line to the
+	       add def                      % most recent word break) is
+	   } ifelse                         % obtained and passed as an
+					    % argument to the user's
+					    % procedure. Otherwise the length
+					    % of the current line is
+					    % incremented by the width of the
+					    % word.
+	 /lastwordbreak lastwordbreak       % The ``lastwordbreak'' variable
+	   nextword length add 1 add def    % is always updated to index into
+	}                                   % the text string at the position
+					    % of the most recent word break.
+	{ pop exit }                        % The last word in the text has
+	ifelse                              % been found when the ``search''
+    } loop                                  % operator fails to match the word
+					    % break pattern. This terminates
+					    % the loop.
+						       
+    /lastchar textstring length def
+    textstring startchar lastchar           % Don't forget to process the last
+					    % line.
+      startchar sub getinterval proc
+  } def
+/Times-Roman findfont 12 scalefont setfont  % Below is an example of the how
+/yline 552 def                              % the ``BreakIntoLines'' procedure
+					    % might be used.
+							    
+(In every period there have been better or\
+ worse types employed in better or worse\
+ ways. The better types employed in better\
+ ways have been used by the educated\
+ printer acquainted with standards and\
+ history, directed by taste and a sense of\
+ the fitness of things, and facing the\
+ industrial conditions and the needs of\
+ his time. Such men have made of printing\
+ an art. The poorer types and methods have\
+ been emplyed by printers ignorant of\
+ standards and caring alone for commercial\
+ success. To these, printing has been\
+ simply a trade. The typography of a\
+ nation has been good or bad as one or\
+ other of these classes had the supremacy.\
+ And to-day any intelligent printer can\
+ educate his taste, so to choose types for\
+ his work and so to use them, that he will\
+ help printing to be an art rather than a\
+ trade.  Daniel Berkeley Updike.)
+   306                                      % Use a line length of 306 points.
+   { 236 yline moveto show                  % The procedure provided to
+     /yline yline 14 sub def}               % ``BreakIntoLines'' has been
+					    % written so that it takes a
+					    % string as its argument. The
+					    % procedure uses a global variable
+					    % ``yline'' to keep track of
+					    % vertical positioning on the
+					    % page. It moves to a specified
+					    % position on the page, shows the
+					    % string in the current font and
+					    % then updates the vertical
+					    % position.
+   BreakIntoLines                           % EXERCISE FOR THE READER: If the
+					    % user specifies a short enough
+					    % line length, it is possible for
+					    % the typeset width of a single
+					    % word to exceed the maximum line
+					    % length. Modify this algorithm to
+					    % handle this event gracefully.
+showpage

@@ -1,0 +1,79 @@
+% sundisplay
+% last edit: durham - Sat Nov  5 13:00:28 1988
+% paxton -- Mon Jun  6 10:40:52 1988 change Type to HalftoneType
+
+/identMatrix matrix identmatrix def % identity matrix
+/nil 1 array 0 get def % use null element for nil
+/emptyarray 0 array def
+
+/brickvals [
+  3 11 6 9
+  12 8 4 2
+  5 1 10 7
+  6 9 3 11
+  4 2 12 8
+  10 7 5 1
+  ] def
+
+/brickstr 24 string def 
+
+1 dict begin
+0 1 23 {
+  /i exch def
+  brickstr i brickvals i get 255 mul 12 div cvi put
+  } for
+end
+
+/toolready 
+ { % reinit the display
+   /screenw 1152 def % virtual screen width
+   /screenh 900 def % virtual screen height
+   4 dict begin
+     /HalftoneType 3 def
+     /Width 4 def
+     /Height 6 def
+     /Thresholds brickstr def
+     currentdict
+   end sethalftone
+   {} settransfer
+   1 setflat
+   /Restart where {pop Restart} if
+ } def
+
+/_$pausedict
+  {
+    /$Show_Pause where
+      {pop}
+      {/$Show_Pause true def}
+     ifelse
+
+    /_$pausedict 3 dict def
+
+    _$pausedict begin
+      /keyboard (%stdin) (r) file def
+
+      /pause
+      {
+	$Show_Pause {
+          ([End of page] ) print flush
+          _$pausedict /keyboard get
+	    (                               ) readline pop pop
+        } if
+      } def
+    end
+
+  _$pausedict
+} def
+
+/showpage
+{
+  _$pausedict /pause get exec
+  systemdict /showpage get exec
+} def
+
+% not universally redefined in exec.ps anymore: /quit systemdict /quit get def
+
+/start {
+  toolready
+  (%stdin) (r) file cvx exec	% Leave error for kernel to handle
+} def

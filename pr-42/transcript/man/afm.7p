@@ -1,0 +1,176 @@
+.TH AFM 7 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: afm.7p,v 2.2 87/11/17 16:46:35 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.ds TS T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH NAME
+AFM \- Adobe P\s-2OST\s+2S\s-2CRIPT\s+2 font metrics file format
+.SH DESCRIPTION
+AFM files are a standard interchange format for communicating 
+\*(PS font metric information to people and programs.
+The format is ASCII encoded (for both human and machine
+readability), machine independent, extensible, simple to
+parse, and simple to generate.
+AFM files are available for all of Adobe Systems'
+\*(PS fonts.
+.PP
+While somewhat verbose, the format is intended to be easily 
+parsed, with the ability for applications to quickly
+skip over items that are not of interest.  It should be
+possible to create simple line-oriented
+parsing programs, or tools based on
+.IR awk (1)
+or 
+.IR sed (1).
+.PP
+Each AFM file contains the information for only one font
+face.  The file begins with global information about the
+font, followed by sections with character metrics.  The file
+format is line-oriented, each line beginning with a property
+(key) name, followed by the values for that property.  The
+general idea is to give key-value tuples (much like in a \*(PS 
+font dictionary).
+.PP
+The format is:
+.RS
+Key [value value ...]
+.RE
+Key names are case-sensitive.  All keys beginning with a
+capital letter are reserved by Adobe Systems.
+The standard keys are detailed below, but other keys should
+be allowed and safely ignored by programs not recognizing
+them.  All standard keys begin with a capital letter.
+User-defined non-standard entries should begin with a lower-case letter.
+.PP
+The file begins with the line:
+.RS
+.B StartFontMetrics 
+.I version
+.RE
+The version described here is 1.0.
+The last line of the file is:
+.RS
+.B EndFontMetrics
+.RE
+.PP
+The following global font keys are defined.
+Many of them are defined as in the top level or
+FontInfo subdictionary of a \*(PS font dictionary;
+their meanings are described in Appendix A of the
+\*(PS Language Manual.  All numeric values are in the
+(1000 unit per em) character coordinate system.
+.TP 1.5i
+.BI FontName " string"
+The name of the font as presented to the \*(PS 
+.B findfont
+operator.
+.TP
+.BI FullName " string"
+The ``print name'' of the font.
+.TP
+.BI FamilyName " string"
+The font family name.
+.TP
+.BI Weight " string"
+The weight of the font.
+.TP
+.BI ItalicAngle " real"
+The angle (in degrees counter-clockwise 
+from the vertical) of the dominant staffs of the font.
+.TP
+.BI IsFixedPitch " boolean"
+Indicates monospaced (typewriter) fonts.
+.TP
+.BI FontBBox " llx lly urx ury"
+Four integers giving the lower left
+corner and the upper right corner of the font bounding box.
+.IR Note :
+the bounding box given here is that of the flattened
+paths, not of the Bezier curve descriptions.
+.TP
+.BI UnderlinePosition " number"
+The position (from the baseline) to place
+an underline.
+.TP
+.BI UnderlineThickness " number"
+Thickness of an underline stroke.
+.TP
+.BI Version " string"
+Font version identifier.
+.TP
+.BI Notice " string"
+Font name trademark or copyright notice.
+.TP
+.BI Comment " string"
+Comment strings may be ignored.
+.TP
+.BI EncodingScheme " string"
+a string indicating the default encoding
+vector for this font.  The most common one is
+.BR AdobeStandardEncoding .
+Special fonts may simply state
+``\fBFontSpecific\fP''.  In the future, other schemes may be
+employed.
+.TP
+.BI CapHeight " number"
+Top of capital H.
+.TP
+.BI XHeight " number"
+Top of lower case x.
+.TP
+.BI Ascender " number"
+Top of lower case d.
+.TP
+.BI Descender " number"
+Bottom of lower case p.
+.PP
+The individual character metrics are surrounded with the lines
+\fBStartCharMetrics\fP and \fBEndCharMetrics\fP and consist of a list of
+keys and values separated by semicolons.  The characters are
+sorted (numeric ascending) by character code.  Unencoded characters
+follow all of the encoded ones and are distinguished by
+having character code \-1.  Each character gets one line
+of description. Standard keys are:
+.TP 1.5i
+.BI C " number"
+decimal value of default \*(PS
+character code (\-1 if unencoded).
+.TP
+.BI WX " width-x"
+Character width in \fIx\fP (\fIy\fP is 0).
+.TP
+.BI W " width-x width-y"
+Character width vector.
+.TP
+.BI N " name"
+\*(PS character name.
+.TP
+.BI B " llx lly urx ury"
+The character bounding box.
+.TP
+.BI L " successor ligature"
+A ligature sequence;  The current
+character may join with the character named \fIsuccessor\fP to
+form the character named \fIligature\fP.  Note that characters
+may have more than one such entry.
+.PP
+Most western language fonts have \fBWX\fP entries rather
+than \fBW\fP ones.
+Note that keys are one letter for brevity.  Here too,
+the set is extensible, with unknown entries ignored.  (This leaves room for 
+addition of new information, for example.)
+A future revision of this format will have a specification for
+kerning information.
+.SH FILES
+.TP 1.5i
+XPSLIBDIRX/*.afm
+AFM files in the \*(TS distribution.
+.SH "SEE ALSO"
+transcript(1), psfonts(1), awk(1), sed(1).
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+\*(TS is a trademark of Adobe Systems Incorporated.

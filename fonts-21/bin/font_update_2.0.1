@@ -1,0 +1,70 @@
+.\" Copyright (c) 1988 NeXT, Inc.
+.\" All rights reserved.
+.\"
+.\"	@(#)font_update_2.0.1	2.0 (NeXT) 02/16/89
+.\"
+.TH FONT_UPDATE_2.0 1 "April 14, 1990"
+.UC 4
+.SH NAME
+font_update_2.0 \- updates PostScript fonts for 2.0 WindowServer
+.SH SYNOPSIS
+.B /usr/bin/font_update_2.0
+.B [
+.B librarydir
+.B ...
+.B ]
+.SH DESCRIPTION
+.I font_update_2.0
+is a C shell script used to reorganize NextStep
+font directories under NextStep release 2.0.  Fonts in NextStep
+exist in three subdirectories: 
+.B /NextLibrary/Fonts, 
+.B /LocalLibrary/Fonts,
+and 
+.B ~/Library/Fonts.
+Previously, each PostScript font had its component files split into
+three subdirectories (outline, bitmap, and afm).  Now, all of the
+information for a given font is stored in a single subdirectory
+call 
+.I <fontname>.font.  
+For example, in the new scheme, an ls of
+/NextLibrary/Fonts will give:
+.LP
+.I Courier-Bold.font
+.LP
+.I Courier-BoldOblique.font
+.LP
+.I Courier-Oblique.font
+.LP
+.I Courier.font
+.LP
+.I Helvetica-Bold.font
+.LP
+.I <etc>
+.PP
+This new structure allows fonts to be simply maintained using the
+Workspace.
+.PP
+This shell script builds this new structure for whatever fonts
+exist in 
+.I <dir>/Fonts/outline 
+directory.  If no argument is 
+passed, 
+.I ~/Library 
+is used.  
+.B font_update_2.0
+also leaves behind symbolic links
+for the old style allowing older appkits, and applications who rely
+on the old font organization to work.  The WindowServer itself supports
+both organizations.
+.PP
+.SH EXAMPLES
+.PP
+root should do the following during a 2.0 update.
+.LP
+>font_update_2.0 /NextLibrary /LocalLibrary
+.LP
+users with fonts in ~/Library should do the following to update their
+personal fonts (most people don't have any).
+.LP
+>font_update_2.0 

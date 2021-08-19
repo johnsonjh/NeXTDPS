@@ -1,0 +1,51 @@
+
+#! /bin/sh
+# lib/ditroff.font/makefamily
+#
+# Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: makefamily,v 2.2 87/11/17 16:45:51 byron Rel $
+
+# see README for more information
+# makedev is the ditroff program that builds device descriptions
+
+# Args: family-name  R-font  I-font  B-font  BI-font.
+
+cd $DITDIR
+
+orig=Times/devpsc
+family=$1
+new=$family/devpsc
+shift
+
+if test "$family" = "Times"
+then
+    echo "Times family cannot be re-created."
+    exit 1
+fi
+
+rm -fr $family
+mkdir $family $new
+
+(cd $orig; ln * $DITDIR/$new)
+
+for s in '' .aux .map .out
+do
+    rm -fr $new/R$s $new/I$s $new/B$s $new/BI$s
+    ln $orig/$1$s $new/R$s
+    ln $orig/$2$s $new/I$s
+    ln $orig/$3$s $new/B$s
+    ln $orig/$4$s $new/BI$s
+done
+
+for t in R I B BI
+do
+    mv $new/$t /tmp/fam.$$
+    rm $new/$t.out
+    sed -e "/^name/s/.*/name $t/" /tmp/fam.$$ >$new/$t
+done
+
+cd $new
+rm DESC.out
+$MAKEDEV DESC
+rm -f /tmp/fam.$$

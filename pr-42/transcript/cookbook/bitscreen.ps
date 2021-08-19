@@ -1,0 +1,102 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Bit Pattern Screens     Number: 20
+%-----------------------------------------------------------------------------
+%
+/bitison                                    % This function does bit
+  {/ybit exch def /xbit exch def            % addressing within a string whose
+  bstring ybit bwidth mul                   % dimensions and contents have
+  xbit 8 idiv add get                       % been stored into the variables
+  1 7 xbit 8 mod sub bitshift               % `bstring', `bpside', and
+  and 0 ne} def                             % `bwidth'. `bstring' holds the
+					    % bit pattern, `bwidth' is an
+					    % integer giving the pattern width
+					    % in bytes, and `bpside' is an
+					    % integer giving the width and
+					    % height of the pattern in bits.
+					    % This function returns `true' if
+					    % the bit at position (xbit, ybit)
+					    % in bstring is on.
+							       
+/enlargebits                                % enlargebits prints an enlarged
+  {/bwidth exch def                         % bit pattern, so that we can
+  /bpside exch def                          % illustrate the bit patterns that
+  /bstring exch def                         % we will use in `setpattern'
+  0.08 setlinewidth                         % below. This routine sets up the
+  0 1 bpside 1 sub                          % global variables needed by
+    {/y exch def                            % `bitison' defined above, and
+    0 1 bpside 1 sub                        % prints a black square for each
+      {/x exch def                          % on bit. The squares are one unit
+      x y bitison                           % in size; the caller of this
+	{ gsave                             % routine should scale the units
+	    x y translate                   % appropriately. Note that the
+	    newpath                         % earlier bits in the pattern are
+	      0 0 moveto 0 1 lineto         % printed in the lower positions.
+	      1 1 lineto 1 0 lineto         % The high order bit of the first
+	    closepath                       % byte of the pattern is the lower
+	    gsave 0 setgray fill grestore   % left bit, and the low order bit
+	    1 setgray stroke grestore       % of the last byte in the pattern
+	} if                                % is the upper right bit.
+      } for
+    } for
+  0 0 moveto 0 bpside lineto
+  bpside dup lineto bpside 0 lineto
+  closepath 0 setgray stroke
+  } def
+       
+/setpattern                                 % This routine sets up the
+  {/freq exch def                           % halftone screen machinery so
+   /bwidth exch def                         % that a repeating bitmap pattern
+   /bpside exch def                         % will be used for subsequent
+   /bstring exch def                        % output. The screens are device
+   /onbits 0 def /offbits 0 def             % dependent, i.e., the caller of
+					    % this routine must understand the
+					    % device resolution and rotation.
+   freq 0                                   % Here, we begin to set up the
+					    % arguments to `setscreen'.
+     {/y exch def /x exch def               % This begins the screen function
+					    % argument to `setscreen'.
+      /xindex x 1 add 2 div                 % First, we transform the (x, y)
+	 bpside mul cvi def                 % position into a position to
+      /yindex y 1 add 2 div                 % address into the bit pattern.
+	 bpside mul cvi def
+      xindex yindex bitison
+	{/onbits onbits 1 add def 1}        % If that bit is on, count it and
+					    % return a high value.
+	{/offbits offbits 1 add def         % If that bit is off, count it and
+	 0}                                 % return a low value.
+	ifelse
+      }  setscreen
+   {} settransfer                           % Don't allow correction of gray
+					    % values, because we want to set
+					    % the gray exactly according to
+					    % the off-bit, total-bits ratio.
+   offbits offbits onbits add div
+     setgray                                % By setting the gray this way,
+					    % exactly the number of on bits
+					    % will turn on in the screen.
+  } def                                     % Finish the definition of
+					    % `setpattern'. Use hex-string
+/pat1 <d1e3c5885c3e1d88> def                % notation to set the bit
+/pat2 <3e418080e3140808> def                % patterns.
+						       
+/inch {72 mul} def
+		  
+/showpattern                                % Define a routine to make a
+  {/pat exch def                            % simple demonstration of the
+  pat 8 1 300 32 div setpattern             % above functions. Take a pattern
+  0 0 moveto 3 inch 0 lineto                % and display it as enlarged bits,
+  3 inch dup lineto 0 3 inch lineto         % and in use filling an area.
+  closepath fill
+  0 3.5 inch translate 3 8 div inch
+  dup scale
+  pat 8 1 enlargebits
+  } def
+       
+gsave 1 inch 1.25 inch translate            % On the left, show a weaving
+pat1 showpattern grestore                   % pattern.
+						      
+gsave 4.5 inch 1.25 inch translate          % On the right, show a fish scale
+pat2 showpattern grestore                   % pattern.
+						      
+showpage

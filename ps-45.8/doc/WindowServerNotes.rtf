@@ -1,0 +1,1250 @@
+{\rtf0\ansi{\fonttbl\f0\froman Times;\f1\fmodern Courier;\f2\fmodern Ohlfs;}
+\paperw12220
+\paperh12820
+\margl360
+\margr340
+{\colortbl\red0\green0\blue0;}
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f0\b0\i0\ul0\fs48\li1440 \
+Preliminary 2.0 Release Notes: \
+WindowServer\
+
+\pard\tx1080\tx1440\tx1800\fs26\li720 \
+
+\fs28 \
+\
+
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\li720 New Features\
+
+\b0 \
+
+\pard\tx1800\li1440 The following new features have been added to the WindowServer since Release 1.0.\
+
+\pard\tx1440\tx1800\tx2160\fi-380\li1080 	\
+
+\pard\tx1800\fi-360\li1800 ·	Multiple Screens\
+\
+	The WindowServer can now control multiple framebuffers of different sizes and depths simultaneously.  The user's screen configuration is read from NetInfo.  The Preferences app allows the user to change the screen layout.  Also, screen device drivers can now be written (by third parties when more documentation is available).  Drivers are dynamically loaded into the WindowServer at startup. \
+	\
+·	Multiple, Uniform Window Depths\
+
+\b \
+
+\b0 	With support for multiple screens come the need for windows to represent data in varying depths.  NeXT has defined four standard depths in 
+\b nextdict
+\b0  that windows may logically represent at one time:\
+\
+
+\pard\tx1800\tx5040\fi-360\li1800 	
+\f1\fs24 NX_DefaultDepth
+\f0\fs28 	(represents context or WindowServer's depthlimit)\
+	
+\f1\fs24 NX_TwoBitGray
+\f0\fs28 	(1 spp, 2 bps, 2 bpp, planar)\
+	
+\f1\fs24 NX_EightBitGray
+\f0\fs28 	(1 spp, 8 bps, 8 bpp, planar)\
+	
+\f1\fs24 NX_TwelveBitRGB
+\f0\fs28 	(3 spp, 4 bps, 16 bpp, interleaved)\
+	
+\f1\fs24 NX_TwentyFourBitRGB
+\f0\fs28 	(3 spp, 8 bps, 32 bpp, interleaved)\
+
+\pard\tx1800\fi-360\li1800 \
+	A window's depth is uniform throughout its bounds no matter where it lies in the workspace.  This means one can open a 32-bit color window on a MegaPixel display even though the full depth and color cannot be seen.  This is extremely useful for painting and image processing applications.  Our strategy is a memory-saving, information retaining one: most users or developers shouldn't worry about window depths since they are handled automatically by the WindowServer and AppKit.  However, if a developer wishes to control window depths more directly, we have defined a simple API for this control.\
+	\
+	We introduce the concept of 
+\i lazy-automatic depth promotion
+\i0 .  Windows start out at minimal depth, i.e., 
+\pard\tx1800\tx5040\f1\fs24\fi-360\li1800 NX_TwoBitGray
+\f0\fs28 , and are automatically promoted to a higher depth when necessary.  When one draws precise gray or color into a window, the WindowServer may promote it to a higher depth that will better represent the new data.  What depth the window promotes to depends on the color or image being rendered and the window's 
+\i depth limit
+\i0 .\
+	\
+	A window's 
+\i depth limit
+\i0  is the maximum depth a window may attain.  It is set implicitly during window creation to its context's 
+\i default depth limit
+\i0 .  The WindowServer assigns each new context a default depth limit equal to the maximum depth visible on the system.  For example, if you have a 32-bit color display and a MegaPixel display, the default depth limit would be set to 
+\f1\fs24 NX_TwentyFourBitRGB
+\f0\fs28 .  The context's default depth limit can be changed with the 
+\b setdefaultdepthlimit
+\b0  operator.  An individual window's depth limit can be changed via the 
+\b setwindowdepthlimit
+\b0  operator.  WARNING: The AppKit controls the depth limits of its contexts and windows.  You can also find out what a window's current logical depth is by calling 
+\b currentwindowdepth
+\b0 .\
+	\
+	A promotion example:  If a window is 
+\f1\fs24 NX_TwoBitGray
+\f0\fs28  and it's depth limit is 
+\f1\fs24 NX_TwleveBitRGB
+\f0\fs28 , and you draw color, the window will automatically be promoted to 
+\f1\fs24 NX_TwleveBitRGB
+\f0\fs28  before rendering.  Lazy-automatic promotion is also triggered by the precision of alpha you render with.\
+
+\pard\tx1800\fi-360\li1800 	
+\b \
+
+\pard\tx1800\tx4380\b0\fi-360\li1800 ·	Font cache size can be altered with command line arguments.  The following options are supported:\
+\
+	MIDS=
+\i num
+\i0 	max number of font/matrix specifiers (mmax)\
+	MASKS=
+\i num
+\i0 	max number of cached characters (cmax)\
+	CACHE=
+\i num
+\i0 	max bytes of total bitmap storage (bmax)
+\pard\tx1800\fi-360\li1800 \
+\
+·	The WindowBitmap library is only supported when the WindowServer has access to a MegaPixel display.  It should work in a multiple screen environment but results are undefined when windows appear on screens other than a MegaPixel display.\
+\
+·	It is now possible to use the 
+\b pathforall
+\b0  operator on character paths.\
+\
+·	The 
+\b image
+\b0  operator now time-slices when rendering a large image to  
+\b machportdevice
+\b0 .\
+\
+·	New Adobe Release\
+\
+	We have integrated a new Adobe PostScript release which includes Composite Font support (Kanji), and ATM (Adobe Type Manager) for better small-size characters without prebuilt bitmaps.\
+\
+·	Compositing\
+\
+	The PLUSL compositing operator is now implemented.  The DISSOLVE operator now (correctly) dissolves alpha as well as data.  Also, a variety of subtle compositing bugs have been fixed.\
+\
+·	Better  
+\b image
+\b0  and 
+\b alphaimage
+\b0 \
+\
+	Images can now be sent to the WindowServer using msgImageBitmap, which sends the data of the image out of band through a Mach port, resulting in better performance for  large images.  In addition, the most common use of 
+\b alphaimage
+\b0  (2 bit source, no scaling or rotation, no transfer function) has been sped up about 10 times.  
+\b alphaimage
+\b0  now supports interleaved source data.\
+\
+	NOTE:  msgImageBitmap is not yet being used by the AppKit.\
+\
+·	Screen-Changed Events\
+\
+	When a region of a window moves from one screen to another, a screen-changed event is generated, indicating what window and what region of the window changed.  The event type is 13 (NX_KITDEFINED), and the subtype is 8 (NX_WINCHANGED).  The remaining arguments are identical to an expose event, which has subtype 0 (NX_WINEXPOSED).\
+\
+·	Improved Responsiveness While Printing\
+\
+	An attempt has been made to increase the responsiveness of the system while the WindowServer is printing.  This has been accomplished by reducing the priority of PostScript contexts doing printing, relative to contexts that are operating on windows.\
+\
+·	New Font Directory Structure\
+\
+	In order to make font installation and deletion from the Workspace easier, all the files for a particular font are now stored together in one place.  Each font has its own subdirectory in /NextLibrary/Fonts (/LocalLibrary/Fonts, or ~/Library/Fonts), called 
+\i fontname
+\i0 .font.  Within that subdirectory are the outline, bitmap, and afm files for the font.  The old font directory structure has been replaced with symbolic links to the new file locations for backward compatibility.  /NextLibrary/Fonts will be reinstalled (see below) for this release.  Any fonts present in /LocalLibrary/Fonts will be restructured automatically during the 2.0 update procedure.  Any personal fonts you may have in the old organization under ~/Library, can be reorganized using the 
+\b font_update_2.0
+\b0 (1) shell script in /usr/bin.\
+\
+·	PostScript Type 1 Fonts\
+	\
+	For the fonts in /NextLibrary/Fonts, we are now using standard Adobe Type 1 fonts.  The WindowServer no longer supports Type 4 (disk-based fonts).  The change should be completely transparent because an entirely new /NextLibrary/Fonts subdirectory will be installed with this server.\
+\
+·	New Printing Architecture\
+\
+	In NextStep  release 1.0, a document was printed on the NeXT Laser Printer by a program (normally 
+\b npd
+\b0 ) sending the page description to a Display PostScript connection and relying on the WindowServer to ship the rendered pages to the printing device (
+\b /dev/np0
+\b0 ) directly.  This is accomplished by using the 
+\b printerdevice
+\b0  operator which implements a one-bit PostScript rendering device specific to the NeXT LaserPrinter.  With this architecture it is awkward for client applications (such as 
+\b npd
+\b0 ) to handle device errors robustly.  Also, substantial WindowServer changes are required each time a new printing technology needs to be supported.\
+\
+	In NextStep 2.0, Display PostScript is used purely as a rendering engine and the device control has been moved to 
+\b npd
+\b0 .  A new PostScript operator 
+\b machportdevice
+\b0  implements a generic PostScript rendering device in the WindowServer.  This device sends rendered pages to other processes using Mach's efficient out-of-band messaging.  This approach eliminates any assumptions by the Window Server about the particulars of device operation.  Optimal device-specific halftone screens and transfer functions can be communicated to the generic rendering device by the client program.  (which  presumably knows the final destination of the bits, e.g. 
+\b  /dev/np0
+\b0 , fax modem).\
+\
+
+\i << we may need to mention that rendering high-resolution bitmaps (>400 dpi under the current contract, probably greater than 900 dpi under the revised contract) may be contrary to the terms of the software license. >>\
+
+\i0 \
+\
+
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\li720 New (NeXT) PostScript Operators\
+
+\pard\tx1440\fi-1080\li1800 \
+
+\pard\tx740\b0\li720 The following PostScript operators have been added since Release 1.0.  One of three attributes follow operators' usage: % public, % internal, and % private.  Public operators are in the published API and are unrestricted.  Internal operators in the published API but have restricted use.  Private operators are not published and may only be used internally.\
+
+\pard\tx1440\b\fi-1080\li1800 \
+
+\pard\tx4320\fi-3600\li4320 adjustcursor
+\b0 	
+\i dx dy
+\i0   
+\b adjustcursor    
+\b0 % public\
+\
+	Moves the mouse location (and, correspondingly, the cursor) by (
+\i dx
+\i0 , 
+\i dy
+\i0 ) from its current location.  
+\i dx
+\i0  and 
+\i dy
+\i0  are given in the current coordinate system.  If the current device isn't a window, an 
+\b invalidid
+\b0  error is generated.  (Note:  This operator is a corrected version of the previous 
+\b adjustmouse
+\b0  operator which should be removed from the API.  However, the 
+\b adjustmouse
+\b0  operator has not been removed from the code so that apps that use it in its broken state will continue to work.)\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+
+\b0 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b currentmouse, setmouse
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+\
+currentactiveapp
+\b0 	±  
+\b currentactiveapp  
+\b0\i context
+\i0     % internal\
+\
+	Returns the active application's context.  This is used by the window package to assist with wait cursor operation.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackoverflow
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+
+\b0 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b setactiveapp
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+\
+countframebuffers
+\b0 	±  
+\b countframebuffers
+\b0   
+\i count    
+\i0 % public
+\b \
+
+\b0 \
+	Returns the number of active screens in use by the WindowServer.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackoverflow
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+
+\b0 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b framebuffer
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+currentnextstepcontext
+\b0 	±  
+\b setnextstepcontext
+\b0  
+\i bool    
+\i0 % private\
+	\
+	This operator checks to see if the 
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\b\fc0 setnextstepcontext
+\pard\tx4320\b0\fi-3600\li4320  operator has been called in a context to limit its access to the filesystem.\
+	\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackoverflow\
+	
+\pard\tx4320\fi-3600\li4320 \
+
+\b0 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b setnextstepcontext
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+
+\b0 \
+
+\b countwindowlist
+\b0 	
+\i context  
+\b\i0 countwindowlist 
+\b0  
+\i int    
+\i0 % public\
+\
+	This is similar to the 
+\b countscreenlist
+\b0  operator except that it counts all windows owned by the given 
+\i context
+\i0 , not just those which are in the screen list.  If 
+\i context
+\i0  is 0, the window's owned by all contexts are counted.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackunderflow, typecheck\
+	
+\b0 \
+
+\pard\tx4320\fi-3600\li4320  	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b windowlist
+\b0 \
+
+\pard\tx4320\b\fi-3600\li4320 \
+\
+currentdefaultdepthlimit
+\b0 	±  
+\b currentdefaultdepthlimit  
+\b0\i depth    
+\i0 % public\
+\
+	Returns the current context's default depth limit for new windows.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackoverflow
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b setdefaultdepthlimit, setwindowdepthlimit, currentwindowdepthlimit, currentwindowdepth
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b currentwaitcursorenabled	
+\b0\i context  
+\b\i0 currentwaitcursorenabled  
+\b0\i bool     
+\i0 % public\
+\
+	Returns the wait cursor enable flag of the given 
+\i context
+\i0 .  If 
+\i context
+\i0  is zero, the global wait cursor flag is referenced.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow, typecheck\
+	
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx4320\b\fi-3600\li4320 setwaitcursorenabled
+\pard\tx4680\fi-3960\li4680 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+currentwindowdepth
+\b0 	
+\i window
+\i0   
+\b currentwindowdepth  
+\b0\i depth    
+\i0 % public\
+\
+	Returns the 
+\i window's
+\i0  current logical 
+\i depth
+\i0  irrespective of its depth limit.  An 
+\b invalidid
+\b0  error is generated if the window doesn't exist.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx4320\b\fi-3600\li4320 invalidid,
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600  stackunderflow, typecheck
+\pard\tx4680\fi-3960\li4680 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	setwindowdepthlimit, currentwindowdepthlimit, setdefaultdepthlimit, currentdefaultdepthlimit
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b currentwindowdepthlimit
+\b0 	
+\i window
+\i0   
+\b currentwindowdepthlimit  
+\b0\i depth    
+\i0 % public\
+\
+	Returns the 
+\i window's
+\i0  current depth limit.  This is the maximum depth the window can attain.  An 
+\b invalidid
+\b0  error is generated if the window doesn't exist.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\b invalidid, stackunderflow, typecheck
+\pard\tx4680\fi-3960\li4680 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	setwindowdepthlimit, currentwindowdepth, setdefaultdepthlimit, currentdefaultdepthlimit
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b currentwindowlevel
+\b0 	
+\i window 
+\i0  
+\b currentwindowlevel
+\b0   
+\i level    
+\i0 % public\
+	\
+	Returns the tier level of  the 
+\i window
+\i0 . \
+	\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx4320\b\fi-3600\li4320 setwindowlevel
+\pard\tx4680\fi-3960\li4680 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+fillwindow
+\b0 	
+\i place otherwindow window
+\i0   
+\b fillwindow  ±
+\b0\i     
+\i0 % private\
+	\
+	Copies into the window whose global window id is 
+\i window
+\i0  the image of the windows  below the point in the screen list given by 
+\i place 
+\i0 and
+\i  otherwindow
+\i0 .  That is, it assembles into 
+\i window
+\i0  the image of what would be on the screen, considering only the windows below the given point in the screen list.  The results of doing a  
+\b fillwindow
+\b0  when 
+\i window
+\i0  isn't in the screen list or with 
+\i place
+\i0  set to Out are undefined.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b limitcheck, rangecheck, stackunderflow, typecheck\
+
+\pard\tx4320\fi-3600\li4320 \
+\
+framebuffer
+\b0 	
+\i index string
+\i0   
+\b framebuffer  
+\b0\i name
+\i0  
+\i slot
+\i0  
+\i unit
+\i0  
+\i id
+\i0  
+\i x
+\i0  y 	
+\i width
+\i0  
+\i height maxdepth    
+\i0 % public
+\b \
+\
+	
+\b0 Provides information on an active framebuffer specified by 
+\i index
+\i0  where index ranges from 0 to 
+\b countframebuffers
+\b0 -1. You must pass a 
+\i string
+\i0  large enough to hold the resulting name of the framebuffer.  
+\i slot
+\i0  is the NextBus slot the framebuffer is physically plugged into.  If a board supports multiple framebuffers,  
+\i unit
+\i0  uniquely identifies the framebuffer.  The ROM product code is returned in 
+\i id
+\i0 .  The bottom-left corner of the framebuffer is returned in 
+\i x
+\i0  and 
+\i y
+\i0  (screen coordinates).  The size of the framebuffer is returned in 
+\i width
+\i0  and 
+\i height
+\i0  (pixels).  
+\i maxdepth
+\i0  is the maximum depth displayable on this framebuffer (e.g., NX_TwentyFourBitRGB).\
+	\
+	A 
+\b limitcheck
+\b0  error is generated if the string is not large enough to hold the framebuffer name.  A 
+\b rangecheck
+\b0  error is generated if the index is out of bounds.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b limitcheck, rangecheck, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b countframebuffers
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b getcurrentbytecount
+\b0 	±  
+\b getcurrentbytecount
+\b0   
+\i count    
+\i0 % private\
+\
+	Returns the total number of bytes sent to the WindowServer by all PostScript contexts since the last time 
+\b resetcurrentbytecount
+\b0  was executed.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackoverflow
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx4320\b\fi-3600\li4320 resetcurrentbytecount
+\pard\tx4680\fi-3960\li4680 \
+
+\pard\tx4320\fi-3600\li4320 \
+machportdevice
+\b0 	
+\i width height bbox matrix hostname portname pixelencoding
+\i0  
+\b machportdevice
+\b0   ±
+\i     
+\i0 % public\
+\
+	
+\i width
+\i0  and 
+\i height
+\i0  are integers determining the number of device pixels for the page.  
+\i bbox
+\i0  is an array of integers in the form [ 
+\i llx lly urx ury
+\i0 ] used to specify the rectangle in the device raster to use as the boundary of the imageable area.  (For the common case where the entire raster is imageable, 
+\i bbox
+\i0  may be expressed as a zero length array 
+\i [ ]
+\i0  which will be interpreted the same as [0 0 
+\i width
+\i0  
+\i height
+\i0 ] by 
+\b machportdevice
+\b0 .)   
+\i matrix
+\i0  is the default transformation matrix for the device.  
+\i hostname
+\i0  and 
+\i portname
+\i0  are strings specifying the named mach port to which the print page messages will be sent.  
+\i pixelecoding
+\i0  is a dictionary describing the format in which PostScript is to render the image data.  It should contain the following entries:\
+	\
+
+\pard\tx4320\tx6680\tx8100\i\fi-3600\li4320 	Key	Type	Semantics\
+
+\i0 	\
+
+\b\fi-3780\li8100 samplesPerPixel	
+\b0 integer	currently must be 1.\
+
+\b bitsPerSample
+\b0 	integer	currently must be 1 or 2.\
+
+\b colorSpace
+\b0 	integer	color space specification (see below)\
+
+\b isPlanar	
+\b0 boolean	true if sample values are stored in separate arrays. (currently must be false).\
+
+\b defaultHalftone
+\b0 	dict	passed to 
+\b sethalftone
+\b0  during device creation to set up device default haftone. null as its argument.)\
+
+\b initialTransfer
+\b0 	procedure	passed to 
+\b settransfer
+\b0  during device creation to set up the initial transfer function for device.\
+
+\b jobTag
+\b0 	integer	this allows 
+\b machportdevice
+\b0  to tag rendering jobs.  This value is included in the jobTag field of all printpage messages generated by this device.\
+
+\pard\tx4320\fi-3600\li4320 \
+	The value of 
+\b colorSpace
+\b0  in the pixel encoding dictionary should be one of the following values, predefined in 
+\b nextdict
+\b0 .\
+	\
+
+\pard\tx4320\tx7900\tx8800\i\fi-4460\li8780 Name	Value	Description	\
+
+\b\i0 NX_OneIsBlackColorSpace
+\b0 	0	Monochromatic, high sample value is black.\
+
+\b NX_OneIsWhiteColorSpace
+\b0 	1	Monochromatic, high sample value is white.\
+
+\b NX_RgbColorSpace	
+\b0 2
+\b 	
+\b0 RGB, (1,1,1) is white.\
+
+\b NX_CmykColorSpace	
+\b0 5
+\b 	
+\b0 CMYK, (0,0,0,0) is white.
+\b \
+
+\pard\tx4320\fi-3600\li4320 	\
+	The current implementation of machportdevice
+\b0  only supports the following combinations of 
+\b colorSpace
+\b0  and 
+\b bitsPerSample
+\b0 :\
+\
+
+\pard\tx4320\tx8260\tx8800\i\fi-4460\li8780 colorSpace	bitsPerSample\
+\
+
+\b\i0 NX_OneIsBlackColorSpace
+\b0  	1	\
+
+\b NX_OneIsWhiteColorSpace
+\b0  	2\
+
+\pard\tx4320\fi-3600\li4320 \
+	A number of  
+\b readonly
+\b0  pixel-encoding dictionaries suitable for use with 
+\b machportdevice
+\b0  are pre-defined in 
+\b nextdict
+\b0  in the WindowServer VM:\
+		\
+
+\pard\tx4320\tx8260\tx8800\i\fi-3940\li8260 Name	Description\
+
+\i0 \
+
+\b NeXTLaser-300
+\b0 	NeXT laser printer at 300 dpi.\
+
+\b NeXTLaser-400
+\b0 	NeXT laser printer at 400 dpi.\
+
+\b NeXTMegaPixelDisplay
+\b0 	2 bits-per-pixel gray compatible with NeXT MegaPixel Display.\
+
+\pard\tx4320\fi-3600\li4320 \
+\
+	
+\b machportdevice
+\b0  requires the bounding box array 
+\i bbox
+\i0  to be well formed and within the device pixel bounds of [0 0 
+\i width
+\i0  
+\i height
+\i0 ] , otherwise a 
+\b rangecheck
+\b0  will result.\
+\
+	
+\i  portname
+\i0  is resolved from the nameserver on  
+\i hostname 
+\i0 via 
+\b netname_look_up
+\b0 ().  This occurs during the execution of 
+\b machportdevice
+\b0  (not for each page) so be sure that the receiving port has been checked in via 
+\b netname_check_in
+\b0 () prior to invoking 
+\b machportdevice
+\b0 .  If  the portname is not checked-in  on the given host a 
+\b rangecheck
+\b0  will result.\
+	 \
+	If 
+\i hostname
+\i0  is of length 0, the local host is assumed.  If it is equal to 
+\b *
+\b0 , a broadcast lookup is performed by 
+\b netname_look_up
+\b0 ().   Note, however,  that sending large pages to remote hosts will result in considerable network traffic, while those sent to the local host will not require any copying of physical memory. \
+	\
+	EXAMPLES:\
+\
+	To set up a 400 dpi 8.5 by 11 inch page on a raster with upper-left origin (as in the NeXT laserprinter), which sends its print page messages to the port named "nlp-123" on the local host:\
+\
+
+\f1\fs24 	/dpi 400 def\
+	/width dpi 8.5 mul cvi def\
+	/height dpi 11 mul cvi def\
+	\
+	width height	% page buffer dimensions in pixels \
+	[]	% use it all\
+	[dpi 72 div 0 0 dpi -72 div 0 height]	% device transform\
+	() (nlp-123)	% host (local) & port \
+	NeXTLaser-400	% pixel encoding description	machportdevice\
+
+\f0\fs28 	\
+	For an 8 by 10 inch page on the same 8.5 by 11 inch, 400dpi raster with 1/4 inch horizontal margins and 1/2 inch vertical margins we would use:\
+	\
+
+\pard\tx4320\tx5020\f1\fs24\fi-3600\li4320 	/dpi 400 def\
+	/width dpi 8.5 mul cvi def\
+	/height dpi 11 mul cvi def\
+	/topdots dpi .5 mul cvi def\
+	/leftdots dpi .25 mul cvi def\
+	\
+	width height % page buffer dimensions in pixels \
+	[ \
+		leftdots \
+		topdots \
+		width leftdots sub \
+		height topdots sub\
+	]% bounding box imageable area  \
+	[\
+		dpi 72 div \
+		0 \
+		0 \
+		dpi -72 div \
+		leftdots\
+		height topdots sub\
+	]	% device transform\
+	() (nlp-123) % host (local) & port \
+	NeXTLaser-400 % pixel encoding description\
+	machportdevice\
+
+\pard\tx4320\f0\fs28\fi-3600\li4320 	\
+	Note that in this example, we have chosen to put the user space origin at the lower left corner of the imageable area  -- (leftdots, height - topdots) in the device raster coordinate system.  Usually, the imageable area is meant to correspond with the ultimate destination of the bits.  For example, a printer may have a constant-sized page-buffer with a fixed orientation in the paper path, but be able to accept various sizes of paper.  In this case, the page buffer size will always be fixed, but the imageable area and default device transformation can be adjusted to make the user-space origin appear at the lower-left corner of each printed page.\
+	\
+	ERRORS:\
+\
+
+\b 	limitcheck, typecheck, invalidaccess 
+\b0 (for messaging errors).\
+
+\b \
+
+\b0 	One print-page message (see 
+\b /usr/include/windowserver/printmessage.h
+\b0 ) is sent to the port for each page printed. \
+	\
+	If more than one copy of the page is needed (through either the 
+\b copypage
+\b0  or 
+\b #copies
+\b0  mechanisms) each copy will be sent as a separate message.  In this case the same pagebuffer will be sent in multiple messages.  The pagebuffer data is passed out-of-line, appearing in the receipient's address space.  (If the receiver is on the same host, the pagebuffer received references the same physical memory as the WindowServer's pagebuffer  mapped copy-on-write).\
+	\
+	The bitmap data is stored in x-axis major indexing order.  The device coordinate of the lower left corner of the first pixel is (0,0), the coordinate of the next pixel is (1,0) and so on for the entire scanline.  Scanlines are long-word aligned.  The application should use 
+\b vm_deallocate
+\b0 () to release the pagebuffer memory when it is no longer needed.  The application receiving the pagebuffers must acknowledge receipt of the data by sending a simple msg_header_t (with msg_id == NX_PRINTPAGEMSGID) back to the remote_port in the received page message.  The WindowServer will not continue executing the page description until acknowledgement is received.\
+\
+	
+\b printerdevice
+\b0  is not supported in 2.0.\
+\
+	
+\b letter
+\b0 , 
+\b legal
+\b0 , etc are gracefully ignored. (in general an effort is being made to gracefully ignore all laserwriter specific commands in Appendix D of the Red Book.)\
+
+\i \
+
+\i0 \
+\
+
+\b posteventbycontext
+\b0 	
+\i type x y time flags window subType misc0 misc1
+\i0  
+\i context
+\i0 	
+\b posteventbycontext
+\b0   
+\i bool    
+\i0 % public\
+	\
+	Posts an event to the specified 
+\i context
+\i0 .  The nine parameters preceding the 
+\i context
+\i0  parameter coincide exactly with the NXEvent structure members , except you can determine the coordinate system for the 
+\i x
+\i0  and 
+\i y
+\i0  coordinates (this will generally be the window's coordinate system in the posting context).  The 
+\i window
+\i0  id is the local window id.  Returns 
+\b true
+\b0  if the event was successfully posted to 
+\i context
+\i0 , and 
+\b false
+\b0  otherwise.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b resetcurrentbytecount	±  resetcurrentbytecount ±
+\b0\i     
+\i0 % private\
+\
+	Resets the total byte count of data sent to the WindowServer by all PostScript contexts to zero.\
+	\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b none
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b getcurrentbytecount
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+	\
+
+\b setactiveapp
+\b0 	
+\i context  
+\b\i0 setactiveapp  ± 
+\b0    % internal\
+\
+	This establishes the active application whose main context is 
+\i context
+\i0 .  (This is currently used by the window package to assist with wait cursor operation.  It may be used for other purposes in the future.)\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b currentactiveapp
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b setdefaultdepthlimit
+\b0 	
+\i depth
+\i0   
+\b setdefaultdepthlimit  ±
+\b0\i     
+\i0 % public\
+\
+	Sets the current context's default depth limit for new windows.  If 
+\i depth
+\i0  is 
+\f1\fs24 NX_DefaultDepth
+\f0\fs28 , the context's default depth limit is set to the WindowServer's maximum visible depth which is determined by which screens are active.  A 
+\b rangecheck
+\b0  is generated if 
+\i depth
+\i0  is invalid.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b rangecheck, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b currentdefaultdepthlimit, setwindowdepthlimit, currentwindowdepthlimit, currentwindowdepth
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b setflushexposures
+\b0 	
+\i bool
+\i0   
+\b setflushexposures
+\b0   ±
+\i     
+\i0 % public\
+	\
+	Dictates whether exposure and screen-changed events are flushed to clients.  When set to 
+\b false
+\b0 , no exposure or screen-changed events are sent to the clients until a 
+\b true setflushexposures
+\b0  is received.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow, typecheck\
+
+\pard\tx4320\fi-3600\li4320 \
+\
+setlasteventsenttime
+\b0 	
+\i time
+\i0   
+\b setlasteventsenttime
+\b0   ±
+\i     
+\i0 % private\
+	\
+	Operator strictly used by journaling mechanism to more accurately simulate what really happens in the WindowServer when we post a real event. \
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackunderflow, typecheck\
+
+\pard\tx4320\fi-3600\li4320 \
+setnextstepcontext
+\b0 	
+\i bool
+\i0   
+\b setnextstepcontext
+\b0   ±
+\i     
+\i0 % private\
+	\
+	This operator used by contexts wishing to restrict access to the filesystem.  Once set true, this cannot be reset to false.  This operator disables the ability to write, rename or delete files from the PostScript context in which it is executed.  This restriction is silently enforced to avoid breaking 1.0 apps that wrote diagnositic information to /tmp (i.e. Frame) by generating unexpected errors.  Files opened for writing in a context so restricted, behave as though they were opened on /dev/null.\
+	\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackunderflow, typecheck
+\pard\tx4320\fi-3600\li4320 \
+\
+setpattern
+\b0 	
+\i patternname 
+\i0  
+\b setpattern
+\b0   ±
+\i     
+\i0 % public\
+\
+	Draws with a pattern.  The pattern overrides the current color in the graphics state.  Pattern drawing is automatically disabled when any other operator sets the current color in the graphics state (e.g., 
+\b setrgbcolor, setalpha
+\b0 ).  This operator should be used for drawing UI elements which cannot be drawn in the four pure gray values.  Using these dither patterns avoids 
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\fc0 unnecessary
+\pard\tx4320\fi-3600\li4320  window promotion to deeper color depths.  For example, Scroller uses this to draw its 50% dither.  Only the following three patterns (defined in 
+\b nextdict
+\b0 ) are permitted:\
+	\
+	NX_MediumGrayPattern (50%dither of .333 and .666 gray)\
+	NX_LightGrayPattern (50% dither of .666 and 1.0 gray)\
+	NX_DarkGrayPattern (50% dither of 0 and .333 gray)\
+\
+	Patterned drawing is only permitted in windows.\
+	\
+	This operator will be 
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\fc0 superceded
+\pard\tx4320\fi-3600\li4320  by PostScript Level 2's 
+\b setpattern
+\b0  operator in a future release. (The above patterns will continue to work, however).\
+	\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+
+\b setwaitcursorenabled
+\b0 	
+\i bool context  
+\b\i0 setwaitcursorenabled  ±
+\b0\i     
+\i0 % public\
+\
+	Allows apps to enable and disable wait cursor operation on a per-context basis.  If 
+\i context
+\i0  is zero, the global wait cursor flag is set.  This masks all per-context settings.  If 
+\i bool
+\i0  is 
+\b false
+\b0 , all per-context settings are disabled.\
+\
+	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b currentwaitcursorenabled
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b setwindowdepthlimit
+\b0 	
+\i depth window
+\i0   
+\b setwindowdepthlimit  ±
+\b0\i     
+\i0 % public\
+\
+	Sets the depth limit of 
+\i window
+\i0  to 
+\i depth
+\i0 .  If 
+\i depth
+\i0  is 
+\f1\fs24 NX_DefaultDepth
+\f0\fs28 , then the window's depth limit will be set to the context's default depth limit.  If the resulting depth limit is lower than the window's current depth, the window is dithered down to this depth limit.\
+	\
+	A 
+\b rangecheck
+\b0  is generated if the depth is invalid.  An 
+\b invalidid
+\b0  error is generated if the window doesn't exist.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidid, rangecheck, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\b currentwindowdepthlimit, setdefaultdepthlimit, currentdefaultdepthlimit, currentwindowdepth
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b setwindowlevel
+\b0 	
+\i level window
+\i0   
+\b setwindowlevel  ±
+\b0\i     
+\i0 % public\
+	\
+	Sets the level of a window.  All windows at the same level are grouped into a window tier.\
+\
+	Window tiers affect the 
+\b orderwindow
+\b0  operator.  In short, 
+\b orderwindow
+\b0  tries to perform the operation as best it can, given that windows are constrained to stay within their tiers.  \
+	\
+	If a window is being ordered Above 0, it will become the frontmost window of its tier.  If a window is being ordered Below 0, it will become the backmost window of its tier.  If a window is being ordered relative to another window, such that it would no longer satisfy the tier invariants, the window becomes either frontmost or backmost in its tier, whichever is closest to its original destination.  Other cases are unchanged.\
+	\
+	An 
+\b invalidaccess
+\b0  error is generated if you specify the desktop window; 
+\b invalidid
+\b0  if the window doesn't exist.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidaccess, invalidid, rangecheck, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+ 	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx4320\b\fi-3600\li4320 currentwindowlevel
+\pard\tx4680\fi-3960\li4680 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+setwindowtype
+\b0 	
+\i type window
+\i0   
+\b setwindowtype  ±
+\b0\i     
+\i0 % public\
+\
+	Sets the window's type to the specified 
+\i type
+\i0 .  Currently the only allowable type conversions are from Buffered to Retained, and from Retained to Buffered.  All other possibilities will result in a 
+\b limitcheck
+\b0  error.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b invalidaccess, invalidid, limitcheck, stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320 \
+\
+
+\b windowlist
+\b0 	
+\i array context
+\i0   
+\b windowlist
+\b0   
+\i subarray    
+\i0 % public\
+\
+	This is similar to the 
+\b screenlist
+\b0  operator except that it operates on all windows owned by the given 
+\i context
+\i0 , not just those which are in the screen list.\
+\
+ 	ERRORS\
+
+\pard\tx4680\fi-3960\li4680 	
+\b stackunderflow, typecheck
+\b0 \
+
+\pard\tx4320\fi-3600\li4320  	\
+	SEE ALSO\
+
+\pard\tx4680\fi-3960\li4680 	
+\pard\tx4320\b\fi-3600\li4320 countwindowlist
+\pard\tx4680\fi-3960\li4680 \
+	
+\pard\tx1800\li1440 \
+	
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\li720 \
+Future Directions\
+
+\pard\tx1080\tx1440\tx1800\li720 \
+
+\pard\tx1800\b0\li1440 The following performance improvements are planned for future releases of the WindowServer.\
+\
+·	Faster window dragging on color displays.\
+·	Faster rendering on color displays.\
+·	Faster 
+\fi-360\li1800 image operator for common special cases.\
+\
+
+}

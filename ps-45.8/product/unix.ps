@@ -1,0 +1,120 @@
+% unix.ps
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original: shore
+% last edit: taft - Mon May 23 17:02:20 1988
+% last edit: leo  - Tue Jun 13 12:07:00 1989
+
+% nice interface to "ucall*" unix facilities
+
+/ucallrun {ucallread cvx exec} def
+
+% ! takes a single string which is a unix c-shell command line,
+% 	it feeds it to a csh and "print"s the output on the tty via PS
+% 	note that the user's .cshrc is NOT interpreted
+
+/!				% <shell command string>
+   {$unix begin
+    getscratch
+    /ss .scr (w) file def ss exch writestring ss CR writestring ss closefile
+    .scr (r) file csh-f ucallread printresults
+    deletescratch
+    end
+   } def
+
+/!read
+   {$unix begin
+    getscratch
+    /ss .scr (w) file def ss exch writestring ss CR writestring ss closefile
+    .scr (r) file csh-f ucallread 
+    deletescratch
+    end
+   } def
+
+% ls prints a full (*) directory listing of the current working directory
+/ls {(ls -CF) !} def
+
+% cwd returns a string with current working directory name on the stack
+/cwd
+   {$unix begin
+    devnull {(pwd)} cvlit ucallread
+    dup instr readline pop
+    dup length string copy exch closefile
+    end
+   } def
+
+% pwd : print the cwd
+/pwd {cwd =} def
+
+% pushd : chdir to the argument, pushing the (old) cwd on a stack
+/pushd
+   {$unix begin
+    /dirstack [ dirstack aload pop cwd ] def
+    /dircount dircount 1 add def
+    chdir
+    end
+   } def
+
+% popd : pop dir stack, "chdir"ing back again
+/popd
+   {$unix begin
+    dircount 0 gt
+       {/dircount dircount 1 sub def
+	/dirstack [ dirstack aload pop chdir ] def
+       }
+       {(Directory stack empty.) =
+       }ifelse
+    end
+   } def
+
+% dirs : print the directory stack
+/dirs
+   {$unix begin
+    pwd
+    dircount 1 sub -1 0	{dirstack exch get =} for
+    end
+   } def
+
+/sleep
+   {$unix begin
+      instr 0 (sleep ) putinterval
+      instr 6 20 getinterval cvs
+      length 6 add instr exch 0 exch getinterval !
+    end
+   }def
+
+
+/$unix 32 trickydict def
+$unix begin
+  /instr 120 string def
+  /devnull {(/dev/null) (r) file}def
+  /dirstack [] def
+  /dircount 0 def
+  /CR (\n)def
+  /a3 3 array def
+  /csh-f [(/bin/csh)(-f)(-b)] def
+  
+  /getscratch
+     {(/tmp/uPS-XXXXXX) (               ) mktemp
+      /.scr exch def
+     } def
+
+  /deletescratch {devnull (/bin/rm)(-f) .scr a3 astore ucall} def
+
+  /printresults
+     {/results exch def
+	 {results instr readstring not exch print flush {exit} if} loop
+     } def
+end

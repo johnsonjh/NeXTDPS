@@ -1,0 +1,83 @@
+BUILDING FONTS
+
+The files in this directory help make the ditroff description files
+for the PostScript "device" and its fonts.  Work is split up among
+three files - the Makefile, an awk program (afmdit.awk) and a shell
+script (afmdit).
+
+The units in the device description for PostScript were determined by
+certain limits internal to ditroff.  Ditroff uses bytes and shorts for
+things (like current position and font widths) that would overflow if
+we used a very fine PostScript coordinate system and 1000-unit-per-em
+character widths.  In particular, ditroff stores character widths in
+BYTES (hence, these must be <= 256) so we are forced to scale them and
+lose precision.
+
+The awk program (afmdit.awk) is used by afmdit to help convert an 
+Adobe Metrics Format (AFM) file into a ditroff font description file.
+
+It has a number of important constants defined inside it.  Among them, the 
+PostScript "device" resolution, the font sizes available, and the font width
+scaling factor.  Also present is a mapping from PostScript character names
+to ditroff 2-character character names (e.g., em, mi).
+This mapping is called "ditmap" and also has entries for characters for
+which there is (presently) no PostScript equivalent.  The mapping called
+"ascii" serves to identify the normal printing ascii characters (which
+may have synonymns in ditmap).
+
+The dependencies in the Makefile are triggered in a somewhat strange way.
+The uncompiled font description entries (as input to makedev) have no
+filename extension, and thus an automatic rule for them is hard to write.
+The files [code].font are empty places holders for such a rule.
+The font files are:
+
+[code].map	holds the name of the PostScript font that this ditroff
+		font code represents.  This file is used both in creating
+		the font descriptions and in the ditroff to PostScript
+		translator to do the inverse map.  The first line of 
+		the file is the PostScript font name (as would be 
+		presented to the findfont operator).  The file may have 
+		a second line, containing the word "special" if it the 
+		the special symbol font (see S.map).
+
+[code].font	empty.  This is used by the makefile to trigger the creation
+		of the [code] font description file.
+
+[code]		This is the generated ditroff font description which is input
+		to makedev (which creates a "compiled" version called 
+		[code].out).  This contains information about ligatures,
+		character set, character widths, and ascenders and
+		descenders.  Also present is a (comment) reference
+		to the PostScript character name for each character.
+
+[code].aux	auxiliary info (real PostScript character widths) used by
+		psdit
+
+[code].out	This is the "compiled" version of the font description
+		created by makedev. (See above.)
+
+"Make install" will install all of the .out files and the .map files into
+the destination directory from which ditroff reads them.  This is usually
+/usr/lib/font/devpsc/  (devpsc stands for the PostScript device).  The .map
+files go there too, as the ditroff to PostScript translator needs to inverse
+map ditroff font codes to PostScript font names.  Care should be taken that
+these files (and the directories) have the proper protections.
+
+
+MAKING FONT FAMILIES
+
+There are many troff documents that have been written using the R, I, and
+B as font names (corresponding to Roman, Italic, and Bold).  In TranScript,
+these fonts are installed as the corresponding fonts in the Times family:
+Times-Bold, Times-Italic, and Times-Roman.  It is occasionally desirable
+to print these documents in another font family, say, Helvetica.  This
+requires redefining the R, I, and B fonts to be the corresponding Helvetica
+fonts (Helvetica, Helvetica-Oblique, and Helvetica-Bold), rather than the
+Times fonts.
+
+TranScript implements this by making a different font directory for each
+font family.  The first family installed is always Times.  Other families
+are built by creating a new directory for the font family, making links
+to all the files in the Times family directory, and changing the R, I,
+B, and BI (BoldItalic) font definitions to be correct for the new family.
+The "makefamily" script is used for this.

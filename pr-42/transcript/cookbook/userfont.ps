@@ -1,0 +1,132 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Making a User Defined Font     Number: 25
+%-----------------------------------------------------------------------------
+%
+					    % The following program
+					    % demonstrates the construction of
+					    % a user defined font. The font
+					    % will only have two characters
+					    % defined ("a" and "b") and will
+					    % illustrate how both bitmaps and
+					    % analytic shapes may be used as
+					    % font characters. The character
+					    % "a" will print a turkey
+					    % (constructed as a bitmap), and
+					    % the character "b" will print a
+					    % bullseye.
+/BuildCharDict 10 dict def                  % This dictionary is used by the
+					    % BuildChar procedure for local
+					    % variables.
+/ExampleFont 7 dict def                     % Allocate the font dictionary.
+ExampleFont begin                           % Leave room for the FontID. Build
+					    % the required entries in the font
+					    % dictionary.
+  /FontType 3 def                           % FontType 3 tells PostScript that
+					    % this is a user defined font.
+  /FontMatrix [1 0 0 1 0 0] def             % Use the identity matrix for the
+					    % font coordinate system.
+  /FontBBox [0 0 1 1]def                    % The largest character in the
+					    % font will be 1 unit by 1 unit.
+  /Encoding 256 array def                   % Allocate the Encoding array.
+					    % Build the encoding vector that
+					    % will define "a" and "b".
+  0 1 255 {Encoding exch /.notdef put} for  % Initialize all entries in the
+					    % encoding vector with ".notdef".
+  Encoding (a) 0 get /turkey put            % Associate the name "turkey" with
+					    % the character code for "a".
+  Encoding (b) 0 get /bullseye put          % Associate the name "bullseye"
+					    % with the character code for "b".
+  /CharacterDefs 3 dict def                 % Define the various character
+					    % drawing procedures and put them
+					    % in the CharacterDefs dictionary.
+  CharacterDefs /.notdef {} put             % There should always be a
+					    % description for the undefined
+					    % character ``.notdef'' which does
+					    % nothing.
+  CharacterDefs /bullseye                   % This procedure provides the
+    { newpath                               % analytic description for drawing
+	.5 .5 .375 0 360 arc                % a bullseye. The bullseye is
+	.5 .5 .25 360 0 arcn                % centered within the unit square.
+	.625 .5 moveto
+	.5 .5 .125 0 360 arc
+      fill
+    } put
+  CharacterDefs /turkey                     % This procedure provides the
+					    % bitmap description for drawing a
+					    % turkey.
+    { 24 23 true [24 0 0 -23 0 23]          % To print a bitmap as a character
+					    % in a font, the ``imagemask''
+					    % operator is used. The size of
+					    % the bitmap is specified (note
+					    % that this particular bitmap is
+					    % not perfectly square: it is 24
+					    % bitmap itself is specified as a
+					    % hex string.
+      {<003B00 002700 002480 0E4940 114920
+	14B220 3CB650 75FE88 17FF8C 175F14
+	1C07E2 3803C4 703182 F8EDFC B2BBC2
+	BB6F84 31BFC2 18EA3C 0E3E00 07FC00
+	03F800 1E1800 1FF800>
+      } imagemask
+    } put
+  /BuildChar                                % The procedure BuildChar is
+    { BuildCharDict begin                   % called everytime a character
+					    % from this font must be
+					    % constructed.
+	/char exch def                      % The character code is provided
+					    % as an argument to this
+					    % procedure.
+	/fontdict exch def                  % So is the font dictionary.
+									
+	/charname fontdict /Encoding get    % Convert the character code to
+	  char get def                      % the corresponding name by
+					    % looking it up in the encoding
+					    % vector.
+	/charproc fontdict /CharacterDefs   % Now retrieve the procedure by
+	  get charname get def              % that name from the CharacterDefs
+					    % dictionary.
+	1 0 0 0 1 1 setcachedevice          % Using the ``setcachedevice''
+					    % operator enables the characters
+					    % from this font to be cached.
+	gsave charproc grestore             % Call the procedure which renders
+					    % the character.
+      end
+    } def
+end                                         % Now we are done specifying all
+					    % the information required to
+					    % build a font.
+							   
+/MyFont ExampleFont definefont pop          % Register the font with
+					    % PostScript and name it
+					    % ``MyFont.''
+/showline                                   % This procedure makes it more
+  { gsave show grestore                     % convenient to show a line of
+    0 lineskip rmoveto } def                % text.
+						   
+/MyFont findfont 12 scalefont setfont       % Now use the font we have built.
+/lineskip -12 def                           % Build a 12 point version of the
+					    % font.
+72 555 moveto
+5 { (ababa babab ababab ababa) showline     % Note that one of the characters
+    (babab ababa bababa babab) showline     % in the string which is shown is
+  } repeat                                  % the ``space'' character. Since
+					    % we have not defined what the
+					    % ``space'' character should look
+					    % like, the definition of the
+					    % ``.notdef'' character is printed
+					    % instead.
+/MyFont findfont 24 scalefont setfont       % Now build a 24 point version.
+/lineskip -24 def
+72 360 moveto
+2 { (ababa babab) showline
+    (babab ababa) showline
+  } repeat
+250 180 moveto
+23 rotate                                   % Rotate the user coordinate space
+					    % to an arbitrary rotation.
+2 { (ababa babab) showline                  % This shows a rotated version of
+					    % the font.
+    (babab ababa) showline
+  } repeat
+showpage

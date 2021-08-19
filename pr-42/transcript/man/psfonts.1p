@@ -1,0 +1,111 @@
+.TH PSFONTS 1 "14 July 87" "Adobe Systems"
+\" Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: psfonts.1p,v 2.2 87/11/17 16:47:47 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.ds TS T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH NAME
+PSFONTS \- P\s-2OST\s+2S\s-2CRIPT\s+2 font information for T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH DESCRIPTION
+The following information lists the fonts that are available in \*(TS.
+The fonts are available by full name when using the
+.I enscript(1)
+program,
+and by short name when using
+.I psroff(1)
+or
+.I [di]troff.
+The font family refers to the name of the family that the particular
+font belongs to.
+It is used to declare a default set of fonts in
+.I psroff(1),
+.I ptroff(1),
+etc.
+.sp
+A number of font families below use the same two characters to specify
+all four font faces in the family.
+The alphabetic case is varied to specify an individual face.
+For example:
+.br
+Roman: xx,\ \ \ Bold: xX,\ \ \ Italic: Xx,\ \ \ Bold-Italic: XX.
+.sp
+Please note that alphabetic case is important in all three of the
+columns below.
+.sp
+.ta 3.2i 4.5i
+ Full name	Short name	Font family
+ ---------	----------	-----------
+ AvantGarde-Book	ag	AvantGarde
+ AvantGarde-BookOblique	aG	AvantGarde
+ AvantGarde-Demi	Ag	AvantGarde
+ AvantGarde-DemiOblique	AG	AvantGarde
+ Bookman-Demi	Bo	Bookman
+ Bookman-DemiItalic	BO	Bookman
+ Bookman-Light	bo	Bookman
+ Bookman-LightItalic	bO	Bookman
+ Courier	C	Courier
+ Courier-Bold	CB	Courier
+ Courier-BoldOblique	CD	Courier
+ Courier-Oblique	CO	Courier
+ Garamond-Bold	Ga	Garamond
+ Garamond-BoldItalic	GA	Garamond
+ Garamond-Light	ga	Garamond
+ Garamond-LightItalic	gA	Garamond
+ Helvetica	H	Helvetica
+ Helvetica-Bold	HB	Helvetica
+ Helvetica-BoldOblique	HD	Helvetica
+ Helvetica-Narrow	hn	HelvNarrow
+ Helvetica-Narrow-Bold	Hn	HelvNarrow
+ Helvetica-Narrow-BoldOblique	HN	HelvNarrow
+ Helvetica-Narrow-Oblique	hN	HelvNarrow
+ Helvetica-Oblique	HO	Helvetica
+ LubalinGraph-Book	lu	Lubalin
+ LubalinGraph-BookOblique	lU	Lubalin
+ LubalinGraph-Demi	Lu	Lubalin
+ LubalinGraph-DemiOblique	LU	Lubalin
+ NewCenturySchlbk-Bold	Nc	NewCentury
+ NewCenturySchlbk-BoldItalic	NC	NewCentury
+ NewCenturySchlbk-Italic	nC	NewCentury
+ NewCenturySchlbk-Roman	nc	NewCentury
+ Optima	op	Optima
+ Optima-Bold	Op	Optima
+ Optima-BoldOblique	OP	Optima
+ Optima-Oblique	oP	Optima
+ Palatino-Bold	PB	Palatino
+ Palatino-BoldItalic	PX	Palatino
+ Palatino-Italic	PI	Palatino
+ Palatino-Roman	PA	Palatino
+ Souvenir-Demi	Sv	Souvenir
+ Souvenir-DemiItalic	SV	Souvenir
+ Souvenir-Light	sv	Souvenir
+ Souvenir-LightItalic	sV	Souvenir
+ Symbol	S	(none)
+ Times-Bold	TB	Times
+ Times-BoldItalic	TD	Times
+ Times-Italic	TI	Times
+ Times-Roman	TR	Times
+ ZapfChancery-MediumItalic	ZC	Zapf
+ ZapfDingbats	(none)	(none)
+.SH FILES
+.TP
+XPSLIBDIRX/*.afm
+AFM (Adobe Font Metrics) files for use with
+.IR enscript (1).
+On System V, the names for the AFM files are abbreviated.
+There is a correspondence table in the font.map file.
+.TP
+XDITDIRX
+Directory containing font families for
+.RI [ di ] troff (1).
+.TP
+XTROFFFONTDIRX
+Directory containing font families for
+.RI [ o ] troff (1).
+.SH "SEE ALSO"
+transcript(1), enscript(1), psroff(1), ptroff(1)
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+\*(TS is a trademark of Adobe Systems Incorporated.

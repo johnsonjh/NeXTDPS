@@ -1,0 +1,243 @@
+%!
+
+% PostScript graphics "binder"
+% Copyright (c) 1985 Adobe Systems Incorporated.
+% Original version: John Warnock with ideas from Andrew Shore
+% RCSID: $Header$
+
+% the binder captures all graphics commands and writes them to 
+% a given file (standard out).  It can be downloaded to a PostScript
+% printer and the resulting output is sent over the communications channel.
+
+% graphbind takes a procedure on the stack and executes it,
+% catching all(?) graphics commands.  The resulting PostScript
+% may be device dependent (if, for example rounding in device
+% coorindates is used).  graphbind unrolls ALL loops and procedure
+% calls so the resulting PostScript code may be MUCH larger than
+% the original.  It may also be much faster to execute.
+
+% Adobe provides no support or warrenty for this package.  It is supplied
+% only as a sample implementation of an interesting idea.  Not all
+% PostScript graphics commands are currently "bound" (their
+% implementation is left as an exercise to the reader).
+
+/graphbind
+   {/&graphsave save def
+    $graphbind begin
+    /xqtproc exch def 		%def proc body
+    /fileout (%stdout)(w)file def
+    prologue wout 		%output necessary definitions.
+    256 dict begin xqtproc end  %execute proc with context.
+    epilogue wout
+    fileout closefile 
+    end
+    &graphsave restore
+   }def
+
+/$graphbind  128 dict def
+$graphbind begin
+/moveto {(M)(moveto)2 gboutc}def
+/lineto {(L)(lineto)2 gboutc}def
+/rmoveto {(RM)(rmoveto)2 gboutc}def
+/rlineto {(RL)(rlineto)2 gboutc}def
+/curveto {(C)(curveto)6 gboutc}def
+/rcurveto {(RC)(rcurveto)6 gboutc}def
+/arc {(A)(arc)5 gboutc}def
+/arcn {(AN)(arcn)5 gboutc}def
+/arcto {(AT)(arcto)5 gboutc}def
+/translate {(T)(translate)2 gboutc}def
+/scale {(SC)(scale)2 gboutc}def
+/rotate {(R)(rotate)1 gboutc}def
+/concat {(CT)(concat)1 gboutc}def
+/setdash {(SD)(setdash)2 gboutc}def
+/setlinewidth  {(SL)(setlinewidth)1 gboutc}def
+/setgray {(SG)(setgray)1 gboutc}def
+/newpath {(N)(newpath)0 gboutc}def
+/closepath {(CP)(closepath)0 gboutc}def
+/gsave {(G)(gsave)0 gboutc}def
+/grestore {(GR)(grestore)0 gboutc}def
+/fill {(F)(fill)0 gboutc}def
+/stroke {(SK)(stroke)0 gboutc}def
+/clip {(CL)(clip)0 gboutc}def
+/show {(S)(show)1 gboutc}def
+/widthshow {(WS)(widthshow)4 gboutc}def
+/ashow {(AS)(ashow)3 gboutc}def
+/awidthshow {(AWS)(awidthshow)6 gboutc}def
+/charpath {(CHP)(charpath)2 gboutc}def
+/kshow {(KS)(kshow)2 gboutc}def
+/stringwidth {(stringwidth)OutExec}def
+/findfont 
+  {gbnwname exch (ff)(findfont)2 gboutc /gbtmp  exch def
+   gbtmp (def)(def)0 gboutc gbtmp $Master gbtmp gbcrname put}def
+/makefont 
+  {gbnwname 3 1 roll (mf)(makefont)3 gboutc /gbtmp  exch def
+   gbtmp (def)(def)0 gboutc gbtmp $Master gbtmp gbcrname put}def
+/scalefont 
+  {gbnwname 3 1 roll (scf)(scalefont)3 gboutc /gbtmp  exch def
+   gbtmp (def)(def)0 gboutc gbtmp $Master gbtmp gbcrname put}def
+/setfont {(sf)(setfont)1 gboutc}def
+/image {(image)(image)5 gboutc}def
+/showpage {(showpage)(showpage)0 gboutc}def
+/copypage {(copypage)(copypage)0 gboutc}def
+
+%needed definitions for running the file.
+/prologue
+(%!
+64 dict begin
+/LD {load def}def
+/M/moveto LD
+/L/lineto LD
+/RM/rmoveto LD
+/RL/rlineto LD
+/C/curveto LD
+/RC/rcurveto LD
+/T/translate LD
+/SC/scale LD
+/R/rotate LD
+/CT/concat LD
+/A/arc LD
+/AN/arcn LD
+/AT/arcto LD
+/SD/setdash LD
+/SL/setlinewidth LD
+/SG/setgray LD
+/N/newpath LD
+/CP/closepath LD
+/G/gsave LD
+/GR/grestore LD
+/F/fill LD
+/SK/stroke LD
+/CL/clip LD
+/S/show LD
+/WS/widthshow LD
+/AS/ashow LD
+/AWS/awidthshow LD
+/CHP/charpath LD
+/KS/kshow LD
+/ff/findfont LD
+/mf/makefont LD
+/scf/scalefont LD
+/sf/setfont LD
+)def
+
+/epilogue (end\n)def
+
+/gbnwname 
+  {/gbfcnt  gbfcnt 1 add def 
+   /gbfstr  gbfcnt (          )cvs def
+   gbfname 3 gbfstr putinterval
+   gbfname 0 gbfstr length 3 add
+   getinterval dup length string copy /gbcrname exch def gbcrname cvn}def
+
+/gbfname (fff        )def
+/gbfcnt  0 def
+
+/wout {fileout exch writestring}def
+/cr (\n)def
+
+/gboutc 
+ {0 begin
+  /gboutcnt  exch def
+  /gboutst  exch def 
+  /gboutcm  exch def
+   gboutcnt copy
+   gboutcnt -1 1 { -1 roll =f= }for 
+  gboutcm wout cr wout
+  gboutst OutExec  %execute the command for side effects.
+  end
+ }def
+
+/gboutc  load 0 64 dict put
+
+/OutExec {systemdict begin userdict begin cvx exec end end}def
+
+% dictionary that holds the various fonts.
+/$Master  64 dict def
+
+%The following routines are for printing out PostScript objects.
+%The command "=f=" will print something in a form that is 
+%compatable with its input syntax
+%for example: the line {add 2 div} =f=
+%will print "{add 2 div }".
+
+/=f=  {0 begin		%placeholder for dict
+      /cp  0 def 	%cp is used to sum up the current line length.
+      typeprint
+      end}def
+
+/=f= load 0 64 dict put
+
+/=f= load 0 get begin	%get dictionary for context.
+
+%typeprint executes the type name of an object as a command.
+/typeprint  {dup type exec} def
+
+%rmargin is the right limit to the length of a line
+/rmargin  72 def
+
+%The following writes an escaped string that may contain special chars.
+/wtype 256 string def
+wtype 40 1 put wtype 41 1 put wtype 92 1 put	% ()\ escape
+0 1 31 {wtype exch 2 put}for	% [0..31]
+127 1 255 {wtype exch 2 put}for	% [127..255]
+
+/wordfix
+   {% word
+       {/charcode exch def
+	wtype charcode get dup 0 eq
+	   {pop fileout charcode write}
+	   {1 eq 
+	       {(\\ )dup 1 charcode put wout}
+	       {fileout 92 write /wbyte charcode 8(000)cvrs def
+		(000)0 3 wbyte length sub getinterval wout wbyte wout
+	       }ifelse
+	   }ifelse
+       }forall
+   }def
+
+%tprint determines if the current string will overflow the line.
+%If it does then an carraige return is inserted before printing.
+/tprint  {dup length cp add rmargin gt {cr wout /cp 0 def}if 
+	  dup length cp add /cp exch def wout}def
+
+%numberprint prints numbers (followed by a space).
+/numberprint {(                  )cvs tprint ( )tprint}def
+
+% typename commands - typenames print objects of their own type
+/integertype {numberprint}def
+/realtype {numberprint}def
+/marktype {(mark )tprint pop}def
+
+/dicttype {dup $Master exch known
+    {$Master exch get tprint( )tprint}
+    {$Master exch gbcrname put
+     gbcrname tprint ( )tprint}ifelse}def
+
+/booleantype {(     )cvs tprint( )tprint}def
+
+/arraytype 
+  {dup xcheck 
+   {({)tprint{typeprint}forall(})tprint}
+   {([)tprint{typeprint}forall(])tprint}ifelse
+  }def
+
+/packedarraytype 
+  {dup xcheck 
+   {({)tprint{typeprint}forall(})tprint}
+   {([)tprint{typeprint}forall(])tprint}ifelse
+  }def
+
+/stringtype {(\()wout wordfix (\))wout}def
+/nametype {dup xcheck not{(/)wout}if
+	   (                       )cvs tprint( )tprint}def
+/nulltype {pop(null )tprint}def
+/operatortype  {dup(/)wout(                            )cvs tprint
+		( load )tprint xcheck{(cvx )tprint}if}def
+
+/filetype {pop(-filestream- )tprint}def
+/savetype {pop(-savelevel- )tprint}def
+/fonttype {pop(-font- )tprint}def
+
+end	%end of (=f=)context dictionary
+end 	%end of $graphbind context
+

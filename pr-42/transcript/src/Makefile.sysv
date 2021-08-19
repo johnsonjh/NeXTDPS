@@ -1,0 +1,85 @@
+# transcript/src/Makefile.sysv
+#
+# Copyright (C) 1985,1987 Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: Makefile.sysv,v 2.2 87/11/17 16:49:11 byron Rel $
+
+
+LPROGS = map psbanner pscomm psrv pstext
+BPROGS = enscript ps4014 ps630 pscat pscatmap psdit psplot psrev
+
+OBJECTS = map.o psbanner.o pscomm.o psrv.o pstext.o \
+	enscript.o ps4014.o ps630.o pscat.o pscatmap.o \
+	psdit.o psplot.o psrev.o \
+	mapname.o psutil.o
+
+CFLAGS = SETCFLAGS
+
+programs all:	${LPROGS} ${BPROGS}
+
+enscript: enscript.o psutil.o mapname.o config.o
+	cc ${CFLAGS} -o enscript enscript.o psutil.o mapname.o config.o
+
+pscat: pscat.o psutil.o config.o 
+	cc ${CFLAGS} -o pscat pscat.o psutil.o config.o 
+
+psbanner: psbanner.o psutil.o config.o
+	cc ${CFLAGS} -o psbanner psbanner.o psutil.o config.o
+
+pscomm: pscomm.o psutil.o config.o
+	cc ${CFLAGS} -o pscomm pscomm.o psutil.o config.o
+
+pstext: pstext.o psutil.o config.o
+	cc ${CFLAGS} -o pstext pstext.o psutil.o config.o
+
+psplot: psplot.o psutil.o config.o
+	cc ${CFLAGS} -o psplot psplot.o psutil.o config.o
+
+psrv: psrv.o psutil.o config.o
+	cc ${CFLAGS} -o psrv psrv.o psutil.o config.o
+
+psrev: psrev.o psutil.o config.o
+	cc ${CFLAGS} -o psrev psrev.o psutil.o config.o
+
+ps630: ps630.o psutil.o config.o
+	cc ${CFLAGS} -o ps630 ps630.o psutil.o config.o
+
+ps4014: ps4014.o psutil.o config.o
+	cc ${CFLAGS} -o ps4014 ps4014.o psutil.o config.o
+
+pscatmap: pscatmap.o psutil.o config.o mapname.o
+	cc ${CFLAGS} -o pscatmap pscatmap.o psutil.o config.o mapname.o
+
+psdit: psdit.o psutil.o config.o
+	cc ${CFLAGS} -o psdit psdit.o psutil.o config.o 
+
+map: map.o mapname.o psutil.o config.o
+	cc ${CFLAGS} -o map map.o mapname.o psutil.o config.o
+
+${OBJECTS}: transcript.h
+pscomm.o pscat.o psrv.o: psspool.h
+pscat.o pscatmap.o: action.h 
+psdit.o: dev.h
+
+config.c: config.proto ../config
+	-rm -f - config.c
+	sed	-e s,PSLIBDIR,$$PSLIBDIR,g \
+		-e s,TROFFFONTDIR,$$TROFFFONTDIR,g \
+		-e s,DITDIR,$$DITDIR,g \
+		-e s,PSTEMPDIR,$$PSTEMPDIR,g \
+		config.proto >config.c
+
+install: ${LPROGS} ${BPROGS}
+	-strip ${LPROGS} ${BPROGS}
+	-cd $$PSLIBDIR; rm -f ${LPROGS} ${BPROGS}
+	-cd $$BINDIR; rm -f ${BPROGS}
+	cp ${BPROGS} $$BINDIR
+	cd $$BINDIR; chown $$OWNER ${BPROGS}; chgrp $$GROUP ${BPROGS}; \
+		chmod 755 ${BPROGS}
+	cp ${LPROGS} $$PSLIBDIR
+	cd $$PSLIBDIR; chown $$OWNER ${LPROGS}; chgrp $$GROUP ${LPROGS}; \
+		chmod 755 ${LPROGS}
+	cd $$BINDIR ; $$LINK ${BPROGS} $$PSLIBDIR
+
+clean:
+	rm -f - *.o config.c ${BPROGS} ${LPROGS} *BAK *CKP .emacs_[0-9]*

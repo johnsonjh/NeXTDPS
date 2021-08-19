@@ -1,0 +1,72 @@
+% appletalk.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original: taft
+% last edit: lent - Thu Dec  3 17:21:16 1987
+% last edit: durham - Tue Apr 26 11:17:04 1988
+% last edit: taft - Tue Nov 14 11:34:41 1989
+
+setrom
+
+statusdict begin
+
+/initappletalk {} opdef
+/openappletalk {} opdef
+/setappletalkname {} opdef
+
+/appletalktype (LaserWriter) readonly def
+
+/jobname null def
+/jobsource null def
+/jobstate (initializing) readonly def
+/waittimeout 0 def
+
+serverdict begin
+
+/appletalkopen			% called in serverdict context
+   {% all stores are to serverdict except as noted
+    //statusdict begin
+    9 closescc 25 closescc	% might be left over from startup
+    =string printername length
+    dup =string exch (:) putinterval
+    /appletalktype load
+    dup type /stringtype ne {pop (LaserWriter)} if
+    dup length 31 gt {0 31 getinterval} if
+    exch 1 add dup =string exch 3 index putinterval 
+    exch length add
+    =string exch 0 exch getinterval setappletalkname
+    % unconditionally initialize applebus (no-op if already initialized)
+    63 eescratch		% non-volatile node address hint
+    initappletalk		% nodeadr initappletalk nodeadr
+    dup 63 eescratch ne {63 exch seteescratch} {pop} ifelse
+    % do not open connection before printing start page
+    //$error /initializing get not
+       {openappletalk		% openappletalk infile outfile
+	/stdout exch store /stdin exch store
+	stdin stdout setstdio
+       } if
+    /altflag false store
+    /stdname (AppleTalk) store
+    end % statusdict
+   } bind readonly def
+
+/appletalkclose			% called in serverdict context
+   {-1 initappletalk pop
+   } bind readonly def
+
+end % serverdict
+end % statusdict
+
+setram

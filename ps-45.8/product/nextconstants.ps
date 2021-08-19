@@ -1,0 +1,157 @@
+
+
+%	nextconstants.ps
+%	PostScript-language constants for NeXT window system
+%
+%	CONFIDENTIAL
+%	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+%	All Rights Reserved.
+%
+%	Created 04Feb87 Leo from event.h 
+%	21Apr88 Jack Changed Data & Ones to match new bintreetypes.h
+%	19May88 Leo  Revised event record and types
+%	20Jun89 Jack Extended definitions of Plus
+%	16Jul90 Ted  Added Window depths
+
+nextdict begin
+
+/Nullevent		0 def
+% Mouse Events
+/Lmousedown		1 def
+/Lmouseup		2 def
+/Rmousedown		3 def
+/Rmouseup		4 def
+/Mousemoved		5 def
+/Lmousedragged		6 def
+/Rmousedragged		7 def
+/Mouseentered		8 def
+/Mouseexited		9 def
+% Keyboard Events
+/Keydown		10 def
+/Keyup			11 def
+/Flagschanged		12 def
+% Composite Events
+/Kitdefined		13 def
+/Sysdefined		14 def
+/Appdefined		15 def
+/Lastevent		Appdefined def
+
+% Event masks
+/Nulleventmask		1 Nullevent bitshift def
+
+/Lmousedownmask		1 Lmousedown bitshift def
+/Lmouseupmask		1 Lmouseup bitshift def
+/Rmousedownmask		1 Rmousedown bitshift def
+/Rmouseupmask		1 Rmouseup bitshift def
+/Mousemovedmask		1 Mousemoved bitshift def
+/Lmousedraggedmask	1 Lmousedragged bitshift def
+/Rmousedraggedmask	1 Rmousedragged bitshift def
+/Mouseenteredmask	1 Mouseentered bitshift def
+/Mouseexitedmask	1 Mouseexited bitshift def
+
+/Keydownmask		1 Keydown bitshift def
+/Keyupmask		1 Keyup bitshift def
+/Flagschangedmask	1 Flagschanged bitshift def
+
+/Kitdefinedmask		1 Kitdefined bitshift def
+/Sysdefinedmask		1 Sysdefined bitshift def
+/Appdefinedmask		1 Appdefined bitshift def
+
+/Allevents		-1 def
+
+
+%
+% Constants for the fields in an event record
+%
+/Alphashiftmask	1 16 bitshift def
+/Shiftmask	1 17 bitshift def
+/Controlmask	1 18 bitshift def
+/Alternatemask	1 19 bitshift def
+/Commandmask	1 20 bitshift def
+/Numericpadmask	1 21 bitshift def
+
+% Values for the character set in event.data.key.charSet
+/Asciiset		0	def
+/Symbolset		1	def
+/Dingbatsset		2	def
+
+% How to pick window(s) for event (for PostEvent)
+/Nowindow		-1	def
+/Bytype			0	def
+/Broadcast		1	def
+/Topwindow		2	def
+/Firstwindow		3	def
+/Mousewindow		4	def
+/Nextwindow		5	def
+/Lastleft		6	def
+/Lastright		7	def
+/Lastkey		8	def
+/Explicit		9	def
+/Transmit		10	def
+/Bypscontext		11	def
+
+% Window types
+/Retained		0	def	% A complete offscreen buffer holds
+					% the obscured parts of the Layer 
+/Nonretained		1	def	% Only the screen parts exist
+/Buffered		2	def	% Complete offscreen copy exists,
+					% drawing occurs only into it
+
+% Combination modes for the composite operator
+/Clear			0	def
+/Copy			1	def
+/Sover			2	def
+/Sin			3	def
+/Sout			4	def
+/Satop			5	def
+/Dover			6	def
+/Din			7	def
+/Dout			8	def
+/Datop			9	def
+/Xor			10	def
+/PlusD			11	def	% result gets darker 
+/Plus			11	def	% backward compatibility
+/Highlight		12	def	% compositerect only
+/PlusL			13	def	% result gets lighter (working in 2.0)
+
+% Modes for setwindowalpha, now exactly as in bintreetypes.h (Bits = 0)
+/Data			1	def
+/Ones			2	def
+
+% Ops for orderwindow
+/Above			1	def
+/Out			0	def
+/Below			-1	def
+
+% Window depth constants		% AppKit Constants:
+/NX_DefaultDepth	0	def	% NX_DEFAULTDEPTH
+/NX_TwoBitGray		258	def	% NX_TWOBITGRAY_DEPTH
+/NX_EightBitGray	264	def	% NX_EIGHTBITGRAY_DEPTH
+/NX_TwelveBitRGB	516	def	% NX_TWELVEBITRGB_DEPTH
+/NX_TwentyFourBitRGB	520	def	% NX_TWENTYFOURBITRGB_DEPTH
+
+% Color Space name tags (as in tiff)
+/NX_OneIsBlackColorSpace 0 def
+/NX_OneIsWhiteColorSpace 1 def
+/NX_RgbColorSpace 2 def
+/NX_CmykColorSpace 5 def
+
+% New pattern emulation
+/NX_DarkGrayPattern 1 def
+/NX_MediumGrayPattern 2 def
+/NX_LightGrayPattern 3 def
+/setpattern /NXsetgraypattern load def
+% DELETE_ME:  emulation for old API operators
+/fixedwindow {
+    pop pop pop 
+    Buffered window
+} def
+%/framebuffer {
+%    framebuffer 2 2 1 0 0 
+%} bind def
+/setmonochromeaccuracy { pop } bind def
+/setcoloraccuracy { pop } bind def
+/currentmonochromeaccuracy 1 def
+/currentcoloraccuracy 1 def
+
+end % nextdict

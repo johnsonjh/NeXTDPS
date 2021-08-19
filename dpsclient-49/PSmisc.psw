@@ -1,0 +1,67 @@
+
+/*
+	PSmisc.psw
+	This pswrap file generates C functions corresponding
+	to all the status dict operators and other misc operators.
+	
+	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+	All rights reserved.
+
+	Created trey 17Feb88
+
+	Modified:
+
+	17Aug88	trey	wrap accounting - changed name to misc from status,
+			added currentrusage
+	17Feb89	trey	removed user object wraps
+*/
+
+defineps PSosname(int size | char str[size])
+	statusdict /osname get exec str
+endps
+
+defineps PSostype( | int *result)
+	statusdict /ostype get exec result
+endps
+
+defineps PSnextrelease(int size | char result[size])
+	nextrelease result
+endps
+
+defineps PScurrentrusage( | float *now; float *uTime; float *sTime; int *msgSend; int *msgRcv; int *nSignals; int *nVCSw; int *nIvCSw)
+	currentrusage nIvCSw nVCSw nSignals msgRcv msgSend sTime uTime now
+endps
+
+defineps PSplaysound( char *name; int priority )
+	(name) priority playsound
+endps
+
+defineps PScleardictstack()
+	cleardictstack
+endps
+
+defineps PScurrentuser( | int *uid; int *gid )
+	currentuser gid uid
+endps
+
+defineps PSsetwriteblock( boolean flag )
+	flag setwriteblock
+endps
+
+defineps PScurrentwriteblock( | boolean *flag )
+	currentwriteblock flag
+endps
+
+defineps PSmachportdevice(int w, h, bbox[bboxSize], bboxSize; float matrix[6]; char *host, *port, *pixelDict)
+	w h bbox matrix (host) (port) pixelDict machportdevice
+endps
+
+defineps PScountframebuffers( | int *count)
+	countframebuffers count
+endps
+
+defineps PSframebuffer(int index, nameLen | char name[nameLen]; int *slot, *unit, *ROMid, *x, *y, *w, *h, *depth)
+	index nameLen string framebuffer
+	depth h w y x ROMid unit slot name
+endps
+

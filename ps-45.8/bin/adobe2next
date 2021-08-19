@@ -1,0 +1,38 @@
+#!/bin/csh -f
+#	adobe2next convert adobe worlds to next flat worlds.  
+#	dstroot should be set below to where you want the clone to 
+#	live.  Note that this only whips the Adobe code into our format
+#	suitable for diffs only.  It does not create a makeable world!
+
+set dstroot = ~/ps_proj/ps-adobe
+set packages = (mousekeyboard bintree mp postscript coroutine fonts unix_product \
+	graphics device devpattern language stodev filesystem io vm stream \
+	fp pslib) 
+
+echo $packages
+
+foreach f ($packages)
+	mkdirs $dstroot/$f
+end
+mkdirs $dstroot/include
+
+foreach f ($packages)
+	echo PACKAGE: $f
+	cp packages/$f/v*/*.h $dstroot/include
+	cp packages/$f/v*/v*/sources/*.[ch] $dstroot/$f
+	cp packages/$f/v*/v*/mc*/D*/*.o.adobe $dstroot/$f 
+	if ( $status == 0) then
+		foreach k ($dstroot/$f/*.o.adobe)
+			echo     OBJECT: $k
+			mv $k $k-DEVELOP-mc68020
+		end
+	endif
+	cp packages/$f/v*/v*/mc*/E*/*.o.adobe $dstroot/$f
+	if ( $status == 0 ) then
+		foreach k ($dstroot/$f/*.o.adobe)
+			echo     OBJECT: $k
+			mv $k $k-EXPORT-mc68020
+		end
+	endif
+end
+	

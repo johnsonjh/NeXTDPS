@@ -1,0 +1,414 @@
+%! diskfont.ps
+% Copyright (c) 1985, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original version: paxton
+% last edit: taft - Tue Nov 14 11:38:01 1989
+
+% This version is suitable only for loading into the initial shared VM
+% of a Display PostScript system; it is not suitable as an inclusion
+% in a downloadable font definition.
+
+% The following variables are must be added to the font dictionary
+% by the font converter:
+
+% CSFileName	string containing name of file
+% DF1		position in file of index table
+% DF2		position in file of subrs
+% CSTotal	number of entries in index table
+% CSNames	number of characters in font
+% SubDict	boolean that is true if font has own sub dictionary
+
+% The following constants are shared by the font converter and the build proc.
+% MAXSUBRS 200
+% MAXSUBRBYTES 5500
+
+% There are three structures that are cached.
+%   The font structure, arrays for subroutines and string buffers.
+% Each of the caches is implemented as a doubly linked list of arrays.
+% 1) Font structure:
+%      0	forward link
+%      1	backward link
+%      2	FID of font
+%      3	string to contain index table
+%      4	array for subroutines
+%      5	string for subroutine data
+%      6	file object for font file
+%   
+%   These fields are not used anymore
+%      7	busy boolean 
+%      8	number of other contexts waiting for font to be not busy 
+%
+% 2) Subroutine array:
+%      0	forward link
+%      1	backward link
+%      ...	remainder of array
+%
+% 3) String buffers:
+%      0	forward link
+%      1	backward link
+%      2	string
+%
+% Each list has a 2 element array as the list head
+%
+% There are general routines for list management.
+%   item Unlink item   ::=  unlinks item from list
+%   item1 item2 LinkAfter item1  ::=  enlinks item1 after item2
+%   proc list Enum item  ::= enumerates list calling proc for each item
+%			     proc takes item and returns boolean
+%			     Enum returns item processed when proc returns
+%			     true and null if end of list reached.
+%   proc list RevEnum item  ::=  like Enum but enumerates in reverse order
+%
+
+%
+
+currentpacking
+true setpacking
+
+currentshared
+true setshared % switch to shared VM
+
+/opdef where pop begin		% internaldict begin
+25 dict dup /$DPSDiskFont exch def
+begin  %$DPSDiskFont
+
+setrom
+
+/version 10208 def
+
+/Unlink { 
+  dup dup 0 get exch 1 get exch 0 exch put
+  dup dup 1 get exch 0 get exch 1 exch put
+  } bind executeonly def
+
+/LinkAfter { % item list => item
+  2 copy 0 get 0 exch put  % item.flink = list.flink
+  2 copy exch 0 exch put % list.flink = item
+  1 index dup 0 get exch 1 exch put % item.flink.blink = item
+  1 index exch 1 exch put % item.blink = head
+  } bind executeonly def
+
+/Enum { % head proc 
+  1 index 0 get
+    { % head proc item 
+    dup 3 index eq
+      {pop pop pop //null exit}
+      {dup 2 index exec {exch pop exch pop exit} if }
+    ifelse
+    0 get % get next and loop
+    }
+  loop
+  } bind executeonly def
+
+/RevEnum { % head proc 
+  1 index 1 get
+    { % head proc item 
+    dup 3 index eq
+      {pop pop pop //null exit}
+      {dup 2 index exec {exch pop exch pop exit} if }
+    ifelse
+    1 get % get next and loop
+    }
+  loop
+  } bind executeonly def
+
+setram
+
+/dfLock lock def
+
+
+/dfArrays 2 array def
+dfArrays dup 0 exch put
+dfArrays dup 1 exch put
+
+setrom
+
+/GetArray {
+  dfArrays {length 4 index ge} Enum
+  dup //null ne
+    {exch pop Unlink}
+    {
+    pop dup 2 le {pop 2} if
+    currentshared exch mark exch {true setshared array} stopped
+      {cleartomark setshared stop}
+      {exch pop exch setshared}
+    ifelse
+    }
+  ifelse
+  } bind executeonly def
+  
+/ReleaseArray {
+  dfArrays {length 4 index length ge} Enum % find one greater in length
+  dup //null eq {pop dfArrays} if % if none go at end
+  1 get LinkAfter pop % link before longer one
+  } bind executeonly def
+  
+setram
+
+/dfStrings 2 array def
+dfStrings dup 0 exch put
+dfStrings dup 1 exch put
+
+setrom
+
+/GetString {
+  dfStrings
+  {2 get dup //null eq {pop false}{length 4 index ge} ifelse}
+  Enum
+  dup //null ne
+    {
+    exch pop dup dup 2 get exch 2 //null put
+    exch Unlink dfStrings 1 get LinkAfter pop
+    }
+    {
+    pop currentshared exch mark exch {true setshared string} stopped
+      {cleartomark setshared stop}
+      {exch pop exch setshared}
+    ifelse
+    }
+  ifelse
+  } bind executeonly def
+  
+/ReleaseString {
+  dfStrings {2 get //null eq} Enum
+  dup //null ne
+    {Unlink}
+    {
+    pop 3 currentshared exch mark exch {true setshared array} stopped
+      {cleartomark setshared stop}
+      {exch pop exch setshared}
+    ifelse
+    }
+  ifelse
+  dup 3 -1 roll 2 exch put
+  dfStrings
+    {
+    2 get dup //null eq
+      {pop false}
+      {length 4 index 2 get length ge}
+    ifelse
+    }
+  Enum
+  dup //null eq {pop dfStrings} if % if none go at end
+  1 get LinkAfter pop % link before longer one
+  } bind executeonly def
+  
+setram
+
+/dfEntries 2 array def
+dfEntries dup 0 exch put
+dfEntries dup 1 exch put
+
+setrom
+
+/GetEntry { % => entry bool
+  dfEntries {2 get FID eq} Enum
+  dup //null ne
+    {
+    dup 6 get //null eq
+    }
+    {
+    pop
+    dfEntries {pop true} RevEnum
+    FreeStuff
+    true
+    }
+  ifelse
+  exch
+  Unlink dfEntries LinkAfter
+  exch
+  } bind executeonly def
+  
+/FreeStuff {
+  dup 3 get dup //null ne
+    {ReleaseString dup 3 //null put}
+    {pop}
+  ifelse
+  dup 4 get dup //null ne
+    {ReleaseArray dup 4 //null put}
+    {pop}
+  ifelse
+  dup 5 get dup //null ne
+    {ReleaseString dup 5 //null put}
+    {pop}
+  ifelse
+  dup 6 get dup //null ne
+    {closefile dup 6 //null put}
+    {pop}
+  ifelse
+  } bind executeonly def
+  
+/GetCharDesc { %font char
+  GetEntry
+  % char font entry new
+  mark exch 5 -1 roll exch 3 index exch
+  % font entry mark char entry new
+    {
+      {
+      dup 2 FID put
+      currentshared mark CSFileName (r) {true setshared file} stopped
+        {cleartomark setshared stop}
+        {exch pop exch setshared}
+      ifelse
+      1 index 6 2 index put
+      dup dup DF1 setfileposition
+      CSTotal 5 mul GetString
+      % font entry mark char entry file file indexstr
+      dup 4 index 3 3 -1 roll put
+      0 CSTotal 5 mul getinterval readhexstring not {stop} if pop
+      % font entry mark char entry file
+      5 index /SubDict known not
+	{
+	1 index 4 200 GetArray put
+	1 index 5 5502 GetString put
+	dup DF2 setfileposition
+	1 index 5 get 0 1 getinterval 1 index exch readhexstring not {stop} if
+	0 get
+	2 index 5 get dup length 2 sub 2 getinterval exch
+	0 0 1 4 -1 roll 1 sub
+	  {
+	  exch % entry file tempstr forindex total
+	  3 index 3 index readhexstring not {stop} if
+	  dup 1 get 8 bitshift exch 0 get add
+	  % entry inst file tempstr forindex total subslen
+	  2 copy add 4 1 roll
+	  % entry file tempstr newtotal forindex total subslen
+	  6 index 5 get 3 1 roll getinterval
+	  % entry file tempstr newtotal forindex substr
+	  4 index  exch readhexstring not {stop} if
+	  % entry file tempstr newtotal forindex substr
+	  5 index 4 get 3 1 roll put
+	  }
+	for
+	pop pop %  tempstr total
+	}
+      if % /SubDict known
+      }
+    stopped {cleartomark mark 1 index FreeStuff stop} if
+    }
+    {
+    dup 6 get
+    }
+  ifelse
+  % font entry mark char entry file
+  5 index /SubDict known not
+    {
+    5 index /Private get /Subrs 3 index 4 get {put} //superexec
+    }
+  if
+  Encoding 3 index get CharStrings dup 2 index known
+    {exch get}
+    {exch pop /.notdef get}
+  ifelse
+  % font entry mark char entry file csdata
+  dup xcheck
+    {
+    4 -1 roll
+    % font entry mark entry file csdata char
+    systemdict begin 6 index begin
+    true
+    }
+    {
+    % font entry mark char entry file index
+    dup 5 mul
+    3 index 3 get exch 5 getinterval {} forall
+    % lenlo lenhi flplo flpmed flphi
+    8 bitshift add 8 bitshift add 3 1 roll 8 bitshift add 2 add exch
+    % font entry mark char entry file index ln flp
+    DF1 add 3 index exch setfileposition
+    dup dup 2 lt {pop 2} if GetString exch mark exch
+      {
+      % font entry mark char entry file index str mark ln
+      4 index 3 index
+      % font entry mark char entry file index str mark ln file str
+      0 2 getinterval readhexstring not {stop} if
+      dup 0 get exch 1 get 8 bitshift add
+      % font entry mark char entry file index str mark ln indexval
+      5 -1 roll ne {stop} if
+      % font entry mark char entry file buffer mark ln
+      2 index exch 0 exch getinterval
+      % font entry mark char entry file buffer mark str
+      3 index exch readhexstring not {stop} if
+      % font entry mark char entry file buffer mark chardata
+      8 index exch 7 -1 roll exch
+      false
+      }
+    stopped {cleartomark ReleaseString stop} if
+    }
+  ifelse
+  % font entry mark entry file  <params> bool
+  } bind executeonly def
+
+
+/DiskBuildChar { %font char
+  exch begin
+  currentdict
+  % char font
+  //$DPSDiskFont begin
+    {//dfLock //GetCharDesc monitor}
+  stopped
+  % font entry mark entry file  <params> bool stoppedbool
+    {
+    cleartomark pop
+    end end
+    errordict /invalidfont get exec
+    }
+  if
+    {
+    % font entry mark entry file csdata char
+    {exec end end} stopped
+      {cleartomark pop end end errordict /invalidfont get exec}
+      {pop pop}
+    ifelse
+    }
+    {
+    % font entry mark entry file buffer mark chardata font char
+    {//CCRun} stopped
+      {
+      cleartomark //dfLock //ReleaseString monitor
+      cleartomark pop end end errordict /invalidfont get exec
+      }
+      {
+      pop //dfLock //ReleaseString monitor
+      cleartomark 
+      }
+    ifelse
+    }
+  ifelse
+  pop % entry
+  pop % font
+  end % $DPSDiskfont
+  end % font
+  } bind executeonly def
+
+setram
+
+% currentdict /GetEntry undef
+% currentdict /GetArray undef
+% currentdict /GetString undef
+% currentdict /ReleaseArray undef
+% currentdict /ReleaseString undef
+% currentdict /dfLock undef
+% currentdict /dfCond undef
+
+4 { 7 array dfEntries LinkAfter pop } repeat
+
+200 GetString 200 GetString ReleaseString ReleaseString
+
+setshared
+setpacking
+
+end % $DPSDiskfont
+end % internaldict
+

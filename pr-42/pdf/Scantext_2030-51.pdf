@@ -1,0 +1,784 @@
+*% Adobe Systems PostScript(R) Printer Description File
+*% For "Scantext" version 52.3
+*% Produced by "BuildPPD.ps" version 3.0 edit 58
+*%
+*% Copyright 1988, 1989, 1990 Adobe Systems Incorporated.  
+*% All Rights Reserved.
+*% Permission is granted for redistribution of this file as
+*% long as this copyright notice is intact and the contents
+*% of the file is not altered in any way from its original form.
+*%
+*% The byte count of this file should be exactly 031743 or 032527
+*% depending on the filesystem it resides in.
+*%
+*% Date: 18 July 1990
+*FormatVersion: "3.0"
+*FileVersion: "1.0"
+*LanguageVersion: English
+
+*Product: "(Scantext)"
+*PSVersion: "(52.2) 1.0"
+*PSVersion: "(49.3) 1.0"
+*NickName: "Scantext 2030/51"
+
+*% General Information and Defaults ===============
+*FreeVM: "2441278"
+*ColorDevice: False
+*VariablePaperSize: True
+*FileSystem: True
+*?FileSystem: "statusdict begin diskonline {(True)}{(False)} ifelse = flush"
+*Throughput: "1"
+*Password: "0"
+*ExitServer: "
+  count 0 eq {  
+    true 
+  }{
+    dup	
+    statusdict begin checkpassword end not 
+  } ifelse 
+  {  
+    (WARNING : Cannot perform the exitserver command.) = 
+    (Password supplied is not valid.) = 
+    (Please contact the author of this software.) = flush
+    quit 
+  } if 
+  serverdict begin exitserver
+"
+*End
+*Reset: "
+  count 0 eq {  
+    true 
+  }{
+    dup	
+    statusdict begin checkpassword end not 
+  } ifelse 
+  {  
+    (WARNING : Cannot reset printer.) = 
+    (Password supplied is not valid.) = 
+    (Please contact the author of this software.) = flush
+    quit 
+  } if 
+  serverdict begin exitserver
+  systemdict /quit get exec
+  (WARNING : Printer Reset Failed.) = flush
+"
+*End
+
+*?Resolution: "
+save
+  initgraphics
+  0 0 moveto currentpoint matrix defaultmatrix transform
+  0 72 lineto currentpoint matrix defaultmatrix transform
+  3 -1 roll sub dup mul
+  3 1 roll exch sub dup mul
+  add sqrt round cvi
+  (          ) cvs print (dpi) = flush
+restore
+"
+*End
+
+*% Halftone Information ===============
+*%  Depends on resolution
+*ScreenAngle: "45.0"
+*DefaultScreenProc: Dot
+*ScreenProc Dot: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }
+"
+*End
+*ScreenProc Line: "{ pop }"
+*ScreenProc Ellipse: "{dup 5 mul 8 div mul exch dup mul exch add sqrt 1 exch sub}"
+*DefaultTransfer: Normalized
+*Transfer Null: "{}"
+*Transfer Null.Inverse: "{ 1 exch sub }"
+*Transfer Normalized: "
+{
+mark
+1.0 1.0 .92 .76 .64 .54 .44 .36 .28 .2 .1 .0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+}bind 
+"
+*End
+
+*Transfer Normalized.Inverse: "
+{ 
+mark
+.0 .0 .1 .2 .28 .36 .44 .54 .64 .76 .92 1.0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+} bind"
+*End
+
+*% Paper Handling ===================
+
+*% Use these entries to set paper size most of the time, unless there is
+*% specific reason to use PageRegion or PaperTray.
+*?PageSize: "
+ save 
+   /d0 27 dict def d0 begin
+     /420_595 (A5.Transverse) def
+     /499_709 (B5.Transverse) def
+     /595_842 (A4.Transverse) def
+     /612_792 (Letter.Transverse) def
+     /1224_792 (Ledger) def
+     /595_420 (A5) def
+     /709_499 (B5) def
+     /792_612 (Letter) def
+     /842_595 (A4) def
+		 /914_668 (A4.Extra) def
+		 /668_914_668 (A4.Extra.Transverse) def
+     /1008_612 (Legal) def
+     /1191_842 (A3) def
+		 /842_1191 (A3.Transverse) def
+		 /1263_914 (A3.Extra) def
+		 /914_1263 (A3.Extra.Transverse) def
+     /1224_792 (Tabloid) def
+		 /792_1224 (Tabloid.Transverse) def
+		 /1269_842 (Tabloid.Extra) def
+		 /1269_842 (Tabloid.Extra.Transverse) def
+		 /864_684 (Letter.Extra) def
+		 /684_864 (Letter.Extra.Transverse) def
+		 /612_1008 (Legal.Transverse) def
+		 /1080_684 (Legal.Extra) def
+		 /684_1080 (Legal.Extra.Transverse) def
+   end
+   statusdict begin pageparams  end
+   4 1 roll pop 
+   /high exch 10 string cvs dup length /hlen exch def def
+   /wide exch 10 string cvs def
+   /key hlen 1 add wide length add string def
+   key 0 high putinterval 
+   key hlen (_) putinterval
+   key hlen 1 add wide putinterval
+   d0 key cvn {get}stopped {(Unknown)}if
+   =   pop flush
+   restore
+"
+*End
+
+*PageSize Letter: "statusdict begin 612 792  0 1 setpageparams end"
+*PageSize Letter.Transverse: "statusdict begin 792 612  0 1 setpageparams end"
+*PageSize Letter.Extra: "statusdict begin 684 864 0 1 setpageparams end"
+*PageSize Letter.Extra.Transverse: "statusdict begin 864 684  0 1 setpageparams end"
+*PageSize Legal: "statusdict begin 612 1008 0 1 setpageparams end"
+*PageSize Legal.Transverse: "statusdict begin 1008 612 0 1 setpageparams end"
+*PageSize Legal.Extra: "statusdict begin 684 1080 0 1 setpageparams end"
+*PageSize Legal.Extra.Transverse: "statusdict begin 1080 684 0 1 setpageparams end"
+*PageSize Tabloid: "statusdict begin 792 1224 0 1 setpageparams end"
+*PageSize Tabloid.Transverse: "statusdict begin 1224 792 0 1 setpageparams end"
+*PageSize Tabloid.Extra: "statusdict begin 842 1296 0 1 setpageparams end"
+*PageSize Tabloid.Extra.Transverse: "statusdict begin 1296 842 0 1 setpageparams end"
+*PageSize A4: "statusdict begin 596 842 0 1 setpageparams end"
+*PageSize A4.Transverse: "statusdict begin 842 596 0 1 setpageparams end"
+*PageSize A4.Extra: "statusdict begin 668 914 0 1 setpageparams end"
+*PageSize A4.Extra.Transverse: "statusdict begin 914 668 0 1 setpageparams end"
+*PageSize A3: "statusdict begin 842 1191 0 1 setpageparams end"
+*PageSize A3.Transverse: "statusdict begin 1191 842 0 1 setpageparams end"
+*PageSize A3.Extra: "statusdict begin 914 1263 0 1 setpageparams end"
+*PageSize A3.Extra.Transverse: "statusdict begin 1263 914 0 1 setpageparams end"
+
+*% These entries will set up the frame buffer. Usually used with manual feed.
+*DefaultPageRegion: A4
+*PageRegion Letter: "statusdict begin 612 792  0 1 setpageparams end"
+*PageRegion Letter.Transverse: "statusdict begin 792 612  0 1 setpageparams end"
+*PageRegion Letter.Extra: "statusdict begin 684 864 0 1 setpageparams end"
+*PageRegion Letter.Extra.Transverse: "statusdict begin 864 684  0 0 setpageparams end"
+*PageRegion Legal: "statusdict begin 612 1008 0 1 setpageparams end"
+*PageRegion Legal.Transverse: "statusdict begin 1008 612 0 1 setpageparams end"
+*PageRegion Legal.Extra: "statusdict begin 684 1080 0 1 setpageparams end"
+*PageRegion Legal.Extra.Transverse: "statusdict begin 1080 684 0 1 setpageparams end"
+*PageRegion Tabloid: "statusdict begin 792 1224 0 1 setpageparams end"
+*PageRegion Tabloid.Transverse: "statusdict begin 1224 792 0 1 setpageparams end"
+*PageRegion Tabloid.Extra: "statusdict begin 842 1296 0 1 setpageparams end"
+*PageRegion Tabloid.Extra.Transverse: "statusdict begin 1296 842 0 1 setpageparams end"
+*PageRegion A4: "statusdict begin 596 842 0 1 setpageparams end"
+*PageRegion A4.Transverse: "statusdict begin 842 596 0 1 setpageparams end"
+*PageRegion A4.Extra: "statusdict begin 668 914 0 1 setpageparams end"
+*PageRegion A4.Extra.Transverse: "statusdict begin 914 668 0 1 setpageparams end"
+*PageRegion A3: "statusdict begin 842 1191 0 1 setpageparams end"
+*PageRegion A3.Transverse: "statusdict begin 1191 842 0 1 setpageparams end"
+*PageRegion A3.Extra: "statusdict begin 914 1263 0 1 setpageparams end"
+*PageRegion A3.Extra.Transverse: "statusdict begin 1263 914 0 1 setpageparams end"
+
+*DefaultPaperTray: None
+
+*% The following entries provide information about specific paper keywords.
+*DefaultImageableArea: A4
+*ImageableArea Letter: "0 0 612 792"
+*ImageableArea Letter: "0 0 612 792"
+*ImageableArea Letter.Transverse: "0 0 792 612"
+*ImageableArea Letter.Extra: "0 0 684 864"
+*ImageableArea Letter.Extra.Transverse: "0 0 864 684"
+*ImageableArea Legal: "0 0 612 1008"
+*ImageableArea Legal.Transverse: "0 0 1008 612"
+*ImageableArea Legal.Extra: "0 0 684 1080"
+*ImageableArea Legal.Extra.Transverse: "0 0 1080 684"
+*ImageableArea Tabloid: "0 0 792 1224"
+*ImageableArea Tabloid.Transverse: "0 0 1224 792"
+*ImageableArea Tabloid.Extra: "0 0 842 1296"
+*ImageableArea Tabloid.Extra.Transverse: "0 0 1296 842"
+*ImageableArea A4: "0 0 595.28 841.89"
+*ImageableArea A4.Transverse: "0 0 841.89 595.28"
+*ImageableArea A4.Extra: "0 0 667.28 913.89"
+*ImageableArea A4.Extra.Transverse: "0 0 913.89 667.28"
+*ImageableArea A3: "0 0 841.89 1190.55"
+*ImageableArea A3.Transverse: "0 0 1190.55 841.89"
+*ImageableArea A3.Extra: "0 0 913.89 1262.55"
+*ImageableArea A3.Extra.Transverse: "0 0 1262.28 913.89"
+*?ImageableArea: "
+ save /cvp { cvi (            ) cvs print ( ) print } bind def
+  newpath clippath pathbbox
+  4 -2 roll exch 2 {ceiling cvp} repeat
+  exch 2 {floor cvp} repeat flush
+ restore
+"
+*End
+
+*% These provide the physical dimensions of the paper (by keyword)
+*DefaultPaperDimension: A4
+*PaperDimension Letter: "612 792"
+*PaperDimension Letter.Transverse: "792 612 "
+*PaperDimension Letter.Extra: "684 864"
+*PaperDimension Letter.Extra.Transverse: "864 684 "
+*PaperDimension Legal: "612 1008"
+*PaperDimension Legal.Transverse: "1008 612 "
+*PaperDimension Legal.Extra: "684 1080"
+*PaperDimension Legal.Extra.Transverse: "1080 684 "
+*PaperDimension Tabloid: "792 1224"
+*PaperDimension Tabloid.Transverse: "1224 792 "
+*PaperDimension Tabloid.Extra: "842 1296"
+*PaperDimension Tabloid.Extra.Transverse: "1296 842 "
+*PaperDimension A4: "595.28 841.89"
+*PaperDimension A4.Transverse: "841.89 595.28"
+*PaperDimension A4.Extra: "667.28 913.89"
+*PaperDimension A4.Extra.Transverse: "913.89 667.28"
+*PaperDimension A3: "841.89 1190.55"
+*PaperDimension A3.Transverse: "1190.55 841.89"
+*PaperDimension A3.Extra: "913.89 1262.55"
+*PaperDimension A3.Extra.Transverse: "1262.55 913.89"
+
+*DefaultOutputBin: Upper
+*DefaultInputSlot: None
+
+*DefaultManualFeed: False
+*?ManualFeed: "
+  statusdict /manualfeed get
+  {(True)}{(False)}ifelse = flush"
+*End
+*ManualFeed True: "statusdict begin /manualfeed true store end"
+*ManualFeed False: "statusdict begin /manualfeed false store end"
+
+*DefaultOutputOrder: Normal
+*DefaultCollator: None
+*DefaultSorter: None
+*DefaultDuplex: None
+
+*% Font Information =====================
+
+*DefaultFont: Courier
+*Font Courier: Standard "(001.004)"
+*Font Courier-Bold: Standard "(001.004)"
+*Font Courier-BoldOblique: Standard "(001.004)"
+*Font Courier-Oblique: Standard "(001.004)"
+*Font Helvetica: Standard "(001.002)"
+*Font Helvetica-Bold: Standard "(001.002)"
+*Font Helvetica-BoldOblique: Standard "(001.002)"
+*Font Helvetica-Narrow: Standard "(001.002)"
+*Font Helvetica-Narrow-Bold: Standard "(001.002)"
+*Font Helvetica-Narrow-BoldOblique: Standard "(001.002)"
+*Font Helvetica-Narrow-Oblique: Standard "(001.002)"
+*Font Helvetica-Oblique: Standard "(001.002)"
+*Font Symbol: Special "(001.003)"
+*Font Times-Bold: Standard "(001.002)"
+*Font Times-BoldItalic: Standard "(001.004)"
+*Font Times-Italic: Standard "(001.002)"
+*Font Times-Roman: Standard "(001.002)"
+*?FontQuery: "
+save  4 dict begin /sv exch def
+/str (fonts/                              ) def
+/st2 128 string def
+{
+  count 0 gt {
+    dup st2 cvs (/) print print (:) print
+    dup FontDirectory exch known {pop (Yes)}{
+     str exch st2 cvs dup length /len exch def
+     6 exch putinterval str 0 len 6 add getinterval mark exch
+     { } st2 filenameforall counttomark 0 gt {
+      cleartomark (Yes)}{cleartomark (No)}ifelse
+    }ifelse = flush
+  }{ exit } ifelse
+} bind loop
+(*) = flush
+sv end restore
+"
+*End
+
+*?FontList: "
+save  2 dict begin /sv exch def
+/str 128 string def
+FontDirectory { pop == } bind forall flush
+/filenameforall where { 
+ pop save (fonts/*) { 
+  dup length 6 sub 6 exch getinterval cvn == 
+ } bind str filenameforall flush restore
+} if 
+(*) = flush
+sv end restore
+"
+*End
+
+*% Printer Messages (verbatim from printer):
+*Message: "%%[ exitserver: permanent state may be changed ]%%"
+*Message: "%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%"
+*Message: "\FontName\ not found, using Courier"
+
+*% Status (format: %%[ status: <one of these> ]%% )
+*Status: "idle"
+*Status: "busy"
+*Status: "waiting"
+*Status: "printing"
+*Status: "warming up"
+*Status: "PrinterError: Printer never accepted band"
+*Status: "PrinterError: PrintXferBusy for too long"
+*Status: "PrinterError: Fifo transfer took too long: DMABusy still"
+*Status: "PrinterError: Fifo transfer did not start: DMABusy still"
+*Status: "PrinterError: Printer printed but stuck printing: !END"
+*Status: "PrinterError: Default page being defined is too big"
+*Status: "PrinterError: PrinterError: Printer never was ready to start band: !STA"
+*Status: "PrinterError: Printer OK								
+*Status: "PrinterError: Failed Printerstart: !BEG)"						
+*Status: "PrinterError: Print aborted <SHIFT STOP>"				
+*Status: "PrinterError: Printer not ready to write: unused"		
+*Status: "PrinterError: Default page being defined is too big"		
+*Status: "PrinterError: Printer not ready; printer needs attention"
+
+*% Input Sources (format: %%[ status: <stat>; source: <one of these> ]%% ) 
+*Source: "serial" 
+*Source: "AppleTalk" 
+*Source: "Centronics" 
+
+*%DeviceAdjustMatrix: "[1 0 0 1 0 0]" 
+
+
+*DefaultColorSep: ProcessCyan.96lpi/  96l
+
+*InkName: ProcessCyan/Process Cyan
+*InkName: ProcessMagenta/Process Magenta
+*InkName: ProcessYellow/Process Yellow
+*InkName: ProcessBlack/Process Black
+*InkName: CustomColor/Custom Color
+
+*% For  72 lpi / NR (Normal Resolution)
+
+*ColorSepScreenAngle ProcessCyan.72lpi.NR/  72 lpi / NR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.72lpi.NR/  72 lpi / NR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.72lpi.NR/  72 lpi / NR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.72lpi.NR/  72 lpi / NR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.72lpi.NR/  72 lpi / NR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessBlack.72lpi.NR/  72 lpi / NR: 	"71.8597" 
+*ColorSepScreenFreq CustomColor.72lpi.NR/  72 lpi / NR: 	"71.8597" 
+*ColorSepScreenFreq ProcessCyan.72lpi.NR/  72 lpi / NR: 	"64.2733" 
+*ColorSepScreenFreq ProcessMagenta.72lpi.NR/  72 lpi / NR: 	"64.2733" 
+*ColorSepScreenFreq ProcessYellow.72lpi.NR/  72 lpi / NR: 	"67.75" 
+
+*ColorSepScreenProc ProcessCyan.72lpi.NR/  72 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.72lpi.NR/  72 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.72lpi.NR/  72 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.72lpi.NR/  72 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.72lpi.NR/  72 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+*% For 96 lpi / NR (Normal Resolution)
+
+*ColorSepScreenAngle ProcessCyan.96lpi.NR/  96 lpi / NR: "71.5651" 
+*ColorSepScreenAngle ProcessMagenta.96lpi.NR/  96 lpi / NR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.96lpi.NR/  96 lpi / NR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.96lpi.NR/  96 lpi / NR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.96lpi.NR/  96 lpi / NR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.96lpi.NR/  96 lpi / NR: 	"85.6977" 
+*ColorSepScreenFreq ProcessMagenta.96lpi.NR/  96 lpi / NR: 	"85.6977" 
+*ColorSepScreenFreq ProcessYellow.96lpi.NR/  96 lpi / NR: 	"90.3333" 
+*ColorSepScreenFreq ProcessBlack.96lpi.NR/  96 lpi / NR: 	"95.813" 
+*ColorSepScreenFreq CustomColor.96lpi.NR/  96 lpi / NR: 	"95.813" 
+
+*ColorSepScreenProc ProcessCyan.96lpi.NR/  96 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.96lpi.NR/  96 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.96lpi.NR/  96 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.96lpi.NR/  96 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.96lpi.NR/  96 lpi / NR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% For 96 lpi / DR (Normal Resolution)
+
+*ColorSepScreenAngle ProcessCyan.96lpi.DR/  96 lpi / DR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.96lpi.DR/  96 lpi / DR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.96lpi.DR/  96 lpi / DR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.96lpi.DR/  96 lpi / DR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.96lpi.DR/  96 lpi / DR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.96lpi.DR/  96 lpi / DR: 	"85.6977" 
+*ColorSepScreenFreq ProcessMagenta.96lpi.DR/  96 lpi / DR: 	"85.6977" 
+*ColorSepScreenFreq ProcessYellow.96lpi.DR/  96 lpi / DR: 	"90.3333" 
+*ColorSepScreenFreq ProcessBlack.96lpi.DR/  96 lpi / DR: 	"95.813" 
+*ColorSepScreenFreq CustomColor.96lpi.DR/  96 lpi / DR: 	"95.813" 
+
+*ColorSepScreenProc ProcessCyan.96lpi.DR/  96 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.96lpi.DR/  96 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.96lpi.DR/  96 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.96lpi.DR/  96 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.96lpi.DR/  96 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+*% For 115 lpi / DR
+==================================================== 
+
+*ColorSepScreenAngle ProcessCyan.115lpi.DR/115 lpi / DR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.115lpi.DR/115 lpi / DR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.115lpi.DR/115 lpi / DR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.115lpi.DR/115 lpi / DR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.115lpi.DR/115 lpi / DR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.115lpi.DR/115 lpi / DR: 	"102.837" 
+*ColorSepScreenFreq ProcessMagenta.115lpi.DR/115 lpi / DR: 	"102.837" 
+*ColorSepScreenFreq ProcessYellow.115lpi.DR/115 lpi / DR: 	"108.4" 
+*ColorSepScreenFreq ProcessBlack.115lpi.DR/115 lpi / DR: 	"114.976" 
+*ColorSepScreenFreq CustomColor.115lpi.DR/115 lpi / DR: 	"114.976" 
+
+*ColorSepScreenProc ProcessCyan.115lpi.DR/115 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.115lpi.DR/115 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.115lpi.DR/115 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.115lpi.DR/115 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.115lpi.DR/115 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% For 144 lpi / DR
+
+*ColorSepScreenAngle ProcessCyan.144lpi.DR/144 lpi / DR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.144lpi.DR/144 lpi / DR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.144lpi.DR/144 lpi / DR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.144lpi.DR/144 lpi / DR: 	"45.0"
+*ColorSepScreenAngle CustomColor.144lpi.DR/144 lpi / DR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.144lpi.DR/144 lpi / DR: 	"128.547" 
+*ColorSepScreenFreq ProcessMagenta.144lpi.DR/144 lpi / DR: 	"128.547" 
+*ColorSepScreenFreq ProcessYellow.144lpi.DR/144 lpi / DR: 	"135.5" 
+*ColorSepScreenFreq ProcessBlack.144lpi.DR/144 lpi / DR: 	"143.719" 
+*ColorSepScreenFreq CustomColor.144lpi.DR/144 lpi / DR: 	"143.719" 
+
+*ColorSepScreenProc ProcessCyan.144lpi.DR/144 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.144lpi.DR/144 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.144lpi.DR/144 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.144lpi.DR/144 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.144lpi.DR/144 lpi / DR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% For 96 lpi / SR (Super Resolution)
+
+*ColorSepScreenAngle ProcessCyan.96lpi.SR/  96 lpi / SR:	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.96lpi.SR/  96 lpi / SR:	"18.4349" 
+*ColorSepScreenAngle ProcessYellow.96lpi.SR/  96 lpi / SR:	"0.0" 
+*ColorSepScreenAngle ProcessBlack.96lpi.SR/  96 lpi / SR:	"45.0" 
+*ColorSepScreenAngle CustomColor.96lpi.SR/  96 lpi / SR:	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.96lpi.SR/  96 lpi / SR:		"85.6977" 
+*ColorSepScreenFreq ProcessMagenta.96lpi.SR/  96 lpi / SR:	"85.6977" 
+*ColorSepScreenFreq ProcessYellow.96lpi.SR/  96 lpi / SR:	"90.3333" 
+*ColorSepScreenFreq ProcessBlack.96lpi.SR/  96 lpi / SR:	"95.813" 
+*ColorSepScreenFreq CustomColor.96lpi.SR/  96 lpi / SR:		"95.813" 
+
+*ColorSepScreenProc ProcessCyan.96lpi.SR/  96 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.96lpi.SR/  96 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.96lpi.SR/  96 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.96lpi.SR/  96 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.96lpi.SR/  96 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% For 105 lpi / SR (Super Resolution)
+
+*ColorSepScreenAngle ProcessCyan.105lpi.SR/105 lpi / SR:	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.105lpi.SR/105 lpi / SR:	"18.4349" 
+*ColorSepScreenAngle ProcessYellow.105lpi.SR/105 lpi / SR:	"0.0" 
+*ColorSepScreenAngle ProcessBlack.105lpi.SR/105 lpi / SR:	"45.0" 
+*ColorSepScreenAngle CustomColor.105lpi.SR/105 lpi / SR:	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.105lpi.SR/105 lpi / SR:		"93.4884" 
+*ColorSepScreenFreq ProcessMagenta.105lpi.SR/105 lpi / SR:	"93.4884" 
+*ColorSepScreenFreq ProcessYellow.105lpi.SR/105 lpi / SR:	"98.5455" 
+*ColorSepScreenFreq ProcessBlack.105lpi.SR/105 lpi / SR:	"104.523" 
+*ColorSepScreenFreq CustomColor.105lpi.SR/105 lpi / SR:		"104.523" 
+
+*ColorSepScreenProc ProcessCyan.105lpi.SR/105 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.105lpi.SR/105 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.105lpi.SR/105 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.105lpi.SR/105 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.105lpi.SR/105 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+
+*% For 115 lpi / SR (Super Resolution)
+
+*ColorSepScreenAngle ProcessCyan.115lpi.SR/115 lpi / SR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.115lpi.SR/115 lpi / SR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.115lpi.SR/115 lpi / SR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.115lpi.SR/115 lpi / SR: 	"45.0"
+*ColorSepScreenAngle CustomColor.115lpi.SR/115 lpi / SR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.115lpi.SR/115 lpi / SR:		"102.837" 
+*ColorSepScreenFreq ProcessMagenta.115lpi.SR/115 lpi / SR:	"102.837" 
+*ColorSepScreenFreq ProcessYellow.115lpi.SR/115 lpi / SR:	"108.4" 
+*ColorSepScreenFreq ProcessBlack.115lpi.SR/115 lpi / SR:	"114.976" 
+*ColorSepScreenFreq CustomColor.115lpi.SR/115 lpi / SR:		"114.976" 
+
+*ColorSepScreenProc ProcessCyan.115lpi.SR/115 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.115lpi.SR/115 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.115lpi.SR/115 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.115lpi.SR/115 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.115lpi.SR/115 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% For 128 lpi / SR (Super Resolution)
+
+*ColorSepScreenAngle ProcessCyan.128lpi.SR/128 lpi / SR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.128lpi.SR/128 lpi / SR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.128lpi.SR/128 lpi / SR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.128lpi.SR/128 lpi / SR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.128lpi.SR/128 lpi / SR: 	"45.0" 
+
+
+*ColorSepScreenFreq ProcessCyan.128lpi.SR/128 lpi / SR: 	"114.264" 
+*ColorSepScreenFreq ProcessMagenta.128lpi.SR/128 lpi / SR: 	"114.264" 
+*ColorSepScreenFreq ProcessYellow.128lpi.SR/128 lpi / SR: 	"120.444" 
+*ColorSepScreenFreq ProcessBlack.128lpi.SR/128 lpi / SR: 	"127.751" 
+*ColorSepScreenFreq CustomColor.128lpi.SR/128 lpi / SR: 	"127.751" 
+
+*ColorSepScreenProc ProcessCyan.128lpi.SR/128 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.128lpi.SR/128 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.128lpi.SR/128 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.128lpi.SR/128 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.128lpi.SR/128 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+
+*% For 144 lpi / SR (Super Resolution)
+
+*ColorSepScreenAngle ProcessCyan.144lpi.SR/144 lpi / SR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.144lpi.SR/144 lpi / SR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.144lpi.SR/144 lpi / SR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.144lpi.SR/144 lpi / SR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.144lpi.SR/144 lpi / SR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.144lpi.SR/144 lpi / SR: 	"128.547" 
+*ColorSepScreenFreq ProcessMagenta.144lpi.SR/144 lpi / SR: 	"128.547" 
+*ColorSepScreenFreq ProcessYellow.144lpi.SR/144 lpi / SR: 	"135.5" 
+*ColorSepScreenFreq ProcessBlack.144lpi.SR/144 lpi / SR: 	"143.719" 
+*ColorSepScreenFreq CustomColor.144lpi.SR/144 lpi / SR: 	"143.719" 
+
+*ColorSepScreenProc ProcessCyan.144lpi.SR/144 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.144lpi.SR/144 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.144lpi.SR/144 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.144lpi.SR/144 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.144lpi.SR/144 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% For 164 lpi / SR (Super Resolution)
+
+*ColorSepScreenAngle ProcessCyan.164lpi.SR/164 lpi / SR: 	"71.5651" 
+*ColorSepScreenAngle ProcessMagenta.164lpi.SR/164 lpi / SR: "18.4349" 
+*ColorSepScreenAngle ProcessYellow.164lpi.SR/164 lpi / SR: 	"0.0" 
+*ColorSepScreenAngle ProcessBlack.164lpi.SR/164 lpi / SR: 	"45.0" 
+*ColorSepScreenAngle CustomColor.164lpi.SR/164 lpi / SR: 	"45.0" 
+
+*ColorSepScreenFreq ProcessCyan.164lpi.SR/164 lpi / SR: 	"146.91" 
+*ColorSepScreenFreq ProcessMagenta.164lpi.SR/164 lpi / SR: 	"146.91" 
+*ColorSepScreenFreq ProcessYellow.164lpi.SR/164 lpi / SR: 	"154.857" 
+*ColorSepScreenFreq ProcessBlack.164lpi.SR/164 lpi / SR: 	"164.251" 
+*ColorSepScreenFreq CustomColor.164lpi.SR/164 lpi / SR: 	"164.251" 
+
+*ColorSepScreenProc ProcessCyan.164lpi.SR/164 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessMagenta.164lpi.SR/164 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessYellow.164lpi.SR/164 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc ProcessBlack.164lpi.SR/164 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+*ColorSepScreenProc CustomColor.164lpi.SR/164 lpi / SR: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }"
+*End
+
+
+*% end of PPD file for Scantext 

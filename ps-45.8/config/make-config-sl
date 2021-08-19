@@ -1,0 +1,18 @@
+# make-config-mc68020 - global configuration for 030 cube-based PostScript
+
+# STAGE can be overridden from command line to make EXPORT versions
+STAGE = DEVELOP
+
+ISP = mc68020
+OS = mach
+
+#tag for object directory, this file, and .o.adobe's
+OBJTAG=sl
+
+CFLAGS_DEVELOP = -g -pg -m68881
+CFLAGS_EXPORT  = -O -pg -g -m68881
+CPP=/lib/cpp
+
+PACKAGES = mousekeyboard bintree mp bitmap postscript coroutine fonts \
+        unix_product graphics device devpattern language stodev vm stream \
+        fp pslib

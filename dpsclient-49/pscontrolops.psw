@@ -1,0 +1,81 @@
+/* pscontrolops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSeq()
+	eq 
+endps
+
+defineps PSexit()
+	exit 
+endps
+
+defineps PSfalse()
+	false 
+endps
+
+defineps PSfor()
+	for 
+endps
+
+defineps PSforall()
+	forall 
+endps
+
+defineps PSge()
+	ge 
+endps
+
+defineps PSgt()
+	gt 
+endps
+
+defineps PSif()
+	if 
+endps
+
+defineps PSifelse()
+	ifelse 
+endps
+
+defineps PSle()
+	le 
+endps
+
+defineps PSloop()
+	loop 
+endps
+
+defineps PSlt()
+	lt 
+endps
+
+defineps PSne()
+	ne 
+endps
+
+defineps PSnot()
+	not 
+endps
+
+defineps PSor()
+	or 
+endps
+
+defineps PSrepeat()
+	repeat 
+endps
+
+defineps PSstop()
+	stop 
+endps
+
+defineps PSstopped()
+	stopped 
+endps
+
+defineps PStrue()
+	true 
+endps
+

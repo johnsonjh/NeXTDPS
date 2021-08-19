@@ -1,0 +1,59 @@
+# Read yacc output and create two files.  Stdout contains a Mac resource
+# file, while macparser.c is the modified yacc output.
+
+BEGIN {
+	cfile = "macparser.c"
+	varinit = "yyexca yyact yypact yypgo yyr1 yyr2 yychk yydef"
+	nvars = split(varinit, vars, " ")
+	ivar = 1
+	waiting = 1
+	done = 0
+	printf("") > cfile  # erase it
+	print("/* static data for macparser.c */\n")
+	print("type 'PSWP' {")
+	print("	integer = $$Countof(yyexca);")
+	print("	integer = $$Countof(yyact); /*1 */")
+	print("	integer = $$Countof(yypact);")
+	print("	integer = $$Countof(yypgo);")
+	print("	integer = $$Countof(yyr1);")
+	print("	integer = $$Countof(yyr2);")
+	print("	integer = $$Countof(yychk);")
+	print("	integer = $$Countof(yydef);")
+	print("	array yyexca { integer; }; /* 8 */")
+	print("	array yyact { integer; };")
+	print("	array yypact { integer; };")
+	print("	array yypgo { integer; };")
+	print("	array yyr1 { integer; };")
+	print("	array yyr2 { integer; };")
+	print("	array yychk { integer; };")
+	print("	array yydef { integer; };")
+	print("};\n")
+	print("resource 'PSWP' (6000) {")
+}
+
+{ if (done)
+	print >> cfile
+  else if (waiting)
+	if (index($0, vars[ivar])) {
+		print("short *" vars[ivar] ";") >> cfile
+		print("/* " vars[ivar] " */ {")
+		waiting = 0
+	} else
+		print >> cfile
+  else
+	if ($0 ~ /}/) {
+		if ($0 ~ /[0-9]/) {
+			split($0, s, "}")
+			print(s[1])
+		}
+		if (ivar < nvars) {
+			print("},\n")
+			ivar++
+			waiting = 1
+		} else {
+			print("}\n};\n");
+			done = 1
+		}
+	} else
+		print
+}

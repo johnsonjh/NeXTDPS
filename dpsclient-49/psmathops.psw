@@ -1,0 +1,93 @@
+/* psmathops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSabs()
+	abs 
+endps
+
+defineps PSadd()
+	add 
+endps
+
+defineps PSand()
+	and 
+endps
+
+defineps PSatan()
+	atan 
+endps
+
+defineps PSbitshift(int shift)
+	shift bitshift
+endps
+
+defineps PSceiling()
+	ceiling 
+endps
+
+defineps PScos()
+	cos 
+endps
+
+defineps PSdiv()
+	div 
+endps
+
+defineps PSexp()
+	exp 
+endps
+
+defineps PSfloor()
+	floor 
+endps
+
+defineps PSidiv()
+	idiv 
+endps
+
+defineps PSln()
+	ln 
+endps
+
+defineps PSlog()
+	log 
+endps
+
+defineps PSmod()
+	mod 
+endps
+
+defineps PSmul()
+	mul 
+endps
+
+defineps PSneg()
+	neg 
+endps
+
+defineps PSround()
+	round 
+endps
+
+defineps PSsin()
+	sin 
+endps
+
+defineps PSsqrt()
+	sqrt 
+endps
+
+defineps PSsub()
+	sub 
+endps
+
+defineps PStruncate()
+	truncate 
+endps
+
+defineps PSxor()
+	xor 
+endps
+

@@ -1,0 +1,56 @@
+
+/*
+	PSmouse.psw
+	This pswrap file generates C functions corresponding
+	to all the mouse and keyboard operators.
+	
+	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+	All rights reserved.
+
+	Created Leo 09Feb87
+	
+	Modified:
+	
+	05May87	Leo	setcursor, rev. 1
+	11Jul87	Leo	currentmouse.  getmouse will go away soon, and
+			movecursor will change to setmouse.  Removed
+			setautotoggle.
+	17Aug88	trey	wrap accounting - renamed to mousekey from mouse
+*/
+
+
+defineps PShidecursor() hidecursor
+endps
+defineps PSshowcursor() showcursor
+endps
+defineps PSobscurecursor() obscurecursor
+endps
+defineps PSrevealcursor() revealcursor
+endps
+defineps PSsetcursor(float x; float y; float hotx; float hoty)
+	x y hotx hoty setcursor
+endps
+
+defineps PSadjustcursor(float dx, dy)
+	dx dy adjustcursor
+endps
+defineps PScurrentmouse(userobject winNum | float *x, *y)
+	winNum currentmouse y x
+endps
+defineps PSsetmouse(float x, y)
+	x y setmouse
+endps
+
+defineps PSbuttondown( | boolean *truth)
+	buttondown truth
+endps
+defineps PSrightbuttondown( | boolean *truth)
+	rightbuttondown truth
+endps
+defineps PSstilldown(int eNum | boolean *truth)
+	eNum stilldown truth
+endps
+defineps PSrightstilldown(int eNum | boolean *truth)
+	eNum rightstilldown truth
+endps
+

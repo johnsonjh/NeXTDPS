@@ -1,0 +1,288 @@
+*% Adobe Printer Description File
+*% For "LaserWriter Plus" version 38.0
+*% Produced by "GETapd.ps" version 2.0 edit 44
+*% Date: <12/21/1987>
+*FormatVersion: "2.0"
+*LanguageVersion: English
+
+*Product: "(LaserWriter Plus)"
+*PSVersion: "(38.0) 2"
+*NickName: "Apple LaserWriter Plus v38.0"
+
+*% General Information and Defaults ===============
+*ColorDevice: False
+*FileSystem: False
+*?FileSystem: "/initializedisk where{pop(True)}{(False)} ifelse = flush"
+*Throughput: "8"
+*Password: "0"
+*ExitServer: "serverdict begin exitserver"
+*FreeVM: "172872"
+*Reset: "
+systemdict /quit get exec
+(WARNING : Printer Reset Failed.) = flush
+"
+*End
+*VariablePaperSize: False
+
+*DefaultResolution: 300dpi
+*?Resolution: "
+save
+  initgraphics
+  0 0 moveto currentpoint matrix defaultmatrix transform
+  0 72 lineto currentpoint matrix defaultmatrix transform
+  3 -1 roll sub dup mul
+  3 1 roll exch sub dup mul
+  add sqrt round cvi
+  (          ) cvs print (dpi) = flush
+restore
+"
+*End
+
+*% Halftone Information ===============
+*ScreenFreq: "60.0"
+*ScreenAngle: "45.0"
+*DefaultScreenProc: Dot
+*ScreenProc Dot: "
+{dup mul exch dup mul add 1.0 exch sub }
+"
+*End
+*ScreenProc Line: "{ pop }"
+*ScreenProc Ellipse: "{ dup 5 mul 8 div mul exch dup mul exch add sqrt 1 exch sub }"
+
+*DefaultTransfer: Null
+*Transfer Null: "{}"
+*Transfer Null.Inverse: "{ 1 exch sub }"
+*Transfer Normalized: "
+{mark
+1.0 1.0 .98 .9 .82 .68 .56 .48 .28 .1 .06 .0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+} bind"
+*End
+*Transfer Normalized.Inverse: "{
+mark
+.0 .0 .06 .1 .28 .48 .56 .68 .82 .9 .98 1.0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+} bind
+"
+*End
+
+*% Paper Handling ===================
+
+*% Use these entries to set paper size most of the time, unless there is
+*% specific reason to use PageRegion or PaperTray.
+*DefaultPageSize: Letter
+*PageSize Letter: "letter"
+*PageSize Legal: "legal"
+*PageSize Note: "note"
+*PageSize A4: "a4"
+*PageSize B5: "b5"
+*PageSize LetterSmall: "lettersmall"
+*PageSize A4Small: "a4small"
+*?PageSize: "
+ save statusdict begin
+ /papersize where{ pop
+  12 dict begin
+   /lettertray (Letter) def /legaltray (Legal) def
+   /11x17tray (Tabloid) def /ledgertray (Ledger) def
+   /a3tray (A3) def /a4tray (A4) def
+   /a5tray (A5) def /b4tray (B4) def
+   /b5tray (B5) def /executivetray (Executive) def
+   papersize {
+     {load exec} stopped not{= flush}if
+   }{
+     {load exec} stopped not{print (.Transverse) = flush}if
+   }ifelse
+  end
+ }{
+  /pagetype where{pop[(Letter)(Legal)]pagetype dup 1 gt{pop 1}if get = flush}if
+ }ifelse
+ end restore
+"
+*End
+
+*% These entries will set up the frame buffer. Usually used with manual feed.
+*DefaultPageRegion: Letter
+*PageRegion Letter: "letter"
+*PageRegion Legal: "legal"
+*PageRegion Note: "note"
+*PageRegion A4: "a4"
+*PageRegion B5: "b5"
+*PageRegion LetterSmall: "lettersmall"
+*PageRegion A4Small: "a4small"
+
+*DefaultPaperTray: None
+
+*% The following entries provide information about specific paper keywords.
+*DefaultImageableArea: Letter
+*ImageableArea Letter: "18.0 7.92 593.76 784.32"
+*ImageableArea Legal: "64.08 42.0 547.68 966.24"
+*ImageableArea Note: "29.52 30.48 582.24 761.76"
+*ImageableArea A4: "17.28 22.08 577.68 819.84"
+*ImageableArea B5: "2.64 3.12 497.76 705.6"
+*ImageableArea LetterSmall: "29.52 30.48 582.24 761.76"
+*ImageableArea A4Small: "28.8 30.48 566.16 811.44"
+*?ImageableArea: "
+ save /cvp { (            ) cvs print ( ) print } bind def
+  newpath clippath pathbbox 4 -1 roll cvp
+  3 -1 roll cvp exch cvp = flush
+ restore
+"
+*End
+
+*% These provide the physical dimensions of the paper (by keyword)
+*DefaultPaperDimension: Letter
+*PaperDimension Letter: "612 792"
+*PaperDimension Legal: "612 1008"
+*PaperDimension Note: "612 792"
+*PaperDimension A4: "595 842"
+*PaperDimension B5: "516 729"
+*PaperDimension LetterSmall: "612 792"
+*PaperDimension A4Small: "595 842"
+
+*DefaultOutputBin: Upper
+*DefaultInputSlot: None
+
+*DefaultManualFeed: False
+*?ManualFeed: "statusdict /manualfeed get
+ {(True)}{(False)}ifelse = flush"
+*End
+*ManualFeed True: "statusdict begin /manualfeed true store end"
+*ManualFeed False: "statusdict begin /manualfeed false store end"
+
+*DefaultOutputOrder: Normal
+
+*DefaultCollator: None
+*DefaultSorter: None
+*DefaultDuplex: None
+
+*% Font Information =====================
+
+*DefaultFont: Courier
+*Font AvantGarde-Book: Standard "(001.000)"
+*Font AvantGarde-BookOblique: Standard "(001.000)"
+*Font AvantGarde-Demi: Standard "(001.000)"
+*Font AvantGarde-DemiOblique: Standard "(001.000)"
+*Font Bookman-Demi: Standard "(001.000)"
+*Font Bookman-DemiItalic: Standard "(001.000)"
+*Font Bookman-Light: Standard "(001.000)"
+*Font Bookman-LightItalic: Standard "(001.000)"
+*Font Courier: Standard "(001.000)"
+*Font Courier-Bold: Standard "(001.000)"
+*Font Courier-BoldOblique: Standard "(001.000)"
+*Font Courier-Oblique: Standard "(001.000)"
+*Font Helvetica: Standard "(001.000)"
+*Font Helvetica-Bold: Standard "(001.000)"
+*Font Helvetica-BoldOblique: Standard "(001.000)"
+*Font Helvetica-Narrow: Standard "(001.000)"
+*Font Helvetica-Narrow-Bold: Standard "(001.000)"
+*Font Helvetica-Narrow-BoldOblique: Standard "(001.000)"
+*Font Helvetica-Narrow-Oblique: Standard "(001.000)"
+*Font Helvetica-Oblique: Standard "(001.000)"
+*Font NewCenturySchlbk-Bold: Standard "(001.000)"
+*Font NewCenturySchlbk-BoldItalic: Standard "(001.000)"
+*Font NewCenturySchlbk-Italic: Standard "(001.000)"
+*Font NewCenturySchlbk-Roman: Standard "(001.000)"
+*Font Palatino-Bold: Standard "(001.000)"
+*Font Palatino-BoldItalic: Standard "(001.000)"
+*Font Palatino-Italic: Standard "(001.000)"
+*Font Palatino-Roman: Standard "(001.000)"
+*Font Symbol: Special "(001.001)"
+*Font Times-Bold: Standard "(001.000)"
+*Font Times-BoldItalic: Standard "(001.000)"
+*Font Times-Italic: Standard "(001.000)"
+*Font Times-Roman: Standard "(001.000)"
+*Font ZapfChancery-MediumItalic: Standard "(001.000)"
+*Font ZapfDingbats: Special "(001.000)"
+*?FontQuery: "
+{
+  count 0 gt {
+    FontDirectory exch known {1}{0}ifelse = flush
+  }{ exit } ifelse
+} bind loop
+"
+*End
+
+*?FontList: "
+FontDirectory { pop == flush } forall 
+/filenameforall where { 
+ pop save (fonts/*) { 
+  dup length 6 sub 6 exch getinterval == flush 
+ } 128 string filenameforall restore
+} if 
+(*) = flush
+"
+*End
+
+*% Printer Messages (verbatim from printer):
+*Message: "%%[ exitserver: permanent state may be changed ]%%"
+*Message: "%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%"
+*Message: "\FontName\ not found, using Courier"
+
+*% Status (format: %%[ status: <one of these> %%] )
+*Status: "idle"
+*Status: "busy"
+*Status: "waiting"
+*Status: "printing"
+*Status: "PrinterError: timeout, clearing printer"
+*Status: "PrinterError: paper entry misfeed"
+*Status: "PrinterError: warming up"
+*Status: "PrinterError: service call"
+*Status: "PrinterError: no toner cartridge"
+*Status: "PrinterError: no paper tray"
+*Status: "PrinterError: cover open"
+*Status: "PrinterError: resetting printer"
+*Status: "PrinterError: out of paper"
+*Status: "PrinterError: timeout"
+*Status: "PrinterError: manual feed timeout"
+
+*% Input Sources (format: %%[ status: <stat>; source: <one of these>]%% )
+*Source: "serial9"
+*Source: "serial25"
+*Source: "AppleTalk"
+
+*% Printer Error (format: %%[ PrinterError: <one of these>]%%)
+*PrinterError: "timeout, clearing printer"
+*PrinterError: "paper entry misfeed"
+*PrinterError: "warming up"
+*PrinterError: "service call"
+*PrinterError: "no toner cartridge"
+*PrinterError: "no paper tray"
+*PrinterError: "cover open"
+*PrinterError: "resetting printer"
+*PrinterError: "out of paper"
+*PrinterError: "timeout"
+*PrinterError: "manual feed timeout"
+
+*% Color Separation Information =====================
+
+*DefaultColorSep: ProcessCyan.60lpi/60 lpi
+
+*InkName: ProcessCyan/Process Cyan
+*InkName: ProcessMagenta/Process Magenta
+*InkName: ProcessYellow/Process Yellow
+*InkName: ProcessBlack/Process Black
+*InkName: CustomColor/Custom Color
+
+*ColorSepScreenAngle ProcessCyan.60lpi/60 lpi: "15"
+*ColorSepScreenAngle ProcessMagenta.60lpi/60 lpi: "75"
+*ColorSepScreenAngle ProcessYellow.60lpi/60 lpi: "0"
+*ColorSepScreenAngle ProcessBlack.60lpi/60 lpi: "45"
+*ColorSepScreenAngle CustomColor.60lpi/60 lpi: "45"
+
+*% end of APD file for LaserWriter Plus

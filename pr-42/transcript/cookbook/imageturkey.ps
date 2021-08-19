@@ -1,0 +1,96 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Using the image Operator     Number: 19
+%-----------------------------------------------------------------------------
+%
+/concatprocs                                % ``concatprocs'' takes two
+  { /proc2 exch cvlit def                   % procedure bodies as arguments
+    /proc1 exch cvlit def                   % and concatenates them into one
+					    % procedure body. The resulting
+					    % procedure body is left on the
+					    % operand stack. ``concatprocs''
+					    % will be used in constructing a
+					    % new transfer function below.
+    /newproc proc1 length proc2 length add  % Create a new array large enough
+      array def                             % to accomodate both procedures.
+    newproc 0 proc1 putinterval             % Place the first procedure at the
+					    % beginning of the new one.
+    newproc proc1 length proc2 putinterval  % Place the second procedure at
+					    % the end of the new one.
+    newproc cvx                             % Now make this array into an
+					    % executable object.
+  } def
+/inch { 72 mul } def
+/picstr 3 string def                        % String to read the hex strings
+					    % into (each row is 3 bytes long).
+									      
+/imageturkey                                % The procedure ``imageturkey''
+  { 24 23 1 [24 0 0 -23 0 23]               % will read the image (as hex
+      { currentfile picstr                  % strings) from this file and show
+	readhexstring pop } image           % it on the page. The image of the
+  } def                                     % turkey is represented as one bit
+					    % per sample. It is 24 samples
+					    % wide by 23 samples high and it's
+					    % first sample is in the upper
+					    % left corner of the source image.
+									      
+					    % The image we generate will be
+					    % mapped to the unit square in
+					    % user space. This unit square has
+					    % it's lower left corner at the
+					    % origin and extends 1 unit in the
+					    % positive x and y directions. If
+					    % we want the image to appear in
+					    % the center of the page we must
+					    % translate the user space origin
+					    % near the center of the page. If
+					    % we want an image that is larger
+					    % than the default unit square, we
+					    % must scale the user space.
+									
+gsave                                       % Isolate the effects of the
+					    % ``settransfer.''
+  3 inch 4 inch translate                   % Position the unit square on the
+					    % page.
+  2 inch dup scale                          % Scale it to be 2 inches square.
+  {1 exch sub} currenttransfer concatprocs  % Since the source samples for our
+    settransfer                             % image specify a reverse image
+					    % (that is, the samples that
+					    % correspond to ``black'' are
+					    % specified as 1's rather than
+					    % 0's) we specify a transfer
+					    % function to reverse this effect.
+					    % Since some output devices have
+					    % complex transfer functions we
+					    % don't simply want to set the
+					    % transfer function. Instead we
+					    % want to concatenate our new
+					    % transfer function with the
+					    % existing one to achieve our
+					    % results.
+  imageturkey
+  003B00 002700 002480 0E4940
+  114920 14B220 3CB650 75FE88
+  17FF8C 175F14 1C07E2 3803C4
+  703182 F8EDFC B2BBC2 BB6F84
+  31BFC2 18EA3C 0E3E00 07FC00
+  03F800 1E1800 1FF800
+					    % As soon as ``imageturkey'' is
+					    % executed, the ``currentfile ...
+					    % readhexstring'' sequence will
+					    % begin reading bytes from this
+					    % file. The safest way to
+					    % synchronize reading from the
+					    % program file with the PostScript
+					    % interpreter's own reading of
+					    % this file is to embed the
+					    % reading commmands in a
+					    % procedure, then place that
+					    % procedure name followed by a
+					    % ``carriage return'' followed by
+					    % the bytes to be read in the
+					    % file.
+grestore                                    % The ``image'' command reads
+showpage                                    % exactly the number of bytes we
+					    % supplied, and the interpreter
+					    % picks up its reading here.

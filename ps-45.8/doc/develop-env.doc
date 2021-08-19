@@ -1,0 +1,306 @@
+NeXT PostScript File Struture
+4/27/90
+P. Graffagnino
+
+OVERVIEW:
+
+	The PostScript sources are organized in a simple two-level
+directory structure.  At the root of the project are the overall
+makefiles and a bunch of directories.  The directories can be
+classified into roughly three categories -- utility subdirectories,
+source subdirectories, and object subdirectories. 
+
+Utility subdirectories
+-----------------------
+
+	bin		contains useful shell scripts and tools (the
+			lastest copy of gnumake is also kept here)
+	doc		contains documentation (this file), Release Notes,
+			and change logs (customize.txt)
+	config		configuration management (library of make-config's)
+
+Source Subdirectories
+---------------------
+
+	product		window server specific source files
+
+	bintree 	Adobe-style `package' source files
+	mp 		 . . .
+	postscript 
+	graphics 
+	device 
+	<etc.>
+
+
+Object Subdirectories
+---------------------
+
+	DEVELOP-<arch>	Object code (.a's), binaries and PS.VM's (no source).
+	EXPORT-<arch>	  
+
+	For a pictorial view, see develop-env.draw in the doc directory.
+
+
+HIGHLIGHTS AND DIFFERNCES FROM ADOBE WORLD
+
+	- uses SGS  (master user `ps_proj')
+	- simple bi-level directory structure
+	- no absolute paths
+	- no embedded version numbers (version at root)
+	- object and source cleanly separated
+	- Makefiles contain minimal information necessary (all of the
+	  intelligence is in globally included makefile.common)
+	- one trivial "package_specs.h" (e.g. #define FP "fp.h") located in
+	  include/
+	- dependency rules automated (via make depend)
+	- standard make rules supported (all, install, installsrc, depend,
+	  clean)
+	- no mandatory aliases, environmental variables, or mystic incantations
+	- no persistent .o's (i.e. dependencies check archive members directly
+	  -- this is a 40-50% space savings in each world!)
+	- uses gnumake (more sophisticated, yet compatible w/ standard 
+	  makefiles)
+
+
+MAKEFILE ORGANIZATION
+
+	./Makefile		- world makefile
+	./make-config		- included by all makefiles, sets configuration
+				  switches. (Actually a soft link to 
+				  appropriate make-config* in config dir).
+	./makefile.common	- common logic for all package and product
+				  makefiles
+	./<package>/Makefile	- package-specific source lists, etc.
+
+PROCESSOR/ENVIRONMENT CONFIGURATION
+-------------------------------------
+
+	In the utility directory `config' there are a number of files
+suitable for linking to the root make-config.  These controll the 
+configuration for which you are building a PostScript.  You can only 
+be set up to build for one environment at a time.  The config directory
+also has a Makefile which sets up the world make-config link appropriately
+(it also constructs the object subdirectories for that configuration).  
+The configurations currently supported are:
+
+	mc68020:		normal 030 cube operation
+	040fpe			soft-float w/ floating point emulation
+				for prototype 040 builds
+
+
+
+
+MAKE RULES
+
+	There are three basic styles of make sessions in the new world.
+
+Package Make Rules:
+-------------------
+
+	make			makes DEVELOP .a
+	make lib
+
+	make libs		makes DEVELOP and EXPORT .a's (recursively
+				invokes make)
+	
+	make lib STAGE=EXPORT	make EXPORT .a
+	make STAGE=EXPORT	
+
+	make clean		remove .a, and .o's for DEVELOP, as well
+				as *~ in source dir.
+	make clean STAGE=EXPORT	remove .a, and .o's for EXPORT, as well
+				as *~ in source dir.
+	make depend		update depedencies via cc -M.  This sets
+				-DSTAGE=DEVELOP, but I believe there is
+				no case where a source file has different
+				dependencies during EXPORT.  There is one
+				file (fonts/debug.c) that is only used in the
+				DEVELOP library, but this file is included
+				ok.  If there were EXPORT only source files
+				we would need to add them to the list
+				of files presented to cpp in this rule.
+
+Product Make Rules:
+--------------------
+
+	- all of the above (since the product makes a library)
+	
+	make			creates a DEVELOP PS and PS.VM.
+	make STAGE=EXPORT	creates an EXPORT PS and PS.VM
+
+World Make Rules:
+------------------
+
+	help:			prints consise description of world rules
+				(actually doc/make.help)
+	all:			DEVELOP and EXPORT PS's and all package
+				libraries
+	installsrc DSTROOT=dir	installs complete source tree at destroot
+	intstallheaders		install public and local headers
+	installbin		installs WindowServer and PS.VM in $(DSTROOT)/
+				usr/lib/NextStep
+	installdoc		installs WindowServerNotes.wn in $(DSTROOT)/
+				usr/local/RelNotes
+	intstall		full installation (makes all, installheaders,
+				installbin and installdoc).
+	installtest		equivalent to installbin, except the current
+				WindowServer is preserved in WindowServer.old
+	local DSTROOT=dir	installs object directories on local disk
+	remote			moves object directories back to source
+				filesystem
+	clean			removes files in object dirs, depend 
+				files as well as make `tidy' files below.
+	tidy			removes ~ and ## backup & autosave files
+	depend			rebuilds all package and product depend files
+	changedfiles		run diff_clone(1) -f on this world
+
+
+GETTING STARTED
+
+	1) be sure your SGS_ENV (or .sgs_env) file is set up with a line
+	   like:
+
+	> ps_ROOT=${~<yourname>}/ps_proj
+
+	2) create a directory for your ps project (most of us use ~/ps_proj)
+
+	3) create a clone of the most recent ps_proj:
+
+	> make_clone ~ps_proj/ps
+
+	4) take a copy of gnumake into your own bin directory and rehash
+	
+	> cp ~/ps_proj/ps/bin/gnumake ~/bin
+	> rehash
+
+	Now you're on the air with the new version.  All of the files are
+	readonly, use break_link(1) to modify files. 
+
+	Actually, you will probably want to continue on from here and
+	put your object directories on your local disk.  This results
+	in faster link times, less network traffic and less disk space
+	usage on k9 so its highly recommended.  Note that all files in	
+	the object directories EXPORT-* and DEVELOP-* are reconstructable
+	(by design) so that having these live on your scsi without the
+	benefit of network backups can never damage things too much.
+	
+
+	To install object directories on local disk:
+		
+	5) make a local directory /ps
+	
+	>su
+	>mkdir /ps
+	>chown <yourname> /ps
+	>suspend
+	
+	6) use the make local rule in the world makefile
+
+	> cd ~/ps_proj/ps
+	> gnumake local DSTROOT=/ps
+
+	Now the object directories are on your local disk.  Note that
+	the subdirectory structure under /ps and ~/ps_proj/ps will
+	now be the same, thanks to the magic of symbolic links.
+	
+
+
+THINGS TO BEWARE OF:
+
+Local Disk Symbolic link tangle.
+--------------------------------	
+
+	Since a localized environment is a combination of two
+directory hierarchies coerced into looking the same with symbolic
+links, your current directory might not always be what you think.
+Witness the puzzler below:
+
+	[pgraff-4] cd ~/ps_proj/ps
+	[ps-5] pwd
+	/private/Net/k9/dps/pgraff/ps_proj/ps-32
+	[ps-6] cd DEVELOP-mc68020/..
+	[ps-7] pwd
+	/ps
+	[ps-8] cd product/..
+	[ps-9] pwd
+	/private/Net/k9/dps/pgraff/ps_proj/ps-32
+	[ps-10] 
+
+	Its a little tricky, but not too hard to get used to once you see
+what's going on.
+
+
+Life With .a's
+--------------
+
+	No bare object files (except Adobe `source') are stored
+anywhere in the system.  When files are compiled, there are stored in
+immediately in archives.  This helps on disk space and keeps the
+system uncluttered.  Unfortunately, adding .a's to an archive
+repeatedly can have a nasty quadratic behavior.  This is only really
+noticeable when building large libraries (i.e. graphics), and
+generally (since we're using local disks) I think its worth it not to
+deal with .o's.  Your mileage may vary.  It's probably possible to
+treat .o's differently if no .a is present, anyone wishing to add this
+performance enhancement to the makefile.common is welcome to give it a
+shot.  
+
+	The real tricky part of dealing with .a's is when
+reorganizations occur with a library. In particular, if you change the
+name of a source file or delete a source file (and don't do a make
+clean), you *must* delete the old one (using ar d) from the archive.
+If your think you may have obsolete files in an archive you can list
+the archive using ar t.  You won't need to worry about this as long as
+none of its constituent filenames become obsolete.  Of course if you're
+really worried, you can always make clean and start from scratch!
+	
+
+
+GDB SUPPORT
+
+	Since the compiled in file names for debugging no longer have
+absolute path names encoded, you need to tell gdb where to look for
+source.  Assuming you'll be running from DEVELOP or EXPORT object
+subdirectories, add the following lines to your ~/.gdbinit.
+
+	dir ../product
+	dir ../bintree
+	dir ../mousekeyboard
+	dir ../mp
+	dir ../device
+	dir ../graphics
+	dir ../postscript
+	dir ../language
+	dir ../coroutine
+	dir ../fonts
+	dir ../unix_product
+	dir ../stodev
+	dir ../filesystem
+	dir ../io
+	dir ../vm
+	dir ../stream
+	dir ../fp
+	dir ../pslib
+	dir ../devpattern
+
+	If you don't want to clutter your ~/.gdbinit with these PS
+specific paths, there is an alternative.  Since gdb also reads a
+.gdbinit in the current working directory (as well as your own
+~/.gdbinit) I have added a .gdbint with exactly these lines in my
+DEVELOP and EXPORT clone directories.  This violates the rule of no
+source in these directories, but I prefer it to cluttering my .gdbinit
+with this PS stuff.  I can always recreate these .gdbinits (by cutting
+and pasting from here) if they get lost.
+
+SGS, break_link(1), EDIT, musings (courtesy trey)
+-------------------------------------------------
+
+One tip is that you very rarely have to use break_link(1).  If you save with Edit and you havent broken the file's link to the master, Edit warns you that its a read only file.  You can save it anyway, since you have full permissions on the directory (Edit just moves the old one and creates a new one).  In vi, you can use :W for the same purpose.  I know you can do the same in emacs somehow, but I dont know the specifics.
+
+Unfortunately, the way Edit saves the file, even after you break the link you will still get warnings.  One days the masses will unite and see this fixed.  Until that day, you can avoid that confirmation panel by making the files you own writable by you.  Every once in a while I do
+
+chmod u+w * >& /dev/null
+
+Files you havent broken link on are still owned by ps_proj, so they arent changed (in fact they generate lots of warnings, which is why I pipe the errors to /dev/null).
+
+

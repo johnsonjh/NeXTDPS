@@ -1,0 +1,129 @@
+% versatec.ps
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: taft - Mon May 23 17:04:05 1988
+% last edit: brotz Tue Aug 12 13:43:54 1986
+
+/versatec
+  {
+  [0 200 72 div dup 0 -38 0]
+
+   % device width in bytes and height in bits
+   264 1700
+
+   % action to take for showpage:
+   {(Writing file ...) print flush
+    /vfile (v.bits)(w) file def
+    vfile false frametofile vfile closefile reprint
+   }
+
+   % now do it:
+   framedevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   40 45 {abs exch abs 2 copy add 1 gt
+            {1 sub dup mul exch 1 sub dup mul add 1 sub}
+            {dup mul exch dup mul add 1 exch sub} ifelse} setscreen
+   {} settransfer
+
+   initgraphics
+   erasepage
+   } def
+
+/versatecband
+  {
+  [0 200 72 div dup 0 -38 0]
+
+   % device width in bytes and height in bits
+   264 1700
+
+   % action to take for showpage:
+   {
+    (Writing file ...) print flush
+    /vfile (v.bits)(w) file def
+    0 {dup (   ) cvs print ( ) print flush 1 add vfile false bandtofile}
+    renderbands pop
+    vfile closefile reprint
+   }
+
+   % now do it:
+   banddevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   40 45 {abs exch abs 2 copy add 1 gt
+            {1 sub dup mul exch 1 sub dup mul add 1 sub}
+            {dup mul exch dup mul add 1 exch sub} ifelse} setscreen
+   {} settransfer
+
+   initgraphics
+   erasepage
+   } def
+
+/waitandprint
+   {
+   10 div cvi
+      {
+      usertime
+	 {dup usertime exch sub 10000 gt {exit} if} loop
+      pop  (Waiting ...\n) print flush
+      } repeat
+   (Done.\n) print flush
+   } def
+
+/versatechybrid
+  {
+  [0 200 72 div dup 0 -38 0]
+
+   % device width in bytes and height in bits
+   264 1700
+
+   % action to take for showpage:
+   {flushbands (Writing file ...) print flush
+    /vfile (v.bits)(w) file def vfile false frametofile vfile closefile
+    60 waitandprint
+   }
+
+   % now do it:
+   hybriddevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   40 45 {abs exch abs 2 copy add 1 gt
+            {1 sub dup mul exch 1 sub dup mul add 1 sub}
+            {dup mul exch dup mul add 1 exch sub} ifelse} setscreen
+   {} settransfer
+
+   initgraphics
+   erasepage
+   } def
+
+/reprint
+  {/loopcount 0 def
+     {loopcount 3 gt {(Giving up!) = stop} if
+      (/dev/va0) status
+        {pop ( Transmitting ...) print flush
+	 (v.bits) (/dev/va0) vprint ( Done.)= 
+	 exit
+	}
+        {( Waiting ...) print flush
+	 /loopcount loopcount 1 add def
+	 (sleep 30) !
+	}
+     ifelse
+   } loop
+  }  def
+ 

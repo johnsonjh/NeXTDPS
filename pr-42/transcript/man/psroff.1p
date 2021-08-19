@@ -1,0 +1,218 @@
+.TH PSROFF 1 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: psroff.1p,v 2.2 87/11/17 16:48:06 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+psroff \- ditroff to a P\s-2OST\s+2S\s-2CRIPT\s+2 printer
+.SH SYNOPSIS
+.B psroff
+[ 
+.B \-t
+] [
+.I "troff options"
+] [
+.I "spool options"
+] [
+.I files
+]
+.SH DESCRIPTION
+.I psroff
+is a shell script that runs
+.RI [ di ] troff (1)
+in an environment to produce output on a \*(PS printer.
+It uses
+.I psdit
+to convert
+.I ditroff
+intermediate output to \*(PS format, and spools this for printing.  
+If no 
+.I files
+are specified, the standard input is used.
+.PP
+For those interested in including arbitrary \*(PS language commands
+or files in a
+.I ditroff
+document, see psdit(1).
+.PP
+In addition to the standard 
+.I ditroff 
+options, the following options are understood by 
+.IR psroff .
+.TP
+.B \-t 
+sends the \*(PS output to the standard output, 
+rather than spooling it to a printer.
+Note that this overrides the meaning of the 
+.I ditroff
+.B \-t 
+option; if you want that, run 
+.I ditroff
+directly.
+.TP
+.BI \-F " fontfamily"
+use the specified font family for the R/I/B/BI fonts, rather than the
+default family, which is
+.I Times.
+Fontfamilies
+.I Times,
+.I Courier,
+and
+.I Helvetica
+are probably defined at
+your site, and others may be available as well.
+Make sure the printer you will use contains the font family you pick!
+Note that this overrides the meaning of the 
+.I ditroff
+.B \-F 
+option; if you want that, run 
+.I ditroff
+directly, or use the
+.B \-D
+option.
+.TP
+.BI \-D " fontdirectory"
+find font family directories in the specified
+.I fontdirectory,
+rather than the standard font directory which was configured in the
+installation procedure.
+Note that it may be necessary to use both this option and the
+.B \-F
+option to imitate the
+.B \-F
+option in
+.I ditroff.
+.PP
+In 4.2bsd UNIX systems, the following spooler options are passed on to
+.IR lpr .
+.TP
+.BI \-P printer
+causes the output to be sent to the named printer.
+.TP
+.BI \-# n
+causes 
+.I n 
+copies of the output to be produced.  The default is one.
+.TP
+.B \-h
+suppress the printing of the job burst page.
+.TP
+.BI \-C " class"
+set the job classification for use on the burst page.
+.TP
+.BI \-J " name"
+set the job name for use on the burst page.  Otherwise, the name of the
+first input file will be used.
+.TP
+.BI \-m
+send mail after files have been printed.
+.PP
+In System V UNIX systems, the following spooler options are passed on to
+.IR lp .
+.TP
+.BI \-d dest
+causes the output to be sent to the named destination.
+.TP
+.BI \-n n
+causes 
+.I n 
+copies of the output to be produced.  The default is one.
+.TP
+.B \-h
+suppress the printing of the job burst page.
+.TP
+.B \-r
+don't page-reverse the output.
+.TP
+.BI \-s
+suppress messages from 
+.IR lp .
+.TP
+.BI \-m
+send mail after files have been printed.
+.TP
+.BI \-w
+write to user's terminal after files have been printed.
+.SH ENVIRONMENT
+.IP "PRINTER (4.2bsd)"
+the name of a printer (as in the 
+.B \-P
+option) for 
+.I lpr
+to use.  If no 
+.B \-P 
+option is specified,
+.I lpr
+will use this printer.  If neither
+.B \-P
+nor PRINTER is set,
+.I psroff
+will spool to a printer named ``PostScript''.
+.IP "LPDEST (System V)"
+the name of a printer (as in the 
+.B \-d
+option) for 
+.I lp
+to use.  If no 
+.B \-d 
+option is specified,
+.I lp
+will use this printer.  If neither
+.B \-d
+nor LPDEST is set,
+.I psroff
+will spool to a printer class named ``PostScript''.
+.SH FILES
+.TP 2.2i
+/usr/lib/tmac/tmac.*
+standard macro files
+.TP
+XDITDIRX/devpsc/*
+\fIditroff\fR description files for \*(PS virtual device.
+.SH "SEE ALSO"
+transcript(1), psdit(1), ptroff(1), psfonts(1).
+.br
+[di]troff(1), eqn(1), tbl(1), pic(1), refer(1), ideal(1).
+.br
+4.2bsd: lpr(1).
+.br
+System V: lp(1).
+.br
+J. F. Ossanna,
+.I Nroff/Troff user's manual
+.br
+B. W. Kernighan,
+.I A TROFF Tutorial
+and
+.I A Typesetter-independent TROFF
+.br
+.I
+Documenter's Workbench
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH BUGS
+The 
+.I eqn
+supplied with 
+.I ditroff
+is different than the original.  Use the options 
+.B \-r576
+.B \-m2
+for best results.  Other programs (e.g.,
+.IR pic )
+distributed with 
+.I ditroff
+have the device names compiled in (so much for device independence!).
+They should just have a 
+.B \-T
+option and read the device description file for the information they need.
+Use
+.B \-T576
+with the
+.I pic
+distributed with 
+.B DWB.
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+Documenter's Workbench is a trademark of AT&T Technologies.

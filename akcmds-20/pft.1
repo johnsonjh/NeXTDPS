@@ -1,0 +1,58 @@
+.\" Copyright 1989, NeXT, Inc.
+.\"
+.TH PFT 1 "May 5, 1986"
+.UC 4
+.SH NAME
+pft \- communicate with PostScript Window Server
+.SH SYNOPSIS
+.B pft
+[
+.B \-NXHost
+hostname ] [
+.B \-f
+file ] [
+.B \-s
+] [
+.B \-NXPSName
+file ] 
+.br
+.SH DESCRIPTION
+.I pft
+is a simple program for communicating with the PostScript Window Server.
+.I pft
+first forms a connection to a Window Server.  It then
+sends characters typed by the user to the Window Server, and it
+prints out data received from the Window Server.  Use ctrl-d to
+generate an end-of-file, which will cause pft to exit.
+.PP
+The
+.B \-NXHost
+option directs
+.I pft
+to connect to the Window Server running on the machine
+.I hostname.
+If this option is not used, the local Window Server is assumed.
+The option "-host" is equivalent.
+.PP
+The
+.B \-f
+option causes the contents of
+.I file
+to be sent to the Window Server before user input is accepted.
+.PP
+The
+.B \-s
+option causes
+.I pft
+to exit after a file specified with
+.B -f
+is sent to the Window Server.
+.PP
+The
+.B \-NXPSName
+option sets the string that
+.I pft
+uses to find the Window Server that it will connect to.  This is the
+name that the Window Server used to register itself with the Network
+Message Server (nmserver).
+

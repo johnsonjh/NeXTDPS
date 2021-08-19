@@ -1,0 +1,137 @@
+/* pspathops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSarc(float x, y, r, angle1, angle2)
+	x y r angle1 angle2 arc 
+endps
+
+defineps PSarcn(float x, y, r, angle1, angle2)
+	x y r angle1 angle2 arcn 
+endps
+
+defineps PSarct(float x1, y1, x2, y2, r)
+	x1 y1 x2 y2 r arct 
+endps
+
+defineps PSarcto(float x1, y1, x2, y2, r | float *xt1, *yt1, *xt2, *yt2)
+	x1 y1 x2 y2 r arcto yt2 xt2 yt1 xt1 
+endps
+
+defineps PScharpath(char *s; boolean b)
+	(s) b charpath 
+endps
+
+defineps PSclip()
+	clip 
+endps
+
+defineps PSclippath()
+	clippath 
+endps
+
+defineps PSclosepath()
+	closepath 
+endps
+
+defineps PScurveto(float x1, y1, x2, y2, x3, y3)
+	x1 y1 x2 y2 x3 y3 curveto 
+endps
+
+defineps PSeoclip()
+	eoclip 
+endps
+
+defineps PSeoviewclip()
+	eoviewclip 
+endps
+
+defineps PSflattenpath()
+	flattenpath 
+endps
+
+defineps PSinitclip()
+	initclip 
+endps
+
+defineps PSinitviewclip()
+	initviewclip 
+endps
+
+defineps PSlineto(float x, y)
+	x y lineto 
+endps
+
+defineps PSmoveto(float x, y)
+	x y moveto 
+endps
+
+defineps PSnewpath()
+	newpath 
+endps
+
+defineps PSpathbbox( | float *llx, *lly, *urx, *ury)
+	pathbbox ury urx lly llx 
+endps
+
+defineps PSpathforall()
+	pathforall 
+endps
+
+defineps PSrcurveto(float x1, y1, x2, y2, x3, y3)
+	x1 y1 x2 y2 x3 y3 rcurveto 
+endps
+
+defineps PSrectclip(float x, y, w, h)
+	x y w h rectclip 
+endps
+
+defineps PSrectviewclip(float x, y, w, h)
+	x y w h rectviewclip 
+endps
+
+defineps PSreversepath()
+	reversepath 
+endps
+
+defineps PSrlineto(float x, y)
+	x y rlineto 
+endps
+
+defineps PSrmoveto(float x, y)
+	x y rmoveto 
+endps
+
+defineps PSsetbbox(float llx, lly, urx, ury)
+	llx lly urx ury setbbox 
+endps
+
+defineps PSsetucacheparams()
+	setucacheparams 
+endps
+
+defineps PSuappend(char nums[n]; int n; char ops[l]; int l)
+	[(nums) (ops)] uappend
+endps
+
+defineps PSucache()
+	ucache 
+endps
+
+defineps PSucachestatus()
+	ucachestatus 
+endps
+
+defineps PSupath(boolean b)
+	b upath 
+endps
+
+defineps PSviewclip()
+	viewclip 
+endps
+
+defineps PSviewclippath()
+	viewclippath 
+endps
+

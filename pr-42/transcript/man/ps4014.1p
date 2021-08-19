@@ -1,0 +1,103 @@
+.TH PS4014 1 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: ps4014.1p,v 2.2 87/11/17 16:47:00 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+ps4014 \- convert a Tektronix 4014 files to P\s-2OST\s+2S\s-2CRIPT\s+2 format
+.SH "SYNOPSIS"
+.B ps4014
+[
+.BI \-RCNm
+] [
+.BI \-p outfile
+] [
+.BI \-l left,bottom
+] [
+.BI \-s width,height
+] [
+.BI \-S width
+] [
+.I file
+]
+.SH "DESCRIPTION"
+.I ps4014
+reads in a Tektronix 4014-format file and converts it to \*(PS format
+for printing on a \*(PS printer.  If no
+.I file
+is specified, the standard input is used.
+The resulting \*(PS file may be directed to the standard output
+or to a named file.
+.sp
+The possible options are:
+.TP
+.BI \-p " outfile"
+causes the \*(PS file to be written to the named file rather than
+the standard output.
+.PP
+The following parameters affect the size, placement and orientation
+of the image on the printed page.  By default, the 4014 image is scaled to
+occupy nearly the whole page in a landscape orientation.
+.TP
+.BI \-l " left,bottom"
+specifies the location on the printed page of the bottom, left corner of the 
+converted raster image.  The values
+.I left
+and
+.I bottom
+are the distances (in inches) from the bottom, left corner of the printed 
+page to the bottom, left corner of the image.
+.TP
+.BI \-s " width,height"
+Specifies the size of the converted raster image on the printed page.
+.I Width
+and 
+.I height
+are the dimensions (in inches) of the resulting image on the printed page.
+.TP
+.BI \-S " width"
+allows you to scale the image without distoring its shape.  
+.I Width
+specifies the width, in inches, of the resulting image on the printed page.
+The height of the image is computed to maintain the same ratio of height
+to width on the output image as on the input raster-format file.
+.TP
+.B \-R
+rotates the image 90 degrees on the page for portrait orientation.
+The default is landscape orientation.
+.PP
+The following parameters specify values for 4014 hardware options that affect
+the interpretation of 4014 commands.
+.TP
+.B \-C
+causes an carriage return to move the pen position to the left margin but not
+down to the next line.  By default, a carriage return command moves the 
+pen down to the next line and over to the left margin.  
+.TP
+.B \-N
+causes line feed to move the pen position down to the next line 
+but not left to the left margin. By default, a line feed command moves the 
+pen down to the next line and over to the left margin.  
+.TP
+.B \-m
+enables the "Margin 2" mode for the 4014.
+.SH ENVIRONMENT
+.IP PSLIBDIR
+path name of a directory to use instead of
+XPSLIBDIRX for ps4014 prologue.
+.SH "FILES"
+.TP 2.2i
+XPSLIBDIRX/ps4014.pro
+default prologue file.
+.SH "SEE ALSO"
+plot(1), transcript(1), psplot(1).
+.br
+Tektronix 4014 documentation.
+.SH "DIAGNOSTICS"
+Should be self explanatory.
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH "NOTES"
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+Tektronix is a registered trademark of Tektronix, Inc.

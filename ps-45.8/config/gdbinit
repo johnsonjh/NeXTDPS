@@ -1,0 +1,23 @@
+#
+# Editable gdbinit file for use with PostScript debugging.
+# This file is symbollically linked to by both EXPORT and DEVELOP.
+#
+# Place more frequently searched paths near the top of the following list:
+dir ../bintree
+dir ../bitmap
+dir ../product
+dir ../mp
+dir ../mousekeyboard
+dir ../device
+dir ../devpattern
+dir ../graphics
+dir ../postscript
+dir ../language
+dir ../fonts
+dir ../vm
+dir ../stream
+dir ../fp
+dir ../pslib
+dir ../coroutine
+dir ../stodev
+dir ../unix_product

@@ -1,0 +1,41 @@
+#!/bin/sh
+# Copyright 1985,1987 (C) Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# PostScript is a registered trademark of Adobe Systems Incorporated
+# TranScript is a trademark of Adobe Systems Incorporated
+# RCSID: $Header: printer.bsd,v 2.2 87/11/17 16:53:57 byron Rel $
+
+# this is a shell script that gets "sourced" when installing
+# PostScript printers for use with TranScript software
+# this one is used with 4.2bsd based UNIX systems,
+# printer.sysv is used with System V based UNIX systems.
+
+# SPOOLUSER SPOOLGROUP
+#	group and user id of the line printer spooler and associated 
+#	directories. On 4.2 systems, these are both "daemon" by default 
+#	(though the documentation mentions group "printing").  
+
+SPOOLUSER=daemon
+SPOOLGROUP=daemon
+
+# SPOOLDIR is the top-level spooling directory
+# On 4.2 systems, a printer-specific directory SPOOLDIR/PRINTER
+# will be created and used.
+SPOOLDIR=/usr/spool
+
+# LOGDIR
+#	place where printer log files are kept
+#	this should be either /usr/adm or, if you want
+#	them kept within the printer spool directory
+#	use the line
+#	LOGDIR=${SPOOLDIR}/${PRINTER}
+#	don't worry that PRINTER is not defined here, if will
+#	get defined before this script is run
+LOGDIR=/usr/adm
+
+# ACCTDIR
+#	place where printer accounting files are kept.  Each file
+#	will be named "ACCTDIR/PRINTER.acct".
+ACCTDIR=/usr/adm
+
+export SPOOLUSER SPOOLGROUP SPOOLDIR LOGDIR ACCTDIR

@@ -1,0 +1,86 @@
+#!/bin/sh
+# etc/mkprinter.bsd
+# Copyright (c) 1985,1987 Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: mkprinter.bsd,v 2.2 87/11/17 16:25:48 byron Rel $
+#
+# usage: mkprinter PRINTER TTY
+
+# mkprinter takes PRINTER TTY
+# 	where PRINTER is the name by which you want a printer and 
+#	TTY is the actual device (/dev/TTY) it is hooked up to
+
+if test $# != 2 ; then
+	echo usage: mkprinter PRINTER TTY
+	exit 1
+fi
+
+PRINTER=$1
+TTY=$2
+export PRINTER TTY
+
+if test -r ../config ; then
+	. ../config
+else
+	echo "../config file missing!"
+	exit 1
+fi	
+
+if test -r ../printer ; then
+	. ../printer
+else
+	echo "../printer file missing!"
+	exit 1
+fi
+
+echo "Here is the line from /etc/ttys for $TTY:"
+echo "You may need to edit it and do a 'kill -HUP 1' to disable login/getty"
+fgrep "${TTY}" /etc/ttys
+
+# set up the device itself
+rm -f /dev/${PRINTER}
+ln /dev/${TTY} /dev/${PRINTER}
+chown ${SPOOLUSER} /dev/${PRINTER}
+chgrp ${SPOOLGROUP} /dev/${PRINTER}
+chmod 660 /dev/${PRINTER}
+
+# create a spooling directory and log and accounting files
+rm -rf ${LOGDIR}/${PRINTER}-log* ${ACCTDIR}/${PRINTER}.acct*
+rm -rf ${SPOOLDIR}/${PRINTER}
+mkdir ${SPOOLDIR}/${PRINTER}
+if test ! -d ${LOGDIR} ; then
+	mkdir ${LOGDIR}
+fi
+if test ! -d ${ACCTDIR} ; then
+	mkdir ${ACCTDIR}
+fi	
+cp /dev/null $LOGDIR/${PRINTER}-log
+cp /dev/null $ACCTDIR/${PRINTER}.acct
+chown $SPOOLUSER $SPOOLDIR/$PRINTER $LOGDIR/$PRINTER-log \
+	$ACCTDIR/$PRINTER.acct
+chgrp $SPOOLGROUP $SPOOLDIR/$PRINTER $LOGDIR/$PRINTER-log \
+	$ACCTDIR/$PRINTER.acct
+chmod 775 ${SPOOLDIR}/${PRINTER}
+chmod 664 $LOGDIR/$PRINTER-log $ACCTDIR/$PRINTER.acct
+
+# report what we have done
+echo "Here are the goods on ${PRINTER}:"
+ls -lgF /dev/${TTY} /dev/${PRINTER}
+ls -lgdF ${SPOOLDIR}/${PRINTER}
+ls -lgF ${LOGDIR}/${PRINTER}-log
+ls -lgF ${ACCTDIR}/${PRINTER}.acct
+echo " "
+
+# create a printcap entry for it
+sed	-e s,PSLIBDIR,${PSLIBDIR},g \
+	-e s,PRINTER,${PRINTER},g \
+	-e s,SPOOLDIR,${SPOOLDIR},g \
+	-e s,LOGDIR,${LOGDIR},g \
+	-e s,ACCTDIR,${ACCTDIR},g \
+	../etc/printcap.proto >printcap.new
+
+if fgrep -s /dev/${PRINTER} /etc/printcap ; then
+	echo "There seems to be an existing printcap entry for $PRINTER."
+fi
+echo "Examine printcap.new and edit /etc/printcap to include it.
+

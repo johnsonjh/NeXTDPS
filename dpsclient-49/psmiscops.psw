@@ -1,0 +1,21 @@
+/* psmiscops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSbanddevice()
+	banddevice 
+endps
+
+defineps PSframedevice()
+	framedevice 
+endps
+
+defineps PSnulldevice()
+	nulldevice 
+endps
+
+defineps PSrenderbands()
+	renderbands 
+endps
+

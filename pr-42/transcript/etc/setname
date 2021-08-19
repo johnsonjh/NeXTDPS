@@ -1,0 +1,22 @@
+
+# this shell script sets a PostScript printername
+
+
+case $# in
+0)	echo 'usage: setprintername printername' 1>&2 ; exit 2
+esac
+
+printer=$1
+
+# in system V use
+# sed -e s,PRINTERNAME,${printer},g <<\EnDoFiT | lp -oh -d$printer
+
+sed -e s,PRINTERNAME,${printer},g <<\EnDoFiT | lpr -h -P$printer
+%!
+serverdict begin
+0 checkpassword{0 exitserver}{(Incorrect Server Password!!)= flush stop}ifelse
+statusdict begin
+(PRINTERNAME) setprintername
+end
+
+EnDoFiT

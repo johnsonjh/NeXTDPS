@@ -1,0 +1,219 @@
+%!
+%%CreationDate: Sat Oct  1 17:37:07 PDT 1988
+/setpacking where { pop true setpacking } if
+% If Type 3 fonts are shareable, they must explicitly say so.
+/setshared where { pop true setshared } if
+25 dict begin
+/flattenpath {currentflat dup 3 add setflat flattenpath setflat} 
+    bind def
+%!
+%%CreationDate: Sat April 16 1988
+%% encoding.ps
+/FontName /Lexi def
+/PaintType 0 def
+/Encoding 256 array
+0 1 255 { 1 index exch /.notdef put } for
+dup 32 /space put  
+dup 101 /e put  	%e
+dup 117 /u put     	%u
+dup 110 /n put     	%n
+dup 44 /comma put   %,
+dup 39 /quoteright put  %'
+readonly def 
+/FontType 3 def
+/FontMatrix [0.001 0 0 0.001 0 0 ] readonly def
+/FontBBox [ 0 0 500 500 ] def
+% metrics.ps
+/Metrics        7 dict def Metrics begin
+ /.notdef [ 150 0 -10 -10 65 -10  ] def
+ /space [ 150 0 -10 -10 65 -10  ] def
+ /quoteright [ 185 0 20 424 130 644  ] def
+ /comma [ 185 0 19 -131 129 69  ] def
+ /e [ 474 0 6 0 405 448  ] def
+ /n [ 493 0 -1 -206 417 448  ] def
+ /u [ 815 0 -1 0 739 449  ] def
+end
+%% BuildChar procedure for use with makefont
+
+/BuildChar {	% fontdict charcode
+    exch begin
+	Encoding exch get	% /charname is on stack
+	dup Metrics exch get aload pop
+	setcachedevice
+	HeaderDict begin
+	    CharProcs exch get
+	    exec
+	end
+    end
+} bind def
+%Header dictionary definitions for illustrator files.
+
+/HeaderDict 30 dict def
+HeaderDict begin
+/bdef {bind def} bind def
+/ldef {load def} bdef
+/xdef {exch def} bdef
+
+/PaintType where {
+    pop PaintType 0 eq {
+	/FILL /eofill ldef
+    }{
+	/FILL /stroke ldef
+    } ifelse
+}{
+    /FILL /eofill ldef
+} ifelse
+
+/_R {.25 sub round .25 add} bdef
+/_r {transform _R exch _R exch itransform} bdef
+/c {_r curveto} bdef
+/C /c ldef
+/v {currentpoint 6 2 roll _r curveto} bdef
+/V /v ldef
+/y {_r 2 copy curveto} bdef
+/Y /y ldef
+/l {_r lineto} bdef
+/L /l ldef
+/m {_r moveto} bdef
+% do-nothing operators
+/J /pop ldef
+/j /pop ldef
+/w /pop ldef
+/u {} def
+/U {} def
+/i /pop ldef
+% path painting operators
+/n /newpath ldef
+/N /n ldef
+/F /closepath ldef
+/g /pop ldef
+/f /closepath ldef
+/s /closepath ldef
+/B {FILL} bdef
+/b /closepath ldef
+%end definitions
+
+end % HeaderDict 
+/CharProcs        6 1 add dict dup begin
+/.notdef { 
+%%Note: .notdef
+ FILL } readonly def % .notdef
+/quoteright { 
+%%Note:
+140.0011 434.0033 m
+140.0011 654.005 L
+30.0002 654.005 L
+30.0002 434.0033 L
+140.0011 434.0033 L
+f
+%%Trailer
+ FILL } readonly def % highstress
+/comma { 
+%%Note:
+139.001 -141.0011 m
+139.001 79.0006 L
+29.0002 79.0006 L
+29.0002 -141.0011 L
+139.001 -141.0011 L
+f
+%%Trailer
+ FILL } readonly def % lowstress
+/n { 
+%%Note:
+342.0026 295.0022 m
+342.0026 -92.0007 l
+342.0026 -132.001 332.0025 -199.0015 290.0022 -180.0014 c
+261.002 -167.0013 249.0019 -147.0011 237.0018 -131.001 c
+226.0017 -117.0009 206.0016 -113.0009 186.0014 -123.0009 c
+165.0013 -133.001 159.0012 -167.0013 179.0014 -189.0014 c
+196.0015 -207.0016 229.0018 -216.0016 256.0019 -216.0016 c
+369.0028 -216.0016 427.0033 -138.001 427.0033 13.0001 C
+427.0033 296.5023 l
+427.0033 296.5023 l
+427.0033 403.5031 388.003 458.0035 310.0024 458.0035 c
+239.0018 458.0035 193.0015 417.0032 157.0012 378.0029 C
+157.0012 458.0035 l
+9.0001 411.0031 l
+9.0001 397.003 l
+63.0005 400.003 72.0005 401.003 72.0005 325.0025 C
+72.0005 80.0006 l
+72.0005 36.0003 57.0004 18.0001 9.0001 14.0001 C
+9.0001 0 l
+220.0017 0 l
+220.0017 14.0001 l
+172.0013 18.0001 157.0012 36.0003 157.0012 80.0006 C
+157.0012 347.0026 l
+182.0014 373.0028 218.0017 405.0031 266.002 405.0031 c
+337.0026 405.0031 343.0026 353.0027 342.0026 295.0022 C
+342.0026 295.0022 l
+f
+%%Trailer
+ FILL } readonly def % nj
+/e { 
+%%Note:
+35.0003 172.0013 m
+38.0003 68.0005 103.0008 -10.0001 211.0016 -10.0001 c
+335.0025 -10.0001 415.0032 92.0007 415.0032 234.0018 c
+415.0032 353.0027 340.0026 458.0035 225.0017 458.0035 c
+125.0009 458.0035 47.0003 380.0029 16.0001 290.0022 C
+32.0002 284.0022 l
+63.0005 339.0026 118.0009 391.003 184.0014 391.003 c
+297.0023 391.003 345.0026 267.002 346.0026 172.0013 C
+35.0003 172.0013 l
+f
+343.0026 140.0011 m
+334.0025 77.0006 303.0023 25.0002 233.0018 25.0002 c
+167.0013 25.0002 140.0011 82.0006 137.001 140.0011 C
+343.0026 140.0011 l
+f
+%%Trailer
+ FILL } readonly def % schwa
+/space { 
+%%Note: space
+ FILL } readonly def % space
+/u { 
+%%Note:
+417.4572 403.0271 m
+417.0032 448.5034 l
+259.002 448.5034 l
+259.002 434.5033 l
+326.0025 433.5033 332.0025 421.5032 332.0025 359.5027 C
+332.0025 150.5011 l
+332.0025 115.5009 338.0026 103.5008 310.0024 80.5006 c
+289.0022 63.5005 259.002 48.5004 232.0018 48.5004 c
+177.0014 48.5004 157.0012 86.5007 157.0012 136.501 C
+157.0012 448.5034 l
+9.0001 448.5034 l
+9.0001 434.5033 l
+64.0005 434.5033 72.0005 421.5032 72.0005 361.5028 C
+72.0005 132.501 l
+72.0005 46.5003 109.0008 -9.5001 189.0014 -9.5001 c
+254.0019 -9.5001 295.0023 29.5002 317.0024 53.5004 C
+338.0026 76.5006 l
+338.0026 -9.5001 l
+372.4488 1.982 408.8511 12.6841 441.7174 23.2702 C
+469.6776 3.716 502.0998 -9.5001 540.0041 -9.5001 c
+640.0049 -9.5001 718.0055 68.5005 749.0057 158.5012 C
+733.0056 164.5012 l
+702.0054 109.5008 647.0049 57.5004 581.0044 57.5004 c
+468.0036 57.5004 420.0032 181.5014 419.0032 276.5021 C
+730.0056 276.5021 l
+727.0055 380.5029 662.005 458.5035 554.0042 458.5035 c
+498.9138 458.5035 452.0194 437.8553 417.4572 403.0271 c
+F
+417.4572 403.0271 m
+417.1152 402.6851 417.7932 403.3731 417.4572 403.0271 c
+F
+1 g
+422.0032 308.5023 m
+431.0033 371.5028 462.0035 423.5032 532.0041 423.5032 c
+598.0046 423.5032 625.0048 366.5028 628.0048 308.5023 C
+422.0032 308.5023 l
+f
+%%Trailer
+ FILL } readonly def % ue
+end def
+/UniqueID 3 def
+currentdict end dup /FontName get exch definefont pop
+/setpacking where { pop false setpacking } if
+

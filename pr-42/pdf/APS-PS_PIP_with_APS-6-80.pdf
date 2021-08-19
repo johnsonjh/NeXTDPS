@@ -1,0 +1,356 @@
+*% Adobe Systems PostScript(R) Printer Description File
+*% For "APS-PS PIP" version 49.3
+*% Produced by "BuildPPD.ps" version 3.0 edit 58
+*%
+*% Copyright 1988, 1989, 1990 Adobe Systems Incorporated.  
+*% All Rights Reserved.
+*% Permission is granted for redistribution of this file as
+*% long as this copyright notice is intact and the contents
+*% of the file is not altered in any way from its original form.
+*%
+*% The byte count of this file should be exactly 010686 or 011042
+*% depending on the filesystem it resides in.
+*%
+*% Date: 11 June 1990
+*FormatVersion: "3.0"
+*FileVersion: "1.0"
+*LanguageVersion: English
+
+*Product: "(APS-PS PIP)"
+*PSVersion: "(49.3) 9001050"
+*PSVersion: "(52.2) 9001050"
+*NickName: "APS-PS PIP with APS-6/80"
+
+*% General Information and Defaults ===============
+*FreeVM: "2454526"
+*ColorDevice: False
+*VariablePaperSize: True
+*FileSystem: True
+*?FileSystem: "statusdict begin diskonline {(True)}{(False)} ifelse = flush"
+*Throughput: "1"
+*Password: "0"
+*ExitServer: "
+  count 0 eq {  % is the password on the stack?
+    true 
+  }{
+    dup	% potential password
+    statusdict begin checkpassword end not 
+  } ifelse 
+  {  %  if no password or not valid 
+    (WARNING : Cannot perform the exitserver command.) = 
+    (Password supplied is not valid.) = 
+    (Please contact the author of this software.) = flush
+    quit 
+  } if 
+  serverdict begin exitserver
+"
+*End
+
+*Reset: "
+  count 0 eq {  % is the password on the stack?
+    true 
+  }{
+    dup	% potential password
+    statusdict begin checkpassword end not 
+  } ifelse 
+  {  %  if no password or not valid 
+    (WARNING : Cannot reset printer.) = 
+    (Password supplied is not valid.) = 
+    (Please contact the author of this software.) = flush
+    quit 
+  } if 
+  serverdict begin exitserver
+  systemdict /quit get exec
+  (WARNING : Printer Reset Failed.) = flush
+"
+*End
+
+*DefaultResolution: 1000dpi
+*?Resolution: "
+save
+  initgraphics
+  0 0 moveto currentpoint matrix defaultmatrix transform
+  0 72 lineto currentpoint matrix defaultmatrix transform
+  3 -1 roll sub dup mul
+  3 1 roll exch sub dup mul
+  add sqrt round cvi
+  (          ) cvs print (dpi) = flush
+restore
+"
+*End
+
+*% Halftone Information ===============
+*ScreenFreq: "85.0"
+*ScreenAngle: "45.0"
+*DefaultScreenProc: Dot
+*ScreenProc Dot: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }
+"
+*End
+*ScreenProc Line: "{ pop }"
+*ScreenProc Ellipse: "{ dup 5 mul 8 div mul exch dup mul exch add sqrt 1 exch sub }"
+
+*DefaultTransfer: Null
+*Transfer Null: "{ }"
+*Transfer Null.Inverse: "{ 1 exch sub }"
+*Transfer Normalized: "
+{ mark
+1.0 1.0 .92 .76 .64 .54 .44 .36 .28 .2 .1 .0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+}bind 
+"
+*End
+
+*Transfer Normalized.Inverse: "{mark
+.0 .0 .1 .2 .28 .36 .44 .54 .64 .76 .92 1.0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark }
+"
+*End
+
+*% Paper Handling ===================
+
+*% Use these entries to set paper size most of the time, unless there is
+*% specific reason to use PageRegion or PaperTray.
+*DefaultPageSize: Letter
+*PageSize Letter: "letter"
+*PageSize Legal: "legal"
+*PageSize Note: "note"
+*PageSize Ledger: "ledger"
+*PageSize Tabloid: "11x17"
+*PageSize A3: "a3"
+*PageSize A4: "a4"
+*PageSize A5: "a5"
+*PageSize B5: "b5"
+*PageSize Letter.Transverse: "Letter"
+*PageSize A4.Transverse: "A4"
+*PageSize A5.Transverse: "A5"
+*PageSize B5.Transverse: "B5"
+*?PageSize: "
+ save 
+   /d0 5 dict def d0 begin
+     /420_595 (A5.Transverse) def
+     /499_709 (B5.Transverse) def
+     /595_842 (A4.Transverse) def
+     /612_792 (Letter.Transverse) def
+     /1224_792 (Ledger) def
+   end
+   /d1 7 dict def d1 begin
+     /595_420 (A5) def
+     /709_499 (B5) def
+     /792_612 (Letter) def
+     /842_595 (A4) def
+     /1008_612 (Legal) def
+     /1191_842 (A3) def
+     /1224_792 (Tabloid) def
+   end
+   statusdict begin pageparams end
+   4 1 roll pop
+   /high exch 10 string cvs dup length /hlen exch def def
+   /wide exch 10 string cvs def
+   /key hlen 1 add wide length add string def
+   key 0 high putinterval 
+   key hlen (_) putinterval
+   key hlen 1 add wide putinterval
+   0 eq {d0}{d1}ifelse
+   key cvn {get}stopped {(Unknown)}if
+   = flush
+   restore
+"
+*End
+
+*DefaultPaperTray: None
+
+*% These entries will set up the frame buffer. Usually used with manual feed.
+*DefaultPageRegion: Letter
+*PageRegion Letter: "letter"
+*PageRegion Legal: "legal"
+*PageRegion Note: "note"
+*PageRegion Ledger: "ledger"
+*PageRegion Tabloid: "11x17"
+*PageRegion A3: "a3"
+*PageRegion A4: "a4"
+*PageRegion A5: "a5"
+*PageRegion B5: "b5"
+*PageRegion Letter.Transverse: "Letter"
+*PageRegion A4.Transverse: "A4"
+*PageRegion A5.Transverse: "A5"
+*PageRegion B5.Transverse: "B5"
+
+*% The following entries provide information about specific paper keywords.
+*DefaultImageableArea: Letter
+*ImageableArea Letter: "0 1 612 792 "
+*ImageableArea Legal: "0 1 612 1008 "
+*ImageableArea Note: "0 1 612 792 "
+*ImageableArea Ledger: "1 0 1224 792 "
+*ImageableArea Tabloid: "0 1 792 1224 "
+*ImageableArea A3: "0 1 842 1191 "
+*ImageableArea A4: "0 1 595 842 "
+*ImageableArea A5: "0 1 420 595 "
+*ImageableArea B5: "0 1 498 709 "
+*ImageableArea Letter.Transverse: "1 0 612 792 "
+*ImageableArea A4.Transverse: "1 0 595 842 "
+*ImageableArea A5.Transverse: "1 0 420 595 "
+*ImageableArea B5.Transverse: "1 0 498 710 "
+*?ImageableArea: "
+ save /cvp { cvi (            ) cvs print ( ) print } bind def
+  newpath clippath pathbbox
+  4 -2 roll exch 2 {ceiling cvp} repeat
+  exch 2 {floor cvp} repeat flush
+ restore
+"
+*End
+
+*DefaultOutputBin: Upper
+*DefaultInputSlot: None
+
+*DefaultManualFeed: False
+
+*DefaultOutputOrder: Normal
+
+*DefaultCollator: None
+*DefaultSorter: None
+*DefaultDuplex: None
+
+*% Font Information =====================
+
+*DefaultFont: Courier
+*Font Courier: Standard "(001.004)"
+*Font Courier-Bold: Standard "(001.004)"
+*Font Courier-BoldOblique: Standard "(001.004)"
+*Font Courier-Oblique: Standard "(001.004)"
+*Font Helvetica: Standard "(001.002)"
+*Font Helvetica-Bold: Standard "(001.002)"
+*Font Helvetica-BoldOblique: Standard "(001.002)"
+*Font Helvetica-Oblique: Standard "(001.002)"
+*Font Symbol: Special "(001.003)"
+*Font Times-Bold: Standard "(001.002)"
+*Font Times-BoldItalic: Standard "(001.004)"
+*Font Times-Italic: Standard "(001.002)"
+*Font Times-Roman: Standard "(001.002)"
+*?FontQuery: "
+save  4 dict begin /sv exch def
+/str (fonts/                              ) def
+/st2 128 string def
+{
+  count 0 gt {
+    dup st2 cvs (/) print print (:) print
+    dup FontDirectory exch known {pop (Yes)}{
+     str exch st2 cvs dup length /len exch def
+     6 exch putinterval str 0 len 6 add getinterval mark exch
+     { } st2 filenameforall counttomark 0 gt {
+      cleartomark (Yes)}{cleartomark (No)}ifelse
+    }ifelse = flush
+  }{ exit } ifelse
+} bind loop
+(*) = flush
+sv end restore
+"
+*End
+
+*?FontList: "
+save  2 dict begin /sv exch def
+/str 128 string def
+FontDirectory { pop == } bind forall flush
+/filenameforall where { 
+ pop save (fonts/*) { 
+  dup length 6 sub 6 exch getinterval cvn == 
+ } bind str filenameforall flush restore
+} if 
+(*) = flush
+sv end restore
+"
+*End
+
+*% Printer Messages (verbatim from printer):
+*Message: "%%[ exitserver: permanent state may be changed ]%%"
+*Message: "%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%"
+*Message: "\FontName\ not found, using Courier"
+
+*% Status (format: %%[ status: <one of these> ]%% )
+*Status: "idle"
+*Status: "busy"
+*Status: "waiting"
+*Status: "printing"
+*Status: "PrinterError: Wait - cycling up"
+*Status: "PrinterError: Idle"
+*Status: "PrinterError: Printer not ready to write: unused.."
+*Status: "PrinterError: Off Line"
+*Status: "PrinterError: Transport fault"
+*Status: "PrinterError: Default Page being defined is too large.."
+*Status: "PrinterError: Out of Media"
+*Status: "PrinterError: Testing....."
+*Status: "PrinterError: Printer not responding..."
+
+*% Input Sources (format: %%[ status: <stat>; source: <one of these> ]%% )
+*Source: "serial9"
+*Source: "serial25"
+*Source: "AppleTalk"
+*Source: "Centronics"
+
+*% Printer Error (format: %%[ PrinterError: <one of these> ]%%)
+*PrinterError: "Wait - cycling up"
+*PrinterError: "Idle"
+*PrinterError: "Off Line"
+*PrinterError: "Transport fault"
+*PrinterError: "Default Page being defined is too large.."
+*PrinterError: "No response from LSTA command"
+*PrinterError: "Out of Media"
+*PrinterError: "Printer not responding..."
+
+*%DeviceAdjustMatrix: "[1 0 0 1 0 0]"
+
+*% Color Separation Information =====================
+
+*DefaultColorSep: ProcessBlack.118lpi.1000dpi/118 lpi / 1000 dpi
+
+*InkName: ProcessBlack/Process Black
+*InkName: CustomColor/Custom Color
+*InkName: ProcessCyan/Process Cyan
+*InkName: ProcessMagenta/Process Magenta
+*InkName: ProcessYellow/Process Yellow
+
+*%  For 118 lpi / 1000 dpi  ===============================
+
+*ColorSepScreenAngle ProcessBlack.118lpi.1000dpi/118 lpi / 1000 dpi: "45.0"
+*ColorSepScreenAngle CustomColor.118lpi.1000dpi/118 lpi / 1000 dpi: "45.0"
+*ColorSepScreenAngle ProcessCyan.118lpi.1000dpi/118 lpi / 1000 dpi: "71.5651"
+*ColorSepScreenAngle ProcessMagenta.118lpi.1000dpi/118 lpi / 1000 dpi: "18.4349"
+*ColorSepScreenAngle ProcessYellow.118lpi.1000dpi/118 lpi / 1000 dpi: "0.0"
+
+*ColorSepScreenFreq ProcessBlack.118lpi.1000dpi/118 lpi / 1000 dpi: "117.851"
+*ColorSepScreenFreq CustomColor.118lpi.1000dpi/118 lpi / 1000 dpi: "117.851"
+*ColorSepScreenFreq ProcessCyan.118lpi.1000dpi/118 lpi / 1000 dpi: "105.409"
+*ColorSepScreenFreq ProcessMagenta.118lpi.1000dpi/118 lpi / 1000 dpi: "105.409"
+*ColorSepScreenFreq ProcessYellow.118lpi.1000dpi/118 lpi / 1000 dpi: "111.111"
+
+*%  For 85 lpi / 1000 dpi  ===============================
+*ColorSepScreenAngle ProcessBlack.85lpi.1000dpi/85 lpi / 1000 dpi: "45.0"
+*ColorSepScreenAngle CustomColor.85lpi.1000dpi/85 lpi / 1000 dpi: "45.0"
+*ColorSepScreenAngle ProcessCyan.85lpi.1000dpi/85 lpi / 1000 dpi: "71.5651"
+*ColorSepScreenAngle ProcessMagenta.85lpi.1000dpi/85 lpi / 1000 dpi: "18.4349"
+*ColorSepScreenAngle ProcessYellow.85lpi.1000dpi/85 lpi / 1000 dpi: "0.0"
+
+*ColorSepScreenFreq ProcessBlack.85lpi.1000dpi/85 lpi / 1000 dpi: "88.3883"
+*ColorSepScreenFreq CustomColor.85lpi.1000dpi/85 lpi / 1000 dpi: "88.3883"
+*ColorSepScreenFreq ProcessCyan.85lpi.1000dpi/85 lpi / 1000 dpi: "79.0569"
+*ColorSepScreenFreq ProcessMagenta.85lpi.1000dpi/85 lpi / 1000 dpi: "79.0569"
+*ColorSepScreenFreq ProcessYellow.85lpi.1000dpi/85 lpi / 1000 dpi: "83.3333"
+
+*% end of PPD file for APS-PS PIP

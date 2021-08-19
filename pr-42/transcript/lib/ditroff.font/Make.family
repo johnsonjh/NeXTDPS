@@ -1,0 +1,44 @@
+# lib/ditroff.font/Make.family
+#
+# Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: Make.family,v 2.2 87/11/17 16:42:53 byron Rel $
+
+# This file calls "./makefamily" with the correct arguments for producing
+# a font family directory.
+
+
+doit:
+	test x"$$DITROFFFONTS" = x1   #Ignore errors on this line
+	test x"$$DITROFFDIRS" = x1   #Ignore errors on this line
+
+
+Standard13: Helvetica Courier
+Zapf2:      Zapf
+
+Times:                          # This is the base font -- cannot remake it
+
+Courier:
+	./makefamily Courier    C  CO CB CD
+Helvetica:
+	./makefamily Helvetica  H  HO HB HD
+HelvNarrow:
+	./makefamily HelvNarrow hn hN Hn HN
+AvantGarde:
+	./makefamily AvantGarde ag aG Ag AG
+Bookman:
+	./makefamily Bookman    bo bO Bo BO
+Garamond:
+	./makefamily Garamond   ga gA Ga GA
+Lubalin:
+	./makefamily Lubalin    lu lU Lu LU
+NewCentury:
+	./makefamily NewCentury nc nC Nc NC
+Optima:
+	./makefamily Optima     op oP Op OP
+Palatino:
+	./makefamily Palatino   PA PI PB PX
+Souvenir:
+	./makefamily Souvenir   sv sV Sv SV
+Zapf:
+	./makefamily Zapf       ZC TR TB TD

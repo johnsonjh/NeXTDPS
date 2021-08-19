@@ -1,0 +1,97 @@
+% fonts35HC.ps -- loads the 35 standard fonts used in Apple printer products with Helvetica Condensed instead of Helv Narrow
+% original version: taft
+% last edit: Bill McCoy: Tue Jan 12 15:43:41 PST 1988
+
+% This file is specialized for loading fonts into a target product's VM.
+% The current working directory must contain the copyright.ps file
+% appropriate for the product being built.
+% On entry, the stack must contain a string which is the path to the
+% directory from which fonts are to be loaded.
+
+% Following unnamed procedure loads font whose name is on top of stack.
+% Stack should contain: path proc fontname
+% Fontname is ordinarily a name object but can be a string.
+
+   {2 index =string copy pop
+    =string 3 index length dup =string length exch sub getinterval cvs
+    length 2 index length add =string exch 0 exch getinterval
+    Run
+    vmstatus pop (RAM: ) print =print pop (, ROM: ) print = pop flush
+   }
+
+(CharMap.ps) 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/AvantGarde-Book 1 index exec
+/AvantGarde-BookOblique 1 index exec
+/AvantGarde-Demi 1 index exec
+/AvantGarde-DemiOblique 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Bookman-Demi 1 index exec
+/Bookman-DemiItalic 1 index exec
+/Bookman-Light 1 index exec
+/Bookman-LightItalic 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Courier 1 index exec
+/Courier-Bold 1 index exec
+/Courier-BoldOblique 1 index exec
+/Courier-Oblique 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Helvetica 1 index exec
+/Helvetica-Bold 1 index exec
+/Helvetica-BoldOblique 1 index exec
+/Helvetica-Condensed 1 index exec
+/Helvetica-Condensed-Bold 1 index exec
+/Helvetica-Condensed-BoldObl 1 index exec
+/Helvetica-Condensed-Oblique 1 index exec
+/Helvetica-Oblique 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/NewCenturySchlbk-Bold 1 index exec
+/NewCenturySchlbk-BoldItalic 1 index exec
+/NewCenturySchlbk-Italic 1 index exec
+/NewCenturySchlbk-Roman 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Palatino-Bold 1 index exec
+/Palatino-BoldItalic 1 index exec
+/Palatino-Italic 1 index exec
+/Palatino-Roman 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Symbol 1 index exec
+
+/Times-Bold 1 index exec
+/Times-BoldItalic 1 index exec
+/Times-Italic 1 index exec
+/Times-Roman 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/ZapfChancery-MediumItalic 1 index exec
+
+/ZapfDingbats 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+pop % proc
+pop % path

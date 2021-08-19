@@ -1,0 +1,31 @@
+#! /bin/csh -f
+#
+# make_register_names $(PACKAGE_LIST) > registernames.ps
+#
+# Regenerates the file registernames.ps.
+# $(PACKAGE_LIST) is a "make" macro defined as part of the product build
+# procedure; it expands into a list of package library pathnames of
+# the form:
+#   /usr/ps/packages/language/v012/v001/mc68020sun/DEVELOP/language.a
+# This script looks in the sources directory for each such package,
+# looking for a file named <package>names.ps (e.g., languagenames.ps).
+# When it finds one, it appends a command of the form:
+#   (/usr/ps/packages/language/v012/v001/sources/languagenames.ps) run
+# to the standard output file.
+
+echo '% registernames.ps'
+echo '% this is a derived file -- do not edit it'
+echo ''
+
+foreach lib ($*)
+  set temp = $lib:t
+  set package = $temp:r
+  set temp = $lib:h
+  set temp = $temp:h
+  set temp = $temp:h
+  set sources = $temp/sources
+  if (-e $sources/${package}names.ps) then
+    echo "($sources/${package}names.ps) run"
+  endif
+end
+

@@ -1,0 +1,63 @@
+% diskops.ps
+% original: burgett
+% last edit: taft - Tue Nov 14 11:41:46 1989
+% last edit: Michael Burgett: Tue Jul 5 16:17:55 1988
+% formerly 'C' defined disk operators that are now defined in postscript.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	      Copyright (c) 1984 - 1988 - Adobe Systems, Inc.		     %
+%                          All rights reserved				     %
+%            PostScript is a trademark of Adobe Systems, Inc.                %
+%									     %
+% NOTICE:  All information contained herein or attendant hereto is, and      %
+% remains, the property of Adobe Systems, Inc.  Many of the intellectual and %
+% technical concepts contained herein are proprietary to Adobe Systems, Inc. %
+% and may be covered by U.S. and Foreign Patents or Patents Pending or are   %
+% protected as trade secrets.  Any dissemination of this information or      %
+% reproduction of this material are strictly forbidden unless prior written  %
+% permission is obtained from Adobe Systems, Inc.                            %
+%									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+setrom
+statusdict begin		% for bind
+
+/diskstatus {
+  0 0   % -> free total 
+  {devstatus     % -> free total (searchable writeable hasnames mounted  
+	         %     removable searchorder free size true) | (false)
+    { 7 -1 roll  % -> free total searchable hasnames mounted removable 
+		 %    searchorder free size writeable
+      { 8 2 roll % -> free free size total searchable ...
+        5 {pop} repeat  % -> free free size total
+        add 3 1 roll    % -> total free free
+        add exch} % -> free total
+      {7 {pop} repeat}  % remove devstatus stuff if not writeable.
+      ifelse
+             } if
+  }  =string devforall
+} bind def
+
+/initializedisk {
+  { 3 1 roll     % put the device name on the bottom  -> name size format 
+  dup 3 -1 roll  % -> name format format size 
+  dup 4 1 roll   % -> name size format format size 
+  exch 5 2 roll  % -> size format name size format 
+  devformat } =string devforall 
+  pop pop   % clean stack 
+} def  
+   
+/diskonline {
+ false
+ {devstatus  % -> (searchable writeable hasnames mounted removable
+	     %     searchorder free size true) | (false)
+   { 8 -1 roll  % -> writeable hasnames mounted removable searchorder
+		%    free size searchable
+     7 {pop} repeat % -> writeable
+     {pop true} if %  replace false if we've found any writeable device.
+   } if }
+ =string devforall
+} def
+
+end 	% statusdict
+setram

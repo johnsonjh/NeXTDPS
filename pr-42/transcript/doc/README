@@ -1,0 +1,46 @@
+INSTALLATION NOTES
+
+PLEASE! Read the hardcopy overview and installation instructions CAREFULLY!
+
+ONLY ONCE: SET UP FOR YOUR SYSTEM TYPE:
+	if you are on a BSD (Berkeley UNIX) system, type "bsd"
+	if you are on a System V system, type "sysv"
+
+ONLY ONCE: EDIT THE TOP-LEVEL files "config" and "printer" files 
+	to specify parameters for your machine!
+
+ONLY ONCE: Configure and Install TranScript software
+	make programs 
+	(this will take some time)
+	>> Become super-user and ...
+	make install
+	(this will take some time)
+
+For EACH PostScript/TranScript printer you have:
+	cd etc
+	>> Become super-user and ...
+	mkprinter PRINTER TTY
+
+
+
+DOCUMENTATION NOTES
+
+
+The sources for a number of the TranScript package documents is provided
+in this directory.  Normally, it is recommended that one use troff with
+the -ms macros to print these out.
+
+If you don't have troff, or it is not working, you can spool the .txt
+version of the document, which is output for a simple line-printer
+type device.  If your TranScript spooling software is working, it can
+print these files, since they are normal ASCII text files.  NOTE: The
+formatting and spacing of these files may be confusing, since the files
+were set up to print well using troff.
+
+comment.ms      Customer Comment Form.
+install.ms      Installation Instructions.
+notice.ms	Copyright and Restricted Rights notice
+psbook.ms       PostScript Reference Books
+rnotes.ms       Release Notes for the current release
+support.ms      Description of TranScript Support
+transcript.ms   TranScript Overview

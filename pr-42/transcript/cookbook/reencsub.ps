@@ -1,0 +1,114 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Making Small Changes to Encoding Vectors     Number: 24
+%-----------------------------------------------------------------------------
+%
+/reencsmalldict 12 dict def                 % Local storage for the procedure
+					    % ``ReEncodeSmall.''
+								
+/ReEncodeSmall                              % ReEncodeSmall generates a new
+  { reencsmalldict begin                    % font given the name of the font
+    /newcodesandnames exch def              % to be re-encoded, a new name,
+    /newfontname exch def                   % and an array of new character
+    /basefontname exch def                  % encoding and character name
+					    % pairs (see definition of the
+					    % ``scandvec'' array below for the
+					    % format of this array). This
+					    % method has the advantage that it
+					    % allows the user to make changes
+					    % to an existing encoding vector
+					    % without having to specify the
+					    % entire new encoding vector. It
+					    % also saves space when the
+					    % character encoding and name
+					    % pairs array is smaller than an
+					    % entire encoding vector.
+								     
+    /basefontdict basefontname findfont def % Get the font dictionary on which
+					    % to base the re-encoded version.
+    /newfont basefontdict maxlength dict def% Create a dictionary to hold the
+					    % description for the re-encoded
+					    % font.
+						   
+    basefontdict                            % Copy all the entries in the base
+      { exch dup /FID ne                    % font dictionary to the new
+					    % dictionary except for the FID
+					    % field.
+	  { dup /Encoding eq
+	    { exch dup length array copy    % Make a copy of the Encoding
+					    % field.
+		newfont 3 1 roll put }
+	    { exch newfont 3 1 roll put }
+	    ifelse }
+	  { pop pop }                       % Ignore FID pair.
+	  ifelse
+       } forall
+	       
+    newfont /FontName newfontname put       % Install the new name.
+								   
+    newcodesandnames aload pop              % Modify the encoding vector.
+					    % First load the new encoding and
+					    % name pairs onto the operand
+					    % stack.
+    newcodesandnames length 2 idiv          % For each pair on the stack, put
+      { newfont /Encoding get 3 1 roll put} % the new name into the designated
+      repeat                                % position in the encoding vector.
+									      
+    newfontname newfont definefont pop      % Now make the re-encoded font
+    end                                     % description into a PostScript
+   } def                                    % font. We will ignore the
+					    % modified dictionary returned on
+					    % the operand stack by the
+					    % ``definefont'' operator.
+/scandvec [                                 % Define an array of new character
+  192 /Oacute                               % encoding and name pairs that
+  201 /Adieresis                            % will enable us to print the
+  209 /oacute                               % accented characters in the
+  210 /Ograve                               % Scandinavian Languages. The
+  211 /Scaron                               % array is a series of encoding
+  212 /ograve                               % number and name pairs. The
+  213 /scaron                               % encoding number always preceeds
+  216 /Edieresis                            % the character name. By
+  217 /adieresis                            % definition, there must be an
+  218 /edieresis                            % even number of elements in this
+  219 /Odieresis                            % array. The encoding vector
+  220 /odieresis                            % positions for these new
+  224 /Aacute                               % characters have been chosen so
+  226 /Aring                                % that they do not actually
+  228 /Zcaron                               % replace any of the characters in
+  231 /Eacute                               % the standard encoding.
+  240 /aacute
+  242 /aring
+  244 /zcaron
+  247 /eacute
+  ] def
+       
+/ss { 72 yline moveto show                  % This procedure shows a string
+      /yline yline 28 sub def } def         % and then skips a line.
+								    
+/Times-Roman /Times-Roman-Scand scandvec    % Re-encode the standard Times
+  ReEncodeSmall                             % Roman to include the accented
+					    % characters for the Scandinavian
+					    % Languages.
+/Times-Roman-Scand findfont 12 scalefont    % Now we will print some text with
+  setfont                                   % accented characters. Since the
+/yline 500 def                              % accented characters are in the
+					    % upper half of the encoding
+					    % vector we must refer to them by
+					    % their octal codes.
+(Boktryckarkonsten \331r k\331llan till \
+praktiskt taget all m\331nsklig odling.) ss
+(Den f\334rutan hade de oerh\334rda \
+framstegen inom vetenskap) ss
+(och teknik inte varit m\334jliga.) ss
+(VALTER FALK) ss
+		
+/Times-Italic findfont 10 scalefont setfont
+/yline 500 12 sub def
+(Printing is the source of practically \
+all human evolution.) ss
+(Without it the tremendous progress in \
+the fields of science and) ss
+(technology would not have been \
+possible.) ss
+showpage

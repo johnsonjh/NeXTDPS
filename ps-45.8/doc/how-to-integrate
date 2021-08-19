@@ -1,0 +1,107 @@
+		Integrating a new version  (ps-??)
+			
+* Send a message like the following to graphics:
+
+	ps-?? is going to be integrated.  Please send me your bullets for the Changes file (or a message indicating that you don't want to be integrated.)  You may also edit the Changes log in your clone, although integration is slightly more complicated if everyone does this.  If your changes have made any files obsolete, please include a command line(s) that can be pasted into a shell (whose cwd is the project version root, i.e. ~ps_proj/ps-??) to remove the unneeded files.  This will be executed on the integrated version before rebuild.
+
+* su to ps_proj and cd into ~
+* set EDITOR = {Edit,emacs}
+* integrate -a ps-?? <integratees' usernames>
+* If needed, respond 'y' to 'Pickup passed files?' to manually resolve
+  conflicts
+* Remove any unneeded files or directories resulting from integration 
+  (make.log's, .BAK's, .old's)
+* Add compilation of change logs to doc/Changes
+* break_link -q on product/version.ps and Edit the 2.0.?? string.
+* execute commands to remove obsolete files (if any).
+* gnumake clean; gnumake depend ; gnumake tags
+* Go to a machine with lots of memory and nothing running on it
+* As root, 'mkdir /ps-??'; chown ps_proj /ps-??
+* As ps_proj 'cd ~/ps-??
+* gnumake local DSTROOT=/ps-??
+* gnumake -k all |& tee make.log
+* Test the resulting binary on as many configurations as possible
+* gnumake codesize
+* gnumake remote
+* gnumake tidy
+* new_vers ps-?? ps-??+1
+* cd to ~/ps-??-1; gnumake clean (remove obsolete .a's and binaries)
+* Mail graphics that ps-?? is complete and ps-??+1 is ready for cloning.
+
+
+			Installing on kodak
+
+* rsh kodak
+* su ps_proj
+* cd ~
+* /build_bin/installsrc2 ps-??
+* Paste the following into a shell to warn Brad et. al. of impending doom:
+
+echo "I have installed the source for ps-?? on kodak." | mail -s "New ps is on kodak" bdavirro graphics_dept
+
+
+			Scatterloading a new version
+
+* Make a clone of ps and log into a fast machine with lots of memory.
+* Make sure #define PROF 1 is set in product/nextmain.c
+* Paste the following into a shell to make a profiled WindowServer:
+rm make-config; ln -s config/make-config-sl make-config; mkdirs /ps/{DEVELOP,EXPORT}-sl; ln -s /ps/{DEVELOP,EXPORT}-sl . ; gnumake local DSTROOT=/ps; gnumake all
+
+* Make a new whatsloaded file
+cd product; rm -f whatsloaded; gnumake "STAGE=EXPORT" "LOAD=what"
+
+* Find all symbols that have been added/removed since the last scatterloading of the WindowServer as follows:
+cd ~ps_proj/ps-39/EXPORT-mc68020; nm -onjls __TEXT __text `cat ../product/whatsloaded` | sort > ~/tmp/ps-39.nm
+cd ~ps_proj/ps-44/EXPORT-mc68020; nm -onjls __TEXT __text `cat ../product/whatsloaded` | sort > ~/tmp/ps-44.nm
+comm -13 ~/tmp/ps-39.nm ~/tmp/ps-44.nm > ~/tmp/added.nm
+comm -23 ~/tmp/ps-39.nm ~/tmp/ps-44.nm > ~/tmp/removed.nm
+
+* Remove (or replace) the following symbols in the hand + dead order files: 
+fgrep -f ~/tmp/removed.nm ~/ps/product/{dead,hand[12]}.order
+
+* Add symbols in added.nm to the hand ordering files based on their function.
+* Run profiled WindowServer.  Run pft.  Enter "prof" command in pft to start profiling.  Run Workspace, Preferences, Mail, Digital Librarian, Frame, Diagram.  Enter "prof" command in pft to stop profiling.
+
+* Make new {callf,gmon}.order files:
+cd ~/ps/product; rm -f {callf,gmon}.order; ~perf/bin/gprof.NEW -S ../EXPORT-sl/PS /tmp/gmon.out > ~/tmp/common.prof
+
+* Now you want to find all symbols that are dead (i.e. not called) and add them to the dead.order file.
+sort ~/ps/product/gmon.order > ~/tmp/gmon.nm; comm -23 ~/tmp/ps-44.nm ~/tmp/gmon.nm > ~/tmp/dead.nm
+
+* Unfortunately, dead.nm includes initialization symbols.  #define PROFINIT 1 in nextmain.c, recompile, run PS, in pft enter a single prof.  To get an init.nm file do the following:
+
+cd ~/ps/product; rm -f {callf,gmon}.order; ~perf/bin/gprof.NEW -S ../EXPORT-sl/PS /tmp/gmon.out > ~/tmp/init.prof; sort ~/ps/product/gmon.order > ~/tmp/init.nm;
+
+* Things in common between dead.nm and init.nm are put in initonly.nm.
+  Things in dead.nm but not in init.nm are put in deadonly.nm
+
+comm -12 ~/tmp/init.nm ~/tmp/dead.nm > ~/tmp/initonly.nm
+comm -13 ~/tmp/init.nm ~/tmp/dead.nm > ~/tmp/deadonly.nm
+
+* Now create the current initonly2.nm from hand1.order and compare it to the new one.  Use this to update the init.order
+
+fgrep -v '%' ~/ps/product/hand1.order | sort > ~/tmp/initold.nm
+comm -13 ~/tmp/initold.nm ~/tmp/initonly.nm
+comm -23 ~/tmp/initold.nm ~/tmp/initonly.nm
+
+* Now update the dead.order
+fgrep -v '%' ~/ps/product/hand1.order > /tmp/foo
+fgrep -v '%' ~/ps/product/hand2.order >> /tmp/foo
+fgrep -v '%' ~/ps/product/notdead.order >> /tmp/foo
+sort /tmp/foo > ~/tmp/notdead.nm
+comm -13 ~/tmp/notdead.nm ~/tmp/deadonly.nm > ~/tmp/deadnew.nm
+fgrep -v '%' ~/ps/product/dead.order > ~/tmp/deadold.nm
+comm -3 ~/tmp/deadold.nm ~/tmp/deadnew.nm > ~/tmp/foo
+
+* Make sure that there are no overlaps between dead.order, notdead.order, etc.
+* Make sure you fix nextmain.c (#define PROF 0    #define PROFINIT 0)
+* Make a scatterloaded WindowServer:
+gnumake LOAD=gmon STAGE=EXPORT
+
+* Make sure you fix make-config
+rm make-config
+ln -s config/make-config-mc68020 make-config
+
+
+
+

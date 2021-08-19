@@ -1,0 +1,72 @@
+nptest_print.o: nptest_print.c /usr/include/sys/features.h /usr/include/mach.h
+nptest_print.o: /usr/include/sys/kern_return.h
+nptest_print.o: /usr/include/machine/kern_return.h /usr/include/sys/port.h
+nptest_print.o: /usr/include/sys/message.h /usr/include/sys/port.h
+nptest_print.o: /usr/include/sys/boolean.h /usr/include/machine/boolean.h
+nptest_print.o: /usr/include/kern/mach_types.h /usr/include/sys/boolean.h
+nptest_print.o: /usr/include/vm/vm_inherit.h /usr/include/vm/vm_prot.h
+nptest_print.o: /usr/include/sys/kern_return.h /usr/include/vm/memory_object.h
+nptest_print.o: /usr/include/sys/port.h /usr/include/vm/vm_statistics.h
+nptest_print.o: /usr/include/sys/port.h /usr/include/machine/vm_types.h
+nptest_print.o: /usr/include/sys/machine.h /usr/include/sys/features.h
+nptest_print.o: /usr/include/vm/vm_param.h /usr/include/machine/vm_param.h
+nptest_print.o: /usr/include/sys/types.h /usr/include/machine/vm_types.h
+nptest_print.o: /usr/include/sys/boolean.h /usr/include/sys/thread_status.h
+nptest_print.o: /usr/include/machine/thread_status.h /usr/include/next/reg.h
+nptest_print.o: /usr/include/sys/thread_info.h /usr/include/sys/time_value.h
+nptest_print.o: /usr/include/sys/thread_special_ports.h
+nptest_print.o: /usr/include/sys/task_info.h /usr/include/machine/vm_types.h
+nptest_print.o: /usr/include/sys/time_value.h
+nptest_print.o: /usr/include/sys/task_special_ports.h
+nptest_print.o: /usr/include/kern/ipc_netport.h
+nptest_print.o: /usr/include/kern/ipc_statistics.h /usr/include/sys/features.h
+nptest_print.o: /usr/include/mach_init.h /usr/include/kern/mach_types.h
+nptest_print.o: /usr/include/mach_extra.h /usr/include/stdio.h
+nptest_print.o: /usr/include/stddef.h /usr/include/stdarg.h
+nptest_print.o: /usr/include/sys/errno.h /usr/include/stddef.h
+nptest_print.o: /usr/include/sys/features.h /usr/include/sys/types.h
+nptest_print.o: /usr/include/sys/param.h /usr/include/sys/features.h
+nptest_print.o: /usr/include/machine/machparam.h /usr/include/sys/assert.h
+nptest_print.o: /usr/include/next/eventc.h /usr/include/sys/signal.h
+nptest_print.o: /usr/include/machine/signal.h /usr/include/sys/types.h
+nptest_print.o: /usr/include/sys/ioctl.h /usr/include/sys/ttychars.h
+nptest_print.o: /usr/include/sys/ttydev.h /usr/include/nextdev/npio.h
+nptest_print.o: /usr/include/sys/file.h /usr/include/sys/fcntl.h
+nptest_print.o: /usr/include/sys/fcntl.h /usr/include/sys/time.h
+nptest_print.o: /usr/include/time.h /usr/include/stddef.h
+nptest_select.o: nptest_select.c /usr/include/sys/features.h
+nptest_select.o: /usr/include/mach.h /usr/include/sys/kern_return.h
+nptest_select.o: /usr/include/machine/kern_return.h /usr/include/sys/port.h
+nptest_select.o: /usr/include/sys/message.h /usr/include/sys/port.h
+nptest_select.o: /usr/include/sys/boolean.h /usr/include/machine/boolean.h
+nptest_select.o: /usr/include/kern/mach_types.h /usr/include/sys/boolean.h
+nptest_select.o: /usr/include/vm/vm_inherit.h /usr/include/vm/vm_prot.h
+nptest_select.o: /usr/include/sys/kern_return.h /usr/include/vm/memory_object.h
+nptest_select.o: /usr/include/sys/port.h /usr/include/vm/vm_statistics.h
+nptest_select.o: /usr/include/sys/port.h /usr/include/machine/vm_types.h
+nptest_select.o: /usr/include/sys/machine.h /usr/include/sys/features.h
+nptest_select.o: /usr/include/vm/vm_param.h /usr/include/machine/vm_param.h
+nptest_select.o: /usr/include/sys/types.h /usr/include/machine/vm_types.h
+nptest_select.o: /usr/include/sys/boolean.h /usr/include/sys/thread_status.h
+nptest_select.o: /usr/include/machine/thread_status.h /usr/include/next/reg.h
+nptest_select.o: /usr/include/sys/thread_info.h /usr/include/sys/time_value.h
+nptest_select.o: /usr/include/sys/thread_special_ports.h
+nptest_select.o: /usr/include/sys/task_info.h /usr/include/machine/vm_types.h
+nptest_select.o: /usr/include/sys/time_value.h
+nptest_select.o: /usr/include/sys/task_special_ports.h
+nptest_select.o: /usr/include/kern/ipc_netport.h
+nptest_select.o: /usr/include/kern/ipc_statistics.h /usr/include/sys/features.h
+nptest_select.o: /usr/include/mach_init.h /usr/include/kern/mach_types.h
+nptest_select.o: /usr/include/mach_extra.h /usr/include/stdio.h
+nptest_select.o: /usr/include/stddef.h /usr/include/stdarg.h
+nptest_select.o: /usr/include/sys/errno.h /usr/include/stddef.h
+nptest_select.o: /usr/include/sys/features.h /usr/include/sys/types.h
+nptest_select.o: /usr/include/sys/param.h /usr/include/sys/features.h
+nptest_select.o: /usr/include/machine/machparam.h /usr/include/sys/assert.h
+nptest_select.o: /usr/include/next/eventc.h /usr/include/sys/signal.h
+nptest_select.o: /usr/include/machine/signal.h /usr/include/sys/types.h
+nptest_select.o: /usr/include/sys/ioctl.h /usr/include/sys/ttychars.h
+nptest_select.o: /usr/include/sys/ttydev.h /usr/include/nextdev/npio.h
+nptest_select.o: /usr/include/sys/file.h /usr/include/sys/fcntl.h
+nptest_select.o: /usr/include/sys/fcntl.h /usr/include/sys/time.h
+nptest_select.o: /usr/include/time.h /usr/include/stddef.h

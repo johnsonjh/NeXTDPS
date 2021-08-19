@@ -1,0 +1,15 @@
+# etc/remote.sample
+#
+# Sample entry for /etc/remote on BSD systems for PostScript printer.
+#
+# If you want to "tip" to the printer to do system
+# configuration, debugging, etc., use a "remote(5)"
+# entry like the following.  To envoke the
+# interactive PostScript interpreter, type "executive"
+# once tip has made a connection (it will not echo,
+# a typo will lead to a PostScript error); the printer
+# will then start echoing and will support primitive 
+# line-editing features like ^H (backspace), ^U (erase line)
+# and ^R (retype line).
+#
+PRINTER:el=^C^D^S^Q^U:br#9600:dv=/dev/PRINTER:pn=:

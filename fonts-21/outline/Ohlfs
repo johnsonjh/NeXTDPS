@@ -1,0 +1,23 @@
+%!PS-AdobeFont-1.0: Ohlfs 001.005
+%%CreationDate: Fri Apr 29 00:55:51 PDT 1988
+/Courier findfont
+dup length 1 add dict /keithdict exch def
+{ % Is it the FontName entry?
+  1 index /FontName eq
+  { % For the old FontName, substitute the string 'Ohlfs'
+    pop pop
+    keithdict /FontName /Ohlfs put
+  }
+  { % Is it the FID entry?
+    1 index /FID ne
+    {keithdict 3 1 roll put}
+    {pop pop}
+    ifelse
+  }
+  ifelse
+}
+forall
+keithdict /UniqueID 2 put
+/Ohlfs keithdict definefont pop
+  
+

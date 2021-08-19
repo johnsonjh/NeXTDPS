@@ -1,0 +1,39 @@
+The files in this directory are examples from Adobe's
+PostScript Language Cookbook -- not quite the version 
+in the blue Addison-Wesley book.  They are fun
+examples of the things you can do with PostScript.
+
+These files are not necessary for the proper operation of
+TranScript, and may be deleted if disk space is scarce.
+
+To print them out, spool them directly:
+	4.2BSD:		lpr -P<printer> -h *.ps
+	System V:	lp -d<printer> -oh *.ps
+
+cookbook order is:
+
+squares.ps	- three squares
+transsquare.ps	- translated squares
+tfmbox.ps	- translate, rotate and scale
+ellipse.ps	- drawing an ellipse
+reptline.ps	- repeated lines
+reptshape.ps	- repeated shapes
+expline.ps	- expanded and constant width lines
+arrows.ps	- drawing arrows
+dashcenter.ps	- centered dash patterns
+quote.ps	- simple text
+facesize.ps	- faces and sizes
+night.ps	- white text on black background
+distort.ps	- condensed, extended, and obliqued text
+linebreak.ps	- a simple line breaking algorithm
+verttext.ps	- vertical text
+circtext.ps	- circular text
+pathtext.ps	- placing text along an arbitrary path
+piechart.ps	- drawing a pie chart
+imageturkey.ps	- using the image operator
+bitscreen.ps	- bit pattern screens
+bigprint.ps	- making a poster
+outline.ps	- making an outline font
+reencode.ps	- re-encoding an entire font
+reencsub.ps	- making small changes to encoding vectors
+userfont.ps	- making a user defined font

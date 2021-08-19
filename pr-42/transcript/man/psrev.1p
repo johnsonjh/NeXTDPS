@@ -1,0 +1,52 @@
+.TH PSREV 1 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: psrev.1p,v 2.2 87/11/17 16:47:59 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+psrev \- select or reverse page order of a P\s-2OST\s+2S\s-2CRIPT\s+2 file
+.SH SYNOPSIS
+.B psrev
+[ 
+.B \-R
+] [
+.BI \-s pagespec
+] [
+.I file
+]
+.SH DESCRIPTION
+.I psrev
+reads in a \*(PS 
+.I file
+(or the standard input if no file is named), and if the
+input conforms to the \*(PS file structuring conventions,
+reverses and selects the specified pages for printing
+and writes the resulting file  on the standard output.
+.sp
+The possible options are:
+.TP
+.BI \-s " pagespec"
+specifies a range (or several ranges) of pages to be printed.
+.I Pagespec
+is a string, not containing spaces, of the form ``pagerange[,pagespec]''.
+.I Pagerange
+may be a single page number or a range 
+of the form ``N-M'' which means print pages N through M.
+-N means print from the beginning of the document to page N.  
+M- means print from page M to the end of the document.
+.TP
+.B \-R
+does not reverse the page order, (but subset the pages if specified).
+.SH FILES
+.TP 2.2i
+XPSTEMPDIRX/RV*
+temporary file if input is a pipe.
+.br
+.SH "SEE ALSO"
+transcript(1), enscript(1), postscript(7).
+.SH "DIAGNOSTICS"
+Should be self explanatory.
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH "NOTES"
+\*(PS is a registered trademark of Adobe Systems Incorporated.

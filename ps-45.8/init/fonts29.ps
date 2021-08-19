@@ -1,0 +1,102 @@
+% fonts29.ps -- loads the 29 standard fonts used in DEC printer products
+
+% Copyright (c) 1986, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original version: taft
+% last edit: durham - Wed Oct 26 21:15:27 1988
+% last edit: taft - Mon May 23 16:54:39 1988
+
+% This file is specialized for loading fonts into a target product's VM.
+% The current working directory must contain the copyright.ps file
+% appropriate for the product being built.
+% On entry, the stack must contain a string which is the path to the
+% directory from which fonts are to be loaded.
+
+% Following unnamed procedure loads font whose name is on top of stack.
+% Stack should contain: path proc fontname
+% Fontname is ordinarily a name object but can be a string.
+
+   {2 index =string copy pop
+    =string 3 index length dup =string length exch sub getinterval cvs
+    length 2 index length add =string exch 0 exch getinterval
+    Run
+    currentshared
+      {(Shared VM: )}
+      {(Private VM: )}
+    ifelse print
+    vmstatus pop = pop
+   }
+
+(CharMap.ps) 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/AvantGarde-Book 1 index exec
+/AvantGarde-BookOblique 1 index exec
+/AvantGarde-Demi 1 index exec
+/AvantGarde-DemiOblique 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+(Courier) 1 index exec
+(Courier-Oblique) 1 index exec
+/Courier-Bold 1 index exec
+/Courier-BoldOblique 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Helvetica 1 index exec
+/Helvetica-Bold 1 index exec
+/Helvetica-BoldOblique 1 index exec
+/Helvetica-Oblique 1 index exec
+
+/LubalinGraph-Book 1 index exec
+/LubalinGraph-BookOblique 1 index exec
+/LubalinGraph-Demi 1 index exec
+/LubalinGraph-DemiOblique 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/NewCenturySchlbk-Bold 1 index exec
+/NewCenturySchlbk-BoldItalic 1 index exec
+/NewCenturySchlbk-Italic 1 index exec
+/NewCenturySchlbk-Roman 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Souvenir-Demi 1 index exec
+/Souvenir-DemiItalic 1 index exec
+/Souvenir-Light 1 index exec
+/Souvenir-LightItalic 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+/Symbol 1 index exec
+
+/Times-Bold 1 index exec
+/Times-BoldItalic 1 index exec
+/Times-Italic 1 index exec
+/Times-Roman 1 index exec
+
+currentfile =string readline copyright.ps
+pop run
+
+pop % proc
+pop % path

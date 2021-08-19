@@ -1,0 +1,66 @@
+
+/*
+	PSgraphics.psw
+	This pswrap file generates C functions corresponding
+	to all the graphics operators that NeXT adds.
+	
+	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+	All rights reserved.
+
+	Created trey 17Aug88
+	
+	Modified:
+	
+	17Aug88	trey	wrap accounting
+*/
+
+defineps PSsettrackingrect(float x; float y; float w; float h;
+		boolean leftreqd; boolean rightreqd; boolean in;
+		int userData; int tNum; userobject gstateNum)
+	x y w h leftreqd rightreqd in userData tNum gstateNum settrackingrect
+endps
+defineps PScleartrackingrect(int nrectnum; userobject gstateNum)
+	nrectnum gstateNum cleartrackingrect
+endps
+
+defineps PSnewinstance()
+	newinstance
+endps
+defineps PShideinstance(float x; float y; float w; float h)
+	x y w h hideinstance
+endps
+defineps PSsetinstance(boolean truth)
+	truth setinstance
+endps
+
+defineps PScomposite(float x, y, w, h; userobject gstateNum;
+			float dx, dy; int op)
+	x y w h gstateNum dx dy op composite
+endps
+defineps PScompositerect(float x, y, w, h; int op)
+	x y w h op compositerect
+endps
+defineps PSdissolve(float x, y, w, h; userobject gstateNum;
+			float dx, dy, delta)
+	x y w h gstateNum dx dy delta dissolve
+endps
+
+defineps PSsizeimage(float x, y, w, h | int *dw, *dh, *depth; float m[6];
+					boolean *multiproc; int *numColors)
+	x y w h matrix sizeimage numColors multiproc { m } forall depth dh dw
+endps
+defineps PSreadimage() readimage
+endps
+defineps PSalphaimage() alphaimage
+endps
+
+defineps PSsetalpha(float a)
+	a setalpha
+endps
+defineps PScurrentalpha( | float *alpha) 
+	currentalpha alpha
+endps
+
+defineps PSsetpattern(userobject patternDict)
+	patternDict setpattern
+endps

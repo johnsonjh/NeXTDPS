@@ -1,0 +1,449 @@
+-----------------------------------------------------------------------------
+ps-45.8 - Nov 15, 1990
+
+* Bug 12592:fileaccess errors during show
+* Bug 11587:/usr/include/windowserver/printmessage.h marked CONFIDENTIAL
+
+-----------------------------------------------------------------------------
+ps-45.7 - Nov 13, 1990
+
+* Bug 12397: reproducbile crash (Wingz bug)
+* Bug 12414: Unreproducable window server crash (Managed Objects and GC)
+
+-----------------------------------------------------------------------------
+ps-45.6 - Nov 9, 1990
+
+* Bug 12370: memory leak for window dictionaries
+* Bug 12255: ps_proj installs directories group writable
+
+-----------------------------------------------------------------------------
+ps-45.5 - Nov 7, 1990
+
+* Bug 12020: Quitting FractalTree demo crashes window server -- Added a check in MakePStm for reusability of Stms, a new StmBody is made if the Stm is not reusable.
+* Bug 12042: Can't open or print Macintosh PostScript files -- yet more laserwriter emulation in alw.ps
+
+-----------------------------------------------------------------------------
+ps-45.4 - Nov 5, 1990
+
+* Fixed bug 11510: setfont errors in Mail cause Scroller to stop tracking
+
+-----------------------------------------------------------------------------
+ps-45.3 - Oct 22, 1990
+
+* Fixed bug 11167: Application crashes Workspace (logs out)
+
+-----------------------------------------------------------------------------
+ps-45.2 - Oct 19, 1990
+
+* Fixed bug 11091: WindowServer crashes when Frame document is printed
+* Fixed bug 11110: Folio-Bold 12 point crashes WindowServer
+* improved .sgs_env to escape .'s from regular expressions
+
+-----------------------------------------------------------------------------
+ps-45.1 - Oct 17, 1990
+
+* Fixed bug 10895: fontrun doesn't work for Optima or compressed fonts
+
+-----------------------------------------------------------------------------
+ps-45 - Oct 16, 1990
+
+* Fixed bug 10690: SetCchDevice gives bogus device-space bounding-box
+* Fixed bug 10682: Write default /screens/MegaPixel to netinfo database
+* Fixed bug 10565: Linescrolling a large Y in mail window causes major turds
+* Made failure mode silent for setnextstepcontext
+
+-----------------------------------------------------------------------------
+ps-44 - Oct 8, 1990 (take 2)
+
+* new fonts/cachedev.c fixes bug 9397.
+* Fixed bug 9968:  Added PSAcquireLock and PSReleaseLock to postscript package.(Ted)
+* Fixed bug 9849:  Placewindow Hook.(Ted)
+* Fixed bug 10330: compositing from 24 to 12 bits windows doesn't promote the 12 bit window
+* Fixed bug 10283: conversion of 2-bit windows w/ alpha broken
+* Fixed bug 10212: Font Company fonts don't work
+* Fixed bug 10142: more security holes re: writing/destroying files in PostScript
+* Fixed bug 10074: need to add {set,current}nextstepcontext
+* Fixed bug 7764:  Kanji should be shareable
+* Fixed bug 6492:  Preview hangs when displaying too many .eps files
+* Fixed bug 9590:  nextimage can take too many pixels from input data
+* Fixed bug 9172:  Stitching in slider/scroller patterns in a 32-bit window
+* Fixed bug 10016: Login Window not visible when booting single-headed with add-on frame buffer
+* Fixed bug 10355: ps-43, grows in virtual size by 5-8M for each context created
+* Fixed bug 9946:  WindowServer needs to be scatterloaded
+
+-----------------------------------------------------------------------------
+ps-43 - Oct 1, 1990
+
+* Fixed bug 8304: bug with retained windows and instance drawing
+* Fixed bug 9244: After using PageLayout to enlarge, printing produces misplaced chars
+* Fixed bug 9386: line-drawing slowdown
+* Fixed bug 9434: Window server composites incorrectly from 32 to 2 bits with alpha
+* Fixed bug 9860: Line-drawing is still too slow, even on the 040
+* Fixed 9507: Plugged leak in LoadAllDrivers in driver.c.(Ted)
+* Merged LoadAllUnrefDrivers into LoadAllDrivers to save space.(Ted)
+* Fixed 9511: Added NXApplyBounds procedure for driver-support.(Ted)
+* Fixed 9611: Renamed LRenderInBounds to NXRenderInBounds.(Ted)
+* Fixed 9511: Added vis boolean to NXRenderInBound's callback args.(Ted)
+* Fixed 9511: Added boolean to FreeWindow proc's arg list.(Ted)
+* Fixed 8959 & 8993: Added Trey's wait cursor changes.(Ted)
+* Fixed 7884: Screen-Changed event now sent in LPlaceAt.(Ted)
+* changed language/dict.c to make shared FontDirectory growable and product/Makefile so that it's capacity is increased from 250 to 640 (bug 7141).
+* fixed graphics/ucache.c to correctly free items in CircMaskTable (bug 8456). 
+* change from BASICTYPES to PUBLICTYPES in product/miscops.c, product/pscontext.c, product/init_table.c, mp/mp.c
+* eliminate secret sources (rm *.o.adobe*, change Makefile) in devpattern, fonts, graphics, unix_product, stream. (bug 8431)
+* enable use of IBM PC versions of Adobe Type 1 fonts in fonts/fontrun.h (bug 9794).
+* add "currenteventtime" op to product/event.c (bug 8910).
+* improvements to ibm.csh
+* improvements to .sgs_env ( more DONT_DIFFS)
+* Fixed bug 7799: Moving color images between screens causes errors in pattern
+* Fixed bug 8000: gstate returns limitcheck
+* Fixed bug 9435: Buggy bm34 is present in a promotion table
+* Fixed bug 9843: Giant lizard eats window server
+
+-----------------------------------------------------------------------------
+ps-42 - Sep 9, 1990
+
+* Fixed composite font case of baseline offet bug.
+* added new, improved ATM from Adobe
+* Fixed bug 6497: nocurrentpoint error for newpath clip
+* Fixed bug 6299: 1e6 scalefont et. al.
+* fixed nextimage to support with transfer functions.
+* Added gdbinit to EXPORT/DEVELOP support to simplify debugging.(Ted)
+* Tablized promotion states to reduce and speed-up code.(Ted)
+* Changed NextGSExt structure alignment of fields for i860 compatibility.
+* Fixed semantics of Bitmap's type field. Zero type means private.(Ted)
+* Fixed PSReadImage to get 32-bit bitmaps working.(alignment was changed).
+* Added SyncCursor procedure vector to Framebuffer Protocol.(Ted)
+* Changed mousekeyboard package to use new SyncCursor commands.(Ted)
+
+-----------------------------------------------------------------------------
+ps-41 - Aug 21, 1990
+
+* added extern int initialDepthLimit to bintree.h
+* set newPSContext->defaultDepthLimit to initialDepthLimit in line 139 of
+  ipcscheduler.c
+* simplified PSCurrentDefaultDepthLimit() in windowops.c
+* set depth to initialDepthLimit in line 921 of windowops.c
+* simplified line 311 of layer.c
+* disabled promotion for local layers
+* changed format of newFromData method
+* fixed bug #7639: Clip path ignored when drawing 500pt Helvetica
+* added eccrun to enable running doubly encripted Kanji fonts
+* removed old KERNEL #defines
+* improved printing.ps to put defs explicitly in nextdict
+* Fixed bug 7820: currentcmykcolor broken.
+* Qualified ops in WindowServerNotes with public/internal/private.
+* Added several interface headers to export to /usr/local/include/ps.
+
+-----------------------------------------------------------------------------
+ps-40 - Aug 13, 1990
+
+* Fixed bug 6554: "mark {} fork" in pft is sure WindowServer crasher
+* Fixed bug 6568: Server really should do setgroups, not setegid.
+* Fixed bug 7446: Problem with postscript file ~simsong/rainbow+2.ps
+* Fixed bug 7563: nextimage is broken for color
+* Fixed bug 7184: Window Server Crasher (and leaks) in ReducePathClipInt()
+* Fixed bug 7669: Window server shades the gray value 5/6 incorrectly
+* Improved on bug 7232: Kanji crasher (GC problem in graphics/gstates.c)
+* A few more tweaks to FasterShow() to bring it up to 1.0 performance levels
+* The global "driverCount" is now being set.(Ted)
+* Re-enabled commented-out screen driver heuristic in drivers.c.(Ted)
+* Replaced private rld definitions with #import <rld.h>.(Ted)
+* Replaced mkdirs NextStep/Displays in GNUmakefile. Someone removed it!(Ted)
+* Fixed so DEVELOP so it would not be scatterloaded on kodak.(Ted)
+* Fixed bug 7427: disappearing cursor.(Ted)
+* Got WindowBitmap working with shared memory on MegaPixel only.(Ted)
+* Fixed an assortment of nits in ReadNetInfo() of drivers.c.(Ted)
+* Fixed bug 7577: BM38Convert16to32()'s arguments were switched.(Ted)
+* Fixed bug 6664: wait cursor/arrow flicker bug.  Needs mk-89 kernel to take affect.(Ted)
+* Fixed bug 7583: placewindow didn't preserve intersection of onscreen buffered layers.(Ted)
+* Removed obsolete *ChangeWindowTo code for LPlaceAt.(Ted)
+* Removed BPBoundsAt() to reduce and speed up code.(Ted)
+* Removed unused EXLocalDevice().(Ted)
+* Added New API description to WindowServerNotes.(Ted)
+* Fixed bug 6641: crash on power-off key.(Ted)
+
+-----------------------------------------------------------------------------
+ps-39 - Aug 1, 1990
+
+* Fixed bug 7232:Kanji crasher
+* added new adobe maskcache.c to support larger bitmap storage arenas.
+* Fixed bug 6751: baseline offset of makefont doesn't work properly (roman case)
+* patched memory leak in patterimpl.c
+* Fixed bug 7184: minimumclip() crasher
+* Fixed bug 6566: added AddScrRef calls to bitmap impls defining default
+  screens
+* added ps.user_bom & installation for printing.ps
+* Cleaned old API (type 4 fonts, unix command operators, etc) out of
+  initialization PostScript files (product/*.ps)
+* Put printing initialization in product/printing.ps that must be installed
+* Modified order files so they work with new bintree, mp, and bitmap packages
+* Modified makefile so scatterloading would happen by default on a kodak build
+* Set thread priority higher and set thread policy to interactive in nextmain.c
+* Removed last vestiges of old color API from our emulation postscript
+* Fixed bug 6518: prebuilts don't render properly when flipped 
+* Added support function LPreCopyBits() in layer.c for PSSizeImage.(Ted)
+* Fixed LCopyBitsFrom (a la ReadImage) crasher.(Ted)
+* Had Terry fix a seg fault found in MP12Convert2to2.(Ted)
+* Fixed bug in MP12MakePublic that caused seg fault in MP12Convert2to2.(Ted)
+* Fixed rowBytes bug in MP12Convert2to2.(Ted)
+* Corrected MP12SizeInfo to include alpha with local size.(Ted)
+* Corrected screen bitmaps from having alpha allocated by newAlpha!(Ted)
+* Fixed initial invisible cursor bug in ev driver (mk-87).(Ted)
+* Simplified alpha/vram status in bitmap structures.(Ted)
+* Removed the bm_setVRAMAttribs method (obsolete).(Ted)
+* Added initialize argument to the bm_newAlpha method.(Ted)
+* Fixed setalpha scale bug. 0.5 setalpha would yield 128 instead of 127.(Ted)
+* Removed PPrintOn (no longer needed).(Ted)
+* Removed "#import STREAM" from bintree.h.(Ted)
+* Fixed dumpwindows to output original line format and work at all.(Ted)
+* Fixed 6936: placewindow bug.(Ted)
+* Fixed erasepage bug. Didn't erase Retained windows.(Ted)
+* More updating of the WindowServerNotes.(Ted)
+* Changed LCopyBitsFrom to return left-justified data for PSReadImage.(Ted)
+* LRenderInBounds (at Dave's request) for general rendering into layers.(Ted)
+
+-----------------------------------------------------------------------------
+ps-38 - July 16, 1990
+
+* NEW API IMPLEMENTATION (Ted and Peter)
+* Removed FIXED window type from code and constant from nextdict.
+* Removed fixedwindow operator.
+* Removed setcoloraccuracy and currentcoloraccuracy operators.
+* Removed setmonochromeaccuracy and currentmonochromeaccuracy operators.
+* Added setdefaultdepthlimit and setwindowdepthlimit operators.
+* Added currentwindowdepth and currentwindowdepthlimit operators.
+* Added currentdefaultdepth operator.
+* Added (object-oriented style) "bitmap" package/library.
+* Reworked bintree to perform lazy promotion of windows.
+* Reworked mp driver to use new bitmap library.
+* support for two-bit gray patterns
+* command-line setting of font cache defaults
+* greatly revised and reformatted Release Notes
+* Added external depth constants in nextddict such as NX_TwoBitGray.
+* Fixed "last middle word crasher" in imident.c
+* Added complete pathname optimization to PSPlaySound()
+* Place /NextLibrary/Fonts at start of font search path to reduce network time
+* Optimized FileSearchPath(), to use access() to determine if a file exists
+* Set global bootstrap_port variable in PSSetBootstrapPort
+* Rearranged location of coroutine structure near hot part of coroutine stack.
+  Also reduced size of the coroutine stack in ipcscheduler.c to make the total
+  size of the stack+structure to be just under one page.
+* Moved init mallocs in graphics/gray.c into GetPatternBase() and NewScreen()
+* Scatterloading support: Makefile, *.order + whatsloaded files in product
+* Integrated adobe's new atm.h, fontsnames.h, fontdata.h, fontbuild.o.adobe,
+  started using glbclr.[ch]. This will improve Kanji font characters for small
+  point sizes.  Code size increase, but only for Kanji fonts.
+* Modified makefiles to recompile fontcache.c when ops_fonts1 and ops_fonts2.c
+  and ops_fontsInternal.c are regenerated by update_registered_names
+* Added a new set of .o.adobe's compiled with a compiler that supports putting
+  constants and string literals in their own sections in the TEXT segment.
+* Removed unneeded files: unix_product/blackbox.o.adobe*,
+  fonts/{glbclr.o.adobe*,global_color.[ch]}
+* Removed __setjmp and __longjmp symbols from setjmpmach.s, replacing them with
+  -i's in the link line, since scatterloading doesn't work with multiple symbol
+  definitions in the same location.
+* In nextprebuilt.[ch], replaced hostdict for character names with an array
+* Bug fix in LPrintOn in layer.c to avoid printing out memory usage for
+  nonretained windows
+* Added regnames.doc to doc dir which describes operator name registration
+* Changed PSPathForAll() back to false, preventing reading of character paths,
+  since it is not allowed for Kanji fonts.
+* Modified mp.c to avoid allocating two 8K 32->2 bit conversion buffers until
+  they are actually needed.
+* Optimized MoveWindow() in windowops.c to avoid calling WBChangeBitmap()
+  unless there are some windowbitmap windows in existance.  This prevents the
+  windowbitmap code from being pulled in with a scatterloaded WindowServer.
+
+-----------------------------------------------------------------------------
+ps-37.1 - July 3, 1990
+
+* Revert to ps-36 maskcache.c since ps-37 version didn't work
+* Fix dumpwindows so that it prints out correct bitmap sizes
+
+-----------------------------------------------------------------------------
+ps-37 - June 26, 1990
+* Fixed bug 6464: only shared first ev shmem page; now pagesize independent
+* added machportdevice RPC protocol
+* improved size limitations on bitmap memory on maskcache.c (adobe fix)
+* listener.c: added setbootstrapport operator,
+* mappedstream.c: fixed some minor bugs
+* nextfindfont.c: removed shared vm assumption for type 3 fonts with prebuilts
+* unixfopen.c: minor stream implementation bugs.
+* Added tags command to GNUMakefile which makes ctags and etags for entire
+  source tree.  To use the ctags from Edit, do a 'dwrite Edit Tags ../tags'
+  and use command-shift-T to go to the definition of a function.
+* Pulled ~15 from the include directory to keep the tags files lean
+* Fixed bug 6401: currentwindowalpha broken
+* Fixed bug 6461: fixedwindow broken
+* Pulled more code out of unix.c, 1184 to 440 bytes
+* Removed unused debugging code corouxfer.o (676 to 428 bytes)
+* Reworked pslib package to remove calls to FG*Monitor(), which are stubs.
+* Removed os_*() adding more -i flags to the link line.  
+* Optimized convert.c from 1956 to 1840 bytes.
+* Removed all os_*() routines from fp.a, adding more -i flags to the link line
+* Specialized "fast" matrix rotation code, reducing code size + avoiding malloc
+* Added support for scatterloading in product Makefile
+
+-----------------------------------------------------------------------------
+ps-36.2a - June 26, 1990
+* added machportdevice RPC protocol to improve control over # of active 
+  pagebuffers.  This a preliminary version given to the client users of 
+  machportdevice (pking, trey, cfranklin).
+
+-----------------------------------------------------------------------------
+ps-36.2 - June 20, 1990
+* protected PSSetTransfer in machportdevice.c with PSHandleExecError() bug 6334
+
+-----------------------------------------------------------------------------
+ps-36.1
+* fixed currentwindowalpha bug
+
+-----------------------------------------------------------------------------
+ps-36 - June 13, 1990
+
+* New patterminpl.o-adobe* from adobe removing reference to FileTruncate()
+* Removed filesystem and io packages from environment since no longer used
+* maskcache.c no longer uses "mask->unused" since nextprebuilt.c does
+* blackmask.c now calls BlackMasksMarkReal() correctly
+* Increased sizes of MID and CI caches to 1.0 limits in pslib/sizes.c
+* Applied old diffs to maskcache.c from ps-33 and adobe's enhancements to them
+* Ensured that MCFreeMask sets the unused flag to 0, indicating non-prebuilt
+* Fixed problem with FastShow where characters were drawn by stringwidth
+* Fixed bug 3402: suspected memory leak
+* Fixed bug 4780: Mouse-exited event lost
+* Fixed bug 6012: ATM draws character thinner in a larger size than in smaller
+* Fixed bug 6280: ps-35 image operator bug
+
+-----------------------------------------------------------------------------
+ps-35 - June 7, 1990
+
+* Code size optimization throughout product, bintree, mp, and device packages
+* Consolidation of prebuilt code into nextprebuilt.c (9K->2K, 3x faster)
+* Implemented mini-masks, reducing cache space for prebuilts
+* Made #define readonly const to move constant data into text segment
+* Upgraded nscontexts.[ch], {ps,wb}context.c to new nscontexts API
+* Added codesize file to docs to track size of .o's in packages
+* Improved profiling support and simplified product Makefile
+* WindowServerNotes now an .rtf file, instead of a .wn file
+* Code reduction bintree: removed DPCopy() and commented out CSContains()
+* Optimizations in drivers.c.
+* Added NXRegisterOps() function for device drivers
+* Removed lp() and pp() debug routines in layer.c
+* Removed macros NEWBITS and FREEBITS
+* Renamed loaddrivers() to DriverInit() and now call from NextCustomProc()
+* Fixed black/white inversion of large bitmap chars (markimage.c, # 6071)
+* Partial addition of setgclog operator (4 files in vm package, # 5819)
+* Partial fix of the leak (bug #3402) for objects of size 10 but not 100
+* Adobe fixed unreported stack underflow on "clear 1 3 roll" (no bug #)
+* Adobe fixes also in Peter's clone (graphics.c?, fontdisk.c)
+* Added new operator startwaitcursortimer as part of waitcursor support
+* Fixed wait cursor: When busy contexts go away wait cursor does too
+* Made posteventbycontext ignore window field of event, as postbycontext did
+* Use fast _setjmp and _longjmp again with a modified pslib/setjmpmach.s
+* Fixed bug 4387: clippath ought to be empty, isn't
+* Fixed bug 4413: hitting onscreen window limit confuses Packages
+* Fixed bug 4775: color image not the same as setrgbcolor
+* Fixed bug 5596: Window server crashes with foreign font
+* Fixed bug 5716: base font data is missing
+* Fixed bug 5729: characters wrapped off the right of their cache bitmap
+* Fixed bug 5730: compositeFontTest crashes DEVELOP in CheckBM
+* Fixed bug 5731: Kanji comes onut way to high ONLY 1st time run
+* Fixed bug 5748: WindowServer crash while printing
+* Fixed bug 5771: Stitching on 32->2 bit conversion broken
+* Fixed bug 5886: MP Driver blit doesn't work for small copies
+* Fixed bug 5889: crash in ImSXXD12
+* Fixed bug 5910: (set/current)cacheparams do not include size
+* Fixed bug 5951: random crash due to user program
+* Fixed bug 5952: Unwanted operators in userdict
+* Fixed bug 6017: WindowServer/Workspace scrolling bug
+* Fixed bug 6023: stroke after multiple rangechecked curveto's crashes
+* Fixed bug 6024: Wrap-around windows on screen
+* Fixed bug 6044: PSSchedulerContext->{stmin,stmout} not used
+* Fixed bug 6085: There is a redundant call to ID2Wd in orderwindow
+* Fixed bug 6184: Windows unnecessarily attaining alphaState == A_BITS
+
+-----------------------------------------------------------------------------
+ps-34 - May 23, 1990
+
+* fixed window tier handling in PSOrderWindow operator (windowops.c, bug 5553)
+* Optimized show for rightward-moving strings
+* Optimized xshow for case of identity or flipped matrix with string of ints
+* Optimized xyshow for non-monotonic strings
+* Took advantage of the new shlib profiling support in our profiling scheme
+* Removed 8->1 bpp case from ImStretch(), since it is not much of an
+  optimization
+* Bugfixes to FastRectFill() in rect.c
+* Optimized MPSetupPattern to avoid call to Gry4of4Setup() when constant gray.
+* Sped up ReadHexString by a factor of two
+* Fixed a couple of bugs in ImStretch for shrinking cases
+* Improved msgImageBitmap message format checking
+* Code size reduction of funcline.c and copyline.c
+* Fixed bug 3785: alpha shortcut table wrong for Sout, dstA==1.
+* Fixed bug 4699: 9000.0 9000.0 currentwindow movewindow gets a rangecheck.
+* Fixed bug 5506: Can't QUIT from PS interpreter (PS -e start).
+* Fixed bug 5673: Compositing from upper-left of a window can crash 
+  WindowServer.
+* Fixed bug 5770: Large unclipped masks drawn incorrectly on ND.
+* added adobe2next shell script to cooerce adobe worlds into our form
+* more complete set of floating-point-less .o.adobe's
+* added `tidy', `depend', and `changedfiles' rules to global GNUmakefile
+* integrated Adobe's improved fontrun operator (Fontographer fonts still
+  broken though)
+* device/buildprebuilt.c - applied adobe fix for prebuilt advance bug
+* graphics/rect.c - rectangle reducing bug
+* language/stream.c - compressed stream type for new fontrun
+* product/nextfindfont.c - fontrun now runs w/ currentshared == false 
+  by default
+* device/framedev.c - improved comments
+* device/qintersect.c - fix # 3771, recursive QIntersect failure (charpath 
+  clip in Retained window)
+* fonts/fontbuild.o.adobe-DEVELOP/EXPORT-mc68020, graphics/pathpriv.o.adobe-
+  DEVELOP/EXPORT-mc68020 - special from Bilodeau to fix # 5664, "show/fill 
+  mismatch on Kanji characters".  NOTE: no FPE version supplied but later 
+  versions may supercede; be sure to check that other versions still fix 5664!
+* installed new fontbuild.o.adobe to fix bug #5376 "pft can crash window
+   server"
+* device/devinit.c, pslib/sizes.c - add LARGE_FONT_CACHE for Canon special disk
+* graphics/pathbuild.c - fix # 5737, "PostScript draws lines outside a window"
+* product/windowgraphics.c - fix # 4662, incorrect rounding of composite
+   destination bounds in fast (unscaled) case.
+* Wait Cursor implementation (depends on mk-2.0.83 headers in nextdev).
+* Changed device protocol to accept Bag structs to indicate which windows are
+  taking part in various operations like Mark, Composite, etc.
+* Updated mp package to understand protocol changes.
+* Added hooks to protocol to inform driver of various operations on windows.
+* Moved external function prototypes to bintree.h for other packages to see.
+* Moved BMCompositeFrom (bitpiece.c) to BGCompositeFrom (bag.c)
+* Pushed bitmap conversions in BMCompositeFrom down to driver level.
+* Removed the file keymap.c from the mousekeyboard package.
+
+----------------------------------------------------------------------------
+ps-33 - May 5, 1990
+
+* various fixes and improvements to Makefiles
+* added support for  registration & dynaloading of graphics packages.
+* fixed caching bugs in font code
+* integrated various bugfixes from Adobe (adobetars/May.5.90)
+* Added a fast special case to BlackMasksMark for glyphs of width <= 8
+* Fixed the DebugAssert in RectReduce()
+* Reduced the code size of FastRectFill()
+* Added 8->1 bpp case to ImStretch(), currently not called by markimage.c
+* Decreased initialization overhead in StringMark()
+* Sped up 32->2 bit window conversion in convert.c in MP package
+* Reduced the code size of 2->2 bit conversion in convert.c
+* better commenting in bintree.
+* improved screen initialization
+* various cursor turd fixes
+* `adjustmouse' operator fixed
+* clockunix.c now uses gettimeofday(2)
+* added configuration support for multiple object directories 
+* added -040fpe floating point object subdirectories
+* prepended NX_ on public defines in printmessage.h
+* removed `printerdevice' operator
+* letter, legal, etc. are now noops
+* removed bogus window traslation from machportdevice
+* removed devpattern .o's that were never used from library
+* realalpha now shadows alpha value in gstates 
+
+	

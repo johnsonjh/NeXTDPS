@@ -1,0 +1,268 @@
+% errs.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: durham - Thu Sep 22 17:16:34 1988
+% last edit: taft - Sun Jan  7 16:03:13 1990
+% Leo Hourvitz: 20Mar90 (with jkn) add essential diffs to v002/v016 (2000.6)
+% Joe Pasqua: Wed Nov 11 13:23:27 1987
+% last edit: Paul Rovner - Wednesday, August 17, 1988 10:57:12 AM
+
+setrom
+
+statusdict begin
+/buildtime daytime def		% time of VM creation
+end
+
+systemdict begin
+
+% Define scratch string "=string" for =.  To ensure that the string is
+% per-context, the original definition in systemdict is a procedure that
+% puts the string into userdict.  Care must be taken to get the value of
+% the string from userdict if systemdict should happen to be on the dict
+% stack above userdict.
+
+/=string {
+  userdict /=string known not
+    {userdict /=string 128 string put}
+  if
+  userdict /=string get		% Explicit in case we re-execute this procedure
+} bind def	% string used by =
+
+% _error is similarly defined as the array to put errors in
+
+/_error {
+  userdict /_error known not
+    {userdict /_error 4 array put}
+  if
+  userdict /_error get	% Explicit in case we re-execute this procedure
+} bind def
+
+/=print				% simple print function
+   {dup type /stringtype ne {=string cvs} if print
+   } bind readonly def
+
+/= {//=print exec (\n) print} bind readonly def
+
+/stack
+   {count dup 1 add copy //= repeat pop
+   } bind readonly def
+
+% setram			% not needed for trickydict
+/$error 16 trickydict def
+% setrom
+$error begin
+    /recordstacks false def		% Flags that controls what .error does
+    /estackarray null def		% replace by array on first use
+    /ostackarray null def
+    /dstackarray null def
+    /initializing true def
+    /newerror false def
+    /doclose true def
+    /errorname null def
+    /command null def
+    /ostack null def
+    /dstack null def
+    /estack null def
+
+    /printableObjTypes 7 dict def
+    printableObjTypes begin
+      /booleantype true def
+      /integertype true def
+      /marktype true def
+      /nametype true def
+      /nulltype true def
+      /realtype true def
+      /stringtype true def
+    end   % printableObjTypes
+    printableObjTypes readonly pop
+
+    /SubstituteFont {} def	% proc to perform product-dependent font
+				% substitution, e.g., {pop /Courier}
+end	% $error
+
+/.error	
+   {false setshared
+    //$error exch /errorname exch put
+    //$error exch /command exch put
+    //$error /newerror //true put
+
+    % do not permit the "offending command" to be a string that is
+    % bigger than handleerror can print
+    //$error /command get type /stringtype eq
+       {//$error /command get length 128 gt
+	   {//$error /command get 0 128 getinterval
+	    //$error exch /command exch put
+	   } if
+       } if
+
+    //$error /errorname get /VMerror ne
+    {
+       
+       % snapshot stacks only if recordstacks is true
+       //$error /recordstacks get
+       {
+	   //$error /ostackarray get //null eq
+	       {//$error /estackarray 20 array put
+		//$error /ostackarray 20 array put
+		//$error /dstackarray 20 array put
+	       } if
+	    % ensure ostackarray is long enough
+	    count //$error /ostackarray get length gt
+	    {
+		    count //$error /ostackarray 3 -1 roll array put
+	    } if
+	    % snapshot operand stack without disturbing it in any way
+	    % (the former astore/aload technique could cause invalidrestore)
+	    count //$error /ostackarray get exch 0 exch getinterval
+	    //$error exch /ostack exch put
+	    count 1 sub -1 0 {//$error /ostack get exch 2 index put count 1 roll} for
+    
+	    % ensure dstackarray is long enough
+	    countdictstack //$error /dstackarray get length gt
+	    {
+		    countdictstack //$error /dstackarray 3 -1 roll array put
+	    } if
+	    % snapshot dictionary stack
+	    //$error /dstack //$error /dstackarray get dictstack put
+    
+	    % ensure estackarray is long enough (actually its 1 longer than nec)
+	    countexecstack //$error /estackarray get length gt
+	    {
+		    countexecstack //$error /estackarray 3 -1 roll array put
+	    } if
+	    % snapshot execution stack
+	    //$error /estack
+	    //$error /estackarray get execstack dup length 2 sub 0 exch getinterval
+	    put
+
+       } if
+
+    } if
+	
+    //$error /initializing get {handleerror} if
+    stop
+   } bind readonly def
+
+% top level handleerror, execute the one from errordict
+
+/handleerror {//errordict /handleerror get exec} bind readonly def
+/resynchandleerror {//errordict /resynchandleerror get exec} bind readonly def
+
+/resyncstart {
+  {
+    (%stdin) (r) file cvx stopped
+    {
+      //$error begin newerror end not {stop} if
+      resynchandleerror
+      (%stdin) (r) file dup flushfile closefile
+      (%stdout) (w) file closefile
+    } if
+  } loop
+} def
+
+errordict begin
+
+% handleerror is called to print most recent error info
+% it is in errordict so that it can be redefined for more complex
+% reporting.  DO NOT BIND REFERENCES TO IT.
+
+/handleerror
+   {//$error begin
+    currentwriteblock % Never waste time blocked on error output -- odds are
+    false setwriteblock % too high that the application is wasted anyway (jkn)
+    newerror
+       {/newerror //false def
+	initializing currentobjectformat 0 eq or
+	   {(%%[ Error: ) print errorname //=print exec
+	    (; OffendingCommand: ) print /command load //=print exec
+	    ( ]%%\n) print
+	   }
+	   {
+	    _error 0 /Error put
+	    _error 1 errorname put
+	    _error 2
+	      /command load dup type printableObjTypes exch known not
+		 {=string cvs} if
+	     put
+	    _error 3 false put
+	    _error 250 printobject
+	   } ifelse
+	flush
+       } if
+    setwriteblock % Restore old write block state (jkn)
+    end
+   } bind readonly def
+
+/resynchandleerror
+   {//$error begin
+    currentwriteblock % Never waste time blocked on error output -- odds are
+    false setwriteblock % too high that the application is wasted anyway (jkn)
+    newerror
+       {/newerror //false def
+	initializing currentobjectformat 0 eq or
+	   {(Error: ) print errorname //=print exec
+	    (; OffendingCommand: ) print /command load //=print exec
+	   }
+	   {
+	    _error 0 /Error put
+	    _error 1  errorname put
+	    _error 2
+	      /command load dup type printableObjTypes exch known not
+		 {=string cvs} if
+	     put
+	    _error 3 true put
+	    _error 250 printobject
+	   } ifelse
+	flush
+       } if
+    setwriteblock % Restore old write block state (jkn)
+    end
+   } bind readonly def
+
+/dictfull {/dictfull //.error exec} bind readonly def
+/dictstackoverflow {/dictstackoverflow //.error exec} bind readonly def
+/dictstackunderflow {/dictstackunderflow //.error exec} bind readonly def
+/execstackoverflow {/execstackoverflow //.error exec} bind readonly def
+/interrupt {/interrupt /interrupt //.error exec} bind readonly def
+/invalidaccess {/invalidaccess //.error exec} bind readonly def
+/invalidcontext {/invalidcontext //.error exec} bind readonly def
+/invalidexit {/invalidexit //.error exec} bind readonly def
+/invalidfileaccess {/invalidfileaccess //.error exec} bind readonly def
+/invalidfont {/invalidfont //.error exec} bind readonly def
+/invalidid {/invalidid //.error exec} bind readonly def
+/invalidrestore	{/invalidrestore //.error exec} bind readonly def
+/ioerror {/ioerror //.error exec} bind readonly def
+/limitcheck {/limitcheck //.error exec} bind readonly def
+/nocurrentpoint	{/nocurrentpoint //.error exec} bind readonly def
+/rangecheck {/rangecheck //.error exec} bind readonly def
+/stackunderflow	{/stackunderflow //.error exec} bind readonly def
+/stackoverflow {/stackoverflow //.error exec} bind readonly def
+/syntaxerror {/syntaxerror //.error exec} bind readonly def
+/timeout {/timeout /timeout //.error exec} bind readonly def
+/typecheck {/typecheck //.error exec} bind readonly def
+/undefined {/undefined //.error exec} bind readonly def
+/undefinedfilename {/undefinedfilename //.error exec} bind readonly def
+/undefinedresult {/undefinedresult //.error exec} bind readonly def
+/unmatchedmark {/unmatchedmark //.error exec} bind readonly def
+/unregistered {/unregistered //.error exec} bind readonly def
+/VMerror {/VMerror //.error exec} bind readonly def
+
+end % errordict
+
+end % systemdict
+
+setram
+
+

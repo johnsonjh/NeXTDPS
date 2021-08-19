@@ -1,0 +1,463 @@
+%!
+% taxform page
+
+% First, create a Helvetica-BoldOutline font
+/Helvetica-Bold findfont /hb exch def
+/hbo hb maxlength 1 add dict def
+% copy the old font to the new dict (all but the Font ID)
+hb {exch dup /FID ne
+       {hbo 3 1 roll exch put}
+       {pop pop}		% ignore the FID pair
+    ifelse
+   } forall
+% install the new name and make it outlined
+hbo /FontName /Helvetica-BoldOutline put
+hbo /PaintType 2 put
+% make it a font: definefont gives it an FID and puts it in FontDirectory
+/Helvetica-BoldOutline hbo definefont pop
+
+%This file prints form 1040 Schedule E. 1979
+
+/helvout /Helvetica-BoldOutline findfont def
+/helvfont  /Helvetica findfont def
+/helvfontbold  /Helvetica-Bold  findfont def
+/s10 helvfont 10 scalefont def
+/s10b helvfontbold 10 scalefont def
+/s10c helvfont [10 11 13 div mul 0 0 10 0 0 ]makefont def
+/s6 helvfont 6 scalefont def
+/s8 helvfont 8 scalefont def
+/s8b helvfontbold 8 scalefont def
+/s6c helvfont [6 11 13 div mul 0 0 6 0 0] makefont def
+/s8c helvfont [8 11 13 div mul 0 0 8 0 0] makefont def
+/s8bc helvfontbold [8 11 13 div mul 0 0 8 0 0] makefont def
+/s7 helvfont 7 scalefont def
+/s14b helvfontbold 14 scalefont def
+/s16b helvfontbold 16 scalefont def
+/s24o helvout [24 .8 mul 0 0 24 0 0]makefont def
+/s24 helvfontbold [24 .8 mul 0 0 24 0 0]makefont def
+%some usefull global definitions:
+/leftmar 46 def 
+/rightmar 580 def
+/pica 12 def
+/top 716 def
+/lw 1 def
+/lw1 .75 def
+
+%define function to draw full horizontal line given pica position from top
+/fullrule
+ {pica mul top exch sub /yp exch def leftmar yp rightmar yp lw rule}def
+
+%define a general fat line builder
+/rule {setlinewidth newpath dround moveto dround lineto stroke}def
+/dround {transform round exch round exch itransform}def
+/delround {0 dtransform round exch round exch idtransform dup mul exch dup mul
+           add sqrt}def
+
+%define a general dashed line builder
+/drule
+ {gsave setlinewidth
+  dround moveto dround lineto [2.2 delround  .8 delround] 0 setdash
+  stroke grestore}def
+
+%define function to draw partial horizontal lines given:
+%x1, x2 and y. x1,x2 in points; y in picas from top.
+/partrule
+ {pica mul top exch sub /yp exch def
+  leftmar add  /x2 exch def
+  leftmar add  /x1 exch def
+  x1 1 add yp x2 1 sub yp lw1 rule
+ }def
+
+%define function to draw dashed horizontal lines given:
+%x1, x2 and y. x1,x2 in points; y in picas from top.
+/dashrule
+ {pica mul top exch sub /yp exch def
+  leftmar add /x2 exch def
+  leftmar add /x1 exch def
+  x1 1 add yp x2 1 sub yp lw1 drule
+ }def
+
+%define function to draw dashed vertical lines given:
+%x, y1, y2: x in points y's in picas from top.
+/vdashrule
+ {pica mul top exch sub /y2 exch def
+  pica mul top exch sub /y1 exch def
+  leftmar add  /xp exch def
+  xp y1 xp y2 lw1 drule
+ }def
+
+%define a function to draw partial vertical lines given:
+%x, y1, y2: x in points y's in picas from top.
+/vpartrule
+ {pica mul top exch sub /y2 exch def
+  pica mul top exch sub /y1 exch def
+  leftmar add  /xp exch def
+  xp y1 xp y2 lw1 rule
+ }def
+
+%define a function to put text out relative to a point, pica position.
+/tshow {12 mul top exch sub 2 add moveto show}def
+
+%define a function to put text out followed by leader dots.
+/tlshow
+{/lpos exch def
+ gsave tshow 
+ currentpoint /ccy exch def /ccx exch def
+ 1.5 setlinewidth
+ lpos 12 sub ccy moveto ccx 6 add ccy lineto
+ [1.5 delround  12 delround] 0 setdash
+ stroke grestore}def
+
+%define a function to put white text in black box.
+/bbox
+ {gsave translate 1 0 translate
+  newpath 0 0 moveto 0 10 lineto 48 10 lineto 48 0 lineto closepath fill
+  1 setgray s10b setfont 12 2 moveto show grestore}def
+
+%define a function to put down the arrow triangle
+/triangle
+{gsave translate 0 0 moveto 8 3.5 lineto 0 7 lineto closepath fill grestore}def
+
+%define a function to hash-in a box
+/hashbox
+{/ury exch def /urx exch def /lly exch def /llx exch def
+ gsave .5 setgray
+ llx lly moveto llx ury lineto urx ury lineto urx lly lineto closepath
+ fill grestore}def
+
+%draw yes-no boxes at given origin of first box
+/YesNoBox
+{gsave translate cbox s8b setfont 15 0 moveto (Yes)show 
+38 0 translate cbox 15 0 moveto (No) show grestore}def
+
+/cbox
+{ 1 setlinewidth  .5 .5 moveto 7.5 .5 lineto 7.5 7.5 lineto .5 7.5 lineto
+closepath stroke}def
+
+%build a function to set vertical text.
+/vshow {gsave translate 0 0 moveto s10c setfont 90 rotate show grestore}def
+
+%build a function to set "loss" parentheses.
+/parens {top exch 12 mul sub 3 add moveto (\()show 56 0 rmoveto (\))show}def
+
+%set up some shorthand for the next lines
+/t1 62 def
+/t2 t1 79 add def
+/t3 t2 79 add def
+/t4 t3 79 add def
+/t5 t4 79 add def
+/t6 t5 79 add def
+/t7 rightmar leftmar sub def
+
+%Start building the page
+-10 -10 translate
+gsave
+s24o setfont
+leftmar 476 add top 18 add moveto (19)show s24 setfont (79)show
+s10b setfont
+  (SCHEDULE  E)leftmar -2.5 tshow
+  ((Form 1040))leftmar -1.75 tshow
+s6 setfont
+  (Department of the Treasury) leftmar -1 tshow
+  (Internal Revenue Service) leftmar -.3 tshow
+s16b setfont
+  (Supplemental Income Schedule)208 -2.5 tshow
+s8bc setfont
+  ((From pensions and annuities, rents and royalties, partnerships, estates and trusts, etc.))174 -1.3 tshow
+  (Attach to Form 1040) 188 -.33 tshow
+  (See Instructions for Schedule E (Form 1040).) 328 -.33 tshow
+  174 top 5 add triangle 
+  314 top 5 add triangle
+s7 setfont
+  (Name(s) as shown on Form 1040)leftmar 1 tshow
+  (Your social security number) 476 1 tshow
+%draw all full horizontal lines.
+0 fullrule
+(Part I) leftmar top 38 sub bbox
+s10b setfont 
+(Pension and Annuity Income.)102 3 tshow
+s8 setfont
+(If fully taxable, do not complete this part. Enter amount on Form 1040, line 17.)250 3 tshow
+(For one pension or annuity not fully taxable, complete this part. If you have more than one pension or annuity that is not fully taxable,)48 4 tshow
+(attach a separate sheet listing each one with the appropriate data and enter combined total of taxable parts on line 4.)48 4.8 tshow
+2 fullrule 
+5 fullrule
+s8b setfont
+(1a)52 6 tshow
+s8 setfont
+(Did you and your employer contribute to the pension or annuity?)68 6 510 tlshow
+514 top 6 pica mul sub YesNoBox
+s8b setfont
+(b)57 7 tshow
+s8c setfont
+(If "yes," do you expect to get back your contribution within 3 years of the date you receive the first payment?)68 7 510 tlshow
+514 top 7 pica mul sub YesNoBox
+s8b setfont
+(c)57 8 tshow
+182 top 96 sub triangle
+($...............................,)192 8 tshow
+474 top 96 sub triangle
+s8b setfont
+(1d) 492 8 tshow
+s8c setfont
+(If "Yes," show: Your contribution)68 8 tshow
+s8b setfont
+(d) 288 8 tshow
+s8c setfont
+(Contribution received in prior years)294 8 470 tlshow
+s8b setfont
+(2)52 9 tshow
+(2)492 9 tshow
+s8 setfont
+(Amount received this year) 68 9 484 tlshow
+s8b setfont
+(3)
+52 10 tshow
+(3)492 10 tshow
+s8 setfont
+(Amount on line 2 that is not taxable)68 10 484 tlshow
+s8b setfont
+(4)52 11 tshow
+(4) 492 11 tshow
+s8 setfont
+(Taxable part (subtract line 3 from line 2). Enter here and include in line 18 below)68 11 484 tlshow
+11 fullrule
+(Part II) leftmar top 145 sub bbox
+s10b setfont
+(Rent and Royalty Income or Loss. If you need more space, attach a separate sheet.)102 12 tshow
+
+s8b setfont
+(5a)52 13 tshow
+s8c setfont
+(Have you claimed expenses connected with your vacation home (or other dwelling unit) rented to others (see Instructions)?)68 13 512 tlshow
+514 top 13 pica mul sub YesNoBox
+s8b setfont
+(b)57 14 tshow
+514 top 14 pica mul sub YesNoBox
+s8c setfont
+(If "yes," did you or a member of your family occupy the vacation home (or other dwelling unit) for more that 14 days during the tax year?)68 14 512 tlshow
+s8b setfont
+(6a)52 15 tshow
+s8 setfont
+(Did you elect to claim amortization (under section 191) or depreciation (under section 167(o)) for a rehabili-)68 15 tshow
+(tated certified historic structure (see instructions)?)68 15.66 512 tlshow
+514 top 15.66 pica mul sub YesNoBox
+s8b setfont
+(b)58 16.66 tshow
+s8 setfont
+(Amortizable basis (see Instructions))68 16.66 tshow
+218 top 200 sub triangle
+17 fullrule
+56 fullrule
+94 0 -3.5 vpartrule
+460 0 -3.5 vpartrule
+420 2 0 vpartrule
+458 2 1 vdashrule
+484 2 1 vdashrule
+%draw all partial horizontal lines.
+438 462 8 partrule 462 t7 8 dashrule
+438 462 9 partrule 462 t7 9 dashrule
+438 462 10 partrule 462 t7 10 partrule
+438 11 7 vpartrule
+462 11 7 vpartrule
+s6 setfont
+ ((a) Property)62 18.5 tshow
+ (code \(describe)58 19 tshow
+ (in Part V\))64 19.5 tshow
+
+ ((b) Total amount)126 18.75 tshow
+ (of rents)138 19.25 tshow
+
+ ((c) Total amount)204 18.75 tshow
+ (of royalties)212 19.25 tshow
+
+ ((d) Depreciation \(ex-) 278 18.25 tshow
+ (plain in Part VI\)) 284 18.75 tshow
+ (or depletion \(at-) 284 19.25 tshow
+ (tach computation\)) 281 19.75 tshow
+
+ ((f) loss)452 18.75 tshow
+
+ ((e) Other expenses)358 18.75 tshow
+ ((explain in Part VII))356 19.25 tshow
+
+ ((g) income) 528 18.75 tshow
+
+0 t1 20 partrule t1 t2 20 partrule t2 t3 20 partrule t3 t4 20 partrule
+t4 t5 20 partrule t5 t6 20 partrule t6 t7 20 partrule
+s8c setfont
+ (Property A.)66 21 tshow
+t1 t2 21 dashrule t2 t3 21 dashrule t3 t4 21 dashrule
+t4 t5 21 dashrule t5 t6 21 dashrule t6 t7 21 dashrule
+ (Property B.) 66 22 tshow
+t1 t2 22 dashrule t2 t3 22 dashrule t3 t4 22 dashrule
+t4 t5 22 dashrule t5 t6 22 dashrule t6 t7 22 dashrule
+ (Property C.) 66 23 tshow
+t1 t2 23 dashrule t2 t3 23 dashrule t3 t4 23 dashrule
+t4 t5 23 dashrule t5 t6 23 dashrule t6 t7 23 dashrule
+ (Property D.) 66 24 tshow
+t1 t2 24 dashrule t2 t3 24 dashrule t3 t4 24 dashrule
+t4 t5 24 dashrule t5 t6 24 dashrule t6 t7 24 dashrule
+ (Property E.) 66 25 tshow
+t1 t2 25 dashrule t2 t3 25 dashrule t3 t4 25 dashrule
+t4 t5 25 dashrule t5 t6 25 dashrule t6 t7 25 dashrule
+ (Amounts)66 27 1.33 sub tshow
+ (from Form) 66 27 .66 sub tshow
+ (4835 . .)66 27 tshow
+
+s8b setfont
+(7)52 27 1.33 sub tshow
+190  top 322 sub 264 top 302 sub hashbox
+t1 t2 27 partrule t2 t3 27 partrule t3 t4 27 partrule t4 t5 27 partrule
+t5 t6 27 partrule t6 t7 27 partrule
+ (8)52 28 tshow
+ 430 28 parens
+s8c setfont
+ (Totals . .) 66 28 tshow
+s8b setfont
+ (9)52 29 tshow
+ (9)488 30 tshow
+(t5p)430 def
+t5p 30 28 vpartrule
+s8 setfont
+ (Total rent and royalty income or (loss). Combine amounts in columns (f) and (g), line 8. Enter here and)66 29 tshow
+ (include in line 18 below) 66 29.80 tshow
+t1 t6 28 partrule t6 t7 28 partrule
+(Part III) leftmar top 371 sub bbox
+s10b setfont
+(Income or Losses from --)102 31 tshow
+t1 28 17 vpartrule
+t2 28 17 vpartrule
+t3 28 17 vpartrule
+t4 28 17 vpartrule
+t5 28 17 vpartrule
+t6 56 17 vpartrule
+0 t6 30 partrule t6 t7 30 partrule
+/t3p 242 def
+0 t3p 31 partrule
+/t0p 26 def
+t0p t3p 32 partrule t3p t5 32 partrule t5 t6 32 partrule t6 t7 32 partrule
+s6 setfont
+((a) Name) 172 31.75 tshow
+((b) Employer)340 31 tshow
+(identification number)326 31.5 tshow
+((c) loss) 452 31.25 tshow
+((d) income) 528 31.25 tshow
+t0p t3p 33 dashrule t3p t5 33 dashrule t5 t6 33 dashrule t6 t7 33 dashrule
+t0p t3p 34 dashrule t3p t5 34 dashrule t5 t6 34 dashrule t6 t7 34 dashrule
+t0p t5 35 partrule t5 t6 35 partrule t6 t7 35 partrule
+
+/t4p 352 def
+t4p t6 36 partrule t6 t7 36 partrule
+t5p t6 37 partrule t6 t7 37 partrule
+t5p t6 38 partrule t6 t7 38 partrule	
+t0p 40 31 vpartrule
+t3p 35 30 vpartrule
+t4p 36 35 vpartrule
+t5  36 30 vpartrule
+t5p 40 36 vpartrule
+0 t6 40 partrule t6 t7 40 partrule
+t0p t3p 41 dashrule t3p t5 41 dashrule t5 t6 41 dashrule t6 t7 41 dashrule
+t0p t3p 42 dashrule t3p t5 42 dashrule t5 t6 42 dashrule t6 t7 42 dashrule
+t0p t5 43 partrule t5 t6 43 partrule t6 t7 43 partrule
+t4p t6 44 partrule t6 t7 44 partrule
+t0p 46 40 vpartrule
+t3p 43 40 vpartrule
+t5  44 40 vpartrule
+t4p 44 43 vpartrule
+t5p 46 44 vpartrule
+0 t6 46 partrule t6 t7 46 partrule
+t0p t3p 47 dashrule t3p t5 47 dashrule t5 t6 47 dashrule t6 t7 47 dashrule
+t0p t3p 48 dashrule t3p t5 48 dashrule t5 t6 48 dashrule t6 t7 48 dashrule
+t0p t5 49 partrule t5 t6 49 partrule t6 t7 49 partrule
+t4p t6 50 partrule t6 t7 50 partrule
+t0p 52 46 vpartrule
+t3p 49 46 vpartrule
+t5 50 46 vpartrule
+t4p 50 49 vpartrule
+t5p 54 50 vpartrule
+0 t5p 52 partrule t5p t6 52 partrule t6 t7 52 partrule
+s8b setfont
+(10)82 36 tshow
+(10)408 36 tshow
+430 36 parens
+s8 setfont
+(Add amounts in columns (c) and (d) and enter here)96 36 398 tlshow
+s8b setfont
+(11)82 37 tshow
+(11)488 37 tshow
+s8 setfont
+(Combine amounts in column (c) and (d), line 10, and enter net income or (loss)) 96 37 478 tlshow
+s8b setfont
+(12) 82 38 tshow
+(12) 488 38 tshow
+510 38 parens
+s8 setfont
+(Additional first-year depreciation) 96 38 478 tlshow
+s8b setfont
+(13) 82 40 tshow
+(13) 488 40 tshow
+s8c setfont
+(Total Partnership income or (loss). Combine lines 11 and 12. Enter here and include in line 18 below)96 40 478 tlshow
+s8b setfont
+(14) 82 44 tshow
+(14) 408 44 tshow
+430 44 parens
+s8 setfont
+(Add amounts in columns (c) and (d) and enter here)96 44 398 tlshow
+s8b setfont
+(15) 82 45 tshow
+(15) 488 46 tshow
+s8 setfont
+(Total estate or trust income or (loss). Combine amounts in columns (c) and (d), line 14. Enter)96 45 tshow
+(here and include in line 18 below)96 46 478 tlshow
+s8b setfont
+(16) 82 50 tshow
+(16) 408 50 tshow
+430 50 parens
+s8 setfont
+(Add amount in columns (c) and (d) and enter here)96 50 398 tlshow
+s8b setfont
+(17) 82 51 tshow
+(17) 488 52 tshow
+s8 setfont
+(Total small business corporation income or (loss). Combine amounts in columns (c) and (d),)96 51 tshow
+(line 16. Enter here and include in line 18 below)96 52 478 tlshow
+(Partnerships)64 top 450 sub vshow
+(Estates or) 56 top 536 sub vshow
+(Trusts)68 top 529 sub vshow
+(Small Business)56 top 618 sub vshow
+(Corporations)68 top 612 sub vshow
+
+(Part IV) leftmar top 637 sub bbox
+
+0 t6 54 partrule t6 t7 54 partrule
+t4p 56 54 vpartrule
+t5  56 54 vpartrule
+s8b setfont
+(18)leftmar 54 tshow
+(18) 488 54 tshow
+s8b setfont
+(TOTAL)64 54 tshow
+s8 setfont
+(income or (loss). Combine lines 4, 9, 13, 15, and 17. Enter here and on Form 1040, line 18.)94 54 tshow
+s8b setfont
+(19)leftmar 56 tshow
+(19)408 56 tshow
+s8 setfont
+(Enter your share of gross farming and fishing income applicable to Parts II and III.)64 56 tshow
+506 top 670 sub 558 top 650 sub hashbox 
+(q1x) 558 def
+(q1y) top 670 sub def
+(q2x) 580 def
+(q2y) top 650 sub def
+gsave
+newpath q1x q1y moveto q2x q1y lineto q2x q2y lineto q1x q2y lineto closepath
+fill
+1 setgray
+s14b setfont
+564 q1y 5 add moveto (E)show
+grestore
+grestore
+
+showpage

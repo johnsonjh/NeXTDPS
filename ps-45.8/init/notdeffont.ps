@@ -1,0 +1,38 @@
+% notdeffont.ps
+% last edit: taft - Tue Nov 14 13:09:55 1989
+% last edit: Bill McCoy: Thu Aug 25 09:50:49 PDT 1988
+
+% Copyright (c) 1988, '89 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% NotDefFont and NotDefEncoding
+
+setrom
+256 array dup 0 1 255 {/.notdef put dup} for pop
+
+userdict /EncodingDirectory get exch /NotDefEncoding exch put
+
+
+9 dict dup begin
+
+/FontType 3 def
+/FontMatrix matrix def
+/Encoding /NotDefEncoding findencoding def
+/CDevProc {11 {pop} repeat 1 0 0 0 1 1 0 -1 0.5 1} def
+/BuildChar {pop pop 1 0 0 0 1 1 0 -1 0.5 1 setcachedevice2} def
+/FontBBox [-1 -1 2 2] def             % very generous
+/FontName /NotDefFont def
+
+end
+/NotDefFont exch definefont pop
+setram

@@ -1,0 +1,155 @@
+
+%
+%	service.ps
+%
+%	CONFIDENTIAL
+%	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+%	All Rights Reserved.
+%
+%	This file contains the operators that make an
+%	ordinary PostScript interpreter into a fierce
+%	window server.  The most important operator
+%	is becomeserver, which runs the full window
+%	server.  It is usually invoked from the -e
+%	option to the server.
+%	There is also the ooserver operator, which
+%	runs the window server but does not dispatch
+%	events.  Because events are currently entered
+%	into the low level queue by a signal handler,
+%	using ooserver can be useful for debugging.
+%
+%
+%	Created: leo
+%
+%	Modified:
+%	26Jan88 Leo  Call defaultDesktop
+%	24Apr88 Leo  Remove newdev
+%	09Jul88 Leo  Mostly removed for DPS
+%	19Sep88 Leo  Mach IPC
+%	04Oct88 Leo  kludge for setting windowdevice
+%	17Jan89 Jack clean change log, add dictstack stuff to contextExecutive
+%	04Feb89 Leo  Flip-flop by Adobe, remove setdictstack
+%	11Jun89 Leo  Added setobjectformat
+%	17Jun89 Leo  Added 0 vmreclaim
+%	27Sep89 Ted  Added loaddrivers in windowserver code
+%	03Oct89 Ted  Added customized /start from unixmain.ps in init package
+%	11Dec89 Ted  Removed loaddrivers for loading before InitMouseEvents.
+%		     Eventually will separate cursor drivers.
+%	2Apr90  Jack bind contextExecutive so disableinterrupt known at runtime
+%	2Apr90  Jack bind contextExecutive so disableinterrupt known at runtime
+%	26Jul90 Terry Removed nextquit, outputserver, start.
+
+nextdict begin
+
+%
+% contextExecutive
+% executes stdin repeatedly until it returns an end-of-file.
+%
+/contextExecutive {
+    /execStream (%stdin) (r) file def		% Record that for later
+%   mark systemdict shareddict userdict setdictstack % get our dict in there!
+    {
+	{
+	    {
+		{ execStream cvx exec } stopped
+		% The above will return when either the stream terminates
+		% or an error occurred.
+		% Execute first proc on error, second on normal exit
+		{ disableinterrupt handleerror clearinterrupt }
+		{ exit }
+		ifelse
+	    }  bind loop
+	} stopped 
+	% The outer stopped context that we just ended is used to 
+	% catch errors that may have occurred in the execution of
+	% handleerror, which will escape to this level if they
+	% occurred.  We throw those errors away and return to 
+	% executing the string.  If there was no error, we exit
+	% as intended.
+	not { exit } if
+    } loop
+    quit % If we exit the outer loop, this context is dust
+} bind def
+
+%
+% eventscontext <pscontextid>
+% creates an exec state which will execute
+% the initevents operator and then loop on
+% a getevents operator.
+% It will never terminate.
+%
+/eventscontext {
+	mark
+	{
+		true setshared
+		nextdict /eventID currentcontext put
+		false setshared
+		0 setobjectformat
+		false setwriteblock
+		initevents
+		{
+			{ getevents } stopped
+			{ handleerror } if
+		} loop
+	}
+	fork	% <pscontext id>
+	dup detach
+} def
+
+/defaultDesktop {
+	gsave
+	nextdict /workspaceWindow
+	0 currentwindowbounds Nonretained window put
+	nextdict /deskWin workspaceWindow put
+	0 workspaceWindow setowner
+	workspaceWindow windowdeviceround
+	0.33333 setgray workspaceWindow setexposurecolor
+	0 workspaceWindow seteventmask
+	false workspaceWindow setsendexposed
+	-2147483648 workspaceWindow setwindowlevel	% 09Feb90 Dave.
+	Below 0 workspaceWindow orderwindow
+	grestore
+} def
+
+/windowserver {
+    {
+	0 setobjectformat
+	0 vmreclaim
+	% This creates the subcontext to dispatch events, and runs it
+	eventscontext yield
+	% Create the gray background window
+	defaultDesktop
+	% This one doesn't return 'til termlistener is called;
+	% it listens for and accepts new connections, and makes
+	% contexts for them.
+	true setshared
+	nextdict /listenerID currentcontext put
+	false setshared
+	0 setobjectformat
+	listener
+ 	termevents % Kill event stuff if we're on the way out
+ 	systemdict /quit get exec
+    }
+    stopped
+    { handleerror }
+    if
+} def
+
+% Leo 11Jun89 Allow us to cache object formats in the schedulercontext record.
+/setobjectformat {
+    % Putting one here in nextdict overrides defaults one in systemdict
+    dup systemdict /setobjectformat get exec
+    setnextobjectformat
+} def
+
+% Printer Ops - first establish defaults in statusdict, userdict
+userdict /#copies 1 put
+
+% Stubs for large printing procedures
+/NXInitPrint {(/usr/lib/NextStep/printing.ps)run } def
+/NeXTLaser-300		{NXInitPrint NeXTLaser-300} def
+/NeXTLaser-400		{NXInitPrint NeXTLaser-400} def
+/NeXTMegaPixelDisplay	{NXInitPrint NeXTMegaPixelDisplay} def
+
+end % nextdict
+

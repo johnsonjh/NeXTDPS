@@ -1,0 +1,147 @@
+.TH PSCAT 1 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: pscat.1p,v 2.2 87/11/17 16:47:14 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+pscat \- convert C/A/T files to P\s-2OST\s+2S\s-2CRIPT\s+2 format
+.SH SYNOPSIS
+.B pscat
+[
+.BI \-F fonttable
+] [
+.BI \-i prologuefile
+] [
+.BI \-l paperlength
+] [
+.BI \-x xoffset
+] [
+.BI \-y yoffset
+] [
+.I file
+]
+.SH DESCRIPTION
+.I pscat
+converts C/A/T format
+.IR file 
+(i.e., as produced by the original
+.RI [ o ] troff (1)),
+to \*(PS format on the standard output.  If no
+.I file
+argument is given, the standard input is used.
+The average user will probably be happy using 
+.IR ptroff (1),
+but explicit use of 
+.I pscat
+gives more control.
+.sp
+Page offset distances and the page length 
+are specified by giving a fixed-point real number optionally 
+followed by a units measure.  For example, 1in means one inch, 15mm means 
+fifteen millimeters.  If no units are indicated, points (72 to the inch) 
+are used.
+The options are:
+.TP
+.BI \-F " fonttable"
+specifies a font correspondence table for use by the converter.
+(The default is usually
+.I Times.ct
+where the mounted fonts are:
+.BR R =Times-Roman, 
+.BR I =Times-Italic, 
+.BR B =Times-Bold, 
+and
+.BR S =Symbol.
+Note that 
+.I troff
+should be invoked with an appropriate 
+.B \-F 
+switch and explicit ``.fp''
+commands.)
+.TP
+.BI \-i " prologuefile"
+specifies a file to be incorporated as the \*(PS prologue, otherwise
+the default prologue will be used (see below).
+.TP
+.BI \-l " pagelength"
+specifies the page length to use when splitting the
+C/A/T file into \*(PS pages.  The default is 11in.
+Units are described above.
+.TP
+.BI \-x " xoffset"
+moves the output 
+.I xoffset
+to the right on the paper.  The default is 0.
+Units are described above.
+.TP
+.BI \-y " yoffset"
+moves the output
+.I yoffset
+downward on the paper.  The default is 0.  Different versions of 
+.I troff
+have different notions of where 
+the top edge of the paper really is, so careful setting of the 
+.B \-y 
+switch may be necessary.
+Units are described above.
+.SH ENVIRONMENT
+.TP
+PSLIBDIR
+path name of a directory to use instead of
+XPSLIBDIRX for pscat prologue and font metric files.
+.SH FILES
+.TP 2.2i
+XTROFFFONTDIRX/*.ct
+character correspondence tables (built by 
+.IR pscatmap (8))
+mapping C/A/T codes to \*(PS fonts and characters or other actions.
+.TP
+XPSLIBDIRX/pscat.pro
+default \*(PS prologue.
+.SH "SEE ALSO"
+transcript(1), ptroff(1), psfonts(1), pscatmap(8).
+.br
+4.2bsd: troff(1).
+.br
+System V: otroff(1), \fIDocumenter's Workbench\fP.
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH BUGS
+Because of the character mapping tables used, arbitrary
+use of the ``.fp'' troff directive in will usually produce the
+wrong results.  The 
+.I family.head
+files which 
+.I ptroff
+feeds to 
+.I troff
+contain ``.fp'' commands appropriate for a given font family.
+Users must build and reference correct tables with
+.IR pscatmap (8)
+for non-standard ``.fp'' combinations to work.
+
+The mapping from the default troff fonts to 
+Adobe's Times-Roman will not look good.  \*(PS font width 
+tables (and ``.fp'' commands) should be used explicitly in troff.
+
+.I pscat
+determines where page breaks occur by assuming that each page is exactly
+the specified length.  There is no indication of page boundaries
+in the C/A/T file, so improper use of the 
+.B \-l 
+option will lead to undesirable results.  Some 
+.IR troff 
+macro packages 
+generate cut-marks at logical edges of the page which may or
+may not get imaged on a \*(PS device.
+Careful use of the 
+.B \-x 
+and 
+.B \-y 
+options may help.
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+Times is a registered trademark of Linotype.
+.br
+Documenter's Workbench is a trademark of AT&T Technologies.

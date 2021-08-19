@@ -1,0 +1,660 @@
+
+
+
+
+
+
+
+
+
+                            TRANSCRIPT 2.1
+                      Installation Instructions
+
+
+                      Adobe Systems Incorporated
+
+                         1585 Charleston Road
+                            P.O. Box 7900
+                    Mountain View, CA   94309-7900
+
+
+
+
+
+_1.  _I_n_s_t_a_l_l_a_t_i_o_n
+
+     This document is the TRANSCRIPT installation guide.  It is, of
+necessity, fairly detailed and assumes that the reader/installer has a
+working knowledge of UNIX system organization (e.g., the locations and
+contents of a few system files, etc.).  On almost all UNIX systems,
+installation of the TRANSCRIPT package will require super-user (root)
+privileges.  Please read these instructions thoroughly before instal-
+ling TRANSCRIPT.
+
+     If the reader has no experience with the UNIX line printer spool-
+ing system (lpr/lpd/printcap on 4.2BSD, lp/lpsched on System V),
+please take the time to read the documents and man pages for the
+spooling system.
+
+On 4.2BSD systems, look at lpr(1), lpq(1), lprm(1), printcap(5),
+lpc(8), lpd(8), and pac(8) and _4._2_B_S_D _L_i_n_e _P_r_i_n_t_e_r _S_p_o_o_l_e_r _M_a_n_u_a_l in
+volume 2C of the UNIX documentation.
+
+On System V systems, look at lp(1), lpstat(1), lpadmin(1M),
+lpsched(1M), accept(1M), enable(1) and _U_N_I_X _S_y_s_t_e_m _V _L_i_n_e _P_r_i_n_t_e_r
+_S_p_o_o_l_i_n_g _U_t_i_l_i_t_i_e_s.
+
+
+
+
+
+POSTSCRIPT is a registered trademark of Adobe Systems Incorporated.
+TRANSCRIPT is a trademark of Adobe Systems Incorporated.
+UNIX is a trademark of AT&T Bell Laboratories.
+Documenter's Workbench is a trademark of AT&T Technologies.
+Apple and LaserWriter are trademarks of Apple Computer.
+QMS and LaserGrafix are registered trademarks of QMS Incorporated.
+Dataproducts is a registered trademark of Dataproducts Incorporated.
+Linotype and Linotronic are trademarks of LinoType.
+VAX and Ultrix are trademarks of Digital Equipment Corporation.
+Sun Workstation is a trademark of Sun Microsystems Incorporated.
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 2 -
+
+
+Times and Helvetica are registered trademarks of Linotype.
+Scribe and UNILOGIC are registered trademarks of UNILOGIC, Ltd.
+Diablo Systems is a Xerox company.
+Tektronix is a registered trademark of Tektronix, Inc.
+
+_1._1.  _U_n_l_o_a_d _a_n_d _C_o_n_f_i_g_u_r_e
+
+     Unload the contents of the distribution tape or diskettes.  To do
+this, _c_d to some directory of your choice.  Make sure the the current
+directory (.) is on your search path.  If you have a _t_a_r tape, type
+
+        tar x
+
+If you have received a _c_p_i_o diskette, type
+
+        cpio -iBd </dev/rdiskette
+
+This will create a master directory called _t_r_a_n_s_c_r_i_p_t, with subdirec-
+tories as noted in the TRANSCRIPT overview.  _c_d to the _t_r_a_n_s_c_r_i_p_t
+directory.  If you are on a 4.2BSD system, run the "bsd" shell script
+by typing
+
+        bsd
+
+If you are on a System V system, run the "sysv" shell script by typing
+
+        sysv
+
+These rename a few files that are necessary for installation on those
+systems.
+
+_P_l_e_a_s_e _N_o_t_e: If you have received the 3B Binary distribution of TRAN-
+SCRIPT and are installing TRANSCRIPT on a machine _w_i_t_h_o_u_t a "C" com-
+piler and "Make", go immediately to section 1.3 of this document!
+
+     Carefully examine the files "config" and "printer" in the top-
+level directory and make whatever modifications you see fit. These two
+files in the top-level directory determine where and how the TRAN-
+SCRIPT software will be installed.  The software and Makefiles
+included in this distribution have been configured so that you can
+change where the files reside for installation. There should be enough
+information in those files to help you determine how you might want to
+change them.  In the default distribution configuration, the user-
+executable binaries and shell scripts go in /_u_s_r/_b_i_n, the library
+files goes in /_u_s_r/_l_i_b/_p_s, and manual pages go under /_u_s_r/_m_a_n/_m_a_n?.
+On 4.2BSD systems, the spool directories are under /_u_s_r/_s_p_o_o_l, and the
+printer log and accounting files are in /_u_s_r/_a_d_m.  On System V sys-
+tems, the log files go under /_u_s_r/_s_p_o_o_l/_l_p/_t_r_a_n_s_c_r_i_p_t.
+
+     If you decide you want other locations, you must edit the "con-
+fig" and "printer" files to change the directory names. Under 4.2BSD,
+another possibility is to change the file locations by using symbolic
+links. If you would prefer that the actual files be located under
+/usr/local/lib/transcript, you can do the following:
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 3 -
+
+
+
+        ln -s /usr/local/lib/transcript /usr/lib/ps
+
+
+     _W_a_r_n_i_n_g _a_b_o_u_t _f_o_n_t _i_n_s_t_a_l_l_a_t_i_o_n: If the entire set of _t_r_o_f_f and
+_d_i_t_r_o_f_f fonts is installed, the font data bases will take up approxi-
+mately 1.3 MB of disk space and 2700 hard links.  It can also take a
+couple hours to install on a slow system.  Set DITROFFFONTS,
+TROFFFONTS and FONTFAMILIES carefully.  There is more info about how
+to estimate the disk space an installation will take in the Appendix
+on font installation.
+
+_1._2.  _S_o_f_t_w_a_r_e _I_n_s_t_a_l_l_a_t_i_o_n
+
+     Now configure and install the TRANSCRIPT software.  (You only do
+this once on each host running TRANSCRIPT.)  In the main directory, do
+a
+
+        make programs
+
+This will take some time.  It will configure the TRANSCRIPT software
+for your site.  If this goes smoothly, you can then _b_e_c_o_m_e _s_u_p_e_r-_u_s_e_r
+and do a
+
+        make install
+
+This also takes time.  This installs the programs, library files, and
+manual pages in the system directories according to the settings in
+the "config" file, as noted above.
+
+     _N._B.  The installation procedure for the _d_i_t_r_o_f_f (and
+Documenter's Workbench) font metrics files requires a program called
+_m_a_k_e_d_e_v which is part of the ditroff distribution. Since not all sys-
+tems have ditroff, this section of the installation may be avoided by
+assigning DITROFFFONTS=0 in the "config" file.  Moreover, the
+Documenter's Workbench binary distribution for AT&T 3B2 computers does
+not contain the makedev program.  (This is a glaring error on the part
+of AT&T; contact your AT&T service representative to obtain a copy of
+the makedev program!)
+
+     The TRANSCRIPT software is now installed.  The next step is to
+install a printer into the spooling system.
+
+_1._3.  _B_i_n_a_r_y _I_n_s_t_a_l_l_a_t_i_o_n _o_n _a _n_o_n-_p_r_o_g_r_a_m_m_e_r'_s _3_B
+
+     The binary distribution for System V AT&T 3B2/3B5 has additional
+structure for those with a minimal UNIX system configuration.  If you
+do not have a "C" compiler and Make, you can install the complete
+binaries.  In this configuration, however, you do not have a choice as
+to where the various binary and library files will be installed.  This
+configuration does not allow TRANSCRIPT to be configured to use other
+than the default directories as specified in the distributed "config"
+file.  To install these programs, become super-user and type
+
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 4 -
+
+
+
+        etc/3Bbin
+
+from the top-level TRANSCRIPT directory. This will install the TRAN-
+SCRIPT binaries.
+
+_1._4.  _H_a_r_d_w_a_r_e _S_e_t_u_p _a_n_d _C_o_n_f_i_g_u_r_a_t_i_o_n
+
+     Different kinds of POSTSCRIPT printers will have different com-
+munications interfaces and configuration needs.  For the most detailed
+description pertaining to your printer, please check the documentation
+available from the manufacturer.  The notes below were written with
+the Apple LaserWriter in mind, but apply to all existent POSTSCRIPT
+printers.
+
+     TRANSCRIPT wants to communicate with POSTSCRIPT printers over
+serial communications lines.  Pick a tty port on your host to connect
+to your printer and _d_i_s_a_b_l_e _t_h_e _g_e_t_t_y _o_n _t_h_a_t _l_i_n_e.  On 4.2BSD sys-
+tems, this entails editing the file /etc/ttys and doing a "kill -HUP
+1".  On System V systems, use _s_y_s_a_d_m _t_t_y_m_g_m_t or edit /etc/inittab and
+do a "kill -1 1".
+
+     One of the most frequent problems in setting up a POSTSCRIPT
+printer is getting the cabling right.  The 25-pin connector on the
+printer has a "DTE" type RS232 interface.  This means it can be con-
+nected directly to most hosts or modems with no signal reversals
+required.  Connecting to a terminal requires interposing a "null
+modem," which at a minimum involves reversing the Transmit Data and
+Receive Data signals. _N._B.  Some host computer RS232 interfaces are
+wired such that you will need to use a null modem also.  This is true
+of Sun Workstations, for example.  The Apple LaserWriter printer has a
+four position rotary switch.  (The positions are labeled _A_p_p_l_e_T_a_l_k,
+_S_p_e_c_i_a_l, _9_6_0_0, and _1_2_0_0.) This switch should be turned to the "9600"
+position _w_h_i_l_e _t_h_e _p_r_i_n_t_e_r _i_s _p_o_w_e_r_e_d _o_f_f.  Once in this position, the
+power-on page (printed automatically by the LaserWriter printer
+shortly after it has been powered on) will show one tick-mark on the X
+axis of the line graph (indicating the switch position), and the mid-
+dle bar-chart will have a bar labeled "25" extending up to a height
+labeled "9600" (indicating the communications parameters as set in the
+printer's persistent memory).
+
+     Other POSTSCRIPT printers have other power-on behavior, and all
+but the typesetters print a power-on page which displays their commun-
+ications settings.  Most printers support higher baud rates (e.g.,
+19200).  You may wish to use that setting on those printers.  Many
+printers also can support hardware DTR flow-control; you may want to
+use it if your UNIX system can support it.  See the documentation for
+the specific printer to determine its capabilities.  In order to
+change _a_n_y communications settings, you will need to change the spool-
+ing database for the printer (BSD: /etc/printcap, SysV: stty flags in
+mkprinter script), and also download an appropriate POSTSCRIPT job to
+the printer to change the printer settings (see the etc/setscc.ps file
+as an example).
+
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 5 -
+
+
+_1._5.  _U_N_I_X _S_p_o_o_l_e_r _C_o_n_f_i_g_u_r_a_t_i_o_n
+
+     Once the printer is cabled up, you must create the necessary UNIX
+system references to it. Most of this process can be accomplished
+automatically by the "_m_k_p_r_i_n_t_e_r" shell script in the etc/ directory of
+the TRANSCRIPT distribution.  Decide on a name for this printer.
+While your first POSTSCRIPT printer might be called "ps", or "qms", or
+"lw", or "dp", plan for the day when you will have more than one
+POSTSCRIPT printer available.  At Adobe, we name our printers after
+typefaces.  On 4.2BSD systems, _a_t _l_e_a_s_t _o_n_e POSTSCRIPT printer at your
+site should have the alias "PostScript", as some of the TRANSCRIPT
+software will spool to this printer as the last-ditch default.  On
+System V systems, at least one POSTSCRIPT printer at your site should
+belong to a printer _c_l_a_s_s named "PostScript" for the same reason.  For
+the sake of these examples, our printer will be called _a_l_e_p_h.  Make
+sure you have edited the top-level files named "config" and "printer"
+as the values in these files are important for printer installation.
+Make sure you determine the SPOOLUSER and SPOOLGROUP values correctly
+for your site.  At Adobe and many other 4.2BSD UNIX sites, these are
+both daemon, but the 4.2BSD spooler documentation talks about user
+daemon and group spooling.  Check the owner and group membership of
+the program /usr/lib/lpd and already existing printer spooling direc-
+tories on your system to help find out what these should be.  For Sys-
+tem V systems, these are typically lp and bin respectively, check the
+owner and group of the directory /usr/spool/lp and /usr/bin/lp.
+
+     When you have plugged the printer into a tty port (say _t_t_y_1_1), _c_d
+to the TRANSCRIPT "etc/" directory, _b_e_c_o_m_e _s_u_p_e_r-_u_s_e_r and type
+
+     mkprinter _a_l_e_p_h _t_t_y_1_1
+
+The first argument is the name you want the printer to be known by in
+all spooling requests, the second is the name of the device (under
+/dev) for the tty port you plugged the RS232 line into.  This will set
+up a hard link of /dev/tty11 to /dev/aleph, so that the printer can be
+referenced symbolically.  Should you chose to move the printer to
+another tty port, you need only change the link, and not the various
+files that reference the printer.  The _m_k_p_r_i_n_t_e_r script will set the
+access permissions to be those necessary for the spooler to access the
+port.  It will also search /etc/ttys or /etc/inittab for an entry for
+this device, to remind you about removing any getty/login from that
+line.
+
+_N_o_t_e: There may be some programs used by _m_k_p_r_i_n_t_e_r that are not on the
+search path.  You may need to find these programs, change your search
+path to include the appropriate directories, and run _m_k_p_r_i_n_t_e_r again.
+
+     The _m_k_p_r_i_n_t_e_r script also sets up the spooling directories,
+printer log files, and (on 4.2BSD) printer accounting files.
+_m_k_p_r_i_n_t_e_r is a rather brave program and attempts to do a lot of opera-
+tions at once.  At the end of the script, it does an _l_s of the files
+and directories it has created.
+
+     On 4.2BSD systems, _m_k_p_r_i_n_t_e_r creates a printcap entry called
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 6 -
+
+
+"_p_r_i_n_t_c_a_p._n_e_w" for use with this printer.  The /_e_t_c/_p_r_i_n_t_c_a_p file
+(described in printcap(5)) has functional descriptions of all printers
+known to the 4.2BSD print spooler, including printers accessible over
+a network.  The file _e_t_c/_p_r_i_n_t_c_a_p._p_r_o_t_o in this distribution contains
+a sample printcap entry for a POSTSCRIPT printer run by TRANSCRIPT
+software; _e_t_c/_p_r_i_n_t_c_a_p._n_o_t_e_s contains some comments about this entry,
+as well as a sample printcap entry for a remote networked printer.
+Examine the file _p_r_i_n_t_c_a_p._n_e_w which was created by _m_k_p_r_i_n_t_e_r and
+install it in /etc/printcap (usually just append it), when you are
+satisfied with the entries.
+
+     On System V systems, _m_k_p_r_i_n_t_e_r will create and install a printer
+interface program for your printer.  It runs the lpshut, lpadmin, and
+lpsched programs to install the spooler interface for your printer.
+
+     You will want to do a _m_k_p_r_i_n_t_e_r for each POSTSCRIPT printer you
+install on your system.
+
+_2.  _I_n_t_e_r_a_c_t_i_v_e _U_s_e _o_f _a _P_O_S_T_S_C_R_I_P_T _p_r_i_n_t_e_r.
+
+     POSTSCRIPT printers have a built-in interactive "executive" mode.
+This mode is often useful for setting persistent printer parameters.
+On 4.2BSD systems, you can use the _t_i_p program to talk to a printer.
+You can add the following entry to your _t_i_p host tables (usually in
+/_e_t_c/_r_e_m_o_t_e).
+
+        aleph:el=^C^D^S^Q^U:br#9600:dv=/dev/aleph:pn=:
+
+(See the file etc/remote.sample in this distribution and the manual
+pages for remote(5), and tip(1) for more information.) You should then
+be able to say
+
+        tip aleph
+
+to the shell. On System V, you can use _c_u to access the tty port.
+Initially, the printer will not echo things you type.  In order to get
+the printer to echo (and perform simple line-editing functions), you
+should carefully type
+
+        executive
+
+followed by a carriage return.  You should get a short message and a
+"PS>" prompt; this is the interactive POSTSCRIPT interpreter.  You can
+then type "showpage" followed by a carriage return to get the printer
+to kick out a (blank) sheet of paper, and so on.  To get out of the
+POSTSCRIPT executive, type _q_u_i_t or a control-D; then type "~." to get
+out of _t_i_p or _c_u.
+
+_3.  _T_r_o_u_b_l_e_s_h_o_o_t_i_n_g
+
+     Occasionally, the spooler or printer may get "hung", that is,
+stopped in such a way that it will not recover by itself.  For the
+sake of example, say it's _a_l_e_p_h again.  The first thing to do is check
+the queue and the last few lines of the printer log file.  If you
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 7 -
+
+
+really think it's hung (e.g., the spooler says the printer is busy,
+but no lights are flashing) try power-cycling the printer.  This is
+often the only thing necessary to kill off the hung processes and
+start up printing again.  Please wait at least 30 seconds for the
+software to notice these events before trying something more drastic.
+
+     In some circumstances, it may be necessary to disable printing
+and kill off processes.  To do this, follow these steps:
+
+_3._1.  _4._2_B_S_D _S_y_s_t_e_m_s
+
+1.   Make sure you are logged on to the system that is directly con-
+     nected to the printer, not a remote host.
+
+2.   Turn off printing by doing
+
+             lpc stop _a_l_e_p_h
+
+
+3.   Determine which processes are still active for this printer and
+     kill them.  Look at the process id (pid) in the "lock" file (in
+     the printer's spooling directory) and do
+
+             ps aux | fgrep daemon
+
+     (or SPOOLUSER if it isn't daemon) to help here. Kill them with
+     the -9 signal, which they can't ignore.
+
+4.   Check the status of the printer now:
+
+             lpc status _a_l_e_p_h
+
+     should report "no daemon present".
+
+5.   Now you can restart printing with
+
+             lpc start _a_l_e_p_h
+
+
+6.   If this doesn't do the trick, the printer itself may be hung.
+     Repeat the above steps except, after you kill off the processes
+     and before you do the "start", power-cycle the printer, waiting
+     until it is fully operational (the green light stops blinking and
+     the printer prints the power-on page).
+
+Occasionally on 4.2BSD, doing an _l_p_r_m or _l_p_c _a_b_o_r_t on the currently
+active (i.e., printing) job will result in the printer daemon going
+away and not restarting for the next job in the queue.  This appears
+to be a problem in lpd (not in the TRANSCRIPT filters).  The "fix" for
+this is simple, but may take some user education.  The command
+
+        lpc restart _a_l_e_p_h
+
+is available to all users (i.e., it is not a privileged command), and
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 8 -
+
+
+should be used under these circumstances.  The lpc program is often
+not on the user's search path, so an absolute path to it must be
+typed.  For example:
+
+        /etc/lpc restart _a_l_e_p_h
+
+
+A related bug exists in the 4.2BSD spooler (as we received it) which,
+on removing the active job, results in the error message:
+
+        /usr/lib/lpd: _h_o_s_t_n_a_m_e: unknown printer
+        lprm: _a_l_e_p_h: cannot restart printer daemon
+
+If you have 4.2 UNIX sources, this can be fixed with an edit to
+rmjob.c (in /usr/src/usr.lib/lpr): change the string
+"startdaemon(host)" to "startdaemon(printer)".
+
+In any case, an "lpc restart _a_l_e_p_h" will restart the printer.
+
+_3._2.  _S_y_s_t_e_m _V
+
+1.   Turn off printing by doing
+
+             disable -c _a_l_e_p_h
+
+
+2.   Determine which processes are still active for this printer and
+     kill them.  Do
+
+             ps -ef | fgrep lp
+
+     (or SPOOLUSER if it isn't lp) to help here. Kill them with the -9
+     signal, which they can't ignore.
+
+3.   Check the printer status:
+
+             lpstat -t
+             ps -ef | fgrep lp
+
+
+4.   Restart printing with
+
+             enable _a_l_e_p_h
+
+
+_4.  _T_e_s_t _F_i_l_e_s
+
+     The _t_e_s_t subdirectory includes some sample POSTSCRIPT print
+files, as well as some files in other formats to exercise various
+TRANSCRIPT filters.  Once you have fully installed the printer and
+software, you can try out some of these files.  See the README file in
+that directory for more information.
+
+     The files in the _c_o_o_k_b_o_o_k directory are more examples of
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 9 -
+
+
+interesting print files from the POSTSCRIPT cookbook.  See the README
+file there for more information.
+
+_5.  _P_r_i_n_t_e_r _P_r_a_g_m_a_t_i_c_s
+
+     Each type of POSTSCRIPT printer has its own special user inter-
+face for choosing communications parameters, paper trays and paper
+handling, printer error reporting, etc.  "Supplements" to the
+_P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l which detail the specifics of
+POSTSCRIPT printers are be available from your printer dealer or the
+manufacturer or from Adobe Systems.
+
+     Most POSTSCRIPT printers have some way of letting the outside
+world know what they are doing.  They have flashing lights, or LED
+displays to let a viewer know that the printer is busy processing a
+job or idle or waiting for more input.  The Apple LaserWriter has
+three small lights on its front panel just below the Apple logo.
+These lights are used by the printing engine and the controlling
+POSTSCRIPT software to help indicate what the printer is doing in
+various ways.  The lights are green (with a semi-circular pictogram),
+yellow (with a paper-out picture), and red (with a zig-zag jam pic-
+ture).  The following table describes the meanings of various state of
+these lights:
+
+No Lights             printer off or no toner cartridge inside
+Solid Green           idle and awaiting a job
+Solid Yellow          out of paper, no paper tray, awaiting manual
+feed
+Solid Red             paper misfeed or jam needs to be cleared
+Flashing Green        warming up or reinitializing printer hardware
+interface
+Green & 1 yellow flashbusy computing - executing POSTSCRIPT
+Green & 2 yellow flashesexecution in progress, waiting for more input
+
+_6.  _A_P_P_E_N_D_I_X: _F_o_n_t _I_n_s_t_a_l_l_a_t_i_o_n
+
+     This section is intended to help the TRANSCRIPT installer to
+estimate how much disk space and how many hard links a font installa-
+tion will consume.  There are 13 font families in this release, and 4
+font faces within each family.
+
+_6._1.  _t_r_o_f_f
+
+     Each _t_r_o_f_f font family takes approximately 20 KB of disk space,
+and 9 hard links. For all font families, this is 13*20=260 KB.  Note
+that if you don't want to install any of these fonts, set TROFFFONTS=0
+in the _c_o_n_f_i_g file before the installation.
+
+_6._2.  _d_i_t_r_o_f_f (_o_r _t_r_o_f_f _i_n _D_o_c_u_m_e_n_t_e_r'_s _W_o_r_k_b_e_n_c_h)
+
+     This is a little more complex, since the information for each
+font can appear both in the main (Times) font, and in all the other
+font family directories.  "Font families" are different from "font
+family directories".  Installing a "font family" puts that font in the
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 10 -
+
+
+main _d_i_t_r_o_f_f font data base, with its unique two-letter _d_i_t_r_o_f_f font
+name.  Installing the directory for that font family creates a direc-
+tory that can be used with the psroff "-F" option to set the default
+font family for a document.  In the _c_o_n_f_i_g file, the FONTFAMILIES
+variable controls which fonts are installed, while the DITROFFDIRS
+variable controls whether font family directories will be created.
+
+     Each _d_i_t_r_o_f_f font family uses approximately 70 KB of disk space:
+35 KB for the font information, and 35 for the font family directory.
+The usage formula is:
+
+        <Font families>*35 + <Font family directories>*35
+
+For all font families, this is 13*35+13*35=910 KB.  Note that if you
+don't want to install any of these fonts, set DITROFFFONTS=0 in the
+_c_o_n_f_i_g file before the installation.
+
+     16 hard links (inodes) are used for each font family, and fonts
+are installed in _a_l_l font family directories using hard links.  The
+usage formula is:
+
+        <Font family directories> * <Font families> * 16
+
+For all font families, this is 13*13*16=2704 inodes used.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           24 July 1987
+
+

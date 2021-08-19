@@ -1,0 +1,64 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Repeated Lines     Number: 5
+%-----------------------------------------------------------------------------
+%
+					    % This program prints ``graph
+					    % paper'' by repeatedly drawing
+					    % horizontal and vertical lines.
+					    % Each line is moved into place by
+					    % a ``translate'' operation. Since
+					    % the construction of a grid is so
+					    % regular, the ``repeat'' operator
+					    % will come in handy.
+/inch {72 mul} def
+		  
+.25 setlinewidth                            % Each line will be 1/4 of a point
+					    % wide.
+2 setlinecap                                % Set up projecting square end
+					    % caps for the lines to be drawn.
+					    % Each end cap will project half
+					    % the line width out from the end
+					    % of the path, or in this case,
+					    % will project out 1/8 of a point.
+					    % This projection will fill in the
+					    % extreme corners of the grid,
+					    % which with the simple repetition
+					    % used below, would have had small
+					    % square notches otherwise.
+gsave                                       % Remember the default coordinate
+					    % system.
+  2.125 inch 3.5 inch translate             % Move into position at the lower
+					    % left corner of the grid.
+  18                                        % The first argument for the
+					    % ``repeat'' operator is the
+					    % number of repetitions.
+    { newpath                               % The second argument is the
+	0 0 moveto                          % sequence of operations to be
+	0 4.25 inch lineto                  % repeated. This sequence must be
+      stroke                                % enclosed by braces. The code
+      0.25 inch 0 translate                 % here will draw a 4 1/4 inch
+					    % vertical line and translate 1/4
+					    % inch to the right to set up for
+					    % the next vertical line.
+    } repeat                                % The second argument is closed
+					    % with a right brace, and the
+					    % ``repeat'' operator executes.
+					    % The code within the braces will
+					    % be executed 18 times.
+grestore                                    % Now return to the default
+					    % coordinate system.
+								
+gsave
+  2.125 inch 3.5 inch translate             % Move into position at the lower
+					    % left corner again.
+  18
+    { newpath                               % This time, the code sequence
+	0 0 moveto                          % draws a 4 1/4 inch horizontal
+	4.25 inch 0 lineto                  % line and translates 1/4 inch
+      stroke                                % upward for the next horizontal
+      0 0.25 inch translate                 % line.
+    } repeat                                % This time, 18 horizontal lines
+					    % are drawn.
+grestore
+showpage

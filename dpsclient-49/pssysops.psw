@@ -1,0 +1,113 @@
+/* pssysops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSbind()
+	bind 
+endps
+
+defineps PScountdictstack( | int *n)
+	countdictstack n 
+endps
+
+defineps PScountexecstack( | int *n)
+	countexecstack n 
+endps
+
+defineps PScurrentdict()
+	currentdict 
+endps
+
+defineps PScurrentpacking( | boolean *b)
+	currentpacking b 
+endps
+
+defineps PScurrentshared( | boolean *b)
+	currentshared b 
+endps
+
+defineps PSdeviceinfo()
+	deviceinfo 
+endps
+
+defineps PSerrordict()
+	errordict 
+endps
+
+defineps PSexec()
+	exec 
+endps
+
+defineps PSprompt()
+	prompt 
+endps
+
+defineps PSquit()
+	quit 
+endps
+
+defineps PSrand()
+	rand 
+endps
+
+defineps PSrealtime( | int *i)
+	realtime i 
+endps
+
+defineps PSrestore()
+	restore 
+endps
+
+defineps PSrrand()
+	rrand 
+endps
+
+defineps PSrun(char *filename)
+	(filename) run 
+endps
+
+defineps PSsave()
+	save 
+endps
+
+defineps PSsetpacking(boolean b)
+	b setpacking 
+endps
+
+defineps PSsetshared(boolean b)
+	b setshared 
+endps
+
+defineps PSsrand()
+	srand 
+endps
+
+defineps PSstart()
+	start 
+endps
+
+defineps PStype()
+	type 
+endps
+
+defineps PSundef(char *name)
+	/name undef
+endps
+
+defineps PSusertime( | int *milliseconds)
+	usertime milliseconds 
+endps
+
+defineps PSversion(int bufsize | char buf[bufsize])
+	version buf
+endps
+
+defineps PSvmreclaim(int code)
+	code vmreclaim 
+endps
+
+defineps PSvmstatus( | int *level, *used, *maximum)
+	vmstatus maximum used level 
+endps
+

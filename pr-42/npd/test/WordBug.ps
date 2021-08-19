@@ -1,0 +1,216 @@
+%!
+/wpdict 120 dict def
+wpdict begin
+/bdef	{bind def} bind def
+
+/bflg	false def
+/Bfont	0 def
+/bon	false def
+
+/psz	0 def
+/_S	/show load def
+
+/bshow
+{ gsave
+   psz 30 div 0 rmoveto dup show
+  grestore
+  show
+} bdef
+
+/DUx	0 def
+/DUy	0 def
+/hscl	0 def
+
+/M
+{ moveto
+  2 mul -2 2
+  {	-2 roll
+	0 rmoveto
+	_S
+  } for
+} bdef
+
+/makeoutl
+{   dup /OutlineFlag known not
+    {	dup length 2 add dict begin
+	{ 1 index /FID ne { def }{ pop pop } ifelse
+	} forall
+	/UniqueID UniqueID 10000 add def
+	/PaintType PaintType 0 eq { 2 }{ PaintType } ifelse def
+	/StrokeWidth 15 def
+	/OutlineFlag true def
+	/OutlineFont currentdict end definefont
+    } if
+} bdef
+
+/nbuff	32 string def
+/orntsv	0 def
+/plen	0 def
+/pwid	0 def
+/picstr 1 string def
+
+/reencode
+{ dup FontDirectory exch known
+  { findfont }
+  {	dup nbuff cvs dup length 1 sub 0 exch getinterval
+	findfont begin
+	currentdict dup length dict begin
+	    { 1 index /FID ne {def} {pop pop} ifelse } forall
+	    /FontName exch def
+	    /Encoding WPencoding def
+	currentdict dup end end
+	/FontName get exch definefont
+  } ifelse
+} bdef
+
+/ron	false def
+/sflg	false def
+/slan	0 def
+
+/sshow
+{ save exch
+   gsave
+    psz 20 div dup neg rmoveto dup show
+   grestore
+   dup
+   save exch
+    Bfont setfont
+    1 setgray show
+   restore
+   currentfont makeoutl setfont show
+   currentpoint 3 -1 roll
+  restore moveto
+} bdef
+
+/Sx	0 def
+/Sy	0 def
+/Ux	0 def
+/Uy	0 def
+
+/WPencoding StandardEncoding 256 array copy def
+0 [ 127 /Aacute/Acircumflex/Adieresis/Agrave/Aring/Atilde/Ccedilla
+   /Delta/Eacute/Ecircumflex/Edieresis/Egrave/Eth/Gamma/Iacute/Icircumflex
+   /Idieresis/Igrave/Lambda/Ntilde/Oacute/Ocircumflex/Odieresis/Ograve
+   /Omega/Otilde/Phi/Pi/Psi/Scaron/Sigma/TeXtext32/Theta/Thorn
+  209 /Uacute/Ucircumflex/Udieresis/Ugrave/Upsilon/Xi/Yacute/Ydieresis
+   /Zcaron/aacute/acircumflex/adieresis/agrave/aring/atilde/brokenbar
+  228 /ccedilla/copyright/degree/divide
+  236 /dotlessj/eacute/ecircumflex/edieresis/egrave 242 /eth/ff/ffi
+  246 /ffl/iacute 252 /icircumflex/idieresis/igrave/logicalnot
+  1 /minus/mu/multiply/ntilde/oacute/ocircumflex/odieresis/ograve/onehalf
+   /onequarter/onesuperior/otilde/plusminus/registered/scaron/thorn
+   /threequarters/threesuperior/trademark/twosuperior/uacute/ucircumflex
+   /udieresis/ugrave/yacute/ydieresis/zcaron
+]
+{ dup type /nametype eq
+  {  WPencoding 2 index 2 index put
+     pop 1 add
+  }
+  {  exch pop
+  } ifelse
+} forall pop
+
+/_B	{/bflg true def
+	 sflg not {/_S /bshow load def /bon true def} if
+	} bdef
+/_b	{/bflg false def
+	 bon {/_S /show load def /bon false def} if
+	} bdef
+/_bd	{save} bdef
+/_bp	{save 2 setmiterlimit .06 .06 scale 0 0 moveto} bdef
+/_clr	{3 {255 div 3 1 roll} repeat
+	 ron
+	  {6 3 roll pop pop pop}
+	  {setrgbcolor} ifelse
+	} bdef
+/_cp	/closepath load def
+/_cw	{stroke initclip moveto 0 2 index rlineto 0 rlineto 0 exch neg rlineto
+    	clip newpath} bdef
+/_d	/setdash load def
+/_DU	{ currentpoint /DUy exch def /DUx exch def } bdef
+/_du	{gsave
+		currentpoint pop
+		DUx dup DUy moveto sub dup
+		(_) stringwidth pop div dup
+		floor cvi {(_) show} repeat
+		dup floor sub dup 0 gt
+		{gsave 1 scale (_) show grestore}{pop} ifelse
+		DUx DUy psz 10 div sub moveto
+		(_) stringwidth pop div dup
+		floor cvi {(_) show} repeat
+		dup floor sub dup 0 gt
+		{1 scale (_) show}{pop} ifelse
+	grestore} bdef
+/_ed	{restore} bdef
+/_ep	{showpage restore 0 0 moveto} bdef
+/_f	/eofill load def
+/_ff
+{ exch reencode exch
+  3 div dup /psz exch def
+  scalefont dup /Bfont exch def setfont
+} bdef
+
+/_ffs
+{ /slan exch 10 div def /hscl exch 1000 div def
+  /psz exch 3 div def
+  [ psz hscl mul 0 slan dup sin exch cos div psz mul psz 0 0 ]
+  exch reencode exch makefont dup /Bfont exch def setfont
+} bdef
+
+/_g	/setgray load def
+/_i	{gsave
+		dup /picstr exch 7 add 8 idiv string def			3 1 roll translate dup 1 scale
+		dup 1 1 [5 -1 roll 0 0 1 0 0]			{currentfile picstr readhexstring pop} image		grestore} bdef
+/_l	/lineto load def
+/_lr	/rlineto load def
+/_m	/moveto load def
+/_O	{currentfont makeoutl setfont} bdef
+/_o	{Bfont setfont} bdef
+/_ornt	{/pwid exch def /plen exch def
+	 orntsv 1 eq {0 pwid translate -90 rotate} if
+	 orntsv 2 eq {pwid plen translate 180 rotate} if
+	 orntsv 3 eq {plen 0 translate 90 rotate} if
+	 dup 1 eq {pwid 0 translate 90 rotate} if
+	 dup 2 eq {pwid plen translate 180 rotate} if
+	 dup 3 eq {0 plen translate -90 rotate} if
+	 /orntsv exch def
+	} bdef
+/_lod1	{currentpoint orntsv plen pwid 6 -1 roll restore save} bdef
+/_lod2	{_bp 7 2 roll _ornt moveto} bdef
+/_unlod	{currentpoint orntsv plen pwid 7 -2 roll restore restore
+	 _bp 6 1 roll _ornt moveto
+	} bdef
+/_p	{2 copy moveto 1 0 rlineto moveto} bdef
+/_pl	{{lineto} repeat} bdef
+/_R	{/ron true def currentrgbcolor 1 .25 .25 setrgbcolor} bdef
+/_r	{/ron false def setrgbcolor} bdef
+/_rm	{0 rmoveto} bdef
+/_s	/stroke load def
+/_SH	{bon {/bon false def} if
+	 /_S /sshow load def /sflg true def
+	} bdef
+/_sh	{/_S /show load def /sflg false def bflg {_B} if} bdef
+/_ST	{currentpoint /Sy exch def /Sx exch def} bdef
+/_st	{gsave
+		currentpoint pop
+		Sx dup Sy moveto sub
+		(\320) stringwidth pop div dup
+		floor cvi {(\320) show} repeat
+		dup floor sub dup 0 gt {1 scale (\320) show}{pop} ifelse
+	grestore} bdef
+/_U	{currentpoint /Uy exch def /Ux exch def} bdef
+/_u	{gsave
+		currentpoint pop
+		Ux dup Uy moveto sub
+		(_) stringwidth pop div dup
+		floor cvi {(_) show} repeat
+		dup floor sub dup 0 gt {1 scale (_) show}{pop} ifelse
+	grestore} bdef
+/_w	/setlinewidth load def
+end
+wpdict begin
+_bd letter _bp 0 13200 10200 _ornt /NewCenturySchlbk-RomanR 536 _ff
+0 13200 10200 _ornt 1200 11512 _m
+(Test)_S 76 _rm (file:)_S 76 _rm 76 _rm (PS)_S 76 _rm (program)_S 76 _rm (from)_S 76 _rm (WordPerfect)_S 76 _rm (5.0)_S 76 _rm (to)_S 76 _rm (test)_S 76 _rm (NeXT)_S 1200 11334 _m
+(PS)_S 76 _rm (interpreter.)_S _ep
+_ed end

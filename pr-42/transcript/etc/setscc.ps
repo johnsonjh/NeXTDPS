@@ -1,0 +1,20 @@
+%!
+% Set the printer communications: the EEROM scc parameters.
+% See the printer Supplement for more info.
+% This sets the RS232 port of the printer to be:
+%   1. 19200 baud
+%   2. XON/XOFF flow control
+%   3. Ignore parity
+
+serverdict begin
+statusdict begin
+25 sccbatch = =
+0 checkpassword
+   {0 exitserver}
+   {(Incorrect Server Password!!)= flush}
+ifelse
+
+statusdict begin
+
+25 19200 0 setsccbatch
+end

@@ -1,0 +1,372 @@
+devpattern/patternimpl.o.adobe-EXPORT-mc68020
+         U _os_freeelement
+         U _os_newelement
+         U _os_newpool
+devpattern/colorpattern.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/constclrpat.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/constgraypat.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/graypattern.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/grypat4of4.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/imsupport.o.adobe-EXPORT-mc68020
+         U _os_calloc
+devpattern/maskpattern.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/monopattern.o.adobe-EXPORT-mc68020
+         U _os_sureMalloc
+devpattern/patternimpl.o.adobe-EXPORT-mc68020
+         U _os_calloc
+         U _os_malloc
+         U _os_sureMalloc
+fonts/fontbuild.o.adobe-EXPORT-mc68020
+         U _os_malloc
+graphics/stroke.o.adobe-EXPORT-mc68020
+         U _os_calloc
+         U _os_malloc
+
+bintree/bag.c:    bagPool = (char *) os_newpool(sizeof(Bag), 0, 0);
+bintree/bag.c:    bag = (Bag *)os_newelement(bagPool);
+bintree/bag.c:    os_freeelement(bagPool, bag);
+bintree/bitpiece.c:    bitPiecePool = (char *) os_newpool(sizeof(BitPiece), 0, 0);
+bintree/bitpiece.c:    bp = (BitPiece *) os_newelement(bitPiecePool);
+bintree/bitpiece.c:    bp = (BitPiece *) os_newelement(bitPiecePool);
+bintree/bitpiece.c:    os_freeelement(bitPiecePool, bp);
+bintree/causeset.c:    csPool = (char *) os_newpool(sizeof(CauseSet), 0, 0);
+bintree/causeset.c:    csCausePool = (char *) os_newpool(CSGROWINC*sizeof(int), 0, 0);
+bintree/causeset.c:    cs = (CauseSet *) os_newelement(csPool);
+bintree/causeset.c:	newCauses = (int *) os_newelement(csCausePool);
+bintree/causeset.c:	    os_freeelement(csCausePool, cs->causes);
+bintree/causeset.c:	os_freeelement(csCausePool, cs->causes);
+bintree/causeset.c:    os_freeelement(csPool, cs);
+bintree/divpiece.c:    divPiecePool = (char *) os_newpool(sizeof(DivPiece), 0, 0);
+bintree/divpiece.c:    dp = (DivPiece *) os_newelement(divPiecePool);
+bintree/divpiece.c:    os_freeelement(divPiecePool, dp);
+bintree/layer.c:    layerPool = (char *) os_newpool(sizeof(Layer), 0, 0);
+bintree/layer.c:    layer = (Layer *) os_newelement(layerPool);
+bintree/layer.c:    os_freeelement(layerPool, layer);
+bintree/pattern.c:    patternPool = (char *) os_newpool(sizeof(Pattern), 0, 0);
+bintree/pattern.c:    pat = (Pattern *) os_newelement(patternPool);
+bintree/pattern.c:    os_freeelement(patternPool, pat);
+device/devprim.c:      devPrimStorage = os_newpool (sizeof(DevPrim), 5, 0);
+device/devprim.c:    ans = (DevPrim *)os_newelement(devPrimStorage);
+device/devprim.c:      os_freeelement(devPrimStorage,(char *)self);
+device/tfrfcn.c:      tfrfcnPool = os_newpool(sizeof(DevTfrFcn), 3, 0);
+device/tfrfcn.c:    t = (DevTfrFcn *)os_newelement(tfrfcnPool);
+device/tfrfcn.c:  os_freeelement(tfrfcnPool, (char *)t);
+graphics/colorops1.c:      os_freeelement(gtrStorage, gt);
+graphics/colorops1.c:      os_freeelement(gtrStorage, r);
+graphics/colorops1.c:      os_freeelement(clrStorage, c);
+graphics/colorops1.c:    c = (Color)os_newelement(clrStorage);
+graphics/colorops1.c:    clrStorage =  (Pool) os_newpool(sizeof(ColorRec),3,0);
+graphics/graphics.c:		chunkqp = (QuadPath *)os_newelement(qpStorage);
+graphics/graphics.c:    	if (chunkqp) os_freeelement(qpStorage, (char *)chunkqp);
+graphics/graphics.c:    	os_freeelement(rpStorage, (char *)path->rp);
+graphics/graphics.c:    				os_freeelement(rpStorage, (char *)path->rp);
+graphics/graphics.c:  qp = (QuadPath *)os_newelement(qpStorage);
+graphics/graphics.c:  path->rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/graphics.c:    if (qp) os_freeelement(qpStorage, (char *)qp);
+graphics/graphics.c:  qp = (QuadPath *)os_newelement(qpStorage);
+graphics/graphics.c:  path->rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/graphics.c:    if (qp) os_freeelement(qpStorage, (char *)qp);
+graphics/graphics.c:  clip->rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/graphics.c:    ip = (IntersectPath *)os_newelement(ipStorage);
+graphics/graphics.c:    clip->rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/graphics.c:    ip = (IntersectPath *)os_newelement(ipStorage);
+graphics/graphics.c:    clip->rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/graphics.c:  qp = (QuadPath *)os_newelement(qpStorage);
+graphics/graphics.c:    if (qp) os_freeelement(qpStorage, (char *)qp);
+graphics/gray.c:  screen = (Screen)os_newelement(screenPool);
+graphics/gray.c:  os_freeelement(screenPool, (char *)screen);
+graphics/gray.c:      screenPool = os_newpool(sizeof(ScreenRec),5,0);
+graphics/gstates.c:  newGS = (PGState)os_newelement(gsStorage);
+graphics/gstates.c:  os_freeelement(gsStorage, (char *)g);
+graphics/gstates.c:  os_freeelement(gstackStorage, (char *)gstack);
+graphics/gstates.c:  gstk = (PGStack)os_newelement(gstackStorage);
+graphics/gstates.c:  gstk->gss = gs = (PGState)os_newelement(gsStorage);
+graphics/gstates.c:    gState = (PGState)os_newelement(gsStorage);
+graphics/gstates.c:    gstackStorage = os_newpool (sizeof(GStack),5,0);
+graphics/gstates.c:    gsStorage = os_newpool(sizeof(GState),10,GSTATE_GMAX);
+graphics/gstates.c:    neStorage = os_newpool(sizeof(NextGSExt),10,GSTATE_GMAX); /* Ted 13Dec89 */
+graphics/gstates.c:	(PNextGSExt)g->extension = ep = (PNextGSExt)os_newelement(neStorage);
+graphics/gstates.c:	ep = (PNextGSExt)os_newelement(neStorage);
+graphics/gstates.c:	os_freeelement(neStorage, g->extension);
+graphics/pathbuild.c:  path->ptr.lp = lp = (ListPath *)os_newelement(lpStorage);
+graphics/pathbuild.c:  os_freeelement(lpStorage, (char *)lp);
+graphics/pathbuild.c:    os_freeelement(rpStorage, (char *)rp);
+graphics/pathbuild.c:          os_freeelement(qpStorage, (char *)qp);
+graphics/pathbuild.c:	  os_freeelement(ipStorage, (char *)ip);
+graphics/pathbuild.c:	  os_freeelement(spStorage, (char *)sp);
+graphics/pathbuild.c:    lpStorage = os_newpool(sizeof(ListPath),10,0);
+graphics/pathbuild.c:    qpStorage = os_newpool(sizeof(QuadPath),5,0);
+graphics/pathbuild.c:    ipStorage = os_newpool(sizeof(IntersectPath),5,0);
+graphics/pathbuild.c:    spStorage = os_newpool(sizeof(StrkPath),5,0);
+graphics/pathbuild.c:    rpStorage = os_newpool(sizeof(ReducedPath),10,0);
+graphics/pathops.c:    os_freeelement(lpStorage, (char *)qq);
+graphics/pathreduce.c:  path->rp = rdcpth = (ReducedPath *)os_newelement(rpStorage);
+graphics/pathreduce.c:    path->rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/strokeops.c:spp = (StrkPath *)os_newelement(spStorage);
+graphics/strokeops.c:sp.rp = (ReducedPath *)os_newelement(rpStorage);
+graphics/strokeops.c:  os_freeelement(spStorage, spp);
+graphics/strokeops.c:  if (sp.rp) os_freeelement(rpStorage, sp.rp);
+graphics/transferimpl.c:  t = (TfrFcn)os_newelement(tfrFcnStorage);
+graphics/transferimpl.c:    os_freeelement(tfrFcnStorage, tfrFcn);
+graphics/transferimpl.c:    tfrFcnStorage =  (Pool) os_newpool(sizeof(TfrFcnRec),3,0);
+graphics/ucache.c:  os_freeelement(upcStorage, (char *)pc);
+graphics/ucache.c:    os_freeelement(strkStorage, prdc->strk);
+graphics/ucache.c:  os_freeelement(rdcStorage, prdc);
+graphics/ucache.c:    pc = (PUCache)os_newelement(upcStorage);
+graphics/ucache.c:	os_freeelement(upcStorage, pc);
+graphics/ucache.c:    pc = (PUCache)os_newelement(upcStorage);
+graphics/ucache.c:      if (pc) os_freeelement(upcStorage, pc);
+graphics/ucache.c:  prdc = (PRdc)os_newelement(rdcStorage);
+graphics/ucache.c:    prdc->strk = strk = (PStrk)os_newelement(strkStorage);
+graphics/ucache.c:        os_freeelement(strkStorage, strk);
+graphics/ucache.c:      os_freeelement(rdcStorage, prdc);
+graphics/ucache.c:    upcStorage = os_newpool(sizeof(UCacheRec),5,0);
+graphics/ucache.c:    rdcStorage = os_newpool(sizeof(RdcRec),5,0);
+graphics/ucache.c:    strkStorage = os_newpool(sizeof(StrkRec),5,0);
+graphics/viewclip.c:      os_freeelement(vcCacheStorage, (char *)ce);
+graphics/viewclip.c:  if (freevc) os_freeelement(vcStorage, (char *)vc);
+graphics/viewclip.c:      os_freeelement(vcCacheStorage, (char *)ce);
+graphics/viewclip.c:    ce = (PViewClipCacheEntry)os_newelement(vcCacheStorage);
+graphics/viewclip.c:    new = (PViewClip)os_newelement(vcStorage);
+graphics/viewclip.c:  HANDLER {RemPathRef(path); os_freeelement(vcStorage, (char *)new); RERAISE;}
+graphics/viewclip.c:  new = (PViewClip)os_newelement(vcStorage);
+graphics/viewclip.c:    vcCacheStorage = os_newpool(sizeof(ViewClipCacheEntry),5,0);
+graphics/viewclip.c:    vcStorage = os_newpool(sizeof(ViewClip),5,0);
+include/pslib.h:extern Pool os_newpool (/* int elementSize, elementsPerChunk, maxElements */);
+include/pslib.h:extern procedure os_freepool (/* Pool */);
+include/pslib.h:extern char *os_newelement (/* Pool */);
+include/pslib.h:extern procedure os_freeelement (/* Pool, char * */);
+postscript/customops.c:    ItemChunk *new = (ItemChunk *)os_newelement(chunkPool);
+postscript/customops.c:    chunkPool = os_newpool(sizeof(ItemChunk), 5, 0);
+product/ipcscheduler.c:    newPSContext = (PSSchedulerContext)os_newelement(scStorage);
+product/ipcscheduler.c:	    os_freeelement(scStorage, currentSchedulerContext);
+product/ipcscheduler.c:    scStorage = (char *)os_newpool(
+product/windowops.c:    wd = (PWindowDevice)os_newelement(wdPool);
+product/windowops.c:	    os_freeelement(nrStorage, nr);
+product/windowops.c:    newNR = (NRect *)os_newelement(nrStorage);
+product/windowops.c:	os_freeelement(nrStorage, nr);
+product/windowops.c:    os_freeelement(wdPool, deadWin);
+product/windowops.c:	wdPool = (char *)os_newpool(sizeof(WindowDevice), 5, 0);
+product/windowops.c:	nrStorage = (char *)os_newpool(sizeof(NRect), 10, 0);
+pslib/pool.c:public Pool os_newpool(elementSize, elementsPerChunk, maxElements)
+pslib/pool.c:}				/* os_newpool */
+pslib/pool.c:public procedure os_freepool (pool)
+pslib/pool.c:}				/* os_freepool */
+pslib/pool.c:public char *os_newelement(pool)
+pslib/pool.c:}				/* os_newelement */
+pslib/pool.c:public procedure os_freeelement(pool,el)
+pslib/pool.c:}				/* os_freeelement */
+vm/vm_segment.c:  PVMSegment newSegment = (PVMSegment) os_newelement (segmentPool);
+vm/vm_segment.c:      os_freeelement (segmentPool, (char *)newSegment);
+vm/vm_segment.c:  os_freeelement (segmentPool, (char *)vmSegment);
+vm/vm_segment.c:  segmentPool = os_newpool (sizeof(VMSegment), 8, 0);
+
+
+
+bintree/causeset.c:	newCauses = (int *) malloc((cs->capacity+CSGROWINC)*sizeof(int));
+bintree/drivers.c:    driver = (NXSDriver *) calloc(1, sizeof(NXSDriver));
+bintree/drivers.c:	    calloc(1, sizeof(NXSMonitor));
+bintree/drivers.c:    mon[monCount++] = m = calloc(1, sizeof(NXSMonitor));
+bintree/drivers.c:    mon = calloc(32, sizeof(NXSMonitor *));
+bintree/drivers.c:    net = calloc(32, sizeof(NXSMonitor *));
+bintree/drivers.c:	device = (NXSDevice *) calloc(1, sizeof(NXSDevice));
+bintree/extent.c:    newList = (Layer **) malloc((sl->len+1)*sizeof(Layer *));
+bintree/layer.c:    tmpPtr = newTempCauses = (int *) malloc(newNum * sizeof(int *));
+bintree/windowlist.c:    pwl.contents = (Layer **) malloc(WLGROWINC * sizeof(Layer *));
+bintree/windowlist.c:    pwl.contents = (Layer **) realloc(pwl.contents,
+coroutine/corouxfer.c:  currentCoroutine = rootCoroutine = (Coroutine)os_sureCalloc(sizeof(CoroutineRec), 1);
+coroutine/corouxfer.c:  coroutine = (Coroutine) os_malloc(sizeof(CoroutineRec) + stackSize + 4);
+device/clippedmask.c:    expandedScanLine = (PSCANTYPE)os_sureMalloc(wunits*sizeof(SCANTYPE));
+device/devprim.c:  to->data = (DevShort *)os_sureCalloc(
+device/devprim.c:        to->value.run = toRun = (DevRun *)os_sureCalloc(
+device/devprim.c:        to->value.trap = (DevTrap *)os_sureCalloc(
+device/devprim.c:        to->value.mask = (DevMask *)os_sureCalloc(
+device/devprim.c:    self->value.value = (DevPrivate *) os_sureCalloc(
+device/devprim.c:    newRun.data = (DevShort *) os_sureCalloc(
+device/framedev.c:  fd = (PFmStuff) os_calloc((long int)1, (long int)sizeof(FmStuff));
+device/framedev.c:  fmProcs = (DevProcs *)  os_sureMalloc ((long int)sizeof (DevProcs));
+device/framedev.c:  fmMarkProcs = (PMarkProcs)  os_sureMalloc ((long int)sizeof (MarkProcsRec));
+device/framedev.c:  fmImageProcs = (PImageProcs)os_sureCalloc(
+device/framemaskdev.c:  stuff = (PMaskStuff)os_calloc(
+device/framemaskdev.c:  maskProcs = (DevProcs *) os_sureMalloc (sizeof (DevProcs));
+device/framemaskdev.c:  maskMarkProcs = (PMarkProcs) os_sureMalloc ((long int)sizeof (MarkProcsRec));
+device/framemaskdev.c:  source8bits = (SCANTYPE *)os_sureMalloc(2048);
+device/framemaskdev.c:  source4bits = (SCANTYPE *)os_sureMalloc(1024);
+device/framemaskdev.c:  source2bits = (PCard16)os_sureMalloc(512);
+device/genericdev.c:  genProcs = (DevProcs *)  os_sureMalloc ((long int)sizeof (DevProcs));
+device/hostdict.c:  hostDict = (HostDict *) os_sureMalloc(
+device/hostdict.c:    item = (HostDictEntry *) os_sureMalloc((integer)sizeof(HostDictEntry));
+device/hostdict.c:      item->key = os_sureMalloc((integer)(strlen(key) + 1));
+device/maskcache.c:  mskBase = (PMask)os_sureCalloc(nMasks, sizeof(MaskRec));
+device/maskcache.c:  bmBase = (PBMItem)os_sureCalloc(bmBytes, 1);
+device/nextprebuilt.c:	char *name = (char *)malloc(length + 1);
+device/nextprebuilt.c:	enc = (PrebuiltEncoding *) malloc(sizeof(PrebuiltEncoding) + 
+device/nextprebuilt.c:	npf = (NextPrebuiltFont *) malloc(sizeof(NextPrebuiltFont));
+device/nulldev.c:  PDevice new = (PDevice)os_sureCalloc((integer)sizeof(Device), (integer)1);
+device/nulldev.c:  nullProcs = (DevProcs *) os_sureMalloc ((integer)sizeof (DevProcs));
+device/qintersect.c:    r->indx = (DevShort *)os_calloc(1, BytesForRunIndex(r));
+device/tfrfcn.c:  (unsigned char *)os_malloc((long int)((n) * sizeof(unsigned char)))
+device/tfrfcn.c:  (DevShort *)os_malloc((long int)((n) * sizeof(DevShort)))
+device/winclip.c:    ce = (PWinClipCacheEntry)os_malloc((long int)sizeof(WinClipCacheEntry));
+device/winclip.c:    w = (WinInfo *)os_malloc((long int)sizeof(WinInfo));
+fonts/cacheimpl.c:      hdr = (PCacheEntHdr) os_sureCalloc(1L, (long int) sizeof(CacheEntHdr));
+fonts/cacheimpl.c:  cache = (PCache) os_sureCalloc(1L, (long) sizeof(Cache));
+fonts/cacheimpl.c:  cache->hashTbl = (CacheHashTbl *) os_sureCalloc((long) buckets, 
+fonts/fontrun.c:  state = (PFontrunState) os_sureCalloc((long int) sizeof(FontrunState), 1L);
+fonts/fontrun.c:        (PCharData) os_sureMalloc(state->numChars * sizeof(CharData));
+fonts/fontrun.c:    (charptr) os_sureCalloc((long int) fontNameStr.length + 1, 1L);
+fonts/fontrun.c:    pEntry = (PFileEntry) os_sureMalloc(sizeof(FileEntry));
+fonts/fontrun.c:    pEntry = (POutlineEntry) os_sureMalloc(size);
+fp/mtxvec.c:  dpsfpglobals = (DPSFPGlobalsRec *)os_sureMalloc(sizeof(DPSFPGlobalsRec));
+graphics/colorops1.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+graphics/gray.c:      globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+graphics/gstates.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+graphics/nulldevice.c:      (DevProcs *)os_sureMalloc((long int)sizeof(DevProcs));
+graphics/nulldevice.c:    psNulDev = (PDevice)os_sureCalloc((long int)sizeof(Device), 1);
+graphics/transferimpl.c:    tfrGlobals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+graphics/ucache.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+graphics/ucache.c:    UCache = (PUCache *)os_sureMalloc(UCSZ * sizeof(PUCache));
+graphics/ucache.c:    CircMaskTable = (CircMask *)os_sureMalloc(CIRCMASKMAX * sizeof(CircMask));
+graphics/viewclip.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+include/customops.h:	char *p = os_malloc(sizeof(MyRec));
+include/pslib.h:extern char *os_malloc(/* long int size */);
+include/pslib.h:extern char *os_sureMalloc(/* long int size */);
+include/pslib.h:/* Same as os_malloc(size) except that the block is aligned to a multiple
+include/pslib.h:extern char *os_calloc(/* long int count, size */);
+include/pslib.h:extern char *os_sureCalloc(/* long int count, size */);
+include/pslib.h:extern char *os_realloc(/* char *ptr; long int size */);
+include/pslib.h:extern char *os_valloc(/* long int size */);
+language/binaryobject.c:	    char *p = (char *)os_malloc(size+1);
+language/binaryobject.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+language/dict.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+language/exec.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+language/name.c:      newpna = (PNameArrayBody) os_malloc(size);
+language/name.c:      newpna = (PNameArrayBody) os_realloc(
+language/name.c:      curChunk->next = (NameChunk *)os_sureMalloc(
+language/name.c:    firstChunk = (NameChunk *)os_sureMalloc((long int)sizeof(NameChunk));
+language/scanner.c:      (pse = (PStrExtension) os_malloc((integer) sizeof(StrExtension)))
+language/stack.c:  newStack = (PObject)os_realloc(
+language/stack.c:  stack->base = (Object *)os_malloc((long int)(n * sizeof(Object)));
+language/stodevedit.c:  PStoDev dev = (PStoDev) os_sureCalloc((integer)1, (integer)sizeof(StoDev));
+language/stream.c:      hexToBinary = (char *) os_sureMalloc((long int)(256 * sizeof(char)));
+language/stream.c:      closedStm = (Stm) os_sureCalloc ((long int)1, (long int)sizeof(StmRec));
+language/subfile.c:  if ( ( (buff1 = os_malloc(dp->bufSize)) == NIL )
+language/subfile.c:      && ( (buff2 = os_calloc(dp->bufSize, sizeof(short int))) == NIL ) ) )
+mousekeyboard/routines.c:    evo = (EvOffsets *) valloc((size_t) size);
+mp/convert.c:	dp = mpBrick = (uint *)malloc(256 * 8 * sizeof(uint));
+mp/mp.c:    driver->procs = (NXSProcs *) calloc(1, sizeof(NXSProcs));
+mp/mp.c:	    ebm = (ExpBitmap *)malloc(sizeof(ExpBitmap));
+mp/mp.c:	    ebm->bits  = (uint *)malloc(bytes+4);
+mp/mp.c:	    if (mpbm->e.abits) ebm->abits = (uint *)malloc(bytes+4);
+mp/mp.c:    MPBitmap *mpbm = (MPBitmap *)malloc(sizeof(MPBitmap));
+mp/mp.c:			(uchar *)malloc(nchar+4);
+mp/mp.c:		newSamples[ncolor] = (uchar *)malloc(nchar);
+mp/mp.c:	ap = mpbm->e.abits = (uint *) malloc(bytes + 4);
+mp/mp.c:    MPBitmap *mpbm = (MPBitmap *)malloc(sizeof(MPBitmap));
+mp/mp.c:        mpbm->e.bits = (uint *) calloc(bytes+4, 1);
+mp/mp.c:	    convertData  = (uint *) malloc(convertDataLen=len);
+mp/mp.c:	    convertAlpha = (uint *) malloc(convertAlphaLen=len);
+postscript/contextimpl.c:     globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+postscript/contextimpl.c:     ctxTab = (CtxItem *)os_sureCalloc((long int)sizeof(CtxItem), ctxTabSize);
+postscript/customops.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+product/imstretch.c:	dp = stchBytes = (uint *) malloc(256 * sizeof(int));
+product/imstretch.c:	dp = stchBytes = (uint *) calloc(256 * wPerChar * sizeof(int), 1);
+product/imstretch.c:    buffer = (uint *) malloc(wPerLine * sizeof(int));
+product/ipcscheduler.c:	    m = (SchedulerMsg *) malloc(MESSAGETOTALSIZE);
+product/ipcstream.c:    stmData = (IPCData *)os_malloc(sizeof(IPCData));
+product/ipcstream.c:    stmWCParams = (WCParams *)os_malloc(sizeof(WCParams));
+product/ipcstream.c:    	stmMsg = m = (msg_header_t *)os_malloc(MESSAGETOTALSIZE);
+product/machportdevice.c:static char *SafeMalloc(int size)
+product/machportdevice.c:    char *ptr = os_malloc(size);
+product/machportdevice.c:#define New(thing) ((thing *) SafeMalloc(sizeof(thing)))
+product/machportdevice.c:   errors if needed, and SafeMalloc (above) will raise limitcheck 
+product/machportdevice.c:    char *p = SafeMalloc(n);
+product/machportdevice.c:    mpdProcs = (DevProcs *)  os_malloc (sizeof (DevProcs));
+product/miscops.c:		lastDir = (char *) malloc(strlen(pw->pw_dir)+1);
+product/nextmain.c:	signalStackArea = (char *) os_malloc(SIGNALSTACKSIZE);
+product/nscontexts.c:	pkgPath = malloc( strlen( pkgDir ) + pkgFile->d_namlen + 2 );
+product/nscontexts.c:	    newEnt = (struct pkgEnt *)malloc( sizeof (struct pkgEnt ) );
+product/nscontexts.c:		newEnt->debug = malloc( strlen( pkgDir ) + strlen( debugPath ) + 2 );
+product/nscontexts.c:		newEnt->debug = malloc( strlen( debugPath ) + 1 );
+product/nscontexts.c:    if ((newct = (NSContextType *)malloc( sizeof( NSContextType ) )) == NULL)
+product/timelog.c:	    calloc(TIMEBUFCOLUMNS*TIMEBUFLENGTH*sizeof(TimeLog),1);
+product/timelog.c:    timeLogIndices = (int *) calloc(TIMEBUFCOLUMNS*sizeof(int),1);
+product/wbcontext.c:    wbc = (WBContextP)malloc( sizeof( WBContext ) );
+product/windowdevice.c:    wdProcs = (DevProcs *) os_malloc(sizeof(DevProcs));
+product/windowdevice.c:    wdMarkProcs = (PMarkProcs) os_malloc(sizeof(MarkProcsRec));
+product/windowimage.c:    c = (ImageMessageCell *)malloc(sizeof(ImageMessageCell));
+pslib/calloc.c:public char *os_calloc(num, size)
+pslib/calloc.c:	mp = os_malloc(num);
+pslib/calloc.c:public char *os_sureCalloc(num, size)
+pslib/calloc.c:	mp = os_malloc(num);
+pslib/calloc_shunt.c:public char *calloc(num, size)
+pslib/calloc_shunt.c:  return (os_calloc(num, size));
+pslib/malloc.c:public char *os_malloc(nbytes)
+pslib/malloc.c:/*	os_realloc(p, nbytes) reallocates a block obtained from os_malloc()
+pslib/malloc.c: *	and freed since last call of os_malloc()
+pslib/malloc.c:public char *os_realloc(p, nbytes)
+pslib/malloc.c:	q = (union store *)os_malloc(nbytes);
+pslib/malloc.c:public char *os_sureMalloc(size)
+pslib/malloc.c:  char *p = (char *)os_malloc(size);
+pslib/malloc_shunt.c:public char *malloc(nbytes)
+pslib/malloc_shunt.c:  return(os_malloc(nbytes));
+pslib/malloc_shunt.c:public char *realloc(p, nbytes)
+pslib/malloc_shunt.c:  return (os_realloc(p, nbytes));
+pslib/memalign.c:  New_Block = os_malloc (Enclosing_Block_Size);
+pslib/os_calloc.c:extern char *calloc();
+pslib/os_calloc.c:public char *os_sureCalloc(num, size)
+pslib/os_calloc.c:	if (!(mp = calloc(num, size)))
+pslib/os_macmalloc.c:extern char *malloc(), *realloc();
+pslib/os_macmalloc.c:private char *inneros_sureMalloc(size) integer size; {
+pslib/os_macmalloc.c:  while (!(p = (char *)malloc(size))) {
+pslib/os_macmalloc.c:private char *inneros_malloc(size) integer size; {
+pslib/os_macmalloc.c:  return inneros_sureMalloc(size);
+pslib/os_macmalloc.c:private char *inneros_realloc(ptr, size) char *ptr; integer size; {
+pslib/os_macmalloc.c:  char *p = (char *)realloc(ptr, size);
+pslib/os_macmalloc.c:public char *os_malloc(size) integer size; {
+pslib/os_macmalloc.c:public char *os_sureMalloc(size) integer size; {
+pslib/os_macmalloc.c:public char *os_realloc(ptr, size) char *ptr; integer size; {
+pslib/os_malloc.c:extern char *malloc(), *realloc();
+pslib/os_malloc.c:public char *os_sureMalloc(size)
+pslib/os_malloc.c:  if (!(p = (char *)malloc(size))) CantHappen();
+pslib/os_valloc.c:extern char *valloc();
+pslib/os_valloc.c:public char *os_valloc(size)
+pslib/os_valloc.c:  p = valloc(size);
+pslib/pool.c:  chunk = (PoolChunk *) os_calloc(
+pslib/pool.c:  pool = (Pool) os_malloc((long int)sizeof(PoolRec));
+pslib/valloc.c:public char *os_valloc(size)
+pslib/valloc_shunt.c:public char *valloc(size)
+pslib/valloc_shunt.c:  return os_valloc(size);
+stodev/stodevfont.c:  PStoDev dev = (PStoDev)os_sureCalloc((long int)1, (long int)sizeof(StoDev));
+stodev/stodevpsdisk.c:  PStoDev dev = (PStoDev)os_sureCalloc(
+stodev/stodevpsdisk.c:  dev->name = os_sureMalloc(os_strlen(disk->name));
+stodev/stodevunix.c:  PStoDev dev = (PStoDev)os_sureCalloc(
+stream/streamimpl.c:  elem = (StmElem *) os_sureCalloc((integer) 1, (integer) sizeof(StmElem) + xtraBytes);
+stream/unixstream.c:    if ((stm->base = base = os_malloc(data->bufsiz)) == NULL)
+stream/unixstream.c:      if ((stm->base = os_malloc(data->bufsiz)) == NULL)
+vm/abmimpl.c:		hiHole = (Card8 *)os_sureCalloc(sizeof(Card8),bytecount);
+vm/abmimpl.c:		lowHole = (Card8 *)os_sureCalloc(sizeof(Card8),bytecount);
+vm/abmimpl.c:		maxHole = (Card8 *)os_sureCalloc(sizeof(Card8),bytecount);
+vm/abmimpl.c:		locOfMax = (Card8 *)os_sureCalloc(sizeof(Card8),bytecount);
+vm/arguments.c:  argsUsed = os_sureCalloc((long int) argc + 1, 1);
+vm/gcmisc.c:  HasRefs = (boolean *)os_malloc((long int)(sizeof(boolean) * nObTypes * 2));
+vm/makeobjfile.c:  Block *block = (Block *) os_malloc((long int) sizeof(Block));
+vm/makeobjfile.c:  block->base = os_malloc(maxLength);
+vm/makeobjfile.c:    block->base = os_realloc(block->base, block->maxLength);
+vm/makevm.c:    relocationTable = (PRelocationEntry)os_realloc(
+vm/makevm.c:    mark->markTable = (PCard8 *)os_realloc (
+vm/makevm.c:  mark->markTable = (PCard8 *) os_sureCalloc((long int)1, (long int)size);
+vm/makevm.c:  relocationTable = (PRelocationEntry)os_sureMalloc(
+vm/recycler.c:    recycleType = (PCard8) os_sureCalloc (1, nObTypes);
+vm/saverestore.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);
+vm/vm_relocate.c:  segmentTable = (PSegmentTable) os_sureMalloc(
+vm/vm_relocate.c:    relocationTable = (PRelocationEntry) os_malloc ((long int)size);
+vm/vm_space.c:  if ((c = (charptr) os_calloc ((long int) n, (long int) size)) == NIL)
+vm/vm_space.c:  if ((c = (charptr) os_realloc(
+vm/vm_space.c:    globals = (Globals)os_sureCalloc(sizeof(GlobalsRec),1);

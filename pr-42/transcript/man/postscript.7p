@@ -1,0 +1,42 @@
+.TH POSTSCRIPT 7 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: postscript.7p,v 2.2 87/11/17 16:46:54 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.ds TS T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH NAME
+P\s-2OST\s+2S\s-2CRIPT\s+2 \- print file format
+.SH DESCRIPTION
+The \*(PS print file format
+is a programming language with powerful graphics primitives
+for describing printed pages.  A growing number of
+devices which print \*(PS page descriptions are available.
+\*(PS printers include the Apple LaserWriter, QMS PS-800, 1200, and 2400,
+Dataproducts LZR-2665 and 2660, and Linotype Linotronic 100 and 300 
+typesetters.  The \*(TS package of UNIX software allows UNIX systems
+access to \*(PS printers.
+.LP
+The complete \*(PS language is described in the book
+.RS
+\fI\*(PS Language Reference Manual\fR
+.br
+by Adobe Systems Incorporated
+.br
+published by Addison-Wesley Publishing Company
+.br
+ISBN 0-201-10174-2, 322 pages, illustrated
+.br
+Library of Congress: QA76.73.P67P67  1985  005.13'3  85-15693
+.RE
+.PP
+The Reference Manual provides a comprehensive presentation of
+of the language, its graphics, and its font facilities,
+including the precise semantics of every \*(PS operator.
+.SH "SEE ALSO"
+transcript(1), enscript(1).
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+\*(TS is a trademark of Adobe Systems Incorporated.

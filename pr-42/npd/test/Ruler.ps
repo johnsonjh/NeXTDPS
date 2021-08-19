@@ -1,0 +1,99 @@
+%! PS-Adobe
+%
+%
+% This will draw some simple rulers on the page to see how well the
+% spooling system lands stuff on the paper.  Not great PostScipt, but I'm
+% in a rush.
+%
+
+% Some definitions
+/inches {
+	72 mul
+} bind def
+
+/VSTROKE {
+	0 0.5 inches rmoveto
+	0 -1.0 inches rlineto
+	stroke
+} bind def
+
+/vstroke {
+	0 0.25 inches rmoveto
+	0 -0.5 inches rlineto
+	stroke
+} bind def
+
+/HSTROKE {
+	-0.5 inches 0 rmoveto
+	1.0 inches 0 rlineto
+	stroke
+} bind def
+
+/hstroke {
+	-0.25 inches 0 rmoveto
+	0.5 inches 0 rlineto
+	stroke
+} bind def
+
+
+% Set up the graphics state
+0 setgray
+0.5 setlinewidth
+
+% The main horizontal line
+0 5.5 inches moveto
+8.5 inches 5.5 inches lineto
+stroke
+
+% The hash marks along it.
+0 5.5 inches moveto VSTROKE
+1 inches 5.5 inches moveto VSTROKE
+2 inches 5.5 inches moveto VSTROKE
+3 inches 5.5 inches moveto VSTROKE
+4 inches 5.5 inches moveto VSTROKE
+5 inches 5.5 inches moveto VSTROKE
+6 inches 5.5 inches moveto VSTROKE
+7 inches 5.5 inches moveto VSTROKE
+8 inches 5.5 inches moveto VSTROKE
+0.5 inches 5.5 inches moveto vstroke
+1.5 inches 5.5 inches moveto vstroke
+2.5 inches 5.5 inches moveto vstroke
+3.5 inches 5.5 inches moveto vstroke
+4.5 inches 5.5 inches moveto vstroke
+5.5 inches 5.5 inches moveto vstroke
+6.5 inches 5.5 inches moveto vstroke
+7.5 inches 5.5 inches moveto vstroke
+8.5 inches 5.5 inches moveto vstroke
+
+% The main vertical line
+4.25 inches 0 moveto
+4.25 inches 11 inches lineto
+stroke
+
+% The hash marks along it.
+4.25 inches 0 moveto HSTROKE
+4.25 inches 1 inches moveto HSTROKE
+4.25 inches 2 inches moveto HSTROKE
+4.25 inches 3 inches moveto HSTROKE
+4.25 inches 4 inches moveto HSTROKE
+4.25 inches 5 inches moveto HSTROKE
+4.25 inches 6 inches moveto HSTROKE
+4.25 inches 7 inches moveto HSTROKE
+4.25 inches 8 inches moveto HSTROKE
+4.25 inches 9 inches moveto HSTROKE
+4.25 inches 10 inches moveto HSTROKE
+4.25 inches 11 inches moveto HSTROKE
+4.25 inches 0.5 inches moveto hstroke
+4.25 inches 1.5 inches moveto hstroke
+4.25 inches 2.5 inches moveto hstroke
+4.25 inches 3.5 inches moveto hstroke
+4.25 inches 4.5 inches moveto hstroke
+4.25 inches 5.5 inches moveto hstroke
+4.25 inches 6.5 inches moveto hstroke
+4.25 inches 7.5 inches moveto hstroke
+4.25 inches 8.5 inches moveto hstroke
+4.25 inches 9.5 inches moveto hstroke
+4.25 inches 10.5 inches moveto hstroke
+
+% Show the page.
+showpage

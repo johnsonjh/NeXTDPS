@@ -1,0 +1,339 @@
+% stdencode.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% PostScript standard text encodings
+% 1) /StandardEncoding -- Adobe encoding, used by Adobe-supplied text fonts
+% 2) /ISOLatin1Encoding -- ISO Latin Alphabet 1 encoding
+% last edit: taft - Tue Nov 14 13:14:37 1989
+
+setrom
+systemdict begin
+
+% Adobe standard encoding
+
+/StandardEncoding 256 array def
+
+0 1 255	{StandardEncoding exch /.notdef put} for
+
+mark
+	/space			% 040
+	/exclam
+	/quotedbl
+	/numbersign
+	/dollar
+	/percent
+	/ampersand
+	/quoteright
+	/parenleft		% 050
+	/parenright
+	/asterisk
+	/plus
+	/comma
+	/hyphen
+	/period
+	/slash
+	/zero			% 060
+	/one
+	/two
+	/three
+	/four
+	/five
+	/six
+	/seven
+	/eight			% 070
+	/nine
+	/colon
+	/semicolon
+	/less
+	/equal
+	/greater
+	/question
+	/at			% 100
+	/A
+	/B
+	/C
+	/D
+	/E
+	/F
+	/G
+	/H			% 110
+	/I
+	/J
+	/K
+	/L
+	/M
+	/N
+	/O
+	/P			% 120
+	/Q
+	/R
+	/S
+	/T
+	/U
+	/V
+	/W
+	/X			% 130
+	/Y
+	/Z
+	/bracketleft
+	/backslash
+	/bracketright
+	/asciicircum
+	/underscore
+	/quoteleft		% 140
+	/a
+	/b
+	/c
+	/d
+	/e
+	/f
+	/g
+	/h			% 150
+	/i
+	/j
+	/k
+	/l
+	/m
+	/n
+	/o
+	/p			% 160
+	/q
+	/r
+	/s
+	/t
+	/u
+	/v
+	/w
+	/x			% 170
+	/y
+	/z
+	/braceleft
+	/bar
+	/braceright
+	/asciitilde
+
+counttomark StandardEncoding exch 8#040 exch getinterval astore pop pop
+
+mark
+	/.notdef		% 240
+	/exclamdown
+	/cent
+	/sterling
+	/fraction
+	/yen
+	/florin
+	/section
+	/currency		% 250
+	/quotesingle
+	/quotedblleft
+	/guillemotleft
+	/guilsinglleft
+	/guilsinglright
+	/fi
+	/fl
+	/.notdef		% 260
+	/endash
+	/dagger
+	/daggerdbl
+	/periodcentered
+	/.notdef
+	/paragraph
+	/bullet
+	/quotesinglbase		% 270
+	/quotedblbase
+	/quotedblright
+	/guillemotright
+	/ellipsis
+	/perthousand
+	/.notdef
+	/questiondown
+	/.notdef		% 300
+	/grave
+	/acute
+	/circumflex
+	/tilde
+	/macron
+	/breve
+	/dotaccent
+	/dieresis		% 310
+	/.notdef
+	/ring
+	/cedilla
+	/.notdef
+	/hungarumlaut
+	/ogonek
+	/caron
+	/emdash			% 320
+
+counttomark StandardEncoding exch 8#240 exch getinterval astore pop pop
+
+StandardEncoding
+
+dup 8#341 /AE put
+dup 8#343 /ordfeminine put
+dup 8#350 /Lslash put
+dup 8#351 /Oslash put
+dup 8#352 /OE put
+dup 8#353 /ordmasculine put
+dup 8#361 /ae put
+dup 8#365 /dotlessi put
+dup 8#370 /lslash put
+dup 8#371 /oslash put
+dup 8#372 /oe put
+dup 8#373 /germandbls put
+
+readonly 
+/StandardEncoding exch def
+
+
+% ISO Latin Alphabet 1 encoding
+
+/ISOLatin1Encoding 256 array def
+
+0 1 255	{ISOLatin1Encoding exch /.notdef put} for
+
+% Bottom half of ISOLatin1Encoding is the same as StandardEncoding, except
+% for 055 (minus versus hyphen).
+
+ISOLatin1Encoding 8#040 StandardEncoding 8#040 8#140 getinterval putinterval
+ISOLatin1Encoding 8#055 /minus put
+
+% PostScript requires components of composite characters to be in the
+% encoding. Here we put them into the unused control character positions.
+% This is NOT part of the ISO standard.
+
+mark
+	/dotlessi		% 220
+	/grave
+	/acute
+	/circumflex
+	/tilde
+	/macron
+	/breve
+	/dotaccent
+	/dieresis		% 230
+	/.notdef
+	/ring
+	/cedilla
+	/.notdef
+	/hungarumlaut
+	/ogonek
+	/caron
+
+% Following is ISO standard for the top half of the encoding.
+
+	/space			% 240
+	/exclamdown
+	/cent
+	/sterling
+	/currency
+	/yen
+	/brokenbar
+	/section
+	/dieresis		% 250
+	/copyright
+	/ordfeminine
+	/guillemotleft
+	/logicalnot
+	/hyphen
+	/registered
+	/macron
+	/degree			% 260
+	/plusminus
+	/twosuperior
+	/threesuperior
+	/acute
+	/mu
+	/paragraph
+	/periodcentered
+	/cedilla		% 270
+	/onesuperior
+	/ordmasculine
+	/guillemotright
+	/onequarter
+	/onehalf
+	/threequarters
+	/questiondown
+	/Agrave			% 300
+	/Aacute
+	/Acircumflex
+	/Atilde
+	/Adieresis
+	/Aring
+	/AE
+	/Ccedilla
+	/Egrave			% 310
+	/Eacute
+	/Ecircumflex
+	/Edieresis
+	/Igrave
+	/Iacute
+	/Icircumflex
+	/Idieresis
+	/Eth			% 320
+	/Ntilde
+	/Ograve
+	/Oacute
+	/Ocircumflex
+	/Otilde
+	/Odieresis
+	/multiply
+	/Oslash			% 330
+	/Ugrave
+	/Uacute
+	/Ucircumflex
+	/Udieresis
+	/Yacute
+	/Thorn
+	/germandbls
+	/agrave			% 340
+	/aacute
+	/acircumflex
+	/atilde
+	/adieresis
+	/aring
+	/ae
+	/ccedilla
+	/egrave			% 350
+	/eacute
+	/ecircumflex
+	/edieresis
+	/igrave
+	/iacute
+	/icircumflex
+	/idieresis
+	/eth			% 360
+	/ntilde
+	/ograve
+	/oacute
+	/ocircumflex
+	/otilde
+	/odieresis
+	/divide
+	/oslash			% 370
+	/ugrave
+	/uacute
+	/ucircumflex
+	/udieresis
+	/yacute
+	/thorn
+	/ydieresis
+
+counttomark ISOLatin1Encoding exch 8#220 exch getinterval astore pop pop
+
+/ISOLatin1Encoding ISOLatin1Encoding readonly def
+
+end % systemdict
+setram

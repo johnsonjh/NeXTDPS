@@ -1,0 +1,49 @@
+/* pscolorops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PScolorimage()
+	colorimage 
+endps
+
+defineps PScurrentblackgeneration()
+	currentblackgeneration 
+endps
+
+defineps PScurrentcmykcolor( | float *c, *m, *y, *k)
+	currentcmykcolor k y m c 
+endps
+
+defineps PScurrentcolorscreen()
+	currentcolorscreen 
+endps
+
+defineps PScurrentcolortransfer()
+	currentcolortransfer 
+endps
+
+defineps PScurrentundercolorremoval()
+	currentundercolorremoval 
+endps
+
+defineps PSsetblackgeneration()
+	setblackgeneration 
+endps
+
+defineps PSsetcmykcolor(float c, m, y, k)
+	c m y k setcmykcolor 
+endps
+
+defineps PSsetcolorscreen()
+	setcolorscreen 
+endps
+
+defineps PSsetcolortransfer()
+	setcolortransfer 
+endps
+
+defineps PSsetundercolorremoval()
+	setundercolorremoval 
+endps
+

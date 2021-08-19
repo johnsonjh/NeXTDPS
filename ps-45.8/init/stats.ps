@@ -1,0 +1,36 @@
+% stats.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: taft - Tue Jun  7 18:06:19 1988
+
+/vmstats
+   {mark
+    currentshared {(Shared )} {(Private )} ifelse print
+    vmstatus
+    exch (used ) print =string cvs print
+    ( out of ) print =
+    (level = ) print =
+    cleartomark
+   } def
+
+/cachestats
+   {cachestatus
+    (MaxBitMapSize ) print =
+       {(CachedChars ) (MIDs ) (BitMapStorage )}
+       {print
+	(used ) print exch =string cvs print
+	( out of ) print =
+       } forall
+   } def

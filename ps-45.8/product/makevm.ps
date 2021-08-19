@@ -1,0 +1,129 @@
+% makevm.ps
+% last edit: taft - Fri Jul 29 16:36:53 1988
+% last edit: durham - Wed Aug 24 14:48:32 1988
+% last edit:  - Sat Jul  4 17:25:53 1987
+% Newlin 01Sep87 copy from ../../../../adobe; convert some to SOURCES; add
+%		 frags, buildchar, service, nextconstants, LoadAllPackages;
+%		 delete fonts13
+% Leo  16Feb88 ostype, unix in statusdict
+% Leo  14Mar88 version.ps
+% Jack 28Jul88 replace %font% with /DYNAMIC_FONTS/ (w/o call to FontStoDevInit)
+% Leo Sun Aug 21 04:00:00 1988 Add invlidnumber error here instead of errs.ps
+% Leo Wed Sep 07 1988 Replace DYNAMIC_FONTS with hard-coded dir list
+% Leo Wed Mar 23 1989 Remove /dps/fonts kludge from font list
+% 26Jul90 Terry Removed diskfont.ps, exec.ps, exec_copyright.ps, alw.ps,
+%			unixmain.ps, unix.ps, and fsinit.ps
+% 31Jul90 Terry Added alw.ps back in (for eps files), removed frags.ps
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	      Copyright (c) 1983, 1984, 1988 - Adobe Systems, Inc.	     %
+%            PostScript is a trademark of Adobe Systems, Inc.                %
+%									     %
+% NOTICE:  All information contained herein or attendant hereto is, and      %
+% remains, the property of Adobe Systems, Inc.  Many of the intellectual and %
+% technical concepts contained herein are proprietary to Adobe Systems, Inc. %
+% and may be covered by U.S. and Foreign Patents or Patents Pending or are   %
+% protected as trade secrets.  Any dissemination of this information or      %
+% reproduction of this material are strictly forbidden unless prior written  %
+% permission is obtained from Adobe Systems, Inc.                            %
+%									     %
+%			  Adobe Systems, Inc.				     %
+%		    1870 Embarcadero Rd. Suite 100			     %
+%			Palo Alto, CA  94303				     %
+%			    (415) 852-0271				     %
+% CONFIDENTIAL								     %
+% Copyright (c) 1988 NeXT, Inc. as an unpublished work.  All Rights Reserved.%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+(registernames.ps) run	% this must come before anything else
+
+true setshared
+true setpacking
+
+statusdict begin
+/product (Display PostScript) def
+/revision 0 def
+/osname (NeXT Mach) def
+/ostype 3 def
+end
+
+% define optional systemdict operators included in this product
+systemdict begin
+/arcc {} opdef
+/frametofile {} opdef
+/frametohexfile	{} opdef
+end
+
+
+/opdef where pop begin		% internaldict begin
+  /engineclass 10.0 def
+end
+
+% First things first -- Jack  21Mar88
+systemdict /nextdict shareddict put
+
+% An operator to display the VM size at various points in the makevm process
+% /test {vmstatus exch =string cvs print} def
+    
+(/SOURCES/errs.ps)run
+(/INIT/print.ps)run
+(/INIT/flex.ps) Run
+					% (/INIT/diskfont.ps) Run
+					% (/INIT/exec.ps)Run
+					% (exec_copyright.ps)Run
+% Different from default for Sun 3 mode.
+/prompt	{	% always executed in execdict context
+  (PS>) print flush
+} def
+					% (/SOURCES/frags.ps)Run
+(/SOURCES/alw.ps)Run
+					% (/INIT/unixmain.ps)Run
+(/SOURCES/stdencode.ps)Run
+(/INIT/internalfont.ps)Run		% must be after stdencode.ps
+(%font%) (/SOURCES/nextfindfont.ps)Run
+(/SOURCES/service.ps)Run
+(/SOURCES/nextconstants.ps)Run
+(/SOURCES/version.ps)Run
+					% (/SOURCES/unix.ps)Run
+(/INIT/stats.ps)Run
+					% (/INIT/fsinit.ps)Run
+(/INIT/systemnames.ps)Run
+					%(/DYNAMIC_FONTS/)
+					%(/PRELOADED_FONTS/)
+					%  (/INIT/fonts13.ps)Run % PRODUCT ONLY
+
+% Gray screen default, for more than this see ~jack/ps/gray.ps
+
+/screenstr 64 string def
+
+  4   195 52  243   16  207 64  255
+  131 68  179 116   143 80  191 128
+  36  227 20  211   48  239 32  223
+  163 100 147 84    175 112 159 96
+
+  12  203 60  251   8   199 56  247
+  139 76  187 124   135 72  183 120
+  44  235 28  219   40  231 24  215
+  171 108 155 92    167 104 151 88
+
+63 -1 0 {screenstr exch 3 2 roll put} for
+
+vmstats
+false setpacking
+
+$error /initializing false put
+
+% Remove definition of internaldict operators that are no longer needed.
+
+/opdef where pop		%  get internaldict from dict stack
+dup /opdef undef
+dup /systemnamemap undef
+dup /definesystemname undef
+dup /trickydict undef
+dup /abort undef
+dup /registerstaticnames undef
+pop
+
+
+

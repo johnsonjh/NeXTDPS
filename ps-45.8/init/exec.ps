@@ -1,0 +1,122 @@
+% exec.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% interactive statement interpreter
+% original version: taft
+% last edit: durham - Wed Oct 26 15:55:22 1988
+% last edit: taft - Sun Dec 17 17:59:26 1989
+% Jim Sandman: Wed May 20 16:41:24 PDT 1987 change copyright
+
+setrom
+systemdict begin
+
+/execdict 10 trickydict def	% note: OK for trickydict to be in ROM
+
+execdict begin
+
+/quitflag false def
+/execdepth 0 def
+/stmtfile 0 def
+
+/idleproc {} def
+/print {} def			% to prevent premature binding
+/checkquit {quitflag {exit} if} def % default; overriden in *server.ps
+% /copyright ( ... ) def	% defined in product's makevm.ps
+
+/execquit {//execdict /quitflag //true put stop} bind readonly def
+
+/banner
+   {//execdict begin
+    (PostScript(r) Version ) print version print (\n) print
+    copyright print
+    end
+   } bind def
+
+/handleerror			% redefinition used only within executive
+   {//$error begin
+    newerror
+       {/newerror //false def
+	(%%[ Error: ) print errorname //=print exec
+        (; OffendingCommand: ) print /command load //=print exec
+	( ]%%) //= exec flush
+       } if
+    end
+   } bind def
+
+end % execdict
+
+/executive
+   {//execdict begin
+    clearinterrupt disableinterrupt  % ensure disable level 1
+    /execdepth execdepth 1 add def
+%	Let's comment this out and see what happens	19May90 Terry
+%    //userdict /quit /execquit load put
+    banner
+
+       {/quitflag //false def
+	//$error /newerror //false put
+	/prompt load stopped
+	   {handleerror (Error during prompt execution\n) print exit} if
+	   {mark
+	    idleproc
+	    clearinterrupt
+	    /stmtfile (%statementedit)(r) file def
+	    disableinterrupt
+	   } stopped
+	   {disableinterrupt	% stop occurred
+	    cleartomark
+	    //$error /newerror get
+	      {//$error /errorname get
+	       dup /interrupt ne exch /undefinedfilename ne
+	       1 index and {handleerror} if
+	       //$error /newerror //false put
+	       {exit} if	% exit if not interrupt
+	      } if
+	   }
+	   {pop			% no stop occurred; flush mark
+	    stmtfile
+	    end % execdict
+	      {clearinterrupt
+	       cvx exec
+	       disableinterrupt
+	      } stopped
+	    //execdict begin
+	      {disableinterrupt
+	       //$error /errorname get /interrupt ne {handleerror} if
+	       stmtfile closefile
+	      } if
+	   } ifelse
+	checkquit
+       } loop
+    /quitflag //false def
+    //userdict /quit undef
+    /execdepth execdepth 1 sub def
+    end % execdict
+    //$error /doclose //false put % disable stdin flush action
+    stop			% so job ends now if called from batch
+   }
+execdict begin bind end		% so print is not bound
+readonly def
+
+/prompt				% always executed in execdict context
+   {(PS) print execdepth {(>) print} repeat flush}
+execdict begin bind end		% so print is not bound
+readonly def
+
+execdict /print systemdict /print get put
+
+end % systemdict
+
+setram

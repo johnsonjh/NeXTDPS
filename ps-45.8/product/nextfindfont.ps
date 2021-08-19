@@ -1,0 +1,161 @@
+% nextfindfont.ps
+% created: taft - Mon Jul  6 10:57:00 1987
+% version for loading fonts on Unix; does NOT substitute Courier
+% leo Tue 24May88 Made it generate Screen- fonts automatically
+% Leo Hourvitz: Tue Aug 30 17:04:54 1988 Always load 'em in shared
+% jack 13Jul88 remove // from =string
+% Leo 13Feb89  Call registerdevicefont from new definefont
+%	       Add lock to findfont
+% Terry 08Dec89 Re-encode StandardEncoding fonts to NextStepEncoding fonts
+%		in overriding version of definefont
+% Peter May 21,90  changed default font allocation mode to non-shared.  
+%		   (since fontrun now forces type 1's to be shared)
+% On entry, the stack must contain a string which is the path to the
+% directory from which fonts are to be loaded.
+
+% setrom
+systemdict begin
+
+% Override definefont to make sure that any fonts placed in SharedFontDirectory
+% use the NextStepEncoding instead of the StandardEncoding.
+/definefont {
+    dup /Encoding get StandardEncoding eq
+    {
+        dup /Encoding NextStepEncoding put
+    }
+    if
+    //definefont
+} bind def
+
+/findfont exch def		% hack to get path bound to a name temporarily
+
+/_ffDevLength //findfont length def % hack way to get constant length of path
+/_ffTempStr 64 string def
+/_ffLock lock def
+
+/_ffInternal
+{
+    dup //systemdict /FontDirectory get exch known
+    { //systemdict /FontDirectory get exch get }
+    {	% Font name on stack
+	dup //SharedFontDirectory exch known
+	{//SharedFontDirectory exch get}
+	{   % Font name on stack
+	    % See if the name to be found begins with Screen-
+	    dup =string cvs length 7 gt
+	    { dup =string cvs 0 7 getinterval (Screen-) eq }
+	    { false }
+	    ifelse
+	    {   % Aha! It does begin with Screen-! Find the base font...
+		dup =string cvs dup length 7 sub 7 exch getinterval cvn
+					% fontN bfontN
+		/findfont load exec	% fontN bfontD
+		% Create a copy of the base font
+		/_ffShar currentshared def
+		dup scheck setshared
+		dup length 2 add dict /_ffDict exch def
+		{
+		    1 index /FID ne
+		    { _ffDict 3 1 roll put }
+		    { pop pop }
+		    ifelse
+		} forall
+		% Set the copy to have BitmapWidths
+		_ffDict /BitmapWidths true put
+		% And define the new font
+		dup _ffDict definefont pop
+		_ffShar setshared
+		//systemdict /SharedFontDirectory get exch get
+	    }
+	    { % No, it doesn't begin with Screen-; font name on stack
+		dup //_ffTempStr cvs	%convert font name to string fnam fstr
+		currentshared exch	% fnam shar fstr
+		dup length exch		% fnam shar fstrlen fstr
+		//findfont =string copy pop % fnam shar fstr
+		//_ffDevLength		% fnam shar fstrlen fstr devnamlen
+		=string exch		% fnam shar fstrlen fstr =str dnlen
+		3 -1 roll		% fnam shar fstrlen =str dnamlen fstr
+		putinterval		% fnam shar fstrlen
+		{
+		    //_ffDevLength add	% fnam shar pathlen
+		    =string exch	% fnam shar pathbuf pathlen
+		    0 exch		% fnam shar pathbuf 0 pathlen
+		    getinterval		% fnam shar pathstr
+% ================= Begin new code to check for Adobe kanji fonts =============
+		    {dup (r) file} stopped
+		    {% File was not found
+			% This clause can be used for an early exit 
+			% since we know the font doesn't exist
+			% stack: fnam shar pathstr pathstr (r) 
+			pop pop stop
+		    }
+		    {% File was found. Following code decides whether to load
+			% font into private or shared VM.
+			% stack: fnam shar pathstr file
+			currentshared	% assume we'll load into current VM
+			mark 
+			% stack: fnam shar pathstr file shared mark
+			2 index 34 string readstring {
+			    (AdobeStdCompFont)
+			    search 
+			    {cleartomark pop true} 
+			    {cleartomark} ifelse
+			} if
+			% stack: fnam shar pathstr file shared
+			exch closefile	% fontrun will reopen it
+			setshared  % set the VM mode for fontrun
+			% stack: fnam shar pathstr
+% ====================== = End of new code ===================================
+			fontrun
+		    } ifelse
+		} stopped       % stack: if success: font shar false
+				% stack if fail: fnam shar pathstr true
+		dup { exch pop } if	% Get rid of pathname
+					% fnam shar err?
+		exch setshared		% fnam err?
+		{   % Error running font, use Courier
+		    pop /Courier findfont
+		}
+		{   % Get font out of FontDirectory or SharedFontDirectory
+		    dup //systemdict /FontDirectory get exch known
+		    { //systemdict /FontDirectory get exch get }
+		    { //systemdict /SharedFontDirectory get exch get } ifelse
+		}
+		ifelse
+	    } ifelse
+	}
+	ifelse
+    }
+    ifelse
+} bind readonly def
+
+/findfont {
+    shareddict /_ffLockHolder get currentcontext eq
+    { //_ffInternal exec }
+    {
+    	//_ffLock
+	{
+	    shareddict /_ffLockHolder currentcontext put
+	    //_ffInternal exec
+	    shareddict /_ffLockHolder null put
+	}
+	monitor
+    }
+    ifelse
+} bind readonly def
+
+shareddict /_ffLockHolder null put
+
+currentdict /_ffTempStr undef % Clean that namespace!!!
+currentdict /_ffLock undef % Clean that namespace!!!
+currentdict /_ffDevLength undef % Clean that namespace!!!
+
+end % systemdict
+
+% load the correct CharMap by executing the piece of findfont that
+% locates and runs the font file.
+% (CharMap.ps) /findfont load 5 get exec pop
+
+% setram
+
+

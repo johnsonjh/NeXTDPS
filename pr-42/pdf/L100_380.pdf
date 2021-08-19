@@ -1,0 +1,280 @@
+*% Adobe Printer Description File
+*% For "Linotype" version 38.0
+*% Produced by "GETapd.ps" version 2.0 edit 47
+*% Date: <12/21/1987>
+*FormatVersion: "2.0"
+*LanguageVersion: English
+
+*Product: "(Linotype)"
+*PSVersion: "(38.0) 0"
+*NickName: "Linotronic 100 v38.0"
+
+*% General Information and Defaults ===============
+*ColorDevice: False
+*FileSystem: True
+*?FileSystem: "/initializedisk where{pop(True)}{(False)} ifelse = flush"
+*% Edit *Throughput and remove this comment:
+*%Throughput: "8"
+*Password: "0"
+*ExitServer: "serverdict begin exitserver"
+*FreeVM: "182356"
+*Reset: "
+systemdict /quit get exec
+(WARNING : Printer Reset Failed.) = flush
+"
+*End
+*VariablePaperSize: True
+
+*DefaultResolution: 1270dpi
+*?Resolution: "
+save
+  initgraphics
+  0 0 moveto currentpoint matrix defaultmatrix transform
+  0 72 lineto currentpoint matrix defaultmatrix transform
+  3 -1 roll sub dup mul
+  3 1 roll exch sub dup mul
+  add sqrt round cvi
+  (          ) cvs print (dpi) = flush
+restore
+"
+*End
+
+*% Halftone Information ===============
+*ScreenFreq: "90.0"
+*ScreenAngle: "45.0"
+*DefaultScreenProc: Dot
+*ScreenProc Dot: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }
+"
+*End
+*ScreenProc Line: "{ pop }"
+*ScreenProc Ellipse: "{ dup 5 mul 8 div mul exch dup mul exch add sqrt 1 exch sub }"
+
+*DefaultTransfer: Null
+*Transfer Null: "{ }"
+*Transfer Null.Inverse: "{ 1 exch sub }"
+*Transfer Normalized: "
+{
+mark
+1.0 1.0 .92 .76 .64 .54 .44 .36 .28 .2 .1 .0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+} bind
+"
+*End
+*Transfer Normalized.Inverse: "
+{
+mark
+.0 .0 .1 .2 .28 .36 .44 .54 .64 .76 .92 1.0
+counttomark dup 3 add -1 roll exch
+2 sub mul dup floor cvi
+dup 3 1 roll sub
+exch dup 
+3 add index exch 2 add index dup
+4 1 roll
+sub mul add
+counttomark 1 add 1 roll 
+cleartomark
+} bind
+"
+*End
+
+*% Paper Handling ===================
+
+*% Use these entries to set paper size most of the time, unless there is
+*% specific reason to use PageRegion or PaperTray.
+*DefaultPageSize: Letter
+*PageSize Letter: "letter"
+*PageSize Legal: "legal"
+*PageSize Note: "statusdict begin 612 792 0 1 setpageparams end"
+*PageSize Ledger: "statusdict begin 1224 792 0 0 setpageparams end"
+*PageSize Tabloid: "statusdict begin 792 1224 0 1 setpageparams end"
+*PageSize A3: "statusdict begin 842 1191 0 1 setpageparams end"
+*PageSize A4: "statusdict begin 596 842 0 1 setpageparams end"
+*PageSize A5: "statusdict begin 402 596 0 1 setpageparams end"
+*PageSize B5: "statusdict begin 516 729 0 1 setpageparams end"
+*PageSize A4.Transverse: "statusdict begin 842 596 0 0 setpageparams end"
+*PageSize A5.Transverse: "statusdict begin 596 402 0 0 setpageparams end"
+*PageSize B5.Transverse: "statusdict begin 729 516 0 0 setpageparams end"
+*PageSize Letter.Transverse: "statusdict begin 792 612 0 0 setpageparams end"
+
+*% These entries will set up the frame buffer. Usually used with manual feed.
+*DefaultPageRegion: Letter
+*PageRegion Letter: "statusdict begin 612 792 0 1 setpageparams end"
+*PageRegion Legal: "statusdict begin 612 1008 0 1 setpageparams end"
+*PageRegion Note: "statusdict begin 612 792 0 1 setpageparams end"
+*PageRegion Ledger: "statusdict begin 792 1224 0 0 setpageparams end"
+*PageRegion Tabloid: "statusdict begin 792 1224 0 1 setpageparams end"
+*PageRegion A3: "statusdict begin 842 1191 0 1 setpageparams end"
+*PageRegion A4: "statusdict begin 596 842 0 1 setpageparams end"
+*PageRegion A5: "statusdict begin 402 596 0 1 setpageparams end"
+*PageRegion B5: "statusdict begin 516 729 0 1 setpageparams end"
+*PageRegion A4.Transverse: "statusdict begin 842 596 0 0 setpageparams end"
+*PageRegion A5.Transverse: "statusdict begin 596 402 0 0 setpageparams end"
+*PageRegion B5.Transverse: "statusdict begin 729 516 0 0 setpageparams end"
+*PageRegion Letter.Transverse: "statusdict begin 612 792 0 0 setpageparams end"
+
+*DefaultPaperTray: None
+
+*% The following entries provide information about specific paper keywords.
+*DefaultImageableArea: Letter
+*ImageableArea Letter: "0 0 612 792"
+*ImageableArea Legal: "0 0 612 1008"
+*ImageableArea Note: "0 0 612 792"
+*ImageableArea Ledger: "0 0 792 1224"
+*ImageableArea Tabloid: "0 0 792 1224"
+*ImageableArea A3: "0 0 841 1190"
+*ImageableArea A4: "0 0 595 842"
+*ImageableArea A5: "0 0 420 596 "
+*ImageableArea B5: "0 0 500 709 "
+*ImageableArea A4.Transverse: "0 0 595 841"
+*ImageableArea A5.Transverse: "0 0 595 401"
+*ImageableArea B5.Transverse: "0 0 708 500 "
+*ImageableArea Letter.Transverse: "0 0 612 792"
+*?ImageableArea: "
+ save /cvp { cvi (            ) cvs print ( ) print } bind def
+  newpath clippath pathbbox
+  4 -2 roll exch 2 {ceiling cvp} repeat
+  exch 2 {floor cvp} repeat flush} repeat
+ restore
+"
+*End
+
+*% These provide the physical dimensions of the paper (by keyword)
+*DefaultPaperDimension: Letter
+*PaperDimension Letter: "612 792"
+*PaperDimension Legal: "612 1008"
+*PaperDimension Note: "612 792"
+*PaperDimension A4: "595 841"
+*PaperDimension A3: "841 1190"
+*PaperDimension Tabloid: "792 1224"
+*PaperDimension LetterTransverse: "612 792"
+
+*DefaultManualFeed: False
+*?ManualFeed: "statusdict /manualfeed get
+ {(True)}{(False)}ifelse = flush"
+*End
+*ManualFeed True: "statusdict begin /manualfeed true store end"
+*ManualFeed False: "statusdict begin /manualfeed false store end"
+
+*DefaultOutputOrder: Normal
+
+*DefaultCollator: None
+*DefaultSorter: None
+*DefaultDuplex: None
+
+*% Font Information =====================
+
+*DefaultFont: Courier
+*Font Courier: Standard "(001.000)"
+*Font Courier-Bold: Standard "(001.000)"
+*Font Courier-BoldOblique: Standard "(001.000)"
+*Font Courier-Oblique: Standard "(001.000)"
+*Font Helvetica: Standard "(001.000)"
+*Font Helvetica-Bold: Standard "(001.000)"
+*Font Helvetica-BoldOblique: Standard "(001.000)"
+*Font Helvetica-Oblique: Standard "(001.000)"
+*Font Symbol: Special "(001.001)"
+*Font Times-Bold: Standard "(001.000)"
+*Font Times-BoldItalic: Standard "(001.000)"
+*Font Times-Italic: Standard "(001.000)"
+*Font Times-Roman: Standard "(001.000)"
+*?FontQuery: "
+save  4 dict begin /sv exch def
+/str (fonts/                              ) def
+/st2 30 string def
+{
+  count 0 gt {
+    dup FontDirectory exch known {pop 1}{
+     str exch st2 cvs dup length /len exch def
+     6 exch putinterval str 0 len 6 add getinterval mark exch
+     { } st2 filenameforall counttomark 0 gt {
+      cleartomark 1}{cleartomark 0}ifelse
+    }ifelse = flush
+  }{ exit } ifelse
+} bind loop sv end restore
+"
+*End
+
+*?FontList: "
+FontDirectory { pop == flush } forall 
+/filenameforall where { 
+ pop save (fonts/*) { 
+  dup length 6 sub 6 exch getinterval == flush 
+ } 128 string filenameforall restore
+} if 
+(*) = flush
+"
+*End
+
+*% Printer Messages (verbatim from printer):
+*Message: "%%[ exitserver: permanent state may be changed ]%%"
+*Message: "%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%"
+*Message: "\FontName\ not found, using Courier"
+
+*% Status (format: %%[ status: <one of these> ]%% )
+*Status: "idle"
+*Status: "busy"
+*Status: "waiting"
+*Status: "printing"
+*Status: "warming up"
+*Status: "PrinterError: recorder not responding"
+*Status: "PrinterError: recorder offline or out of film"
+*Status: "PrinterError: page too large at current resolution"
+
+*% Input Sources (format: %%[ status: <stat>; source: <one of these> ]%% )
+*Source: "serial9"
+*Source: "serial25"
+*Source: "AppleTalk"
+
+*% Printer Error (format: %%[ PrinterError: <one of these> ]%%)
+*PrinterError: "recorder not responding"
+*PrinterError: "recorder offline or out of film"
+*PrinterError: "page too large at current resolution"
+
+
+*DefaultColorSep: ProcessCyan.133lpi/133 lpi
+
+*InkName: ProcessCyan/Process Cyan
+*InkName: ProcessMagenta/Process Magenta
+*InkName: ProcessYellow/Process Yellow
+*InkName: ProcessBlack/Process Black
+*InkName: CustomColor/Custom Color
+
+*ColorSepScreenAngle ProcessCyan.90lpi/90 lpi: "15"
+*ColorSepScreenAngle ProcessMagenta.90lpi/90 lpi: "75"
+*ColorSepScreenAngle ProcessYellow.90lpi/90 lpi: "0"
+*ColorSepScreenAngle ProcessBlack.90lpi/90 lpi: "45"
+*ColorSepScreenAngle CustomColor.90lpi/90 lpi: "45"
+
+*ColorSepScreenAngle ProcessCyan.133lpi/133 lpi: "15"
+*ColorSepScreenAngle ProcessMagenta.133lpi/133 lpi: "75"
+*ColorSepScreenAngle ProcessYellow.133lpi/133 lpi: "0"
+*ColorSepScreenAngle ProcessBlack.133lpi/133 lpi: "45"
+*ColorSepScreenAngle CustomColor.133lpi/133 lpi: "45"
+*ColorSepScreenFreq ProcessCyan.133lpi/133 lpi: "133"
+*ColorSepScreenFreq ProcessMagenta.133lpi/133 lpi: "133"
+*ColorSepScreenFreq ProcessYellow.133lpi/133 lpi: "133"
+*ColorSepScreenFreq ProcessBlack.133lpi/133 lpi: "133"
+*ColorSepScreenFreq CustomColor.133lpi/133 lpi: "133"
+
+*ColorSepScreenAngle ProcessCyan.150lpi/150 lpi: "15"
+*ColorSepScreenAngle ProcessMagenta.150lpi/150 lpi: "75"
+*ColorSepScreenAngle ProcessYellow.150lpi/150 lpi: "0"
+*ColorSepScreenAngle ProcessBlack.150lpi/150 lpi: "45"
+*ColorSepScreenAngle CustomColor.150lpi/150 lpi: "45"
+*ColorSepScreenFreq ProcessCyan.150lpi/150 lpi: "150"
+*ColorSepScreenFreq ProcessMagenta.150lpi/150 lpi: "150"
+*ColorSepScreenFreq ProcessYellow.150lpi/150 lpi: "150"
+*ColorSepScreenFreq ProcessBlack.150lpi/150 lpi: "150"
+*ColorSepScreenFreq CustomColor.150lpi/150 lpi: "150"
+
+*% end of APD file for Linotype

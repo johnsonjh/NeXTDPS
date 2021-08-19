@@ -1,0 +1,170 @@
+
+# System V line printer spooler model for PostScript/TranScript printer
+# Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved. 
+# GOVERNMENT END USERS: See Notice file in TranScript library directory
+# -- probably /usr/lib/ps/Notice
+# RCSID: $Header: psint.sysv,v 2.2 87/11/17 16:40:59 byron Rel $
+
+# stty options are: 
+#	stty cs8 9600 cread -clocal -ignbrk brkint -parmrk \
+#	inpck -istrip -inlcr -igncr -icrnl -iuclc ixon -ixany ixoff \
+#	-opost -isig -icanon -xcase 
+#	-echo -echoe -echok -echonl min \^a time \^d
+#
+# on 3B2 Sys Vr2v2 this is "1412:0:4bd:0:7f:1c:23:40:1:4:0:0"
+
+sttyopts="XCODEX"
+
+# establish basics
+# the log files is also our stdout and stderr file (set up with lpadmin)
+#	argv[0] is interface/PRINTERNAME
+#	cwd is the spooler directory (/usr/spool/lp)
+#	our environment gives us fairly little info though lots is passed in
+
+prog=$0
+pr=`basename $prog`
+printer=/dev/$pr
+cwd=`pwd`
+ptime=`date`
+log=$cwd/transcript/${pr}-log
+if [ ! -w "$log" ] ; then
+	disable -r"can't access log file $log" $pr 1>/dev/console 2>&1
+	exit 1
+fi
+# set these however you want, set psrv to null if you don't want reversal
+PSLIBDIR=XPSLIBDIRX
+send=$PSLIBDIR/pscomm
+banner=$PSLIBDIR/psbanner
+psrv=$PSLIBDIR/psrv
+format=$PSLIBDIR/pstext
+BANNERPRO=$PSLIBDIR/banner.pro
+VERBOSELOG=XVERBOSELOGX
+BANNERFIRST=XBANNERFIRSTX
+BANNERLAST=XBANNERLASTX
+REVERSE=XREVERSEX
+PSTEMPDIR=XPSTEMPDIRX
+export VERBOSELOG BANNERPRO BANNERFIRST BANNERLAST PSTEMPDIR REVERSE PSLIBDIR
+
+# printer-specific options file (can change any of the above)
+test -r ./transcript/${pr}.opt && . ./transcript/${pr}.opt
+
+if [ "$REVERSE" != "1" ] ; then
+	psrv=
+fi
+
+# parse command line options (cannonical)
+seqid=$1
+name=$2
+title="$3"
+copies=$4
+options="$5"
+shift; shift; shift; shift; shift
+files="$*"
+if [ -z "$title" ] ; then
+	title=`basename $1`
+fi
+# parse TranScript-specific user options with getopt
+set -- `getopt hmr "$options"`
+if [ $? != 0 ] ; then
+	echo $pr: $seqid bad user options $options
+	exit 2
+fi
+Hflag= Mflag= Rflag=
+for i in $*
+do	case $i in
+	-h|h)	Hflag=$i; shift;;	# no banner page
+	-m|m)	Mflag=$i; shift;;	# mail stream output if any
+	-r|r)	Rflag=$i; shift;;	# never reverse
+	--)	shift ;;
+	esac
+done
+
+# set up to send the job
+if [ ! -x $send ] ; then
+	disable -r"can't execute $send filter" $pr
+	exit 1
+fi
+echo $pr: $seqid $name "$title" start - $ptime
+
+# create banner page
+if [ -z "$Hflag" -a \( "$BANNERFIRST" = "1" -o "$BANNERLAST" = "1" \) ] ; then
+	if [ ! -x $banner ] ; then
+	    disable -r"can't exec $banner program" $pr
+	    exit 1
+	fi
+	bannerf=$PSTEMPDIR/b$seqid.$$
+#	trap "rm -f $bannerf" 1 2 3 15
+	if [ ! -r $BANNERPRO ] ; then
+		disable -r"can't access banner prolog" $pr
+		exit 1
+	fi
+	$banner $pr $seqid $name "$title" "$ptime" >$bannerf
+fi
+
+# print banner page first ?
+if [ -z "$Hflag" -a "$BANNERFIRST" = "1" ] ; then
+	(stty $sttyopts <&1
+	$send <$bannerf
+	) 1>$printer 2>>$log 3<$printer
+fi
+
+# set up to mail job output if user flag set
+if [ -n "$Mflag" ] ; then
+	JOBOUTPUT=${PSTEMPDIR}/o$seqid.$$
+	export JOBOUTPUT
+fi
+
+# now process the print files
+for f in $files
+do
+	echo $pr: $seqid `basename $f` - `date`
+	cop=$copies
+	# check for magic number and format if plain text
+	magic=`line <$f | cut -c1-11`
+	rev= tfile=
+	case "$magic" in
+		%!PS-Adobe-) rev=1 ;;
+		%!*) ;;
+		*) 	tfile=$PSTEMPDIR/t$seqid.$$ ;
+			$format <$f >$tfile ;
+			f=$tfile ; rev=1 ;;
+	esac
+	# if multiple copies, reverse only once
+	if [ $copies -gt 1 -a -n "$rev" -a -n "$psrv" -a -z "$Rflag" ] ; then
+		rfile=$PSTEMPDIR/r$seqid.$$
+		$psrv <$f >$rfile
+		f=$rfile ; rev=
+	fi
+	# print all the copies, reversing as necessary
+	while [ $cop -ge 1 ] 
+	do	(stty $sttyopts <&1
+		if [ -z "$rev" -o -z "$psrv" -o -n "$Rflag" ] ; then
+			$send <$f
+		else
+			$psrv <$f | $send 
+		fi ) 1>$printer 2>>$log 3<$printer
+		cop=`expr $cop - 1`
+	done
+	rm -f $rfile $tfile
+done
+
+# print banner page last ?
+if [ -z "$Hflag" -a "$BANNERLAST" = "1" ] ; then
+	(stty $sttyopts <&1
+	$send <$bannerf
+	) 1>$printer 2>>$log 3<$printer
+fi
+
+# mail user the job ouput if flag set
+if [ -n "$Mflag" ] ; then
+	if [ -s "$JOBOUTPUT" ] ; then
+		(echo Subject: output from PostScript print job $seqid follows
+		cat $JOBOUTPUT ) | mail $name
+	fi
+	rm -f $JOBOUTPUT
+fi
+
+echo $pr: $seqid end - `date`
+
+# clean up
+rm -f $bannerf

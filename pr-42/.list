@@ -1,0 +1,15 @@
+./
+../
+.list
+.places
+ChangeLog
+Makefile
+RelNotes
+errs
+inform/
+lpr/
+npcomm/
+npd/
+pdf/
+sounds/
+transcript/

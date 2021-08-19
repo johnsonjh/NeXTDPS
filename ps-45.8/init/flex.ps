@@ -1,0 +1,28 @@
+% flex.ps  --  internaldict stuff for DPS fonts
+
+% Copyright (c) 1985, '86, '87, '88, '89 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original version: paxton
+% last edit: taft - Tue Nov 14 14:39:52 1989
+% last edit: paxton - Tue Nov 14 14:18:38 1989
+
+% This version is suitable only for loading into the initial shared VM
+% of a system with a fontbuild that implements flex in c.
+
+/opdef where pop begin		% internaldict begin
+
+/FlxProc {} def % this will prevent fonts from defining their own FlxProc
+
+end % internaldict
+

@@ -1,0 +1,19 @@
+Hey Emacs, these comments are -*-Text-*-
+
+Status callback should have a way to report informational errors as
+well as fatal errors.  Perhaps the PrintPanel should have a "Quiet"
+preference that discards informational errors.
+
+In printing the document, the basic loop should scan ahead for
+conforming comments, print the PostScript up to the comment, and then
+do a PPD substitution for the comment.
+
+Make sure to write a test program that spits bad PostScript at the new
+npd.
+
+Get a whole bunch of PostScript files to use in a test suite.  Perhaps
+Adobe has some.
+
+Move strings into MachO segment.
+
+Having the window server go away should not make npd pause.

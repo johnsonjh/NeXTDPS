@@ -1,0 +1,53 @@
+% utils.ps
+% last edit: taft - Mon Sep 18 11:09:30 1989
+% some extra nice things to have around
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+/$utildict 10 trickydict def
+$utildict begin
+/darray 16 array def
+end
+
+% "newdict" takes a name and size on the stack. If a dict by that name
+% already exists, then nothing happens. Else a dict is created.
+
+/newdict			% name size
+ {exch dup where {pop pop}{exch dict def}ifelse}def
+
+% "enddict" takes a dictionary on the stack. If the dictionary
+% is not on the dictionary stack then a nop results. If the dict
+% is on the stack, then the stack is unwound and the dict is ended.
+
+/enddict 			% dict
+ {$utildict begin
+  /d exch def
+  /df false def
+  darray 0 countdictstack getinterval dictstack
+  {d eq {/df true def exit}if}forall
+  df {d end{dup currentdict ne {end}{end exit} ifelse}loop pop} {end}ifelse
+  }def
+  
+% saveit is a simple utility to save and restore around a given proc.
+/saveit {/svsv save def exec svsv restore}def
+
+/min {2 copy gt {exch pop}{pop}ifelse} def
+/max {2 copy gt {pop}{exch pop}ifelse} def
+
+/odd {cvi 1 and 1 eq} def	% <num> ==> <bool: num is odd>
+/even {cvi 1 and 0 eq} def	% <num> ==> <bool: num is even>
+
+/avg {add 2 div} def		% average two numbers
+/null 1 array 0 get def	% item of type "nulltype"
+/emptyarray [] def		% array of length 0

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+CFILE=maclexer.c
+DATAFILE=maclexerdata.c
+TMPFILE=/tmp/lexer$$.tmp
+
+sed	-e 's/int \*yystops;/char \*yystops;/' \
+	-e 's/int yyvstop/char yyvstop/' \
+	-e 's/define YYTYPE int/define YYTYPE unsigned char/' \
+	-e 's/int \*yyfnd;/char \*yyfnd;/' \
+	-e 's/^	int \*p;$/	char *p;/' \
+	lexer.c > $TMPFILE
+
+echo 'struct yysvf {struct yywork *yystoff; struct yysvf *yyother;short int *yystops;};' > $DATAFILE
+
+sed 	-e '/^char yyvstop/,/^#endif/ p' -e d $TMPFILE >> $DATAFILE
+
+cat > $CFILE <<END
+extern char yyvstop[];
+#define YYTYPE unsigned char
+extern struct yywork {YYTYPE verify, advance;} yycrank[];
+extern struct yysvf yysvec[];
+
+extern struct yywork *yytop;
+extern struct yysvf *yybgin;
+extern char yymatch[];
+extern char yyextra[];
+
+END
+
+sed	-e '/^char yyvstop/,/^#endif/ d' $TMPFILE >> $CFILE
+
+rm $TMPFILE

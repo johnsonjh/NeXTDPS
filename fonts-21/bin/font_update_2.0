@@ -1,0 +1,115 @@
+#!/bin/csh -f
+#
+# NAME:
+#
+#   	font_update_2.0   updates PostScript fonts for 2.0 WindowServer
+#
+# SYNOPSIS:	
+#
+#	font_update_2.0 [dir1 dir2 ...]
+#
+#
+# DESCRIPTION:
+#
+#	font_update_2.0 is a C shell script used to reorganize NextStep
+#	font directories under NextStep release 2.0.  Fonts in NextStep
+#	exist in three subdirectories:
+#
+#	/NextLibrary/Fonts
+#	/LocalLibrary/Fonts
+#	~/Library/Fonts
+#	
+#	Previously, each PostScript font had its component files split into
+#	three subdirectories (outline, bitmap, and afm).  Now, all of the
+#	information for a given font is stored in a single subdirectory
+#	call <fontname>.font.  For example, in the new scheme, an ls of
+#	/NextLibrary/Fonts will give:
+#
+#	Courier-Bold.font
+#	Courier-BoldOblique.font
+#	Courier-Oblique.font
+#	Courier.font
+#	Helvetica-Bold.font
+#	<etc>
+#
+#	This new structure allows fonts to be simply maintained using the
+#	Workspace.
+#
+#	This shell script builds this new structure for whatever fonts
+#	exist in <dir>/Fonts/outline directory.  If no argument is 
+#	passed, ~/Library is used.  It also leaves behind symbolic links
+#	for the old style allowing older appkits, and applications who rely
+#	on the old font organization to work.  The WindowServer itself supports
+#	both organizations.
+#
+#  EXAMPLES:
+#
+#	root should do the following during a 2.0 update.
+#
+#	>font_update_2.0 /NextLibrary /LocalLibrary
+#	
+#	users with fonts in ~/Library should do the following to update their
+#	personal fonts (most people don't have any).
+#
+#	>font_update_2.0 
+#	>
+
+switch($#argv)
+
+	case 0:
+		echo font_update: updating user fonts
+		echo user: $USER
+		echo home: $HOME
+		set fdirs = $HOME/Library
+		breaksw
+	default:
+# 		do passed in args
+		set fdirs=($argv)
+		echo font_update: updating fonts in $fdirs
+		breaksw
+endsw
+set noglob
+set nonomatch
+foreach fontdir ($fdirs)
+	echo font_update: Updating Directory: $fontdir/Fonts
+	if -e $fontdir/Fonts/outline then
+		cd $fontdir/Fonts/outline
+		set pat = *
+		unset noglob ; set files = $pat ; set noglob;
+		if($pat == $files[1]) set files = ()
+		foreach font ($files)
+			echo font_update: Updating Font: $font
+			mkdirs ../$font.font
+			pushd ../$font.font > /dev/null
+			foreach file (	../outline/$font ../afm/$font.afm )
+				if (-e $file &&  ! -e $file:t) then
+					mv -f $file $file:t
+					ln -s ../$font.font/$file:t $file
+				endif
+			end
+			set pat = ../afm/Screen-$font.*.afm
+			unset noglob ; set files = $pat ; set noglob;
+			if($pat == $files[1]) set files = ()
+			foreach file ($files)
+				if (-e $file && ! -e $file:t) then
+					mv -f $file $file:t
+					ln -s ../$font.font/$file:t $file
+				endif
+			end
+			set pat = ../bitmap/$font.[lb]epf
+			unset noglob ; set files = $pat ; set noglob;
+			if($pat == $files[1]) set files = ()
+			foreach file ($files)
+				if (-e $file && ! -e $file:t) then
+					mv -f $file $file:t
+					ln -s ../$font.font/$file:t $file
+				endif
+			end
+			popd > /dev/null
+		end
+	else
+		echo font_update: no fonts found in $fontdir
+	endif
+end
+
+		

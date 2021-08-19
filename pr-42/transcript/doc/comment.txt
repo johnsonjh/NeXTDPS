@@ -1,0 +1,66 @@
+
+
+
+
+
+
+
+
+
+                   TRANSCRIPT Customer Comment Form
+
+
+                               Mail To:
+
+                      Adobe Systems Incorporated
+                         1585 Charleston Road
+                            P.O. Box 7900
+                    Mountain View, CA   94309-7900
+
+                       Attn: TRANSCRIPT support
+
+
+
+
+
+We can respond best to your problems if you  follow  these  guidelines
+when reporting them:
+
+o+    Limit each Customer Comment Form to one problem or subject.
+
+o+    Try to isolate the problem to a small example - ten line examples
+     are easier to deal with than 100 line ones.
+
+o+    Include an actual script of the session exhibiting  the  problem.
+     (Machine generated listings are preferable to hand typed ones.)
+
+o+    Include a machine readable form of all relevant materials (please
+     tell us its format).
+
+Use this form or a facsimile, and attach extra  sheets  if  necessary.
+Please provide us with the following information:
+
+     Your Name ________________________________________
+
+     Your Company _____________________________________
+
+     Your Phone Number ________________________________
+
+     Your Netmail address (uucp or arpa)_______________
+
+     Your Hardware ____________________________________
+
+     Your Operating System ____________________________
+
+     Your version of TRANSCRIPT (2.1?)_________________
+
+     Your type(s) of POSTSCRIPT printer(s) ____________
+
+     Today's Date _____________________________________
+
+
+
+
+                          September 29, 1987
+
+

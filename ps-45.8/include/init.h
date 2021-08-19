@@ -1,0 +1,3 @@
+/* init.h dummy interface
+
+*/

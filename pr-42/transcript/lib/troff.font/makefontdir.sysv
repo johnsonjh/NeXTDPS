@@ -1,0 +1,51 @@
+
+#! /bin/sh
+# lib/troff.font/makefontdir
+#
+# Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: makefontdir.sysv,v 2.2 87/11/17 16:30:07 byron Rel $
+
+# This script moves the font files for a font family into a target
+# directory.  It also make some links.  It is used to create [o]troff
+# font family directories.
+# The font family directories are always created in /usr/lib/font/ps, because
+# otroff is hard-wired to look there.
+
+# Args: family-name
+
+
+family=$1
+target=/usr/lib/font/ps/$1
+
+# Set up the rest of the args:  R-font  I-font  B-font  S-font
+set $1 `awk -f doto.awk $family.map`
+
+# Get the overhead files
+cp $family.ct $target/font.ct
+cp font.head $target
+# Inhibit ligatures for Courier font -- looks better without them.
+if test x"$family" = xCourier
+then
+    echo ".lg 0" >>$target/font.head
+fi
+
+# Get the font files
+cp $2 $3 $4 $5 $target
+rm $2 $3 $4 $5
+
+# Make links for R/I/B fonts.
+cd $target
+ln $2 ftR
+ln $3 ftI
+ln $4 ftB
+if test x"$5" != xftS
+then
+    ln $5 ftS
+fi
+
+# Make sure everything has owner and group set correctly.
+chown $OWNER . *
+chgrp $GROUP . *
+chmod 755 .
+chmod 644 *

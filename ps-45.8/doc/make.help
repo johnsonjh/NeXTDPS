@@ -1,0 +1,18 @@
+
+
+doc/make.help -- Make rules for root make file
+
+all  				- produces export PS from clean world
+product [STAGE=EXPORT]		- produces libs and PS for stage
+local DSTROOT=dir		- install object dirs in local disk
+remote				- puts object dirs back in source filesystem
+installsrc SRCROOT=dir 		- install complete source tree
+install DSTROOT=dir		- full installation (includes all)
+installbin DSTROOT=dir		- install WindowServer and PS.VM
+installdoc DSTROOT=dir		- installs release notes doc
+installheaders DSTROOT=dir 	- installs public & local header files
+clean				- removes files in object dirs, depend 
+				  files as well as make `tidy' files below.
+tidy				- removes ~ and ## backup & autosave files
+depend				- rebuilds all package and product depend files
+changedfiles			- run diff_clone(1) -f on this world

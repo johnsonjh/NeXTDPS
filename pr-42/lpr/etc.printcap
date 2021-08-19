@@ -1,0 +1,23 @@
+#
+# Copyright (c) 1983 Regents of the University of California.
+# All rights reserved.  The Berkeley software License Agreement
+# specifies the terms and conditions for redistribution.
+#
+#	@(#)etc.printcap	5.1 (Berkeley) 6/7/85
+#
+# PostScript printer driven by TranScript software
+# PostScript and TranScript are trademarks of Adobe Systems Incorporated
+lp|1|LaserWriter|ps|postscript|PostScript:\
+        :lp=:rm=mach:rp=PostScript:sd=/usr/spool/lpd:pl#66:
+np|2|NextLaser:\
+	:lp=/dev/null:sd=/usr/spool/np:tr=^D:\
+	:lf=/usr/adm/np-log:af=/usr/adm/np.acct:\
+	:br#9600:rw:fc#0000374:fs#0000003:xc#0:xs#0040040:mx#0:sf:sb:\
+	:re:mf:\
+	:if=/usr/lib/ntranscript/psif:\
+	:of=/usr/lib/ntranscript/psof:\
+	:nf=/usr/lib/ntranscript/psnf:\
+	:tf=/usr/lib/ntranscript/pstf:\
+	:gf=/usr/lib/ntranscript/psgf:
+#lp|ps|1|LaserWriter|postscript|PostScript:\
+#	:lp=:rm=berkeley:rp=PostScript:sd=/usr/spool/lp:tr=^D:

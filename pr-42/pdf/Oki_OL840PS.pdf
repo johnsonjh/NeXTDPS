@@ -1,0 +1,415 @@
+*% Adobe Systems PostScript(R) Printer Description File
+*% For "OL840" version 51.8
+*% Produced by "BuildPPD.ps" version 3.0 edit 58
+*%
+*% Copyright 1988, 1989, 1990 Adobe Systems Incorporated.  
+*% All Rights Reserved.
+*% Permission is granted for redistribution of this file as
+*% long as this copyright notice is intact and the contents
+*% of the file is not altered in any way from its original form.
+*%
+*% The byte count of this file should be exactly 013497 or 013912
+*% depending on the filesystem it resides in.
+*%
+*% Date: 5/25/90
+*FormatVersion: "3.0"
+*FileVersion: "1.1"
+*LanguageVersion: English
+
+*Product: "(OL840)"
+*PSVersion: "(51.8) 0"
+*NickName: "Oki OL840/PS v51.8"
+
+*% General Information and Defaults ===============
+*FreeVM: "2370962"
+*ColorDevice: False
+*VariablePaperSize: False
+*FileSystem: False
+*?FileSystem: "/initializedisk where{pop(True)}{(False)} ifelse = flush"
+
+*Throughput: "8"
+*Password: "0"
+*ExitServer: "
+  count 0 eq {  % is the password on the stack?
+    true 
+  }{
+    dup	% potential password
+    statusdict begin checkpassword end not 
+  } ifelse 
+  {  %  if no password or not valid 
+    (WARNING : Cannot perform the exitserver command.) = 
+    (Password supplied is not valid.) = 
+    (Please contact the author of this software.) = flush
+    quit 
+  } if 
+  serverdict begin exitserver
+"
+*End
+
+*Reset: "
+  count 0 eq {  % is the password on the stack?
+    true 
+  }{
+    dup	% potential password
+    statusdict begin checkpassword end not 
+  } ifelse 
+  {  %  if no password or not valid 
+    (WARNING : Cannot reset printer.) = 
+    (Password supplied is not valid.) = 
+    (Please contact the author of this software.) = flush
+    quit 
+  } if 
+  serverdict begin exitserver
+  systemdict /quit get exec
+  (WARNING : Printer Reset Failed.) = flush
+"
+*End
+
+*DefaultResolution: 300dpi
+*?Resolution: "
+save
+  initgraphics
+  0 0 moveto currentpoint matrix defaultmatrix transform
+  0 72 lineto currentpoint matrix defaultmatrix transform
+  3 -1 roll sub dup mul
+  3 1 roll exch sub dup mul
+  add sqrt round cvi
+  (          ) cvs print (dpi) = flush
+restore
+"
+*End
+
+*% Halftone Information ===============
+*ScreenFreq: "60.0"
+*ScreenAngle: "45.0"
+*DefaultScreenProc: Dot
+*ScreenProc Dot: "
+{abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 
+sub }{dup mul exch dup mul add 1 exch sub }ifelse }
+"
+*End
+*ScreenProc Line: "{ pop }"
+*ScreenProc Ellipse: "{ dup 5 mul 8 div mul exch dup mul exch add sqrt 1 exch sub }"
+
+*DefaultTransfer: Null
+*Transfer Null: "{ }"
+*Transfer Null.Inverse: "{ 1 exch sub }"
+
+*% Paper Handling ===================
+
+*% Use these entries to set paper size most of the time, unless there is
+*% specific reason to use PageRegion or PaperTray.
+*DefaultPageSize: A4
+*PageSize Letter: "statusdict begin lettertray end"
+*PageSize Legal: "statusdict begin legaltray end"
+*PageSize Executive: "statusdict begin executivetray end"
+*PageSize A4: "statusdict begin a4tray end"
+*PageSize A5: "statusdict begin a5tray end"
+*PageSize B5: "statusdict begin b5tray end"
+*PageSize Envelope.297.684/Comm #10 Envelope:"statusdict begin com10tray end"
+*PageSize Envelope.312.624/DL Envelope:"statusdict begin dltray end"
+*PageSize Envelope.459.649/C5 Envelope:"statusdict begin c5tray end"
+*PageSize Envelope.279.540/Monarch Envelope:"statusdict begin monarchtray end"
+*?PageSize: "
+ save statusdict begin
+  10 dict begin
+   /letter (Letter) def 
+   /legal (Legal) def
+   /executivepage (Executive) def
+   /a4 (A4) def
+   /a5 (A5) def 
+   /b5 (B5) def 
+   /com10 (Envelope.297.684/Comm #10 Envelope) def
+   /dl (Envelope.312.624/DL Envelope) def
+   /c5 (Envelope.459.649/C5 Envelope) def
+   /monarch (Envelope.279.540/Monarch Envelope) def
+   papersize {
+     {load exec} stopped not{= flush}if
+   }{
+     {load exec} stopped not{print (.Transverse) = flush}{(Unknown) = flush}ifelse
+   }ifelse
+  end
+ end restore
+"
+*End
+
+*% These entries will set up the frame buffer. Usually used with manual feed.
+*DefaultPageRegion: A4
+*PageRegion Letter: "letter"
+*PageRegion Legal: "legal"
+*PageRegion Executive: "executivepage"
+*PageRegion A4: "a4"
+*PageRegion A5: "a5"
+*PageRegion B5: "b5"
+*PageRegion Envelope.297.684/Comm #10 Envelope: "com10"
+*PageRegion Envelope.312.624/DL Envelope: "dl"
+*PageRegion Envelope.459.649/C5 Envelope: "c5"
+*PageRegion Envelope.279.540/Monarch Envelope: "monarch"
+
+*% These entries will invoke a particular tray--error may occur if tray is not inserted.
+*% These errors should be trapped by software and a message displayed
+*DefaultPaperTray: None
+*PaperTray Letter: "statusdict begin lettertray end"
+*PaperTray Legal: "statusdict begin legaltray end"
+*PaperTray Executive: "statusdict begin executivetray end"
+*PaperTray A4: "statusdict begin a4tray end"
+*PaperTray A5: "statusdict begin a5tray end"
+*PaperTray B5: "statusdict begin b5tray end"
+*PaperTray Envelope.297.684/Comm #10 Envelope: "statusdict begin com10tray end"
+*PaperTray Envelope.312.624/DL Envelope: "statusdict begin dltray end"
+*PaperTray Envelope.459.649/C5 Envelope: "statusdict begin c5tray end"
+*PaperTray Envelope.279.540/Monarch Envelope: "statusdict begin monarchtray end"
+*?PaperTray: "
+ save statusdict begin
+   10 dict begin
+   /letter (Letter) def 
+   /legal (Legal) def
+   /executivepage (Executive) def
+   /a4 (A4) def
+   /a5 (A5) def 
+   /b5 (B5) def
+   /com10 (Envelope.297.684/Comm #10 Envelope) def
+   /dl (Envelope.312.624/DL Envelope) def
+   /c5 (Envelope.459.649/C5 Envelope) def
+   /monarch (Envelope.279.540/Monarch Envelope) def
+   papersize {
+     {load exec} stopped not{= flush}if
+   }{
+     {load exec} stopped not{print (.Transverse) = flush}if
+   }ifelse
+  end
+ end restore
+"
+*End
+
+*% The following entries provide information about specific paper keywords.
+*DefaultImageableArea: A4
+*ImageableArea Letter: "8 8 606 776 "
+*ImageableArea Legal: "8 8 606 992 "
+*ImageableArea Executive: "8 8 513 743"
+*ImageableArea A4: "8 8 586 826 "
+*ImageableArea A5: "8 8 410 579 "
+*ImageableArea B5: "8 8 506 713 "
+*ImageableArea Envelope.297.684/Comm #10 Envelope: "7 10 290 674"
+*ImageableArea Envelope.279.540/Monarch Envelope: "7 10 272 530"
+*ImageableArea Envelope.312.624/DL Envelope: "8 11 305 614"
+*ImageableArea Envelope.459.649/C5 Envelope: "7 10 452 639"
+*?ImageableArea: "
+ save /cvp { cvi (            ) cvs print ( ) print } bind def
+  newpath clippath pathbbox
+  4 -2 roll exch 2 {ceiling cvp} repeat
+  exch 2 {floor cvp} repeat flush
+ restore
+"
+*End
+
+*% These provide the physical dimensions of the paper (by keyword)
+*DefaultPaperDimension: A4
+*PaperDimension Letter: "612 792"
+*PaperDimension Legal: "612 1008"
+*PaperDimension Executive: "522 756"
+*PaperDimension A4: "595 842"
+*PaperDimension A5: "420 595"
+*PaperDimension B5: "516 729"
+*PaperDimension Envelope.297.684/Comm #10 Envelope:"297 684"
+*PaperDimension Envelope.312.624/DL Envelope:"312 624"
+*PaperDimension Envelope.459.649/C5 Envelope:"459 649"
+*PaperDimension Envelope.279.540/Monarch Envelope:"279 540"
+
+*DefaultOutputBin: Upper
+*DefaultInputSlot:  Upper
+
+*InputSlot Upper: "statusdict begin 0 setpapertray end"
+*InputSlot Lower: "statusdict begin 1 setpapertray end"
+*?InputSlot: "
+ save statusdict begin
+  2 dict begin
+   /0 (Upper) def
+   /1 (Lower) def
+   papertray 
+     {( ) cvs cvn load exec} stopped not{= flush}if
+  end
+ end restore
+"
+*End
+
+*DefaultManualFeed: False
+*?ManualFeed: "
+  statusdict /manualfeed get
+  {(True)}{(False)}ifelse = flush"
+*End
+*ManualFeed True: "statusdict begin /manualfeed true store end"
+*ManualFeed False: "statusdict begin /manualfeed false store end"
+
+*DefaultOutputOrder: Normal
+
+*DefaultCollator: None
+*DefaultSorter: None
+*DefaultDuplex: None
+
+*% Font Information =====================
+
+*DefaultFont: Courier
+*Font AvantGarde-Book: Standard "(001.002)"
+*Font AvantGarde-BookOblique: Standard "(001.002)"
+*Font AvantGarde-Demi: Standard "(001.003)"
+*Font AvantGarde-DemiOblique: Standard "(001.003)"
+*Font Bookman-Demi: Standard "(001.001)"
+*Font Bookman-DemiItalic: Standard "(001.001)"
+*Font Bookman-Light: Standard "(001.001)"
+*Font Bookman-LightItalic: Standard "(001.001)"
+*Font Courier: Standard "(001.004)"
+*Font Courier-Bold: Standard "(001.004)"
+*Font Courier-BoldOblique: Standard "(001.004)"
+*Font Courier-Oblique: Standard "(001.004)"
+*Font Helvetica: Standard "(001.002)"
+*Font Helvetica-Bold: Standard "(001.002)"
+*Font Helvetica-BoldOblique: Standard "(001.002)"
+*Font Helvetica-Narrow: Standard "(001.002)"
+*Font Helvetica-Narrow-Bold: Standard "(001.002)"
+*Font Helvetica-Narrow-BoldOblique: Standard "(001.002)"
+*Font Helvetica-Narrow-Oblique: Standard "(001.002)"
+*Font Helvetica-Oblique: Standard "(001.002)"
+*Font NewCenturySchlbk-Bold: Standard "(001.006)"
+*Font NewCenturySchlbk-BoldItalic: Standard "(001.004)"
+*Font NewCenturySchlbk-Italic: Standard "(001.003)"
+*Font NewCenturySchlbk-Roman: Standard "(001.004)"
+*Font Palatino-Bold: Standard "(001.002)"
+*Font Palatino-BoldItalic: Standard "(001.002)"
+*Font Palatino-Italic: Standard "(001.002)"
+*Font Palatino-Roman: Standard "(001.001)"
+*Font Symbol: Special "(001.003)"
+*Font Times-Bold: Standard "(001.002)"
+*Font Times-BoldItalic: Standard "(001.004)"
+*Font Times-Italic: Standard "(001.002)"
+*Font Times-Roman: Standard "(001.002)"
+*Font ZapfChancery-MediumItalic: Standard "(001.003)"
+*Font ZapfDingbats: Special "(001.002)"
+
+*?FontQuery: "
+save  4 dict begin /sv exch def
+/str (fonts/                              ) def
+/st2 128 string def
+{
+  count 0 gt {
+    dup st2 cvs (/) print print (:) print
+    dup FontDirectory exch known {pop (Yes)}{
+     str exch st2 cvs dup length /len exch def
+     6 exch putinterval str 0 len 6 add getinterval mark exch
+     { } st2 filenameforall counttomark 0 gt {
+      cleartomark (Yes)}{cleartomark (No)}ifelse
+    }ifelse = flush
+  }{ exit } ifelse
+} bind loop
+(*) = flush
+sv end restore
+"
+*End
+
+*?FontList: "
+save  2 dict begin /sv exch def
+/str 128 string def
+FontDirectory { pop == } bind forall flush
+/filenameforall where { 
+ pop save (fonts/*) { 
+  dup length 6 sub 6 exch getinterval cvn == 
+ } bind str filenameforall flush restore
+} if 
+(*) = flush
+sv end restore
+"
+*End
+
+*% Printer Messages (verbatim from printer):
+
+*Message: "%%[ exitserver: permanent state may be changed ]%%"
+*Message: "%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%"
+*Message: "\FontName\ not found, using Courier"
+
+*%Status (format: %%[ status: <one of these> ]%% )
+
+*Status: "idle"
+*Status: "busy"
+*Status: "waiting"
+*Status: "printing"
+*Status: "warming up"
+
+*%Input Sources (format: %%[ status: <stat>; source: <one of these> ]%% )
+
+*Source: "serial9"
+*Source: "serial25"
+*Source: "AppleTalk"
+*Source: "Centronics"
+
+
+*% Printer Error (format: %%[ PrinterError: <one of these> ]%%)
+*Printer Error "ERROR ENGINE"
+*Printer Error "ERROR ENGINE FAN"
+*Printer Error "ERROR ENGINE FUSER"
+*Printer Error "ERROR OPTION RAM"
+*Printer Error "ERROR RESIDENT RAM"
+*Printer Error "ERROR EEPROM"
+*Printer Error "ERROR PROGRAM ROM"
+*Printer Error "COVER OPEN"
+*Printer Error "PAPER JAM TRAY1"
+*Printer Error "PAPER JAM TRAY2"
+*Printer Error "PAPER FEED JAM TRAY1"
+*Printer Error "PAPER FEED JAM TRAY2"
+*Printer Error "PAPER OUT TRAY1"
+*Printer Error "PAPER OUT TRAY2"
+*Printer Error "FUSER LIFE"
+*Printer Error "DRUM LIFE"
+*Printer Error "TONER LOW"
+*Printer Error "Image is too light"
+*Printer Error "Image is too dark"
+*Printer Error "Blank page"
+*Printer Error "Full black image"
+*Printer Error "Stains on paper"
+*Printer Error "Cyclic abnormality"
+*Printer Error "Dark vertical lines"
+*Printer Error "White vertical lines"
+*Printer Error "Dirty back ground" 
+
+
+*%DeviceAdjustMatrix: "[1 0 0 1 0 0]"
+
+*% Color Separation Information =====================
+
+*DefaultColorSep: ProcessBlack.60lpi.300dpi/60 lpi / 300 dpi
+
+*InkName: ProcessBlack/Process Black
+*InkName: CustomColor/Custom Color
+*InkName: ProcessCyan/Process Cyan
+*InkName: ProcessMagenta/Process Magenta
+*InkName: ProcessYellow/Process Yellow
+
+*  For 60 lpi / 300 dpi  ===============================
+
+*ColorSepScreenAngle ProcessBlack.60lpi.300dpi/60 lpi / 300 dpi: "45"
+*ColorSepScreenAngle CustomColor.60lpi.300dpi/60 lpi / 300 dpi: "45"
+*ColorSepScreenAngle ProcessCyan.60lpi.300dpi/60 lpi / 300 dpi: "15"
+*ColorSepScreenAngle ProcessMagenta.60lpi.300dpi/60 lpi / 300 dpi: "75"
+*ColorSepScreenAngle ProcessYellow.60lpi.300dpi/60 lpi / 300 dpi: "0"
+
+*ColorSepScreenFreq ProcessBlack.60lpi.300dpi/60 lpi / 300 dpi: "60"
+*ColorSepScreenFreq CustomColor.60lpi.300dpi/60 lpi / 300 dpi: "60"
+*ColorSepScreenFreq ProcessCyan.60lpi.300dpi/60 lpi / 300 dpi: "60"
+*ColorSepScreenFreq ProcessMagenta.60lpi.300dpi/60 lpi / 300 dpi: "60"
+*ColorSepScreenFreq ProcessYellow.60lpi.300dpi/60 lpi / 300 dpi: "60"
+
+*  For 53 lpi / 300 dpi  ===============================
+
+*ColorSepScreenAngle ProcessBlack.53lpi.300dpi/53 lpi / 300 dpi: "45.0"
+*ColorSepScreenAngle CustomColor.53lpi.300dpi/53 lpi / 300 dpi: "45.0"
+*ColorSepScreenAngle ProcessCyan.53lpi.300dpi/53 lpi / 300 dpi: "71.5651"
+*ColorSepScreenAngle ProcessMagenta.53lpi.300dpi/53 lpi / 300 dpi: "18.4349"
+*ColorSepScreenAngle ProcessYellow.53lpi.300dpi/53 lpi / 300 dpi: "0.0"
+
+*ColorSepScreenFreq ProcessBlack.53lpi.300dpi/53 lpi / 300 dpi: "53.033"
+*ColorSepScreenFreq CustomColor.53lpi.300dpi/53 lpi / 300 dpi: "53.033"
+*ColorSepScreenFreq ProcessCyan.53lpi.300dpi/53 lpi / 300 dpi: "47.4342"
+*ColorSepScreenFreq ProcessMagenta.53lpi.300dpi/53 lpi / 300 dpi: "47.4342"
+*ColorSepScreenFreq ProcessYellow.53lpi.300dpi/53 lpi / 300 dpi: "50.0"
+
+
+*% end of PPD file for OL840

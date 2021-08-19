@@ -1,0 +1,46 @@
+% buildname.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original version: warnock
+% last edit: taft - Mon May 23 16:49:46 1988
+% last edit: geschke Mon May 21 13:43:34 1984
+
+% package for string concatination
+% particularly useful for path name compostition
+
+/StartName
+  {$SName begin /namestring exch def /ncnt 0 def end}def
+
+/AppendToName
+  {$SName begin
+   /str exch def
+   str type /nametype eq {/str str nmstr cvs def} if
+   namestring ncnt str putinterval
+   /ncnt ncnt str length add def
+   end
+  }def
+
+/ReturnName
+  {$SName begin namestring 0 ncnt getinterval end}def
+
+/TruncateName
+  {$SName begin /tcnt exch def /str exch def
+   str length tcnt 2 copy lt {pop}{exch pop}ifelse
+   str exch 0 exch getinteval
+   end
+  }def
+
+/$SName 10 trickydict def
+$SName /nmstr 40 string put

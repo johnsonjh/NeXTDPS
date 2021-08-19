@@ -1,0 +1,55 @@
+
+/*
+    multiops.psw
+
+    This file has non-trivial wraps.  Functions in here are NOT automatically
+    put in a header file.
+
+    Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+    All rights reserved.
+*/
+
+#include "dpsclient.h"
+#include "defs.h"
+
+/* generates a pseudo-event to start wait cursor timer. */
+defineps static doDPSStartWaitCursorTimer()
+    startwaitcursortimer
+endps
+
+/* generates a pseudo-event to start wait cursor timer. */
+void DPSStartWaitCursorTimer(void)
+{
+    DPSContext ctxt = DPSGetCurrentContext();
+    _DPSMachContext machCtxt;
+
+    if (ctxt->type == dps_machServer) {
+    	machCtxt = STD_TO_MACH(ctxt);
+	machCtxt->flags.didStartWCTimer = TRUE;
+    }
+    doDPSStartWaitCursorTimer();
+}
+
+/* These wraps have been deleted from the API */
+
+defineps PSadjustmouse(float dx, dy)
+	dx dy adjustmouse
+endps
+
+PSresetwait()						{}
+PSsetwaitenabled(int flag)				{}
+PSsetwaitcursor(float x, float y, float mx, float my)	{}
+PSsetwaittime(float time)				{}
+
+/* maintains old "Below 0" semantics for 1.0 apps */
+defineps _NXOldOrderwindow()
+    userdict /orderwindow {
+	3 copy pop
+	0 eq exch -1 eq and {
+	    3 1 roll pop pop
+	    0 0 3 -1 roll
+	} if
+	orderwindow
+    } bind put
+endps
+

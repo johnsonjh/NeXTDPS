@@ -1,0 +1,264 @@
+% idle.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original: paxton
+% last edit: lent - Tue Oct 20 15:41:18 1987
+% last edit: hibbard - Wed Jul 20 17:00:22 1988
+% last edit: taft - Tue Nov 14 11:56:03 1989
+% Generic idle-time font caching
+% see comments at end for information about product customization
+
+setrom
+
+statusdict begin
+serverdict begin
+
+/$idleTimeDict 21 trickydict def % note: OK for trickydict to be in ROM
+
+/UseIdleTime
+{
+  //$idleTimeDict begin
+    /stopPred exch def
+    //true accesson
+    {
+      /idlefile (Sys/Idle) (r) file def
+    } stopped
+    vmstatus pop pop 0 gt {//false accesson} if
+    {
+     //$error /newerror //false put
+     clear IdleTimeCharBuild
+    }
+    {
+      {
+        idlefile cvx exec
+        idlefile closefile
+      } stopped pop
+    }
+    ifelse
+    {stopPred {exit} if} loop
+  end
+} bind executeonly def
+
+/IdleTimeCharBuild
+		% depends on there being a valid device matrix!!
+   {//$idleTimeDict begin
+    /idleI 0 def
+    /idleStrI 0 def
+    /idleStr 0 string def
+    /needflush true def
+    ReadIdleFonts
+    gsave
+       {% do a character once each time around the loop
+	stopPred {exit} if
+	idleStrI idleStr length ge % go to next font
+	   {
+	    needflush systemdict /flushcache known and 
+	    /needflush false def
+	       {statusdict begin diskstatus end exch pop 0 gt
+		   {/needflush flushcache not def} if
+	       } if
+	    idleI idleArry length ge
+	       {exitWhenDone {exit} {/idleI 0 def} ifelse} if
+	    idleI idleArry length lt
+	       {0 idlA FontDirectory exch known
+		   {grestore gsave
+		    FontDirectory 0 idlA get setfont
+		    1 idlA 2 idlA scale 3 idlA rotate
+		    /idleStr 4 idlA def
+		    /idleStrI 0 def
+		   } if
+	       } if
+	    /idleI idleI 5 add def
+	   }
+	   {idleStr idleStrI 1 getinterval stringwidth pop pop
+	    % this relies on stringwidth to cache the character
+	    /idleStrI idleStrI 1 add def
+	   } ifelse
+       } loop
+    grestore
+    end % $idleTimeDict
+   } bind def
+
+$idleTimeDict begin
+
+/exitWhenDone false def
+
+/stopPred {} def
+/idleI 0 def
+/idleStrI 0 def
+/idleStr () def
+/idlefile null def
+
+/idlA { idleArry exch idleI add get } def
+
+/ascii94  % full ASCII set
+   (abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,;?:-()'"!+[]$%&*/_=@#`{}<>^~|\\) readonly def
+
+/ascii81  % ASCII set without _=@#`{}<>^~|\ 
+   ascii94 0 81 getinterval def
+
+/ascii62  % upper/lower case letters and digits
+   ascii94 0 62 getinterval def
+
+/ascii26  % lower case letters only
+   ascii81 0 26 getinterval def
+
+% The following is the "official" array mapping font numbers to
+% font names. Font numbers are used to specify parameters for idle time
+% font caching and for certain other purposes (e.g., Diablo 630 emulation).
+% These are all the fonts that have ever been included as ROM fonts in
+% any PostScript printer. NOTE: add new names only at the end.   
+
+/ROMnames [
+  /Courier				% 0
+  /Courier
+  /Courier-Bold
+  /Courier-Oblique
+  /Courier-BoldOblique
+  /Times-Roman
+  /Times-Bold 
+  /Times-Italic 
+  /Times-BoldItalic
+  /Helvetica 
+  /Helvetica-Bold 
+  /Helvetica-Oblique			% 10 
+  /Helvetica-BoldOblique
+  /Symbol
+  /AvantGarde-Book
+  /AvantGarde-BookOblique
+  /AvantGarde-Demi
+  /AvantGarde-DemiOblique
+  /Bookman-Demi
+  /Bookman-DemiItalic
+  /Bookman-Light
+  /Bookman-LightItalic			% 20
+  /Helvetica-Narrow
+  /Helvetica-Narrow-Bold
+  /Helvetica-Narrow-BoldOblique
+  /Helvetica-Narrow-Oblique
+  /NewCenturySchlbk-Roman
+  /NewCenturySchlbk-Bold
+  /NewCenturySchlbk-Italic
+  /NewCenturySchlbk-BoldItalic
+  /Palatino-Roman
+  /Palatino-Bold			% 30
+  /Palatino-Italic
+  /Palatino-BoldItalic
+  /ZapfChancery-MediumItalic
+  /ZapfDingbats
+  /LubalinGraph-Book
+  /LubalinGraph-BookOblique
+  /LubalinGraph-Demi
+  /LubalinGraph-DemiOblique
+  /Souvenir-Demi
+  /Souvenir-DemiItalic			% 40
+  /Souvenir-Light
+  /Souvenir-LightItalic
+  /Optima-Roman
+  /Optima-Oblique
+  /Optima-Bold
+  /Optima-BoldOblique
+  /Garamond-Light
+  /Garamond-LightItalic
+  /Garamond-Bold
+  /Garamond-BoldItalic			% 50
+  /Helvetica-Condensed
+  /Helvetica-Condensed-Bold
+  /Helvetica-Condensed-BoldObl
+  /Helvetica-Condensed-Oblique
+  /Korinna-Bold
+  /Korinna-KursivBold
+  /Korinna-KursivRegular
+  /Korinna-Regular
+  /Helvetica-Black
+  /Helvetica-BlackOblique		% 60
+  /Helvetica-Light
+  /Helvetica-LightOblique
+  ] readonly def
+
+/dfltIdleArry [
+  % default idle-time array
+  % fonts are scan converted in the order given here, so the ones most
+  % likely to be used should be first.
+  ] readonly def
+
+/idleArry [] def
+
+/bmpI
+   {/eeinfo exch def /idleI idleI 1 sub def idleArry idleI
+   } bind def
+
+/boundsCheck
+   {length eeinfo le {/eeinfo 0 def} if
+   } bind def
+
+/ReadIdleFonts
+   { % set up idleArry from EEROM info, if any
+    //$idleTimeDict begin
+    % mark fontnumber sx*10 sy*10 rotation/5 charcnt ...
+    idlefonts counttomark /idleI exch def
+    idleI 0 gt idleI 5 mod 0 eq and
+       {idleI idleArry length gt idleArry dfltIdleArry eq or
+	   {/idleArry idleI array def} if
+	% now fill in the array with stuff from the stack
+	   {idleI 0 le {exit} if
+	    bmpI ascii94 boundsCheck ascii94 0 eeinfo getinterval put
+	    bmpI eeinfo 5 mul put % rotation
+	    bmpI eeinfo 10 div put % scale in y
+	    bmpI eeinfo 10 div put % scale in x
+	    bmpI ROMnames boundsCheck ROMnames eeinfo get put % font name
+	   } loop
+       }
+       {/idleArry dfltIdleArry def}
+    ifelse
+    cleartomark
+    end
+   } bind def
+
+end % $idleTimeDict
+end % serverdict
+end % statusdict
+
+setram
+
+% Interface to product-specific server code:
+
+% Idle-time font caching is invoked simply by invoking
+%   stopPredicate UseIdleTime
+% where stopPredicate is a procedure that returns true if it's time
+% to stop, false if not. UseIdleTime alternately scan converts one
+% character and calls stopPredicate.
+
+% The behavior of idle-time font caching can be customized by changing
+% certain definitions in $idleTimeDict, as follows:
+
+% dfltIdleArry is an array defining the default set of characters to
+% be cached during idle time, i.e., the set used if no information has
+% been put in EEROM by setidlefonts. If dfltIdleArry is not specified
+% then the default set is empty. The entries in dfltIdleArry are groups
+% of 5 PostScript objects, each as follows:
+%   font name
+%   x scale (points)
+%   y scale (points)
+%   orientation (degrees counterclockwise)
+%   string consisting of characters to cache
+% Fonts are scan converted in the order given in this table, so the
+% ones most likely to be used should be first.
+
+% exitWhenDone is a boolean that determines what happens when
+% all specified fonts have been cached. If exitWhenDone is false
+% (the default), UseIdleTime starts over; i.e., it does not return
+% until the stopPredicate returns true. If exitWhenDone is true,
+% UseIdleTime returns at once.

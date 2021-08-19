@@ -1,0 +1,111 @@
+#
+#
+# SourcesList
+#
+# Created 06Oct88 Leo
+# This file defines a makefile macro for each font face listing
+# all the bitmap distribution format files that we actually want
+# to build into a prebuilt file.  This is where we configure what
+# bitmap fonts are available on the system.
+#
+# Modified:
+#	pgraff 5/5/90  removed prebuilts > 14pt.
+#
+
+HELVE_SOURCES = ../bitmapSources/Helvetica/7.Helve \
+		../bitmapSources/Helvetica/8.Helve \
+		../bitmapSources/Helvetica/9.Helve \
+		../bitmapSources/Helvetica/10.Helve \
+		../bitmapSources/Helvetica/12.Helve \
+		../bitmapSources/Helvetica/14.Helve \
+		../bitmapSources/Helvetica/18.Helve 
+
+HELVEBOL_SOURCES = ../bitmapSources/Helvetica/8.HelveBol \
+		../bitmapSources/Helvetica/10.HelveBol \
+		../bitmapSources/Helvetica/12.HelveBol \
+		../bitmapSources/Helvetica/14.HelveBol \
+		../bitmapSources/Helvetica/18.HelveBol 
+
+HELVEOBL_SOURCES = ../bitmapSources/Helvetica/8.HelveObl \
+		../bitmapSources/Helvetica/10.HelveObl \
+		../bitmapSources/Helvetica/12.HelveObl \
+		../bitmapSources/Helvetica/14.HelveObl \
+		../bitmapSources/Helvetica/18.HelveObl 
+
+HELVEBOLOBL_SOURCES = ../bitmapSources/Helvetica/8.HelveBolObl \
+		../bitmapSources/Helvetica/10.HelveBolObl \
+		../bitmapSources/Helvetica/12.HelveBolObl \
+		../bitmapSources/Helvetica/14.HelveBolObl \
+		../bitmapSources/Helvetica/18.HelveBolObl 
+
+TIMESROM_SOURCES = \
+		../bitmapSources/Times/7.TimesRom \
+		../bitmapSources/Times/9.TimesRom \
+		../bitmapSources/Times/10.TimesRom \
+		../bitmapSources/Times/12.TimesRom \
+		../bitmapSources/Times/14.TimesRom \
+		../bitmapSources/Times/18.TimesRom 
+
+TIMESBOL_SOURCES = \
+		../bitmapSources/Times/10.TimesBol \
+		../bitmapSources/Times/12.TimesBol \
+		../bitmapSources/Times/14.TimesBol \
+		../bitmapSources/Times/18.TimesBol 
+
+TIMESITA_SOURCES = \
+		../bitmapSources/Times/10.TimesIta \
+		../bitmapSources/Times/12.TimesIta \
+		../bitmapSources/Times/14.TimesIta \
+		../bitmapSources/Times/18.TimesIta 
+
+TIMES_BOLITA_SOURCES = \
+		../bitmapSources/Times/10.TimesBolIta \
+		../bitmapSources/Times/12.TimesBolIta \
+		../bitmapSources/Times/14.TimesBolIta \
+		../bitmapSources/Times/18.TimesBolIta 
+
+COURIER_SOURCES = \
+		../bitmapSources/Courier/10.Couri \
+		../bitmapSources/Courier/12.Couri \
+		../bitmapSources/Courier/14.Couri \
+		../bitmapSources/Courier/18.Couri 
+
+COURIERBOL_SOURCES = \
+		../bitmapSources/Courier/10.CouriBol \
+		../bitmapSources/Courier/12.CouriBol \
+		../bitmapSources/Courier/14.CouriBol \
+		../bitmapSources/Courier/18.CouriBol 
+
+COURIEROBL_SOURCES = \
+		../bitmapSources/Courier/10.CouriObl \
+		../bitmapSources/Courier/12.CouriObl \
+		../bitmapSources/Courier/14.CouriObl \
+		../bitmapSources/Courier/18.CouriObl 
+
+COURIERBOLOBL_SOURCES = \
+		../bitmapSources/Courier/10.CouriBolObl \
+		../bitmapSources/Courier/12.CouriBolObl \
+		../bitmapSources/Courier/14.CouriBolObl \
+		../bitmapSources/Courier/18.CouriBolObl 
+
+LEXI_SOURCES = \
+		../bitmapSources/Lexi/10.Lexi \
+		../bitmapSources/Lexi/12.Lexi \
+		../bitmapSources/Lexi/14.Lexi \
+		../bitmapSources/Lexi/18.Lexi 
+
+SYMBOL_SOURCES = \
+		../bitmapSources/Symbol/10.Symbo \
+		../bitmapSources/Symbol/12.Symbo \
+		../bitmapSources/Symbol/14.Symbo \
+		../bitmapSources/Symbol/18.Symbo 
+
+OHLFS_SOURCES = \
+		../bitmapSources/Ohlfs/9.Ohlfs \
+		../bitmapSources/Ohlfs/10.Ohlfs \
+		../bitmapSources/Ohlfs/12.Ohlfs \
+		../bitmapSources/Ohlfs/16.Ohlfs 
+
+
+
+

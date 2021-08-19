@@ -1,0 +1,19 @@
+
+#! /bin/sh
+# lib/ditroff.font/makeout
+#
+# Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: makeout,v 2.2 87/11/17 16:45:57 byron Rel $
+
+# Args: font-name [ "nolig" ]
+
+afmdit $1 $PSLIBDIR
+if test X$2 = Xnolig
+then
+	sed -e "s/^ligatures .* 0/ligatures 0/" $1 >$1.x
+	mv $1.x $1
+fi
+$MAKEDEV $1
+mv $1 $1.aux $1.out $DITDIR/Times/devpsc
+cp $1.map $DITDIR/Times/devpsc

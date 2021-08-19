@@ -1,0 +1,63 @@
+
+# transcript/sh/psroff.sysv
+# Copyright 1985,1987 Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in TranScript
+# library directory -- probably /usr/lib/ps/Notice
+# RCSID: $Header: psroff.sysv,v 2.2 87/11/17 16:48:44 byron Rel $
+#
+# run ditroff in an System V environment to print on a PostScript printer
+#
+# psroff - ditroff | psdit [| lp]
+#
+PATH=/bin:/usr/bin:$PATH       # Make sure we get system programs.
+export PATH
+
+ditroff=troff
+psdit=psdit
+nospool= dopt= fil= spool= dit=
+printer=-d${LPDEST-PostScript}
+family=Times
+fontdir=DITDIR
+while test $# != 0
+do	case "$1" in
+	-t)	nospool=1 ;;
+	-Tpsc)	;;
+	-T*)	echo only -Tpsc is valid 1>&2 ; exit 2 ;;
+	-F)	if test "$#" -lt 2 ; then
+			echo '-F takes following font family name' 1>&2
+			exit 1 
+		fi
+		family=$2 ; shift ;;
+	-F*)	echo 'use -F familyname' 1>&2 ;
+		exit 1 ;;
+	-D)	if test "$#" -lt 2 ; then
+			echo '-D takes following font directory' 1>&2
+			exit 1 
+		fi
+		fontdir=$2 ; shift ;;
+	-D*)	echo 'use -D fontdirectory' 1>&2 ;
+		exit 1 ;;
+	-n*|-m|-w|-s)	spool="$spool $1" ;;
+	-r|-h)	spool="$spool -o$1" ;;
+	-d*)	printer=$1 ;;
+	-)	fil="$fil $1" ;;
+	-*)	dopt="$dopt $1" ;;
+	*)	fil="$fil $1" ; jobname=${jobname-$1} ;;
+	esac
+	shift
+done
+if test "$jobname" = "" ; then
+	jobname="Troff"
+fi
+spool="lp $printer -t'$jobname' $spool"
+if test "$fil" = "" ; then
+	fil="-"
+fi
+dit="$ditroff -Tpsc DITFLAGS -F$fontdir/$family $dopt $fil "
+psdit="$psdit -F$fontdir/$family"
+
+if test "$nospool" = "1" ; then
+	$dit | $psdit
+else
+	$dit | $psdit | $spool
+fi

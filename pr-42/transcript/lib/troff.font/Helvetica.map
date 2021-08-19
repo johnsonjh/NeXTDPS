@@ -1,0 +1,49 @@
+% lib/troff.font/Helvetica.map
+% Copyright (c) 1985,1987 Adobe Systems Incorporated. All rights reserved.
+% GOVERNMENT END USERS: See Notice file in TranScript library directory
+% -- probably /usr/lib/ps/Notice
+% RCSID: $Header: Helvetica.map,v 2.2 87/11/17 16:27:42 byron Rel $
+%
+% Font correspondence mapping for Troff and PostScript Helvetica family.
+%
+% PostScript and TranScript are trademarks of Adobe Systems Incorporated
+% Times and Helvetica are registered trademarks of Linotype.
+%
+% This file specifies a correspondence table for 
+% the troff (C/A/T) to PostScript translator.
+% It gets read and "compiled" by other programs into other forms.
+% The Makefile will do all the work for us.
+%
+% Lines beginning with a percent sign (like this one) are comments
+% and are ignored as are blank lines.
+
+
+% ROMAN, ITALIC, BOLD are used for characters that are in the
+% Roman, Italic, and Bold fonts respectively.
+
+% SYMBOL is for characters not in the above (like degree and foot)
+% and for characters in the Special font.
+
+% EXTRAS is for "Special" characters that are actually in a
+% PostScript text face, so that they can be remapped independant
+% of ROMAN or SYMBOL if necessary.
+
+% FACENAMES specifies the intended names of the
+% generated troff faces (one or two letters each)
+% Files named ftXX.c (where XX is the face name) will be
+% generated that, when compiled, are used by troff as width
+% tables.
+
+@FAMILYNAME Helvetica
+@FACENAMES H HO HB S
+
+@BEGINFONTS
+ROMAN=Helvetica
+ITALIC=Helvetica-Oblique
+BOLD=Helvetica-Bold
+SYMBOL=Symbol
+EXTRAS=Times-Roman
+DEFSYM=DIThacks
+@ENDFONTS
+
+@INCLUDE chartab.inc

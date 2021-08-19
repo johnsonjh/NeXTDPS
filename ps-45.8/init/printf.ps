@@ -1,0 +1,129 @@
+% printf.ps
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original: shore
+% last edit: taft - Mon May 23 16:58:42 1988
+% last edit: shore Wed May 16 16:26:27 1984
+
+% this is an experimental package for formatted file output along the lines
+% of the C "fprintf" and "printf" package.  The interfaces are:
+%
+%	mark <arg1> ... <formatspec> printf
+% 	mark <arg1> ... <formatspec> <filestream> fprintf
+% 	mark <arg1> ... <formatspec> <string> sprintf
+
+% currently only numbers, strings, booleans, and names are legal data
+% the format string is as in C but no field lengths, etc are recognized, only
+%	%s	- for names, strings, bools, anything that can be cvs'd
+%	%d	- for integers : arg gets cvi'd then cvs'd
+%	%g	- for reals : arg gets cvr'd then cvs'd
+%	%o	- octal integers % arg gets cvi'd then cvrs'd
+%	%x	- hex integers	% arg gets cvi'd then cvrs'd
+%	%c	- single characters (integers of 1st char of strings/names)
+%	%% 	- put out a single "%"
+
+/printf
+   {$printpackage begin
+    /pfsl save def
+    /outfunc {print} def 
+    doprint 
+    pfsl restore
+    end
+   } def
+
+/fprintf
+   {$printpackage begin
+    /pfsl save def
+    /outfile exch def
+    /outfunc {outfile exch writestring} def
+    doprint
+    pfsl restore
+    end
+   } def
+
+/sprintf
+   {$printpackage begin		% can't save/restore on this one
+    /outstring exch def
+    /pos 0 def
+    /outfunc {dup outstring exch pos exch putinterval
+	      length pos add /pos exch def} def
+    doprint
+    outstring 0 pos getinterval
+    end
+   }def
+
+/$printpackage 40 trickydict def
+$printpackage begin
+
+/doprint
+   {
+    /formatstr exch def
+    counttomark /argc exch def
+    argc array astore /argv exch def
+    cleartomark
+    /argi 0 def
+       {
+	argi argc gt {BadFormat} if
+	formatstr (%) search
+	   {% found a "%" - print pre, print arg, process post 
+	    dup length 0 gt {outfunc}{pop} ifelse % pre-%
+	    pop			% pop the matching "%"
+	    /tail exch def
+	    tail length 0 eq {BadFormat} if
+	    /fchar tail 0 1 getinterval def
+	    fchar (%) eq
+	       {(%) outfunc}
+	       {/arg argv argi get cvlit def
+		/argtype arg type cvlit def
+		$printpackage fchar known not {BadFormat} if
+		arg fchar cvx exec
+		/argi argi 1 add def
+	       }
+	    ifelse
+	    /formatstr tail 1 tail length 1 sub getinterval def
+	   }
+	   {% no "%" - put formatstr as cleartext
+	    outfunc exit
+	   }
+	ifelse
+       } loop
+    argi argc ne {BadFormat} if
+   } def
+
+/s 				% print string rep of value
+   {argtype /stringtype eq 
+       {outfunc}		% strings get put directly
+       {tmpstr cvs outfunc}	% others get cvs'd first
+    ifelse
+   }def
+
+/d {cvi tmpstr cvs outfunc} def	% put integer
+/o {cvi 8 tmpstr cvrs outfunc} def % put octal number
+/x {cvi 16 tmpstr cvrs outfunc} def % put hex number
+/g {cvr tmpstr cvs outfunc} def	% put real number
+
+/c 				% put single character
+   {argtype /integertype eq
+       {onechar exch 0 exch put onechar} 
+       {argtype /stringtype ne {tmpstr cvs} if
+	0 1 getinterval
+       } ifelse
+    outfunc
+   } def
+
+/tmpstr 100 string def
+/onechar ( ) def
+
+end

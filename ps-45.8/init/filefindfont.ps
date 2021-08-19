@@ -1,0 +1,107 @@
+% filefindfont.ps
+
+% Copyright (c) 1984-1990 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: durham - Fri May  6 09:49:07 1988
+% last edit: taft - Tue Jan  9 11:29:22 1990
+% last edit: sandman - Thu Nov 16 14:52:25 PST 1989
+
+% Implementation of findfont in any product that has a file system.
+% This version uses the "fontrun" operator to actually load the font.
+
+% If the font must be read from a file, it is loaded into shared VM if
+% its FontType is 1 or 4; otherwise it is loaded into the current VM.
+% This is because some type 3 fonts don't work in shared VM. However,
+% one can still load a type 3 font into shared VM by executing true setshared
+% before findfont.
+
+% Performs font substitution only if SubstituteFont is present in $error;
+% calls that procedure with font name on stack to obtain substitute
+% font name. Raises invalidfont if SubstituteFont is not present or if
+% the substituted font does not exist.
+
+% When filefindfont.ps is run, the stack must contain a string which is
+% the path to the directory from which fonts are to be loaded.
+% This is typically (%font%), i.e., the root for the font device.
+
+setrom
+systemdict begin
+
+/findfont exch def              % hack to get path bound to a name temporarily
+
+/findfont
+   {dup //systemdict /FontDirectory get exch known
+       {//systemdict /FontDirectory get exch get}
+       {dup //SharedFontDirectory exch known
+           {//SharedFontDirectory exch get}
+           {//findfont =string cvs  % copy path string
+            length dup =string exch =string length 1 index sub getinterval
+            2 index exch cvs
+            length add =string exch 0 exch getinterval
+            {dup (r) file} stopped
+
+	       {% File was not found
+		//$error /errorname get /undefinedfilename ne {stop} if
+		pop pop pop	% discard: filename filename (r)
+		dup		% stack: name name
+		//$error /SubstituteFont known
+		   {//$error /SubstituteFont get exec} if
+		% stack: name newname
+		% attempt substitution only if they are different
+		2 copy ne
+		   {exch //=print exec ( not found, using ) print
+		    dup //=print exec (.\n) print flush
+		    findfont
+		   }
+		   {pop /findfont //errordict /invalidfont get exec}
+		ifelse
+	       }
+
+	       {% File was found. Following code decides whether to load
+		% font into private or shared VM.
+		% stack: name filename file
+		currentshared	% assume we'll load into current VM
+		1024		% no existing Adobe font has FontType
+				% beyond the 819th token
+		   {% stack: name filename file shared
+		    1 index token not {exit} if
+		    /FontType eq 
+		       {1 index token not {exit} if
+			dup 1 eq exch 4 eq or
+			   {pop true} if
+			exit
+		       } if
+		   }
+		repeat
+		% stack: name filename file shared
+		exch closefile	% fontrun will reopen it
+		currentshared exch setshared
+		% stack: name filename oldshared
+		{exch fontrun} stopped
+		   {pop setshared //$error /command /findfont put stop} if
+		setshared
+	        dup //systemdict /FontDirectory get exch known
+		   {//systemdict /FontDirectory get exch get}
+		   {//SharedFontDirectory exch get} 
+		ifelse
+	       }
+	    ifelse
+	   }
+	ifelse
+       }
+    ifelse
+   } bind readonly def
+
+end
+setram

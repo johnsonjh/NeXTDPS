@@ -1,0 +1,93 @@
+% lbp-cx.ps
+
+% Copyright (c) 1984, '85, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% simulation of lbp-cx frame and hybrid devices under Unix
+% last edit: taft - Mon May 23 16:55:46 1988
+
+/lbpfile (c.001) store
+
+/lbp-cx
+  {
+   lbpfile dup length 3 sub (001) putinterval
+
+    % Transformation matrix for 300 dpi. Device coordinate system has
+    % origin just inside the upper left corner of the page, with x
+    % increasing to the right and y increasing downward (the "top" of
+    % the page is the edge that emerges first from the printer).
+    % This is identical to the "letter" page type in the LaserWriter.
+   [300 72 div		0
+    0			-300 72 div
+    -75			3288
+   ]
+
+   % device width in bytes and height in bits:
+   300 3276
+
+   % extra action to take at end of showpage:
+   {(Writing file ) print lbpfile print ( ... ) print flush
+    lbpfile (w) file dup false frametofile closefile
+    /.pageno lbpfile dup length 3 sub 3 getinterval cvi 1 add (   ) cvs def
+    lbpfile dup length .pageno length sub .pageno putinterval
+    (done.) = flush
+   }
+
+   % Now do it:
+   framedevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   60 45 {dup mul exch dup mul add 1.0 exch sub} setscreen
+   {} settransfer
+   
+   initgraphics
+   erasepage
+   } def
+
+/lbp-cxhybrid
+  {
+   lbpfile dup length 3 sub (001) putinterval
+
+    % Transformation matrix for 300 dpi. Device coordinate system has
+    % origin just inside the upper left corner of the page, with x
+    % increasing to the right and y increasing downward (the "top" of
+    % the page is the edge that emerges first from the printer).
+    % This is identical to the "letter" page type in the LaserWriter.
+   [300 72 div		0
+    0			-300 72 div
+    -75			3288
+   ]
+
+   % device width in bytes and height in bits:
+   300 3276
+
+   % extra action to take at end of showpage:
+   {(Writing file ) print lbpfile print ( ... ) print flush
+    lbpfile (w) file dup false frametofile closefile
+    /.pageno lbpfile dup length 3 sub 3 getinterval cvi 1 add (   ) cvs def
+    lbpfile dup length .pageno length sub .pageno putinterval
+    (done.) = flush
+   }
+
+   % Now do it:
+   hybriddevice
+
+   % halftone screen definition
+   % screen frequency; angle; spot function:
+   60 45 {dup mul exch dup mul add 1.0 exch sub} setscreen
+   {} settransfer
+   
+   initgraphics
+   erasepage
+   } def

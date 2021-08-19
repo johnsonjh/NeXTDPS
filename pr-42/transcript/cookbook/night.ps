@@ -1,0 +1,35 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: White Text on a Black Background     Number: 12
+%-----------------------------------------------------------------------------
+%
+newpath                                     % Create the black rectangular
+  72 561 moveto                             % background. Since the default
+  296 561 lineto                            % color in the Graphics State is
+  296 440 lineto                            % black, there is no need to
+  72 440 lineto                             % explicitly set the color.
+closepath fill
+	      
+/Helvetica-Bold findfont 14 scalefont       % Usually a bold font will have
+  setfont                                   % more presence on a black
+					    % background than a medium font.
+									    
+gsave                                       % Save the current Graphics State
+					    % so that it will be unaffected by
+					    % changes in color.
+  1.0 setgray                               % Change the color to white.
+  104 520 moveto
+  (Rest at pale evening . . .) show         % The show operator uses the
+  104 502 moveto                            % current color in the Graphics
+  (A tall slim tree . . .) show             % State. Since we are "drawing"
+  104 484 moveto                            % white characters on a black
+  (Night coming tenderly) show              % area, it gives the impression of
+  104 466 moveto                            % black text on a white background
+  (Black like me.) show                     % which has been reversed.
+								      
+grestore
+	
+104 398 moveto
+(Langston Hughes) show
+		      
+showpage

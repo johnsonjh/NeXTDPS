@@ -1,0 +1,33 @@
+/* pswinops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSineofill(float x, y | boolean *b)
+	x y ineofill b 
+endps
+
+defineps PSinfill(float x, y | boolean *b)
+	x y infill b 
+endps
+
+defineps PSinstroke(float x, y | boolean *b)
+	x y instroke b 
+endps
+
+defineps PSinueofill(float x, y; char nums[n]; int n; char ops[l]; int l | boolean *b)
+	x y [(nums) (ops)] inueofill b
+endps
+
+defineps PSinufill(float x, y; char nums[n]; int n; char ops[l]; int l | boolean *b)
+	x y [(nums) (ops)] inufill b
+endps
+
+defineps PSinustroke(float x, y; char nums[n]; int n; char ops[l]; int l | boolean *b)
+	x y [(nums) (ops)] inustroke b
+endps
+
+defineps PSwtranslation( | float *x, *y)
+	wtranslation y x 
+endps
+

@@ -1,0 +1,70 @@
+. ./config; cd lib; make  programs
+rm -f psint.sh
+sed -e s,XPSLIBDIRX,$PSLIBDIR,g  -e s,XPSTEMPDIRX,$PSTEMPDIR,g  -e s,XBANNERFIRSTX,$BANNERFIRST,g  -e s,XBANNERLASTX,$BANNERLAST,g  -e s,XREVERSEX,$REVERSE,g  -e s,XVERBOSELOGX,$VERBOSELOG,g  psint.proto >psint.sh
+. ./config; cd man; make  programs
+. ./config; cd sh;  make  programs
+. ./config; cd src;  rm -f Makefile;  sed -e s,SETCFLAGS,"$SETCFLAGS",g <Make.proto >Makefile;  make  programs
+. ./config; rm -rf //$PSLIBDIR.old
+. ./config; mkdirs //$PSLIBDIR;  chown $OWNER //$PSLIBDIR;  chgrp $GROUP //$PSLIBDIR;  chmod 755 //$PSLIBDIR
+. ./config; cd src; make  install DSTROOT=/
+mkdirs /$PSLIBDIR
+mkdirs /$BINDIR
+cd /$PSLIBDIR; rm -f psbanner pscomm psrv pstext enscript ps4014 ps630 pscat pscatmap psdit psplot psrev
+install -c -o $OWNER -g $GROUP -s psbanner	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s pscomm	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s psrv	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s pstext	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s enscript	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s ps4014	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s ps630	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s pscat	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s pscatmap	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s psdit	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s psplot	/$PSLIBDIR
+install -c -o $OWNER -g $GROUP -s psrev	/$PSLIBDIR
+cd /$BINDIR ; rm -f enscript ps4014 ps630 pscat pscatmap psdit psplot psrev
+for i in enscript ps4014 ps630 pscat pscatmap psdit psplot psrev ; do ln -s $PSLIBDIR/$i /$BINDIR ; done
+. ./config; cd sh;  make  install DSTROOT=/
+mkdirs //$BINDIR
+cp ptroff psroff //$BINDIR
+chown $OWNER //$BINDIR/ptroff //$BINDIR/psroff
+chgrp $GROUP //$BINDIR/ptroff //$BINDIR/psroff
+chmod 755 //$BINDIR/ptroff //$BINDIR/psroff
+. ./config; BLDDIR=/; export BLDDIR;  cd lib; make  install DSTROOT=/
+mkdirs //$PSLIBDIR
+cd //$PSLIBDIR; rm -rf - banner.pro enscript.pro pstext.pro  ps4014.pro ps630.pro pscat.pro psplot.pro psdit.pro  ehandler.ps uartpatch.ps bogusmsg.ps  font.map Notice psint.sh psbad.sh ps?f psbad *.afm 
+cp banner.pro enscript.pro pstext.pro  ps4014.pro ps630.pro pscat.pro psplot.pro psdit.pro  ehandler.ps uartpatch.ps bogusmsg.ps  font.map Notice psint.sh psbad.sh *.afm //$PSLIBDIR
+cd //$PSLIBDIR; chown $OWNER banner.pro enscript.pro pstext.pro  ps4014.pro ps630.pro pscat.pro psplot.pro psdit.pro  ehandler.ps uartpatch.ps bogusmsg.ps  font.map Notice psint.sh psbad.sh *.afm;  chgrp $GROUP banner.pro enscript.pro pstext.pro  ps4014.pro ps630.pro pscat.pro psplot.pro psdit.pro  ehandler.ps uartpatch.ps bogusmsg.ps  font.map Notice psint.sh psbad.sh *.afm;  chmod 644 banner.pro enscript.pro pstext.pro  ps4014.pro ps630.pro pscat.pro psplot.pro psdit.pro  ehandler.ps uartpatch.ps bogusmsg.ps  font.map Notice *.afm;  chmod 755 psint.sh psbad.sh
+cd //$PSLIBDIR;  ln psint.sh psif; ln psint.sh psof; ln psint.sh psnf;  ln psint.sh pstf; ln psint.sh psgf; ln psint.sh psvf;  ln psint.sh psdf; ln psint.sh pscf; ln psint.sh psrf;  ln psbad.sh psbad
+rm -rf //$PSLIBDIR/troff.font
+rm -rf //$PSLIBDIR/ditroff.font
+mkdirs //$PSLIBDIR/troff.font
+cp troff.font/* //$PSLIBDIR/troff.font
+chmod 555 //$PSLIBDIR/troff.font/makefontdir*
+cd //$PSLIBDIR/troff.font;  make  startup $FONTFAMILIES
+test x"$TROFFFONTS" = x1
+rm -rf Times
+mkdir Times
+echo "../pscatmap "Times".map"
+../pscatmap Times.map
+../pscatmap Times.map
+./makefontdir Times
+makefontdir for Times
+rm -rf Helvetica
+mkdir Helvetica
+echo "../pscatmap "Helvetica".map"
+../pscatmap Helvetica.map
+../pscatmap Helvetica.map
+./makefontdir Helvetica
+makefontdir for Helvetica
+rm -rf Courier
+mkdir Courier
+echo "../pscatmap "Courier".map"
+../pscatmap Courier.map
+../pscatmap Courier.map
+./makefontdir Courier
+makefontdir for Courier
+cd //$PSLIBDIR/troff.font;  chown $OWNER . * ;  chgrp $GROUP . * ;  chmod a+r . *
+mkdirs //$PSLIBDIR/ditroff.font
+cp ditroff.font/* //$PSLIBDIR/ditroff.font
+cd //$PSLIBDIR/ditroff.font;  chown $OWNER . * ;  chgrp $GROUP . * ;  chmod a+r . *

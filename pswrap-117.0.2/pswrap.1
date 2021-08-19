@@ -1,0 +1,66 @@
+.\" Copyright 1989, NeXT, Inc.
+.\"
+.TH PSWRAP 1 "March 28, 1989" "NeXT, Inc."
+.SH NAME
+pswrap \- creates C routines from pieces of PostScript language
+.SH SYNOPSIS
+.B pswrap
+[
+.B \-a
+] [
+.B \-b
+] [
+.B \-h
+.I filename
+] [
+.B \-o 
+.I filename
+] [
+.B \-r
+] [
+.B \-s
+.I length
+]
+.I file
+.br
+.SH DESCRIPTION
+.I pswrap
+reads input from
+.I file
+and creates C-callable procedures that send PostScript language code to the
+PostScript interpreter.  For complete documentation of
+.I pswrap
+and the language it accepts, see the
+.I pswrap Reference Manual
+from Adobe Systems, Inc.
+.SH OPTIONS
+.TP
+.B \-a
+produces ANSI C procedure prototypes.
+.TP
+.B \-b
+allows a large file to be processed.
+.TP
+.B \-h \fIfilename\fR
+produces a header file of C declarations for the generated procedures
+in
+.I
+filename.
+.TP
+.B \-o \fIfilename\fR
+causes
+.I pswrap
+to place its output in
+.I
+filename.
+.TP
+.B \-p
+disables padding of strings.
+.TP
+.B \-r
+generates reentrant code.
+.TP
+.B \-s \fIlength\fR
+sets the maximum string length to
+.I length.
+

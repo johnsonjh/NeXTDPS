@@ -1,0 +1,92 @@
+.TH TRANSCRIPT 1 "14 July 87" "Adobe Systems"
+\" Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: transcript.1p,v 2.2 87/11/17 16:48:25 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.ds TS T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH NAME
+TRANSCRIPT \- Programs for accessing  P\s-2OST\s+2S\s-2CRIPT\s+2 printers
+.SH DESCRIPTION
+The \*(TS package is a suite of UNIX programs that enables
+UNIX systems to access state-of-the-art \*(PS printers.
+The package transforms UNIX documents and graphics files
+into \*(PS format.
+The \*(PS language is a device-independent programming language and print
+file format for describing the appearance of printed pages. \*(PS
+documents can combine text, graphics, line art, and scanned images
+for printing on raster devices.  \*(PS files will print
+.I without modification
+on any \*(PS printer.
+.sp
+The \*(TS package includes
+translator filters for
+common UNIX document file formats like
+.IR troff ,
+.IR ditroff ,
+and
+.IR plot .
+It also includes filters for ''line-printer'' listings,
+Diablo 630 print files, and Tektronix 4014 files.
+\*(TS software is fully integrated into the
+spooling architecture, and includes the communications filters
+necessary to print job banner pages, do page accounting,
+and perform full RS232 communication with a \*(PS printer.
+.sp
+The following filters are provided with \*(TS.  See the appropriate
+manual page for each filter for more details.
+.TP .75i
+.I enscript
+Convert plain text files into \*(PS format. Fonts, headings, and
+limited formatting options may be specified, as well as spooling options.
+.TP
+.I ps4014
+Convert Tektronix 4014 graphics terminal commands into \*(PS format.
+.TP
+.I ps630
+Convert Diablo 630 word-processing file into \*(PS format.
+.TP
+.I psplot
+Convert UNIX plot(1) format file into \*(PS format.
+.TP
+.I psrev
+Reverse page order and/or select specified pages in \*(PS format file.
+.TP
+.I psroff
+Convert
+.RI [ di ] troff (1)
+input into \*(PS format.
+This is actually a shell script.
+See the
+.IR psroff (1)
+manual page for more information.
+.TP
+.I ptroff
+Convert
+.RI [ o ] troff (1)
+input into \*(PS format.
+This is actually a shell script.
+See the
+.IR ptroff (1)
+manual page for more information.
+.TP
+.I pscomm
+There are a set of filters that are integrated into the spooling environment.
+These are normally invisible to the casual user.
+See the
+.IR pscomm (8)
+manual page for a more complete description of these filters and their
+various functions.
+.SH FILES
+.TP
+XPSLIBDIRX
+Most data files for the \*(TS package can be found in this directory.
+.SH "SEE ALSO"
+enscript(1), ps4014(1), ps630(1), psplot(1), psrev(1), psroff(1), ptroff(1)
+.br
+psfonts(1), pssymbols(1), pscat(1), psdit(1), pscomm(8), afm(7), postscript(7)
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+\*(TS is a trademark of Adobe Systems Incorporated.

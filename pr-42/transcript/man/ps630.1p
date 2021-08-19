@@ -1,0 +1,96 @@
+.TH PS630 1 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: ps630.1p,v 2.2 87/11/17 16:47:07 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+ps630 \- convert Diablo 630 print files to P\s-2OST\s+2S\s-2CRIPT\s+2 format
+.SH SYNOPSIS
+.B ps630
+[ 
+.BI \-f bodyfont
+] [
+.BI \-F boldfont
+] [
+.BI \-s pitch
+] [
+.BI \-p file
+] [
+.I files
+]
+.SH DESCRIPTION
+.I ps630 
+reads in 
+.I files
+(Diablo 630 format print files) and converts them to \*(PS format 
+for printing on a \*(PS printer.  If no
+.I files
+are specified, the standard input is used.  By default, the \*(PS
+program is sent to the standard output.
+.I ps630 
+can convert 
+.I nroff
+files generated with the 
+.B \-Txerox
+switch.
+Typewheel emulation information may be specified as options.
+Font specifications (for bold and regular) are \*(PS font names
+(e.g., Times-Roman, Times-Bold, Courier-Bold, Courier-BoldOblique).
+10, 12, or 15 characters per inch may be selected.
+.sp
+The possible options are:
+.TP
+.BI \-f " bodyfont"
+sets the font to be used for normal printing.
+The default is Courier.
+.TP
+.BI \-F " boldfont"
+sets the font to be used for boldface.
+The default is Courier-Bold.
+.TP
+.BI \-s " pitch"
+selects type size for printing (both the regular and bold fonts are
+scaled to this size).
+.I Pitch
+is in characters per inch and must be one of 10, 12, or 15.
+The default is 12.
+.TP
+.BI \-p " file"
+causes the \*(PS file to be written to the named file rather than
+the standard output.
+.SH ENVIRONMENT
+.IP PSLIBDIR
+path name of a directory to use instead of
+XPSLIBDIRX for ps630 prologue.
+.SH "SEE ALSO"
+transcript(1), enscript(1), nroff(1).
+.br
+Diablo 630 documentation
+.SH DIAGNOSTICS
+Should be self explanatory.
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH BUGS
+Some applications produce ``bold'' by double striking a character.
+This will not appear as bold when translated into \*(PS.  Only the
+bold produced by issuing the proper Diablo command sequence (escape-O) 
+will result in bold characters.
+.sp
+The output of
+.I ps630
+cannot be page-reversed.
+.sp
+Times-Roman and Helvetica are narrow fonts that may look squeezed if
+no adjustment of page width is made by the application.
+.sp
+The following Diablo 630 commands are not supported: print suppression,
+HY-Plot, extended character set, downloading print wheel information or
+program mode, page lengths other than 11 inches, paper feeder control,
+hammer energy control, remote diagnostic, backward printing control (note,
+however, that ``reverse printing'' is supported).
+.SH "NOTES"
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+Times and Helvetica are registered trademarks of Linotype.
+.br
+Diablo Systems, Inc. is a Xerox Company.

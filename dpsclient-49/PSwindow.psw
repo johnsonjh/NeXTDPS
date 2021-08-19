@@ -1,0 +1,187 @@
+
+/*
+	PSwindow.psw
+	This pswrap file generates C functions corresponding
+	to all the window operators.
+	
+	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+	All rights reserved.
+
+	Created Leo 10Feb87
+	
+	Modified:
+	
+	01May87	Trey	New pswrap
+	02May87	Leo	Modified for new window operators
+    	04May87	wrp	removed PScleartrackingrect,
+			PSsavetrackingrect, PSrestoretrackingrect
+	05May87 Leo	Heavy duty cleanup
+	17Jun87 Jack	mods to *image; add setgrayalpha and set*acolor
+	23Oct87 trey	notificationrect->trackingrect
+	17Feb88 trey	added currentwindowalpha	
+	17Feb88 trey	added setautofill	
+	17Aug88	trey	wrap accounting - moved some wraps out of this file
+			to PSgraphics.  added op and otherWin to findwindow
+*/
+
+defineps PSwindow(float x, y, w, h; int type | int *num)
+	x y w h type window num
+endps
+defineps PStermwindow(userobject num)
+	num termwindow
+endps
+
+defineps PSwindowdevice(userobject num)
+	num windowdevice
+endps
+defineps PSwindowdeviceround(userobject num)
+	num windowdeviceround
+endps
+defineps PScurrentwindow( | int *num)
+	currentwindow num
+endps
+
+defineps PSflushgraphics()
+	flushgraphics
+endps
+
+defineps PSorderwindow(int op; userobject otherWin, winNum)
+	op otherWin winNum orderwindow
+endps
+defineps PSmovewindow(float x, y; userobject num)
+	x y num movewindow
+endps
+defineps PSplacewindow(float x, y, w, h; userobject win)
+	x y w h win placewindow
+endps
+
+defineps PSfrontwindow( | int *num)
+	frontwindow num
+endps
+defineps PSfindwindow(float x, y; int op; userobject otherWin |
+			    float *lx, *ly; int *winFound; boolean *didFind)
+	x y op otherWin findwindow didFind winFound ly lx
+endps
+defineps PScurrentwindowbounds(userobject num | float *x, *y, *w, *h)
+	num currentwindowbounds h w y x
+endps
+
+defineps PSseteventmask(int mask; userobject num)
+	mask num seteventmask
+endps
+defineps PScurrenteventmask(userobject num | int *mask)
+	num currenteventmask mask
+endps
+
+defineps PSsetexposurecolor()
+	setexposurecolor
+endps
+defineps PSsetsendexposed(boolean truth; userobject num)
+	truth num setsendredraw
+endps
+defineps PSsetautofill(boolean truth; userobject num)
+	truth num setautofill
+endps
+
+defineps PSsetwindowdict(userobject num)
+	num setwindowdict
+endps
+defineps PScurrentwindowdict(userobject num)
+	num currentwindowdict
+endps
+
+defineps PScurrentwindowalpha(userobject win | int *alpha)
+	win currentwindowalpha alpha
+endps
+
+defineps PScountscreenlist(int context | int *count)
+	context countscreenlist count
+endps
+
+defineps PSscreenlist(int context; int count | int windows[count])
+	count array context screenlist
+	0 1 count 1 sub {
+	    1 index exch get windows
+	} for pop
+endps
+
+defineps PScurrentdeviceinfo(userobject win | int *minbps, *maxbps, *color)
+	win currentdeviceinfo minbps maxbps color
+endps
+
+defineps PSsetowner(userobject owner; userobject win)
+	owner win setowner
+endps
+
+defineps PScurrentowner(userobject win | int *owner)
+	win currentowner owner
+endps
+
+defineps PSbasetoscreen(float x, y | float *xp, *yp)
+	x y basetoscreen yp xp
+endps
+defineps PSbasetocurrent(float x, y | float *xp, *yp)
+	x y basetocurrent yp xp
+endps
+defineps PSscreentocurrent(float x, y | float *xp, *yp)
+	x y screentocurrent yp xp
+endps
+defineps PSscreentobase(float x, y | float *xp, *yp)
+	x y screentobase yp xp
+endps
+defineps PScurrenttoscreen(float x, y | float *xp, *yp)
+	x y currenttoscreen yp xp
+endps
+defineps PScurrenttobase(float x, y | float *xp, *yp)
+	x y currenttobase yp xp
+endps
+
+defineps PSdumpwindow(int level; userobject win)
+	level win dumpwindow
+endps
+defineps PSdumpwindows(int level; userobject context)
+	level context dumpwindows
+endps
+
+defineps PSsetwindowtype(int type; userobject win)
+	type win setwindowtype
+endps
+
+defineps PSsetwindowlevel(int level; userobject win)
+	level win setwindowlevel
+endps
+
+defineps PScurrentwindowlevel(userobject win | int *level)
+	win currentwindowlevel level
+endps
+
+defineps PScountwindowlist(int context | int *count)
+	context countwindowlist count
+endps
+
+defineps PSwindowlist(int context; int count | int windows[count])
+	count array context windowlist
+	0 1 count 1 sub {
+	    1 index exch get windows
+	} for pop
+endps
+
+defineps PSsetwindowdepthlimit(int limit; userobject win)
+	limit win setwindowdepthlimit
+endps
+
+defineps PScurrentwindowdepthlimit(userobject win | int *limit)
+	win currentwindowdepthlimit limit
+endps
+
+defineps PScurrentwindowdepth(userobject win | int *depth)
+	win currentwindowdepth depth
+endps
+
+defineps PSsetdefaultdepthlimit(int limit)
+	limit setdefaultdepthlimit
+endps
+
+defineps PScurrentdefaultdepthlimit(| int *limit)
+	currentdefaultdepthlimit limit
+endps

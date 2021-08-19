@@ -1,0 +1,28 @@
+
+# shell script to set up TranScript source distribution 
+# for installation on System V UNIX
+
+mv Makefile.sysv Makefile
+mv config.sysv config
+mv printer.sysv printer
+
+mv etc/rmprinter.sysv etc/rmprinter
+mv etc/mkprinter.sysv etc/mkprinter
+mv etc/daily.sysv etc/daily.sh
+mv etc/hourly.sysv etc/hourly.sh
+
+mv lib/banner.sysv lib/banner.pro
+mv lib/Makefile.sysv lib/Makefile
+mv lib/troff.font/Makefile.sysv lib/troff.font/Makefile
+mv lib/troff.font/makefontdir.sysv lib/troff.font/makefontdir
+mv lib/ditroff.font/Makefile.sysv lib/ditroff.font/Makefile
+mv lib/ditroff.font/afmdit.sysv lib/ditroff.font/afmdit
+
+mv sh/ptroff.sysv sh/ptroff.sh
+mv sh/psroff.sysv sh/psroff.sh
+
+mv src/Makefile.sysv src/Make.proto
+mv src/pscomm.sysv src/pscomm.c
+mv src/psbanner.sysv src/psbanner.c
+
+mv man/pscomm.sysv man/pscomm.8p

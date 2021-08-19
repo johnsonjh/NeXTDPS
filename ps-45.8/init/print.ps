@@ -1,0 +1,168 @@
+% print.ps
+
+% Copyright (c) 1984, '88, '89 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% original: shore
+% last edit: taft - Tue Nov 14 13:11:03 1989
+% last edit: Joel Sacks - Wed Jul 26 15:01:14 PDT 1989
+
+% nice print package
+
+setrom
+
+systemdict /pstack		% nondestructive print of op stack with ==
+   {0 1 count 3 sub {index ==} for } bind put
+
+% setram
+20 trickydict begin		% note: OK for trickydict to be in ROM
+% setrom
+/==dict currentdict def
+
+systemdict /==
+   {//==dict begin
+    mark
+       {1 index			% stack: obj mark obj
+	/cp 0 def		% init current line length
+	/supplws //true def	% suppress leading white space
+	typeexec (\n) print
+       } stopped {cleartomark end //$error /command /== put stop} if
+    pop pop			% mark obj
+    end				% ==dict
+   } bind put
+
+systemdict /Run {dup == flush run} bind put
+
+/cprint				% string cprint => --
+   % actually print string and maintain cp
+   {dup length cp add /cp exch def print
+   } bind def
+
+/bprint				% string bprint => string
+   % begin preparation to print string. if string will not fit on
+   % current line, print NL; otherwise, unless inhibited by supplws,
+   % print leading white space; reset supplws flag.
+   {dup length cp add rmargin gt
+       {(\n) print /cp 0 def /supplws //false def}
+       {supplws {/supplws //false def} {( ) cprint} ifelse}
+    ifelse
+   } bind def
+
+/tprint				% string tprint => --
+   % print simple object composed of regular characters
+   {bprint cprint
+   } bind def
+
+/typeprint			% obj typeprint => --
+   % print type of object in form "-name-", with "type" suffix removed
+   {type =string cvs (type) search pop
+    bprint
+    (-) cprint cprint (-) cprint
+    pop pop
+   } bind def
+
+/typeexec			% obj typeexec => obj
+   % exec type name as command if known in currentdict;
+   % just print type name otherwise
+   {dup type
+    dup currentdict exch known {exec} {pop typeprint} ifelse
+   } def
+
+/rmargin 68 def			% right margin line length limit
+				% (+ up to 4 chars slop)
+
+% print actions for specific types (all other types invoke typeprint)
+
+/integertype {=string cvs tprint} bind def
+/realtype //integertype def
+/booleantype //integertype def
+
+/operatortype
+   {=string cvs
+    bprint
+    (--) cprint cprint (--) cprint
+   } bind def
+
+/nametype
+   {bprint			% note: "length" applied to name obj is OK
+    dup xcheck not {(/) cprint} if
+    =string cvs cprint
+   } bind def
+
+/substrprint			% recursive inner proc for stringtype
+   {
+       {% search current substring for each of the special characters
+	% that must be escaped
+	   {(\() (\)) (\\)}
+	   {search
+	       {% found one. stack contains: post match pre
+		% first print "pre" recursively; this causes at most
+		% 2 levels of recursion
+		substrprint
+
+		% then print the escaped "match" character
+		(\\) cprint cprint
+
+		% finally restart the loop to process "post".
+		//true exit
+	       } if
+	   } forall
+
+	dup type /stringtype eq
+	   {% if we get here, none of the special characters were found,
+	    % so just print the current substring and we are done
+	    cprint
+	    exit
+	   } if
+
+	pop			% discard flag and go around again
+       } loop
+   } bind def
+
+/stringtype
+   {dup rcheck
+       {% print at most 200 characters of string
+	dup length 200 gt exch 1 index {0 200 getinterval} if
+
+	% stack contains: bool string
+	bprint
+	(\() cprint
+	substrprint
+
+	% if string was truncated then print ellipsis
+	   {(...) cprint} if
+	(\)) cprint
+       }
+       {typeprint}
+    ifelse
+   } bind def
+
+/arraytype
+   {dup rcheck 
+       {(          ) bprint pop
+	/supplws //true def
+	dup xcheck
+	   {({) cprint {typeexec} forall (}) cprint}
+	   {([) cprint {typeexec} forall (]) cprint}
+	ifelse
+	/supplws //false def
+       }
+       {typeprint}
+    ifelse
+   } bind def
+
+/packedarraytype //arraytype def
+
+end	%end of == context dictionary
+
+setram

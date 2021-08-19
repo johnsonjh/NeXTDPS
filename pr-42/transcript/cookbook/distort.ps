@@ -1,0 +1,46 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Condensed, Extended and Obliqued Text     Number: 13
+%-----------------------------------------------------------------------------
+%
+/master /Times-Roman findfont def           % Set up a standard 1 unit font to
+					    % be used later in
+					    % makefont-setfont operations.
+master [12 0 0 12 0 0] makefont setfont     % Create a uniformly scaled 12
+					    % point font.
+234 504 moveto
+(Type is one of the most eloquent) show
+				       
+master [9 0 0 12 0 0] makefont setfont      % Create a condensed 12 point
+					    % font.
+234 488 moveto
+(means of expression in every epoch) show
+					 
+master [7 0 0 12 0 0] makefont setfont      % Create a very condensed 12 point
+					    % font.
+234 472 moveto
+(of style. Next to architecture, it) show
+					 
+master [15 0 0 12 0 0] makefont setfont     % Create an extended 12 point
+					    % font.
+234 456 moveto
+(gives the most characteristic) show
+				    
+master [17 0 0 12 0 0] makefont setfont     % Create a very extended 12 point
+					    % font.
+234 440 moveto
+(portrait of a period and the most) show
+					
+master [12 0 4.36764 12 0 0] makefont       % Create a 20 degree obliqued 12
+					    % point font.
+  setfont
+234 424 moveto
+(severe testimony of a nation's) show
+				     
+master [12 0 -4.36764 12 0 0] makefont      % Create a -20 degree (backward)
+					    % oblique 12 point font.
+  setfont
+234 408 moveto
+(intellectual status. Peter Behrens) show
+					 
+showpage

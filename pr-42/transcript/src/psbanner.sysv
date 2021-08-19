@@ -1,0 +1,113 @@
+#ifndef lint
+#define _NOTICE static char
+_NOTICE N1[] = "Copyright (c) 1985,1987 Adobe Systems Incorporated";
+_NOTICE N2[] = "GOVERNMENT END USERS: See Notice file in TranScript library directory";
+_NOTICE N3[] = "-- probably /usr/lib/ps/Notice";
+_NOTICE RCSID[]="$Header: psbanner.sysv,v 2.2 87/11/17 16:50:46 byron Rel $";
+#endif
+/* psbanner.c
+ *
+ * Copyright (C) 1985,1987 Adobe Systems Incorporated. All rights reserved.
+ * GOVERNMENT END USERS: See Notice file in TranScript library directory
+ * -- probably /usr/lib/ps/Notice
+ *
+ * System V banner/breakpage program 
+ *
+ * RCSLOG:
+ * $Log:	psbanner.sysv,v $
+ * Revision 2.2  87/11/17  16:50:46  byron
+ * Release 2.1
+ * 
+ * Revision 2.1.1.2  87/11/12  13:40:42  byron
+ * Changed Government user's notice.
+ * 
+ * Revision 2.1.1.1  87/04/23  10:25:53  byron
+ * Copyright notice.
+ * 
+ * Revision 2.2  86/11/02  14:19:36  shore
+ * Product Update
+ * 
+ * Revision 2.1  85/11/24  11:49:54  shore
+ * Product Release 2.0
+ * 
+ * Revision 1.1  85/11/20  00:25:33  shore
+ * Initial revision
+ * 
+ *
+ */
+
+#include <stdio.h>
+#include <pwd.h>
+#include <string.h>
+#include <ctype.h>
+#include "transcript.h"
+
+struct passwd *getpwnam();
+VOID quote();
+
+/* psbanner
+ * 	gets called with argv:
+ *	printer seqid user title date
+ */
+main(argc, argv)
+int argc;
+char **argv;
+{
+    struct passwd *pswd;
+    char *program, *bannerpro, *fulluser;
+    char *printer, *seqid, *user, *title, *date;
+    char host[100];
+
+    program = strrchr(*argv,'/');
+    if (program) program++;
+    else program = *argv;
+    argv++;
+
+    printer = *argv++;
+    seqid = *argv++;
+    user = *argv++;
+    title = *argv++;
+    date = *argv++;
+
+    if ((pswd = getpwnam(user)) == NULL) fulluser = "";
+    else fulluser = pswd->pw_gecos;
+    gethostname(host,100);
+
+    bannerpro = envget("BANNERPRO");
+    copyfile(bannerpro,stdout);
+
+    quote(user);
+    quote(fulluser);
+    quote(host);
+    quote(seqid);
+    quote(title);
+    quote(printer);
+    quote(date);
+    printf("Banner\n");
+    return(0);
+
+}
+
+/* send PostScript delimited/quoted string to stdout */
+VOID quote(str)
+char *str;
+{
+    int c;
+    putchar('(');
+    while ((c = ((*str++) & 0377)) != 0) {
+	if (isascii(c) && (isprint(c) || isspace(c))) {
+	    if ((c == '(') || (c == ')') || (c =='\\')) {
+		putchar('\\');
+	    }
+	    putchar(c);
+	}
+	else {
+	    putchar('\\');
+	    putchar(((c>>6)&03)+'0');
+	    putchar(((c>>3)&07)+'0');
+	    putchar((c&07)+'0');
+	}
+    }
+    putchar(')');
+    putchar('\n');
+}

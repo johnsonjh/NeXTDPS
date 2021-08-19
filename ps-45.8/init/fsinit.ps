@@ -1,0 +1,64 @@
+% fsinit.ps
+% last edit: taft - Tue Nov 14 11:52:58 1989
+% last edit: Bill McCoy: Fri Sep 9 14:38:19 PDT 1988
+
+% Copyright (c) 1987, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+userdict begin
+
+  /FSRoot () def
+
+  /EncodingDirectory 64 trickydict def
+
+  /FSstrPR 128 string def
+  /FSstrAN 64 string def
+ 
+end      %userdict
+
+systemdict begin
+
+  /PrependRoot
+  {
+    FSRoot length 0 eq
+    {
+      FSstrPR cvs
+    }
+    {
+      FSRoot FSstrPR cvs length exch 2 copy length add
+      FSstrPR 4 2 roll putinterval FSstrPR exch 0 exch getinterval
+    }
+    ifelse
+  }
+  bind readonly def
+
+  /AppendName
+  {
+    FSstrAN cvs length dup FSstrAN exch FSstrAN length 1 index sub getinterval
+    2 index exch cvs
+    length add FSstrAN exch 0 exch getinterval
+  }
+  bind readonly def
+
+
+
+  /findencoding
+  {
+    dup userdict /EncodingDirectory get exch known not
+      {(encodings/) PrependRoot AppendName run} if
+    userdict /EncodingDirectory get exch get
+  }
+  bind readonly def
+
+
+end      %systemdict

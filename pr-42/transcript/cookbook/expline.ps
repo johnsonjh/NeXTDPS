@@ -1,0 +1,76 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Expanded and Constant Width Lines     Number: 7
+%-----------------------------------------------------------------------------
+%
+/inch {72 mul} def                          % This program prints two sets of
+					    % enclosed boxes. Both sets are
+					    % generated from a unit box
+					    % definition under different
+					    % scales. In the left set, the
+					    % width of the lines increases as
+					    % the size of the box increases.
+					    % In the right set, the width of
+					    % the lines remain constant even
+					    % as the size of the box
+					    % increases.
+/centerbox                                  % A unit box described in terms of
+  { newpath                                 % its center, rather than in terms
+      0.5 0.5 moveto                        % of one of its corners, is most
+      -.5 0.5 lineto                        % convenient for this example.
+      -.5 -.5 lineto                        % This procedure creates a 1 unit
+      0.5 -.5 lineto                        % square path around the current
+    closepath                               % coordinate system origin.
+  } def
+       
+gsave                                       % Remember the original coordinate
+					    % system.
+  2.25 inch 6.5 inch translate              % Place the origin for the
+					    % expanding linewidth boxes.
+  1 20 div setlinewidth                     % Make the lines 1/20 of an inch
+					    % thick.
+						    
+  1 1 5                                     % Set up a ``for'' loop to execute
+					    % five times.
+    { gsave                                 % Remember the current coordinate
+					    % system.
+	.5 mul inch dup scale               % Scale the current units by 1/2
+					    % inch times the loop index.
+	centerbox stroke                    % The stroked box has a line width
+					    % proportional to the current
+					    % scale, since the line width is
+					    % expressed in units.
+      grestore                              % Return to the translated,
+					    % unscaled coordinate system.
+    } for
+grestore                                    % Return to the original
+					    % coordinate system.
+								
+/cmtx matrix currentmatrix def              % Store the current transform
+1 50 div inch setlinewidth                  % matrix, i.e., the current
+					    % coordinate system, in the
+					    % variable ``cmtx". Set a 1/50 of
+					    % an inch line width
+6.25 inch 6.5 inch translate                % Place the origin for the
+					    % constant line width boxes.
+1 1 5
+  { gsave                                   % Remember the translated
+					    % coordinate system.
+      .5 mul inch dup scale                 % Scale the boxes as before.
+      centerbox                             % Create the box path, but don't
+					    % stroke it yet.
+      cmtx setmatrix stroke                 % Change the coordinate space back
+					    % to the original one, where the
+					    % line width is truly 1/20th of an
+					    % inch thick. We explicitly reset
+					    % only the coordinate space rather
+					    % than use a ``grestore'', since
+					    % ``grestore'' resets the current
+					    % path as well as the current
+					    % coordinate system.
+    grestore                                % After stroking the path, return
+					    % to the translated coordinate
+					    % system.
+  } for
+       
+showpage

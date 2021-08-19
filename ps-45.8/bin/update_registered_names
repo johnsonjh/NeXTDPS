@@ -1,0 +1,234 @@
+#! /bin/csh -f
+#
+#   update_registered_names foonames.h
+#
+# where foo is the name of a package, updates foonames.h in place
+# and regenerates the files that are derived from it. Specifically:
+#
+# 1. In foonames.h, it renumbers the #define statements for the name
+#    indices, renumbers the opset numbers in the OpSet macro calls,
+#     and regenerates the value of NUM_PACKAGE_NAMES.
+#
+# 2. It overwrites foonames.ps with a PostScript program which, when
+#    executed, registers all names for the package.
+#
+# 3. For each OpSet in foonames.h, it overwrites <opset name>.c with a
+#    C program fragment that registers the operators in that opset.
+#    This is intended for inclusion (via #include statements) in an
+#    initialization procedure somewhere in the package.
+#
+# NOTE: The old update_registered_names script is appended to
+# this one and is selected automatically if appropriate.
+
+if ($#argv == 2) goto old_script
+
+set HFILE = $1
+set PSFILE = ${HFILE:r}.ps
+if ($HFILE =~ */*) then
+  set DIR = ${HFILE:h}/
+else
+  set DIR = ""
+endif
+
+if ($#argv != 1 || $HFILE == "") then
+  sh -c 'echo usage\: update_registered_names file.ps 1>&2'
+  exit 1
+endif
+
+if (! -e $HFILE) then
+  sh -c 'echo update_registered_names\: '$HFILE' does not exist\! 1>&2'
+  exit 1
+endif
+
+set PACKAGE_INDEX = `awk -e '/#define[ 	]*PACKAGE_INDEX/ {print $3}' $HFILE`
+set NUM_PACKAGE_NAMES = `grep -c '#define[ 	]*nm_' $HFILE`
+
+set OPSETS = `sed -n -e 's/.*OpSet( *\(.*\) *,.*,.*).*/\1/p' $HFILE`
+
+# 1. Edit foonames.h in place.
+
+echo "Updating $HFILE"
+
+sed -e 's/#define[      ]*NUM_PACKAGE_NAMES.*/#define NUM_PACKAGE_NAMES '$NUM_PACKAGE_NAMES'/' \
+    -e 's/.*OpSet( *\(.*\) *,.*, *\(.*\) *).*/--OPSET-- \1 \2/' \
+    $HFILE |\
+awk -e '\
+  /#define[ 	]*nm_/ {if (NF==6) print $1, $2, i++, $4, $5, $6; else print $1, $2, i++; next}\
+  /--OPSET--/ {printf "OpSet(%s, %d, %s)\n", $2, ++o, $3; next}\
+  {print $0}' > .temp
+
+mv $HFILE ${HFILE}.BAK
+mv .temp $HFILE
+
+sleep 2		# ensure that derived files will appear to be newer
+
+
+# 2. Regenerate foonames.ps.
+
+echo "Regenerating $PSFILE"
+rm -f $PSFILE
+echo "% $PSFILE:t" > $PSFILE
+echo "% Registered names for package" >> $PSFILE
+echo "% This is a derived file -- do not edit it" >> $PSFILE
+echo "" >> $PSFILE
+echo "[	% mark" >> $PSFILE
+sed -n -e 's|#define[ 	]*nm_\([^ 	]*\)[^/]*$|  /\1|p' \
+       -e 's|#define[   ]*nm_.*/\*[ 	]*\([^ 	]*\)[ 	]*\*/[ 	]*$|  /\1|p' \
+       $HFILE >> $PSFILE
+echo "  $PACKAGE_INDEX	% PACKAGE_INDEX" >> $PSFILE
+echo "registernames" >> $PSFILE
+
+foreach opset ($OPSETS)
+  echo "" >> $PSFILE
+  echo "% Operator set $opset" >> $PSFILE
+  echo "[	% mark" >> $PSFILE
+  sed -n -e '/OpSet( *'$opset'/,/OpSet(/ s|.*Op( *\(.*\) *,.*).*|  /\1|p' \
+    $HFILE >> $PSFILE
+  set TEMP = `sed -n -e 's/.*OpSet( *'$opset' *, *\(.*\) *, *\(.*\) *).*/\1 \2/p' $HFILE`
+  @ OPSET_UID = (256 * $PACKAGE_INDEX) + $TEMP[1]
+  echo "  /$TEMP[2]	% name of dict in which to register ops" >> $PSFILE
+  echo "  $OPSET_UID	% OpSet unique ID" >> $PSFILE
+  echo "registeroperators" >> $PSFILE
+end
+
+# 3. Regenerate all the <opset name>.c files.
+
+# First, make some template files
+
+# ------------------------ .temp.c ------------------------
+<<"EOF" cat > .temp.c
+/*
+  _OPSET_NAME_.c
+
+THIS IS A DERIVED FILE -- DO NOT EDIT IT
+
+This is the program fragment for registering the operator set
+named "_OPSET_NAME_". It was generated automatically,
+using information derived from the _PACKAGE_H_ file.
+*/
+
+{
+  extern void _PROC_();
+#if (OS == os_mpw)
+  void (*_OPSET_NAME_[_COUNT_])();
+  register void (**p)() = _OPSET_NAME_;
+  *p++ = _PROC_;
+#else (OS == os_mpw)
+  static void (*_OPSET_NAME_[_COUNT_])() = {
+    _PROC_,
+  };
+#endif (OS == os_mpw)
+  RgstOpSet(_OPSET_NAME_, _COUNT_, 256*PACKAGE_INDEX + _OPSET_ID_);
+}
+"EOF"
+# ---------------------------------------------------------
+
+# ------------------------ .tail.awk ----------------------
+<<"EOF" cat > .tail.awk
+}
+
+/_PROC_/ {
+  pref = substr($0, 1, index($0, "_PROC_") - 1);
+  suff = substr($0, index($0, "_PROC_") + length("_PROC_"));
+  for (i = 0; i < count; i++) print pref proc[i] suff;
+  next;
+}
+
+/_COUNT_/ {
+  pref = substr($0, 1, index($0, "_COUNT_") - 1);
+  suff = substr($0, index($0, "_COUNT_") + length("_COUNT_"));
+  print pref count suff;
+  next;
+}
+
+{print $0;}
+"EOF"
+# ---------------------------------------------------------
+
+foreach opset ($OPSETS)
+  set CFILE = ${DIR}${opset}.c
+  echo "Regenerating $CFILE"
+
+  # Construct awk script to perform substitutions for _PROC_ and _COUNT_.
+
+  echo "BEGIN {" > .temp.awk
+
+  sed -n -e '/OpSet( *'$opset'/,/OpSet(/ s/.*Op(.*, *\(.*\) *).*/  proc[count++] = "\1";/p' \
+    $HFILE >> .temp.awk
+
+  cat .tail.awk >> .temp.awk
+
+  # Obtain opset ID.
+
+  set opset_id = `sed -n -e 's/.*OpSet( *'$opset' *, *\(.*\) *,.*).*/\1/p' $HFILE`
+
+  # Apply the awk script; do remaining substitutions using sed.
+
+  rm -f $CFILE
+  awk -f .temp.awk .temp.c | \
+  sed -e 's/_OPSET_NAME_/'$opset'/g' \
+      -e 's/_OPSET_ID_/'$opset_id'/g' \
+      -e 's/_PACKAGE_H_/'${HFILE:t}'/g' \
+    > $CFILE
+
+end
+
+rm -f .temp .temp.c .tail.awk .temp.awk
+exit
+
+#######################################################
+# Old update_registered_names script
+#######################################################
+#
+#   update_registered_names foonames.h foonames.ps
+#
+# where foo is the name of a package, updates foonames.h in place
+# and regenerates foonames.ps. In foonames.h, it renumbers the
+# #define statements for the name indices and regenerates the values
+# of NUM_PACKAGE_OPS and NUM_PACKAGE_NAMES. It overwrites foonames.ps
+# with a PostScript program which, when executed, registers all names
+# for the package.
+
+old_script:
+
+set HFILE = $1
+set PSFILE = $2
+
+if ($HFILE == "" || $PSFILE == "") then
+  sh -c 'echo usage\: update_registered_names file.h file.ps 1>&2'
+  exit 1
+endif
+
+if (! -e $HFILE) then
+  sh -c 'echo update_registered_names\: '$HFILE' does not exist\! 1>&2'
+  exit 1
+endif
+
+set PACKAGE_INDEX = `awk -e '/#define[ 	]*PACKAGE_INDEX/ {print $3}' $HFILE`
+set NUM_PACKAGE_OPS = `grep -c 'M(.*,.*)' $HFILE`
+set NUM_NON_OPS = `grep -c '#define[ 	]*nm_' $HFILE`
+@ NUM_PACKAGE_NAMES = $NUM_PACKAGE_OPS + $NUM_NON_OPS
+
+sed -e 's/#define[ 	]*NUM_PACKAGE_OPS.*/#define NUM_PACKAGE_OPS '$NUM_PACKAGE_OPS'/' \
+    -e 's/#define[      ]*NUM_PACKAGE_NAMES.*/#define NUM_PACKAGE_NAMES '$NUM_PACKAGE_NAMES'/' \
+    $HFILE |\
+awk -e '\
+  BEGIN {i = '$NUM_PACKAGE_OPS'}\
+  /#define[ 	]*nm_/ {print $1, $2, i++; next}\
+  {print $0}' > .temp
+
+mv $HFILE ${HFILE}.BAK
+mv .temp $HFILE
+
+sleep 2
+
+echo '% '$PSFILE:t > $PSFILE
+echo '% Registered names for package' >> $PSFILE
+echo '% This is a derived file -- do not edit it' >> $PSFILE
+echo '' >> $PSFILE
+sed -n -e 's|[ 	]*M(\(.*\),.*).*|  /\1|p' $HFILE | \
+  sed -e 's|/(|(|' >> $PSFILE
+sed -n -e 's|#define[ 	]*nm_\(.*\)[ 	].*|  /\1|p' $HFILE >> $PSFILE
+echo $PACKAGE_INDEX '	% PACKAGE_INDEX' >> $PSFILE
+echo 'registerstaticnames' >> $PSFILE
+

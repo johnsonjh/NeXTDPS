@@ -1,0 +1,68 @@
+% previewframe.ps 
+
+% Copyright (c) 1985, '86, '87, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% Derived from suninit.ps by Bill Paxton
+
+/identMatrix matrix identmatrix def % identity matrix
+/nil 1 array 0 get def % use null element for nil
+/emptyarray 0 array def
+
+/spotloc { 1.0 add 3.0 mul cvi 2 idiv 2 min 0 max } def
+/spotarray [ .9 .6 .3 .4 .1 .8 .7 .2 .5 ] def
+/spotfn { spotloc exch spotloc exch 3 mul add spotarray exch get } def
+
+/initpage {initgraphics erasepage} def
+
+/toolready { % reinit the display
+  /screenw ToolWidth def % virtual screen width
+  /screenh ToolHeight def % virtual screen height
+  initdisplay
+  2 setflat
+  save pop
+  /Restart where {pop Restart} if } def
+  
+/initdisplay {
+  % now establish the standard framedevice for the page area
+
+  [75 72 div 0 0 -75 72 div 0 screenh]	% transformation matrix
+
+  screenw 7 add 8 div cvi screenh 	% width in bytes, height in scan lines
+
+  { % showpage procedure
+    $Show_Pause
+      {$After_First_Time 0 get 0 ne
+        {(Hit <return> for next page... ) print flush
+         (                             ) TTYReadLine pop pop
+        } if
+      } if
+    $After_First_Time 0 1 put
+    frametodisplay
+    erasepage
+    initgraphics
+  }
+
+  framedevice
+
+  initpage
+  24 0 {spotfn} setscreen
+  {} settransfer
+  } def
+
+/$After_First_Time (\000) def
+/$Show_Pause true def
+
+(PRo.VM) sysout
+
+toolready

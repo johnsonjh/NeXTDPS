@@ -1,0 +1,36 @@
+167	(../init/flex.ps)		% small and needed
+4439	(../init/diskfont.ps)		% do we need this? No.  gone.
+1344	(../init/exec.ps)		% Gone.
+73	(exec_copyright.ps)		% Gone, since it depends on exec.ps
+3290	(../product/frags.ps)		% scroll should be removed.  Done.
+					% Make dicts lazy, move constants done
+2348	(../product/alw.ps)		% only used by printing.  Gone.
+573	(../init/unixmain.ps)		% we override start, so... Gone.
+14384	(../product/stdencode.ps)	% unavoidable.
+904	(../init/internalfont.ps)	% lineends font
+1075	(../product/nextfindfont.ps)	% Rewrite in C!
+669	(../product/service.ps)		% Removed nextquit, outputserver, start
+3169	(../product/nextconstants.ps)	% Added stuff from frags
+50	(../product/version.ps)		% small and needed
+2454	(../product/unix.ps)		% not needed in Export... Gone.
+365	(../init/stats.ps)		% defines useful vmstats and cachestats
+1968	(../init/fsinit.ps)		% do we need this? No. Gone.
+2391	(../init/systemnames.ps)	% Should NextStepEncoding go here?
+113541
+Shared used 113657 out of 175000
+
+
+Perhaps "scatterload" all the initialization and debug stuff to one spot in VM?
+73902
+167	(../init/flex.ps)
+848	(../product/frags.ps)
+14427	(../product/stdencode.ps)
+904	(../init/internalfont.ps)
+1075	(../product/nextfindfont.ps)
+828	(../product/service.ps)
+3729	(../product/nextconstants.ps)
+47	(../product/version.ps)
+363	(../init/stats.ps)
+2391	(../init/systemnames.ps)
+98681
+Shared used 98797 out of 175000

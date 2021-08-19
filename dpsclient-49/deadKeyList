@@ -1,0 +1,108 @@
+
+#
+# This is a list of the dead keys combinations we know about.  This file
+# must have lines like:
+#
+#		<char1> <char2> <result char>
+
+# Each line of this format means that if <char1> is typed followed by
+# <char 2>, then <result char> will be placed in the event queue as if it
+# had been typed.  Each char can either be a number or a single character
+# between single quotes.  Lines starting with '#' and blank lines are ignored.
+#
+
+
+193	'A'	129		# Agrave
+194	'A'	130		# Aacute
+195	'A'	131		# Acircumflex
+196	'A'	132		# Atilde
+200	'A'	133		# Adieresis
+202	'A'	134		# Aring
+
+203	'C'	135		# Ccedilla
+
+193	'E'	136		# Egrave
+194	'E'	137		# Eacute
+195	'E'	138		# Ecircumflex
+200	'E'	139		# Edieresis
+
+193	'I'	140		# Igrave
+194	'I'	141		# Iacute
+195	'I'	142		# Icircumflex
+200	'I'	143		# Idieresis
+
+196	'N'	145		# Ntilde
+
+193	'O'	146		# Ograve
+194	'O'	147		# Oacute
+195	'O'	148		# Ocircumflex
+196	'O'	149		# Otilde
+200	'O'	150		# Odieresis
+
+193	'U'	151		# Ugrave
+194	'U'	152		# Uacute
+195	'U'	153		# Ucircumflex
+200	'U'	154		# Udieresis
+
+194	'Y'	155		# Yacute
+
+193	'a'	213		# agrave
+194	'a'	214		# aacute
+195	'a'	215		# acircumflex
+196	'a'	216		# atilde
+200	'a'	217		# adieresis
+202	'a'	218		# aring
+
+203	'c'	219		# ccedilla
+
+193	'e'	220		# egrave
+194	'e'	221		# eacute
+195	'e'	222		# ecircumflex
+200	'e'	223		# edieresis
+
+193	'i'	224		# igrave
+194	'i'	226		# iacute
+195	'i'	228		# icircumflex
+200	'i'	229		# idieresis
+
+196	'n'	231		# ntilde
+
+193	'o'	236		# ograve
+194	'o'	237		# oacute
+195	'o'	238		# ocircumflex
+196	'o'	239		# otilde
+200	'o'	240		# odieresis
+
+193	'u'	242		# ugrave
+194	'u'	243		# uacute
+195	'u'	244		# ucircumflex
+200	'u'	246		# udieresis
+
+194	'y'	247		# yacute
+
+200	'y'	253		# ydieresis
+
+
+# The following section ensures that typing two accents in a row yields
+# a single accent
+
+193	193	193		# grave
+194	194	194		# acute
+195	195	195		# circumflex
+196	196	196		# tilde
+200	200	200		# dieresis
+202	202	202		# ring
+203	203	203		# cedilla
+
+
+# The following section ensures that typing an accent followed by a space
+# yields a single accent
+
+193	' '	193		# grave
+194	' '	194		# acute
+195	' '	195		# circumflex
+196	' '	196		# tilde
+200	' '	200		# dieresis
+202	' '	202		# ring
+203	' '	203		# cedilla
+

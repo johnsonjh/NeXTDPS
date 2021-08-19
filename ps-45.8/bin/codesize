@@ -1,0 +1,9 @@
+#!/bin/csh -f
+# Execute the following commands in EXPORT-* to get the rest of this file
+foreach i (*.a)
+echo ""
+echo "				$i"
+echo ""
+ar x $i; size *.o *. | awk '{ s += $1; s2 += $2; print } END { print s,s2 }' ; \rm -f *.o *. __.SYMDE* 
+end
+

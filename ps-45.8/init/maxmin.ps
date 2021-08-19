@@ -1,0 +1,33 @@
+% Operators "min" and "max"
+
+% Copyright (c) 1984, '88 Adobe Systems Incorporated.
+% All rights reserved.
+
+% NOTICE:  All information contained herein is the property of Adobe Systems
+% Incorporated.  Many of the intellectual and technical concepts contained
+% herein are proprietary to Adobe, are protected as trade secrets, and are made
+% available only to Adobe licensees for their internal use.  Any reproduction
+% or dissemination of this software is strictly forbidden unless prior written
+% permission is obtained from Adobe.
+
+% PostScript is a registered trademark of Adobe Systems Incorporated.
+% Display PostScript is a trademark of Adobe Systems Incorporated.
+
+% last edit: taft - Mon May 23 16:56:38 1988
+
+
+/min % a b min -> (a < b ? a : b)
+{
+  2 copy
+  gt
+  {exch} if
+  pop
+} def
+
+/max % a b max -> (a > b ? a : b)
+{
+  2 copy
+  lt
+  {exch} if
+  pop
+} def

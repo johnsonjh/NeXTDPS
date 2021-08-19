@@ -1,0 +1,205 @@
+We only have two names for these types in the makefile,
+SHAREDOBJECTFILES and CUSTOMIZATIONS, but we actually have three types
+of files in the product directory:
+
+1.  our own sources		Always stay around, no integration needed
+
+2.  adobe sources w/NeXT stuff	we take their fixes each adobe integration	
+
+# devinit.c	call NpDevIni, WdDevInit and MpdDevInit
+# im110.c	let us do right thing with alpha
+# machprebuilt.c unixprebuilt with mapped files and our font paths
+# markimage.c 	overridden to call imstretch, imident, im110
+# stodevfont.c	major functionality modifications and our font paths
+# unixstream.c	add mapped files
+# unixfopen.c 	add mapped files
+# stdencode.ps	add NextStepEncoding definition
+# errs.ps	don't wast time in handleerror, resynchandleerror
+# unix.ps	use ours (with -b option on csh line)
+# Makefile	make important cleanup; use our size-allocation flags.
+
+3.  adobe sources w/fixes	Disappear after adobe integration
+
+# customops.c	add PSIntObj, PSNullObj, PSGetRealClockAddress, etc.
+# exec.c	add WannaYield proc for use of FmMark (image timeslicing).
+# framedev.c	use GryPat4of4 for GrayPattern, add FmMark (image timeslicing)
+# gstates.c 	overridden to call gStateExtProc with entire gs
+# image.c	3 bugfixes with interleaved alpha in alphaimage
+# foreground.c  to remove references to TimerSet and TimerQ
+# mark.c	to make ClipRunTrapsDispatch public
+# pathops.c	now allows pathforall on fonts
+# pathreduce.c	change #ifndef DPSXA to #if !DPSXA
+# postscript.c	whole cloth initialization fixes
+# *mask.c	0xC -> 0x8 in mask drawing code
+# os_atof.c	removed if os!=mach around atof() extern
+# ims11d12.o.adobe ims12d12notfr.o.adobe ims1xd12.o.adobe imsxxd12.o.adobe
+#		to fix image bugs
+# gcimpl.c gcmisc.c gcsharedimpl.c to fix adobe recycler bug
+
+MP, ND, and BINTREE
+===================
+made mpdev and nddev to store customizatons to the device package
+removed frameheight, framebitdepth references (no longer exist)
+Cast all DevColor's to *(DevColorVal *) in order to access struct fields
+image->source->nColors changed to nComponents
+removed Screen from Pattern struct in bintree.h to remove #import GRAPHICS
+all Pattern creation locations made patterns with NULL screens anyway.
+removed Layer2Wd from bintreetypes.h to remove #import WINDOWDEVICE
+put #import BINTREE and #import STREAM into bintreetypes.h
+eliminated unnecessary #imports, which decreases compile time (fewer .h's)
+and lower's link time (fewer debugging symbols).
+Stuck a #define for DebugAssert into bintreetypes.h to avoid #importing EXCEPT
+
+
+PRODUCT
+=======
+makefile -- removed devsupport.h and framedevice.h references
+windowimage.c -- eliminated devImageSource.whichSlice since it doesn't exist(?)
+im*.c -- framebase, framebytewidth, framelog2BD declarations from framedev.h
+markimage.c, im110.c, windowimage.c -- nColors -> nComponents
+makevm.ps -- made sure that we use new stdencode.ps
+windowgraphics -- removed stray references to gs and PGState, and MAXCOLOR
+
+windowops.c -- applied customops to PSWindowList (GRAPHICS now out of bintree
+tickled this latent bug).  Removed assignments for wd->fd.bitsPerPixel and
+wd->fd.colors in Window(), since they don't exist in new device structure
+
+windowdevice.c -- Removed BytesForMaskDevice, since no longer needed
+Used ConvertColorRGB from devcommon.c as the core of WdConvertColor
+Removed WdMakeMaskDev because one in framemaskdev.c looks good
+Eventually should propagate the added color argument in InitPage down into
+LInitPage, but for now will still clear to white.
+
+printerdevice.c -- needs lots of work, but it seems not to be worth it with the 
+new machportdevice stuff that we are about to integrate with, so I just put
+stubs in so that it would compile.
+
+nextmain.c -- removed call to DPSDeviceInit(), replace obsolete 
+Parse_Arguments() with the pair BeginParseArguments() and EndParseArguments()
+
+init_table.c -- discovered that we need to customize it since it is not in
+the unix_product.a file!
+
+commented out following lines in D config file
+#  	-i_os_malloc:_malloc -i_os_free:_free -i_os_calloc:_calloc \
+# 	-i_os_cfree:_cfree -i_os_realloc:_realloc -i_os_valloc:_valloc \
+
+ranlibbed all .a's in sight to keep linker quiet.  devpattern.a and productserver.a had multiple definitions of same symbol, preventing sort.
+
+Used adobe's hack.c as stubs for foreground.c in pslib which references
+_TimerSet and _TimerQ, which are nowhere to be found.
+
+markimage uses these, but are not made in adobe's devpattern library:
+{ims11d12.o.adobe,ims12d12notfr.o.adobe,ims1xd12.o.adobe,imsxxd12.o.adobe}
+I pulled them into the product and made them there.
+
+Made ClipRunTrapsDispatch public in customized mark.c
+
+Made empty WdSleep proc in wdProcs
+Customized pathreduce.c to fix #ifndef DPSXA problem
+Initialize maskID to 0 in windowops.c
+Changed bbox argument for WdDefaultBounds from DevBounds to DevLBounds
+Added erasepage argument to PSSetDevice call in windowops.c
+Added colorspace argument to DoImage call in windowops.c
+Added result of ChangeColor() as argument to SetDevColor in windowgraphics.c
+  we actually just want to call WdConvertColor to adjust for alpha, really...
+
+Moved templates, bin, doc, utilities, world_root, grammar.terminals from work to ps; point world_root's defs to PUBLIC_WORLD because package's config file starts includes at PRIVATE_ROOT (why?).
+
+Massaged all templates with convert_templates to change /usr/2ps to /Net/k9/dps/work.
+
+
+Device proc vector changes:
+
+			gone in this version
+			
+DevTfrFcnProcs * (*DefaultTfrFcn)(/* PDevice device; */);
+integer (*BytesForMaskDevice)(/*
+      PDevice device; DevShort width, height;
+      integer cacheThreshold, compThreshold; */);
+procedure (*DLFull)(/* PDevice device; */);
+
+			changed arguments
+			
+procedure (*DefaultBounds)(/* PDevice device; DevLBounds *bBox; */);
+DevColor (*ConvertColor)(/* PDevice device; integer colorSpace; 
+			DevInputColor *input; DevTfrFcn *tfr;
+			DevPrivate *priv; DevGamutTransfer gt; 
+			DevRendering r; DevWhitePoint wp; */);
+procedure (*InitPage)(/* PDevice device; DevColor color; */);
+boolean (*ShowPage)(/* PDevice device; boolean clearPage;
+    			integer nCopies; unsigned char *pageHook; */);
+
+			new in this version
+			
+procedure (*FreeColor)(/* PDevice device; DevColor color; */);
+integer (*SeparationColor)(/* PDevice device; char *name; 
+    			      integer *nameLength; DevPrivate *priv; */);
+DevGamutTransfer (*ConvertGamutTransfer)(/* PDevice device; char *dict; */);
+procedure (*FreeGamutTransfer)(/* PDevice device; DevGamutTransfer gt; */);
+DevRendering (*ConvertRendering)(/* PDevice device; char *dict; */);
+procedure (*FreeRendering)(/* PDevice device; DevRendering r; */);
+
+
+symbol	meaning
+------	-------
+x	Remove customization, it is present in new adobe sources
+a	Apply odiff to new adobe sources
+b	mods obsoleted by new mask code, but may use as special case in ND
+j	keep customization, we applied their changes to ours
+k	keep customization (they send *.adobe), will ask 'em for vital changes
+n	New customized file has been created
+y	Remove cusomization (*.o.adobe), will test functionality fix later
+
+x			$(OBJECTS)abmimpl.$(O)$(COMMA)\
+x			$(OBJECTS)binaryobject.$(O)$(COMMA)\
+ a	framedev.c.new	$(OBJECTS)bufferdev.$(O)$(COMMA)\
+x  			$(OBJECTS)buildprebuilt.$(O)$(COMMA)\
+ b			$(OBJECTS)constantmask.$(O)$(COMMA)\
+ b			$(OBJECTS)constanttrap.$(O)$(COMMA)\
+ a	customops.c.new	$(OBJECTS)customops.$(O)$(COMMA)\
+ a	devinit.c.new	$(OBJECTS)devpak.$(O)$(COMMA)\
+x			$(OBJECTS)exec.$(O)$(COMMA)\
+x	device/maskcache$(OBJECTS)fontcache.$(O)$(COMMA)\
+ a	no changes	$(OBJECTS)init_table.$(O)$(COMMA)\
+x			$(OBJECTS)gcsharedimpl.$(O)$(COMMA)\
+x			$(OBJECTS)gray.$(O)$(COMMA)\
+  y			$(OBJECTS)graypriv.$(O)$(COMMA)\
+   j	gstates.c.new	$(OBJECTS)gstates.$(O)$(COMMA)\
+x			$(OBJECTS)halftone.$(O)$(COMMA)\
+    k			$(OBJECTS)im110.$(O)$(COMMA)\
+ a	image.c.new	$(OBJECTS)image.$(O)$(COMMA)\
+  y			$(OBJECTS)ims11d1x.$(O)$(COMMA)\
+  y			$(OBJECTS)ims1xd1x.$(O)$(COMMA)\
+ a	markimage.c.new	$(OBJECTS)markimage.$(O)$(COMMA)\
+x			$(OBJECTS)mtxvec.$(O)$(COMMA)\
+x			$(OBJECTS)nulldevice.$(O)$(COMMA)\
+x			$(OBJECTS)packedarray.$(O)$(COMMA)\
+x			$(OBJECTS)pathbuild.$(O)$(COMMA)\
+x			$(OBJECTS)qreducer.$(O)$(COMMA)\
+x			$(OBJECTS)rect.$(O)$(COMMA)\
+x			$(OBJECTS)recycler.$(O)$(COMMA)\
+x			$(OBJECTS)saverestore.$(O)$(COMMA)\
+x			$(OBJECTS)scanner.$(O)$(COMMA)\
+x			$(OBJECTS)strokeops.$(O)$(COMMA)\
+   j			$(OBJECTS)unixstream.$(O)$(COMMA)\
+   j			$(OBJECTS)unixfopen.$(O)$(COMMA)\
+x			$(OBJECTS)vm.$(O)\
+x			$(OBJECTS)vm_segment.$(O)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

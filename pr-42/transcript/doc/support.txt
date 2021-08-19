@@ -1,0 +1,198 @@
+
+
+
+
+
+
+
+
+
+                          TRANSCRIPT Support
+
+
+                      Adobe Systems Incorporated
+
+                         1585 Charleston Road
+                            P.O. Box 7900
+                    Mountain View, CA   94309-7900
+
+
+
+
+
+This section explains the product support available from Adobe Sys-
+tems.
+
+_1.  _W_e'_d _L_i_k_e _t_o _H_e_a_r _f_r_o_m _Y_o_u
+
+We want to hear from you when any problem or question arises concern-
+ing TRANSCRIPT software.  At the end of this section is a TRANSCRIPT
+customer comment form, and its source is available on-line in
+doc/comment.ms.  In order for us to best handle your concerns, we need
+the following information from you:
+
+o+    The name of the person contacting us
+
+o+    Organization name, address, phone number
+
+o+    Netmail address (if available)
+
+o+    TRANSCRIPT version and distribution type (source or binary)
+
+o+    POSTSCRIPT printer manufacturer and model
+
+o+    Hardware and operating system configuration
+
+o+    A complete description of the problem with supporting materials
+     (listing, or source media) attached or included
+
+_2.  _S_h_i_p_p_i_n_g _o_r _I_n_s_t_a_l_l_a_t_i_o_n _P_r_o_b_l_e_m_s
+
+Please contact us _i_m_m_e_d_i_a_t_e_l_y if you have one of the following prob-
+lems:
+
+_________________________
+POSTSCRIPT is a registered trademark of  Adobe  Systems
+Incorporated.
+TRANSCRIPT is a trademark of Adobe Systems  Incorporat-
+ed.
+UNIX is a trademark of AT&T Bell Laboratories.
+
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 2 -
+
+
+o+    Your TRANSCRIPT software shipment arrived damaged or incomplete.
+
+o+    Your TRANSCRIPT magnetic media cannot be read.
+
+o+    Your TRANSCRIPT software does not compile, install, or test prop-
+     erly.
+
+We will need to verify the order in question so that we may ship a
+replacement.
+
+_3.  _S_o_f_t_w_a_r_e _P_r_o_b_l_e_m_s
+
+Contact us if your TRANSCRIPT shipment is correct and is properly
+installed but:
+
+o+    You suspect some sort of bug in the software.
+
+o+    TRANSCRIPT software does something surprising or contrary to the
+     nature of one of the document preparation systems you are using
+     (e.g., _t_r_o_f_f), your operating system, or your expectations.
+
+o+    You find a serious problem in the documentation or supporting
+     materials.
+
+o+    You encounter any other difficulty while using TRANSCRIPT
+     software.
+
+Adobe provides a 90 day warranty on the TRANSCRIPT product.
+
+_4.  _T_R_A_N_S_C_R_I_P_T _S_o_f_t_w_a_r_e _M_a_i_n_t_e_n_a_n_c_e
+
+Bug reports and questions are addressed by Adobe Systems.  TRANSCRIPT
+software is structured such that ``work around'' solutions are often
+easy to implement, and many problems can be solved by simply changing
+a POSTSCRIPT prologue or modifying the font databases without access
+to TRANSCRIPT sources.
+
+When major enhancements or new functionality is added to the TRAN-
+SCRIPT software, you will be notified that a new version of TRANSCRIPT
+software is available.
+
+_5.  _A_d_o_b_e'_s _R_e_s_p_o_n_s_e _t_o _Y_o_u
+
+o+    We will correct any problems that occurred in shipping the TRAN-
+     SCRIPT product to you, and help with problems you may encounter
+     in installation and testing.
+
+o+    We will answer questions on how to install and use TRANSCRIPT
+     software.  Note we are not experts or wizards on the various
+     document formats (e.g., _t_r_o_f_f, _p_l_o_t) supported by TRANSCRIPT, nor
+     are we necessarily experts on all the different varieties of UNIX
+     systems.  The best source for information on the document
+     preparation systems themselves is the UNIX manual and associated
+     Bell Laboratories papers. We _d_o want to know of your problems and
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 3 -
+
+
+     concerns.  We are especially interested in knowing if our docu-
+     mentation fails to meet your needs, so we can improve it.
+
+o+    When you encounter a problem and notify us with a Customer Com-
+     ment Form and supporting materials, we will try to get back to
+     you with solutions as soon as possible.  We will provide the most
+     complete information possible: work-around solutions, prologue
+     patches, or simply correction of misunderstandings about
+     POSTSCRIPT printers or the TRANSCRIPT software.
+
+o+    We will try to handle any other questions or problems that affect
+     your use of Adobe products.
+
+
+
+     We welcome your comments.  We are excited about the func-
+     tionality and freedom that Adobe products bring to the world
+     of electronic printing.  Let us know how our products can be
+     improved and how we can better serve you.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           24 July 1987
+
+

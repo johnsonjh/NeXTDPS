@@ -1,0 +1,77 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Drawing Arrows     Number: 8
+%-----------------------------------------------------------------------------
+%
+/arrowdict 13 dict def                      % Local storage for the procedure
+					    % ``arrow.''
+							
+/arrow                                      % The procedure ``arrow'' adds an
+  { arrowdict begin                         % arrow shape to the current path.
+      /headlength exch def                  % It takes seven arguments: the x
+      /halfheadthickness exch 2 div def     % and y coordinates of the tail
+      /halfthickness exch 2 div def         % (imagine that a line has been
+      /tipy exch def /tipx exch def         % drawn down the center of the
+      /taily exch def /tailx exch def       % arrow from the tip to the tail,
+					    % then x and y lie on this line),
+					    % the x and y coordinates of the
+					    % tip of the arrow, the thickness
+					    % of the arrow in the tail
+					    % portion, the thickness of the
+					    % arrow at the widest part of the
+					    % arrowhead and the length of the
+					    % arrowhead.
+							
+      /dx tipx tailx sub def                % Compute the differences in x and
+      /dy tipy taily sub def                % y for the tip and tail. These
+      /arrowlength dx dx mul dy dy mul add  % will be used to compute the
+	sqrt def                            % length of the arrow and to
+      /angle dy dx atan def                 % compute the angle of direction
+					    % that the arrow is facing with
+					    % respect to the current user
+					    % coordinate system origin.
+      /base arrowlength headlength sub def  % Compute where the base of the
+					    % arrowhead will be.
+								
+      /savematrix matrix currentmatrix def  % Save the current user coordinate
+					    % system. We are using the same
+					    % strategy to localize the effect
+					    % of transformations as was used
+					    % in the program to draw an
+					    % ellipse.
+      tailx taily translate                 % Translate to the starting point
+					    % of the tail.
+      angle rotate                          % Rotate the x-axis to correspond
+					    % with the center line of the
+					    % arrow.
+      0 halfthickness neg moveto            % Add the arrow shape to the
+					    % current path.
+      base halfthickness neg lineto
+      base halfheadthickness neg lineto
+      arrowlength 0 lineto
+      base halfheadthickness lineto
+      base halfthickness lineto
+      0 halfthickness lineto
+      closepath
+	       
+      savematrix setmatrix                  % Restore the current user
+					    % coordinate system.
+    end
+  } def
+       
+newpath                                     % Draw a filled arrow with a thin
+					    % tail and a long arrowhead.
+  318 340 72 340 10 30 72 arrow
+fill
+newpath                                     % Draw an outlined arrow with a 90
+  382 400 542 560 72 232 116 arrow          % degree angle at the tip. To get
+3 setlinewidth stroke                       % a 90 degree angle, the
+					    % headthickness should be twice
+					    % the headlength.
+newpath                                     % Draw a gray filled arrow that
+  400 300 400 90 90 200 200 3 sqrt mul 2    % has an equilateral triangle for
+    div arrow .65 setgray fill              % its arrowhead. To get an
+showpage                                    % equilateral triangle, the
+					    % headlength should be the square
+					    % root of 3 divided by 2 times the
+					    % headthickness.

@@ -1,0 +1,137 @@
+.TH PSCATMAP 8 "14 July 1987" "Adobe Systems"
+\" Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: pscatmap.8p,v 2.2 87/11/17 16:47:21 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+pscatmap \- build ptroff width tables P\s-2OST\s+2S\s-2CRIPT\s+2 fonts
+.SH "SYNOPSIS"
+.B XPSLIBDIRX/pscatmap
+.I mapfile
+.SH "DESCRIPTION"
+.I pscatmap
+builds correspondence tables and width tables so that
+documents produced with original
+.RI [ o ] troff (1)
+can be translated into \*(PS programs by
+.IR pscat .
+.I pscatmap 
+parses a human-readable mapping table and generates five output files \-
+a 
+.IR family .ct
+file, containing the character correspondence table for 
+.IR pscat , 
+and
+four 
+.I ft?? 
+files, to be used as 
+.I troff
+width tables.  On 4.2bsd systems, these files are C programs 
+(ft\fIxx\fP.c) to be compiled into widths tables.
+On System V systems, these files are the binary width tables themselves.
+.PP
+The structure of the 
+.I .map
+files is relatively easy to understand.  If you want to create your own,
+the best thing to do is use an existing one as a template.  Lines that
+begin with ``%'' are comments.  Blank (empty) lines are ignored.
+Lines beginning with  ``@'' are command lines. The following command 
+lines are understood:
+.TP 1.3i
+.BI @FAMILYNAME " family"
+.br
+where 
+.I family
+is a single token.  This specifies the base name for the generated .ct file.
+.TP
+.BI @FACENAMES " rf if bf sf"
+.br
+where \fIrf, if, bf,\fR and
+.I sf,
+are the two-letter 
+.I troff
+face codes for the Roman (font 1), Italic (font 2), Bold (font 3)
+and Symbol (font 4) fonts, respectively.  
+.I pscatmap 
+will generate files with the names:
+ft\fIrf\fP[.c], ft\fIif\fP[.c], ft\fIbf\fP[.c], ft\fIsf\fP[.c].
+.TP
+.B @BEGINFONTS
+starts the section which identifies which \*(PS fonts
+will be a part of this mapping and defines short names for these
+fonts (to be used in a later section of the map file).
+@BEGINFONTS is followed by a sequence of lines of the form:
+.RS
+\fBshortname\fP=\fIFont-Name\fP
+.RE
+.TP
+.B @ENDFONTS
+terminates this section.
+.TP
+.B @BEGINMAP
+begins the real correspondence description.
+What follows are a sequence of lines, each line describing
+a character action mapping.  Each line represents one character.
+A line contains:
+the troff character code, the troff face code (R, I, B, or S),
+the C/A/T character code, the character width, 
+the character action, x and y offsets for position adjustments,
+the \*(PS font and \*(PS character code to map to, and a short
+text description of the font.
+.sp
+The best way to understand all this is to look at the map
+files already in the library and use them as examples.  They have
+copious comments to help explain what they do.
+.TP 
+.B @ENDMAP
+delimits the end of this section.
+.TP
+.BI @INCLUDE " file"
+reads commands from the named \fIfile\fP until it is exhausted, then
+switches back to the current input file.
+This command may appear in included files
+(that is, include files may be nested).
+This may be used to include the standard correspondence description,
+which is identical in most Adobe fonts.
+.SH ENVIRONMENT
+PSLIBDIR
+path name of a directory to use instead of
+XPSLIBDIRX for AFM files.
+.SH FILES
+.TP 2i
+XPSLIBDIRX/*.afm
+font metrics files.
+.TP
+\fIfamily\fP.map
+input mapping file.
+.TP
+\fIfamily\fP.ct
+generated correspondence table.
+.TP
+ft\fIxx\fP[.c]
+generated width files.
+.SH "SEE ALSO"
+pscat(1), ptroff(1), transcript(1).
+.br
+4.2bsd: troff(1).
+.br
+System V: otroff(1), \fIDocumenter's Workbench\fP.
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH DIAGNOSTICS
+Lots, should be self explanatory.
+.SH BUGS
+Mounting anything but a font named `S' in position 4 will cause
+.I troff
+to do unexpected things.   
+.I troff
+really expects the symbol font to be named `S'.
+Thus every font family defined
+should have identical symbol faces.
+You can specify some other face name in the 
+.B @FACENAMES 
+line for the fourth font, but don't ``.fp'' it in troff.
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+Documenter's Workbench is a trademark of AT&T Technologies.

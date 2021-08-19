@@ -1,0 +1,28 @@
+StartFontMetrics 2.0
+Comment Copyright (c) 1984 Adobe Systems Incorporated. 	All Rights Reserved.
+Comment Creation Date:Sun Feb 8 01:48:39 PST 1987
+FontName Lexi
+EncodingScheme Lexi
+FullName Lexi
+FamilyName Lexi
+Weight Roman
+ItalicAngle 0.0
+IsFixedPitch false
+UnderlinePosition -109
+UnderlineThickness 49
+Version 001.005
+FontBBox -170 -223 1024 896
+CapHeight 662
+XHeight 448
+Descender -217
+Ascender 682
+StartCharMetrics 228
+C 32 ; WX 150 ; N space ; B 0 0 0 0 ;
+C 39 ; WX 185 ; N quoteright ; B 103 432 242 676 ;
+C 44 ; WX 185 ; N comma ; B 63 -143 202 101 ;
+C 101 ; WX 474 ; N e ; B 22 -10 421 458 ;
+C 110 ; WX 493 ; N n ; B 9 0 490 458 ;
+C 117 ; WX 815 ; N u ; B 9 -10 479 448 ;
+EndCharMetrics
+EndFontMetrics
+

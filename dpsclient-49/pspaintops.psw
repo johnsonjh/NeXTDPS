@@ -1,0 +1,97 @@
+/* pspaintops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSashow(float x, y; char *s)
+	x y (s) ashow 
+endps
+
+defineps PSawidthshow(float cx, cy; int c; float ax, ay; char *s)
+	cx cy c ax ay (s) awidthshow 
+endps
+
+defineps PScopypage()
+	copypage 
+endps
+
+defineps PSeofill()
+	eofill 
+endps
+
+defineps PSerasepage()
+	erasepage 
+endps
+
+defineps PSfill()
+	fill 
+endps
+
+defineps PSimage()
+	image 
+endps
+
+defineps PSimagemask()
+	imagemask 
+endps
+
+defineps PSkshow(char *s)
+	(s) kshow
+endps
+
+defineps PSrectfill(float x, y, w, h)
+	x y w h rectfill 
+endps
+
+defineps PSrectstroke(float x, y, w, h)
+	x y w h rectstroke 
+endps
+
+defineps PSshow(char *s)
+	(s) show 
+endps
+
+defineps PSshowpage()
+	showpage 
+endps
+
+defineps PSstroke()
+	stroke 
+endps
+
+defineps PSstrokepath()
+	strokepath 
+endps
+
+defineps PSueofill(char nums[n]; int n; char ops[l]; int l)
+	[(nums) (ops)] ueofill
+endps
+
+defineps PSufill(char nums[n]; int n; char ops[l]; int l)
+	[(nums) (ops)] ufill
+endps
+
+defineps PSustroke(char nums[n]; int n; char ops[l]; int l)
+	[(nums) (ops)] ustroke
+endps
+
+defineps PSustrokepath(char nums[n]; int n; char ops[l]; int l)
+	[(nums) (ops)] ustrokepath
+endps
+
+defineps PSwidthshow(float x, y; int c; char *s)
+	x y c (s) widthshow 
+endps
+
+defineps PSxshow(char *s; float numarray[size]; int size)
+	(s) numarray xshow
+endps
+
+defineps PSxyshow(char *s; float numarray[size]; int size)
+	(s) numarray xyshow
+endps
+
+defineps PSyshow(char *s; float numarray[size]; int size)
+	(s) numarray yshow
+endps
+

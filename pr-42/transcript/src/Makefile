@@ -1,0 +1,102 @@
+# transcript/src/Makefile.bsd
+#
+# Copyright (C) 1985,1987 Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: Makefile.bsd,v 2.2 87/11/17 16:49:05 byron Rel $
+
+
+LPROGS = psbanner pscomm psrv pstext
+BPROGS = enscript ps4014 ps630 pscat pscatmap psdit psplot psrev
+
+OBJECTS = psbanner.o pscomm.o psrv.o pstext.o \
+	enscript.o ps4014.o ps630.o pscat.o pscatmap.o \
+	psdit.o psplot.o psrev.o \
+	psutil.o
+
+
+CFLAGS = -g -O -D__STRICT_BSD__ -DBSD=43 -DNeXT_MOD -fwritable-strings
+
+programs all:	${LPROGS} ${BPROGS}
+
+enscript: enscript.o psutil.o config.o getopt.o defaults.o
+	cc ${CFLAGS} -o enscript enscript.o psutil.o config.o getopt.o \
+	    defaults.o -lsys_s
+
+pscat: pscat.o psutil.o config.o getopt.o
+	cc ${CFLAGS} -o pscat pscat.o psutil.o config.o getopt.o -lsys_s
+
+psbanner: psbanner.o psutil.o config.o
+	cc ${CFLAGS} -o psbanner psbanner.o psutil.o config.o -lsys_s
+
+pscomm: pscomm.o psutil.o config.o
+	cc ${CFLAGS} -o pscomm pscomm.o psutil.o config.o -lsys_s
+
+pstext: pstext.o psutil.o config.o
+	cc ${CFLAGS} -o pstext pstext.o psutil.o config.o -lsys_s
+
+psplot: psplot.o psutil.o getopt.o config.o
+	cc ${CFLAGS} -o psplot psplot.o psutil.o getopt.o config.o -lsys_s
+
+psrv: psrv.o psutil.o config.o
+	cc ${CFLAGS} -o psrv psrv.o psutil.o config.o -lsys_s
+
+psrev: psrev.o psutil.o getopt.o config.o
+	cc ${CFLAGS} -o psrev psrev.o psutil.o getopt.o config.o -lsys_s
+
+ps630: ps630.o psutil.o config.o getopt.o
+	cc ${CFLAGS} -o ps630 ps630.o psutil.o config.o getopt.o -lsys_s
+
+ps4014: ps4014.o psutil.o config.o getopt.o
+	cc ${CFLAGS} -o ps4014 ps4014.o psutil.o config.o getopt.o  -lsys_s
+
+pscatmap: pscatmap.o psutil.o config.o
+	cc ${CFLAGS} -o pscatmap pscatmap.o psutil.o config.o -lsys_s
+
+psdit: psdit.o psutil.o config.o
+	cc ${CFLAGS} -o psdit psdit.o psutil.o config.o  -lsys_s
+
+${OBJECTS}: transcript.h
+pscomm.o psbanner.o pscat.o: psspool.h
+pscat.o pscatmap.o: action.h 
+
+config.c: config.proto ../config
+	-rm -f - config.c
+	sed	-e s,PSLIBDIR,$$PSLIBDIR,g \
+		-e s,TROFFFONTDIR,$$TROFFFONTDIR,g \
+		-e s,DITDIR,$$DITDIR,g \
+		-e s,PSTEMPDIR,$$PSTEMPDIR,g \
+		config.proto >config.c
+
+install: DSTROOT ${LPROGS} ${BPROGS}
+	mkdirs ${DSTROOT}$$PSLIBDIR
+	mkdirs ${DSTROOT}$$BINDIR
+	-cd ${DSTROOT}$$PSLIBDIR; rm -f ${LPROGS} ${BPROGS}
+	install -c -o $$OWNER -g $$GROUP -s psbanner	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s pscomm	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s psrv	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s pstext	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s enscript	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s ps4014	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s ps630	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s pscat	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s pscatmap	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s psdit	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s psplot	${DSTROOT}$$PSLIBDIR
+	install -c -o $$OWNER -g $$GROUP -s psrev	${DSTROOT}$$PSLIBDIR
+	-cd ${DSTROOT}$$BINDIR ; rm -f ${BPROGS}
+	for i in ${BPROGS} ;\
+	do ln -s $$PSLIBDIR/$$i ${DSTROOT}$$BINDIR ;\
+	done
+
+DSTROOT:
+	@if [ -n "${$@}" ]; \
+	then \
+		exit 0; \
+	else \
+		echo Must define $@; \
+		exit 1; \
+	fi
+
+clean:
+	rm -f - *.o config.c ${BPROGS} ${LPROGS} *BAK *CKP .emacs_[0-9]*
+

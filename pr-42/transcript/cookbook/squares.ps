@@ -1,0 +1,48 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Three Squares     Number: 1
+%-----------------------------------------------------------------------------
+%
+/inch {72 mul} def
+		  
+/inchsquare                                 % In a similar manner to defining
+					    % ``inch'', we define a sequence
+					    % of path commands into a single
+					    % name, ``inchsquare.''
+  { newpath
+      moveto                                % Note that the <x> and <y> values
+      0 1 inch rlineto                      % for the initial moveto are left
+      1 inch 0 rlineto                      % out. We expect that they will be
+      0 -1 inch rlineto                     % supplied as operands before each
+    closepath                               % use of ``inchsquare.'' The edges
+  } def                                     % of the box are specified with
+					    % the ``rlineto'' operator so that
+					    % each path segment is drawn
+					    % relative to the previous point
+					    % in the path. Thus, with
+					    % different initial <x> <y>
+					    % values, this one procedure will
+					    % serve to construct a one inch
+					    % square path anywhere on the
+					    % page.
+						   
+1 inch 6.5 inch inchsquare                  % We place the lower left corner
+3 setlinewidth                              % of the first square 1 inch from
+stroke                                      % the left edge and 6.5 inches
+					    % from the bottom of the page, and
+					    % construct the rest of the path.
+					    % Stroke the square onto the page.
+									      
+3.75 inch 4 inch inchsquare                 % Place another inch square path
+					    % at a new location
+fill                                        % Now fill in this square on the
+					    % page with black ``ink''.
+								      
+6.5 inch 1.5 inch inchsquare                % Place another inch square path
+					    % at a new location
+0.75 setgray                                % Change the ``ink'' to a gray
+fill                                        % shade. ``0 setgray'' sets the
+					    % ink to black, ``1 setgray'' sets
+					    % the ink to white.
+showpage                                    % Finally, print the page on the
+					    % output device.

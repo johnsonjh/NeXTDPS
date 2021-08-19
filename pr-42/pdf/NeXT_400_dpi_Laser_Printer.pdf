@@ -1,0 +1,22 @@
+*%  Printer Description File for the NeXT 400 dpi Laser Printer
+*%  Copyright 1988, NeXT Inc.
+*%
+*%  General Defaults and Informational Keywords
+*%
+*FormatVersion: "2.0"
+*PSVersion: "(PS-Adobe-2.0)"
+*Product: "NeXT 400 dpi Laser Printer"
+*DefaultResolution: 400
+*SetResolution 300: "300 setresolution"
+*SetResolution 400: "400 setresolution"
+*?Resolution: "resolution"
+*%
+*%  System Management
+*%
+*Throughput: "8"
+*%
+*%  Paper Handling
+*%
+*DefaultPageSize: letter
+*PageSize letter: "letter"
+*PageSize envelope: "envelope"

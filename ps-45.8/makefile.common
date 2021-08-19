@@ -1,0 +1,124 @@
+include $(ROOT)/make-config
+
+INCLUDE = -I$(ROOT)/include
+
+LIBDIR    := $(ROOT)/$(STAGE)-$(OBJTAG)$(PROFILE)
+
+DEPEND    := depend
+
+MAINSWITCHES = \
+  -DSTAGE=$(STAGE)\
+  -DISP=isp_$(ISP)\
+  -DOS=os_$(OS)\
+  -DPACKAGE_SPECS=\"package_specs.h\"
+
+SWITCHES := $(MAINSWITCHES) $(OTHERSWITCHES)
+CFLAGS := $(CFLAGS_$(STAGE)) $(SWITCHES)
+
+ifndef PROF
+    LIB := $(LIBDIR)/$(LIBRARY).a
+    SRCS := $(SRCS) $($(STAGE)_SRCS)
+    OBJS := $(patsubst %.c,%.o,$(SRCS)) $(patsubst %.s,%.o,$(ASRCS)) \
+    	    $(ADOBE_OBJS)
+else
+    LIB := $(LIBDIR)/$(LIBRARY)_p.a
+    CFLAGS := -pg $(CFLAGS)
+    SRCS := $(PROF)
+    OBJS := $(patsubst %.c,%.o,$(SRCS))
+endif
+
+(%.o):  %.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(LIBDIR)/$%
+	$(AR) r $@ $(LIBDIR)/$%
+	rm -f $(LIBDIR)/$%
+
+(%.o):	%.o.adobe-$(STAGE)-$(OBJTAG)
+	cp $< $(LIBDIR)/$%
+	$(AR) r $@ $(LIBDIR)/$%
+	rm -f $(LIBDIR)/$%
+
+(%.o):	%.s
+	$(CPP) $(SWITCHES) $(INCLUDE) $< > $(LIBDIR)/$*-cpp.s
+	$(AS) $(AFLAGS) $(LIBDIR)/$*-cpp.s -o $(LIBDIR)/$%
+	$(LD) -r -x $(LIBDIR)/$%
+	mv a.out $(LIBDIR)/$%
+	$(AR) r $@ $(LIBDIR)/$%
+	rm -f $(LIBDIR)/$% $(LIBDIR)/$*-cpp.s
+	
+%.s:	%.c
+	$(CC) $(CFLAGS) $(INCLUDE) -S $< -o $@
+
+%.o:	%.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+%:	%.c
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+
+
+.PHONY:	first-goal default-goal libs tagfile
+first-goal: default-goal
+
+#############################
+### Operator Registration ###
+#############################
+
+$(LIBRARY)names.ps ops_$(LIBRARY)DPS.c: $(LIBRARY)names.h
+	$(ROOT)/bin/update_registered_names $(LIBRARY)names.h
+
+###############
+### Library ###
+###############
+
+$(LIB): $(patsubst %,$(LIB)(%),$(OBJS)) $(MISC)
+	ranlib $(LIB)
+
+lib: $(LIB)
+
+libs:
+	$(MAKE) -$(MAKEFLAGS) STAGE=DEVELOP
+	$(MAKE) -$(MAKEFLAGS) STAGE=EXPORT
+
+###############
+### Profile ###
+###############
+profile:
+	make -$(MAKEFLAGS) "CC=$(CC)" "PROFILE=-p" install
+
+#####################
+### Miscellaneous ###
+#####################
+
+# clean rule forces entire remake
+clean: tidy
+	rm -f $(LIB) $(DEPEND)
+
+# tidy rule cleans up crufties from interupted compiles
+tidy:
+	rm -f $(LIBDIR)/*.o *~
+
+
+#################
+### Tag files ###
+#################
+tagfiles:
+	@echo $(addprefix $(LIBRARY)/,$(SRCS) $(ASRCS) $(HDRS)) >> ../tagfiles
+
+####################
+### Dependencies ###
+####################
+
+$(DEPEND):
+	-/bin/rm -f depend
+	$(CC) -MM $(CFLAGS) $(INCLUDE) $(SRCS) | \
+	    awk '{ if ($$1 != prev) { if (rec != "") print rec; \
+		rec = $$0; prev = $$1; } \
+		else { if (length(rec $$2) > 77) { print rec; rec = $$0; } \
+		else rec = rec " " $$2 } } \
+		END { print rec }' | \
+	    sed 's=^[^ ][^ ]*\.o=$$(LIB)(&)='  > $@
+
+vpath %.h $(ROOT)/include
+
+ifneq "$(wildcard $(DEPEND))" ""
+include $(DEPEND)
+endif

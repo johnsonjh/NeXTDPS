@@ -1,0 +1,54 @@
+.\" Copyright (c) 1989 NeXT, Inc.  All Rights Reserved.
+.\"
+.\"	@(#)NSWSd.8c	0.9 (NeXT) 3/28/89
+.\"
+.TH RLOGIND 8C "March 29, 1989"
+.UC 5
+.SH NAME
+NSWSd \- NextStep(tm) Window Server front-end daemon
+.SH SYNOPSIS
+.B /usr/lib/NextStep/NSWSd
+.SH DESCRIPTION
+.I NSWSd
+is the TCP/IP front end for the
+.B NextStep(tm)
+window server.  When running on a NeXT computer, the window
+server accepts Mach-message-based connections (see
+.B The MACH Kernel Interface Manual
+and
+.B The NeXT Computer System Reference Manual
+) for more details.  In order to easily allow connections
+between clients running on non-NeXT hosts and the window
+server, the
+.I NSWSd
+daemon accepts TCP/IP connections from clients and then
+forms on their behalf Mach-message-based connections to
+the window server on the machine where
+.I NSWSd
+is running.
+.I NSWSd
+is automatically launched from
+.B inetd
+when a client requests a connection for
+.B NSWS
+service.
+.PP
+.I NSWSd
+operates as an unknown, untrusted program to the window server;
+therefore, the user who is currently logged in on the machine
+must have
+.I "Public Window Server"
+in his 
+.B Preferences
+database set to true in order for
+.I NSWSd 
+to function properly.  In particular, this means that NSWSd
+cannot accept connections if no one is logged in on the machine
+where it is running.
+.SH SEE ALSO
+services(5)
+.SH DIAGNOSTICS
+All diagnostic messages are logged on the system console.
+.SH BUGS
+None known yet, but just hang on awhile.
+

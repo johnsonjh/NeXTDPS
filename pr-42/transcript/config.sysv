@@ -1,0 +1,203 @@
+
+# Copyright 1985,1987 (C) Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# PostScript is a registered trademark of Adobe Systems Incorporated
+# TranScript is a trademark of Adobe Systems Incorporated
+# RCSID: $Header: config.sysv,v 2.2 87/11/17 16:53:46 byron Rel $
+#
+# this is a shell script that get's "sourced" when building and
+# installing TranScript software.  It sets up definitions of the
+# places that TranScript wants to do it's work.
+# This script is concerned with the software itself, not with
+# the printers.  Another script (???) is used to configure printers.
+#
+# If you change the values in this script, parts of the TranScript
+# system may need to be remade (recompiled), and reinstalled.
+
+# BINDIR
+#	This is a directory where TranScript user programs are put.
+#	It should be in the PATH of each user that want's to use them.
+#	Many UNIX sites will keep these kinds of programs separate
+#	from the regular UNIX utilites but in a well-known spot, like
+#	"/usr/local/bin", "/usr/local", etc.  Whatever you choose,
+#	make sure it's in people's search paths.  The TranScript
+#	installation sequence will write in this directory.
+BINDIR=/usr/bin
+
+# PSLIBDIR
+#	This is a directory where TranScript keeps lots of things:.
+#	spooler interface filters, font metrics files, prologue files,
+#	and executables needed by TranScript or administrators, but not
+#	by general users.
+PSLIBDIR=/usr/lib/ps
+
+# OWNER GROUP
+#	User and group names for installed files
+#	On System V systems, this is typically "bin" and "bin"
+OWNER=bin
+GROUP=bin
+
+# LINK
+#	some files have to be in both BINDIR and PSLIBDIR
+#	if BINDIR and PSLIBDIR are on the same file system,
+#	these will be linked together (with ln) if they are
+#	on different file systems, set LINK=cp so that
+#	copies will be made
+LINK=ln
+
+# PSTEMPDIR
+#	The temporary directory you want TranScript filters to use
+#	when necessary.  Sometimes this may need to hold a large print
+#	file, so choose a tmp directory on a filesystem with enough
+#	space.
+PSTEMPDIR=/usr/tmp
+
+# MAN1 MAN7 MAN8
+#	The places you want the on-line manual pages installed.
+#	If you want them all in the same place, 
+#	(e.g., /usr/man/manl), set them all to that.
+MAN1=/usr/man/man1
+MAN7=/usr/man/man7
+MAN8=/usr/man/man8
+
+# DITDIR
+#	This directory will contain the font family directories that
+#	are used by "psroff" and "psdit".
+#	DITDIR/Times/devpsc will contain the default font info.
+#	DON'T make it /usr/lib/font/devpsc!
+DITDIR=$PSLIBDIR/ditroff.font
+
+# MAKEDEV 
+#	is the FULL pathname of the makedev program for ditroff
+#	(for Berkeley ditroff, this file is called "devconfig")
+#	You may have to go hunting to find it (maybe even recompile it)
+#	If you do not have ditroff (i.e., don't have makedev), set 
+#	DITROFFFONTS=0 (see below).
+MAKEDEV=/usr/bin/makedev
+
+# TROFFFONTDIR
+#	This directory will contain the font family directories that
+#	are used by "ptroff" and "pscat".
+#	TROFFFONTDIR/Times will contain the default font info.
+#	DON'T make it /usr/lib/font if you can help it!
+TROFFFONTDIR=$PSLIBDIR/troff.font
+
+# BANNERFIRST BANNERLAST
+#	These determine the default actions to take with job banner pages.
+#	These pages (printed by the spooler to identify a job) may
+#	be printed either before the job itself, after the job, or both,
+#	or neither.  These flags may also be be set separately for each
+#	printer if desired.  Note that this is the site-wide default.
+#	These values can be overridden for specific printers using the
+#	.options file in the spool directory (see documentation).
+BANNERFIRST=0
+BANNERLAST=1
+
+# REVERSE
+#	This indicates the program that should be used to automatically
+#	reverse the page order in a user job.  It is used with printers
+#	that pile pages "face up".  To specify that no reversal should be
+#	done, use the REVERSE= line instead.  Note that this is the site-wide
+#	default.  This value can be overridden for specific printers using the
+#	.options file in the spool directory (see documentation).
+#	If this value is set, you will probably want banners to be
+#	printer AFTER the job is printed (BANNERLAST).
+REVERSE=1
+
+# VERBOSELOG
+#	Indicates that verbose job logging should take place in the 
+#	printer log files.  It can be reset on a per-printer basis,
+#	so don't worry about it here.
+VERBOSELOG=1
+
+# SETCFLAGS
+#	Lists the flags that are to be passed to the "C" compiler (cc)
+#	whenever a program is compiled.  The -f is used in many systems
+#	that don't have floating point, but is not recognized in others,
+#	so it may need to be removed.
+SETCFLAGS="-O -DSYSV -f"
+
+# DWB20
+#	Indicates that the user has Documenter's Workbench version 2.0 or
+#	after.  This version has some incompatibilities with earlier
+#	software.   Also, it does no contain otroff, so you may want to
+#	make TROFFFONTS=0 below.
+DWB20=0
+
+# DITROFFFONTS
+#	Indicates that ditroff fonts should be installed.  It is
+#	difficult to install fonts at a later date, so it is recommended
+#	that this be left on unless the user is sure that otroff will
+#	never be used.  This option is provided because the fonts can
+#	take up quite a bit of disk space.  See below.
+#	Note that the user must have the makedev program in order to
+#	build ditroff fonts.  If you don't have makedev, turn this off.
+DITROFFFONTS=1
+
+# TROFFFONTS
+#	Indicates that troff (otroff) fonts should be installed.  It is
+#	difficult to install fonts at a later date, so it is recommended
+#	that this be left on unless the user is sure that otroff will
+#	never be used.  This option is provided because the fonts can
+#	take up quite a bit of disk space.  See below.
+TROFFFONTS=1
+
+# FONTFAMILIES
+#	List of the troff/ditroff font families to install.  This sets
+#	up the fonts that will be available in troff/ditroff.  Any font
+#	that is NOT in this list will not be available AT ALL, barring
+#	difficult manual intervention later.  The default is set up for
+#	the standard 13 fonts: the Times, Helvetica, and Courier families,
+#	and the Symbol font.  Other font families may be added.  Each font
+#	FAMILY takes about 40 KB of disk space for ditroff, and 20 KB for
+#	troff.  You may wish to check the documentation for the PostScript
+#	printer(s) at your site to determine which fonts to install.
+#	If all font are installed, about 450 KB of disk space is used.
+#	NOTE: Make sure that ALL values of FONTFAMILIES are commented out
+#	except one.
+#	Recognized font family names are:
+#	AvantGarde  Bookman    Courier   Garamond   Helvetica  HelvNarrow
+#	Lubalin     NewCentury Optima    Palatino   Souvenir   Times
+#	HelvNarrow = Helvetica-Narrow
+#	NewCentury = NewCenturySchlbk
+#	Standard13 = Courier, Helvetica, Times, and Symbol
+#	Zapf2      = ZapfChancery-MediumItalic
+#	The families in most PostScript printers:
+FONTFAMILIES=Standard13
+#	All the font families that were shipped:
+# FONTFAMILIES="Standard13 HelvNarrow AvantGarde Bookman Garamond Lubalin NewCentury Optima Palatino Souvenir Zapf2"
+#	The families in many "plus" PostScript printers.
+# FONTFAMILIES="Standard13 AvantGarde Bookman HelvNarrow NewCentury Palatino Zapf2"
+#	DEC printers:
+# FONTFAMILIES="Standard13 AvantGarde Lubalin NewCentury Souvenir"
+#	AB Dick printers:
+# FONTFAMILIES="Standard13 Bookman Garamond Optima Palatino Souvenir Zapf2"
+
+# DITROFFDIRS
+#	Indicates that separate directories should be created, which support
+#	the new -F option in psroff.  This should be selected
+#	unless the target system is tight on disk space and/or inodes.
+#	Each new font family takes about 40 KB of disk space, and 20 inodes.
+#	This disk usage is in addition to the space used by fonts in the
+#	FONTFAMILIES installation above.  If all font families have been
+#	installed, these will use an additional 450 KB, or about 900 KB
+#	total for all the ditroff font families.
+DITROFFDIRS=1
+
+# PATH
+#	The list of directories that is searched in order to run programs.
+#	This is explained in the /bin/sh documentation.  If the installation
+#	aborts because certain system programs cannot be found, change this
+#	entry to include the correct directories, and follow the directions
+#	for re-running the installation.  Be especially careful to look at
+#	the PATH for "root", since much of the installation is run under
+#	that account.  It is OK to have directories in the list twice, and
+#	to have non-existent directories in the PATH.  The PATH below adds
+#	the directories that are most often left out. It is VERY IMPORTANT
+#	that "." be in the PATH.
+PATH=${PATH}:.:/etc:/usr/etc
+
+
+export BINDIR PSLIBDIR LINK PSTEMPDIR TROFFFONTDIR DITDIR MAKEDEV REVERSE \
+       MAN1 MAN7 MAN8 VERBOSELOG BANNERFIRST BANNERLAST OWNER GROUP \
+       SETCFLAGS DWB20 DITROFFFONTS TROFFFONTS FONTFAMILIES DITROFFDIRS PATH

@@ -1,0 +1,392 @@
+
+		NAME AND OPERATOR REGISTRATION
+
+
+1. Introduction
+
+This memo describes the name and operator registration facility now used in
+level 2. This is a modification of the one used in DPS; the following 
+significant changes have been made:
+
+  * Operator names are now handled separately from names that are not
+    operators; formerly, the two classes of names were treated together.
+
+  * Operators can now be defined conditionally, based on either compile-time
+    or execution-time conditions; formerly, all operators registered using
+    this facility had to be unconditional.
+
+  * Operators can now be defined in any dictionary; formerly; only
+    systemdict operators could be registered this way.
+
+  * The mechanisms have been altered to eliminate the use of huge macro
+    definitions, which broke some compilers.
+
+The purpose of the name and operator registration facility is to introduce
+name objects into the system at VM creation time and to get those objects
+hooked up to the C code properly at product execution time. This was once
+done by using C string literals to define names and to locate operators;
+this was wasteful of C string storage space, since the C strings were used
+only during initialization but were kept around forever. Now, the name
+objects are created by a PostScript program executed at VM creation time;
+the association with operators is accomplished by matching up small integer
+keys that serve as unique IDs.
+
+This scheme depends on enumerating names and operators at compile time and
+on maintaining parallel enumerations in the C and PostScript code. This
+could cause an intolerable maintenance burden if not done properly;
+therefore, much of the procedure has been automated. The C and PostScript
+code are both derived automatically from a set of central definitions in
+each package. This is done by a shell script, update_registered_names, whose
+execution is triggered whenever the definitions are modified.
+
+The name and operator registration facility is declared in orphans.h and
+implemented in the vm package. The responsibility for defining the names and
+operators themselves is distributed throughout the DPS kernel packages;
+changes in one package don't affect any other package.
+
+
+2. Name registration
+
+This facility registers names, other than operator names, that are
+referenced explicitly by C code. Such names are used mainly as well-known
+keys in dictionaries whose contents are defined by the PostScript language,
+such as font dictionaries. The name registration facility creates all such
+name objects in a systematic and economical way.
+
+The VMRoot structure contains a regNameArray field which is an array of
+arrays of names; this array is only in the Shared variant (i.e., only in the
+VMRoot pointed to by rootShared). The top-level array contains one entry per
+package. The indices in this array are globally defined in orphans.h as
+pni_<package>, i.e., pni_vm, pni_language, etc. Currently only the vm,
+language, graphics, fonts, and postscript packages need to register names.
+
+Each package in turn contains a header file, <package>names.h, in its
+sources directory, e.g., fontsnames.h. This file defines compile-time
+constants for indices in that package's name array; for example:
+
+  ...
+  #define nm_FontMatrix 22
+  #define nm_FontName 23
+  ...
+  #define nm_OtherSubrs 35
+  ...
+
+The indices start at zero for each package, so altering the set of names in
+one package does not affect any other package. The #define statements for
+name indices are renumbered automatically whenever the <package>names.h file
+is modified.
+
+The <package>names.h file also contains a definition such as:
+
+  #define PACKAGE_INDEX 3  /* = pni_fonts */
+
+This identifies the package for which names are being defined; it must be
+consistent with the package index in orphans.h (pni_fonts in this case).
+Another definition is:
+
+  #define NUM_PACKAGE_NAMES 67
+
+This is the total number of names in the package; it is regenerated
+automatically.
+
+During the "romreg" phase of initialization, each package executes a
+statement such as:
+
+  fontsNames = RgstPackageNames(PACKAGE_INDEX, NUM_PACKAGE_NAMES);
+
+At VM build time, this creates an array object of the appropriate length and
+sticks it in the package's slot in the VMRoot. At product execution time,
+this simply obtains the package's name array from the VMRoot. In either
+case, the value returned by RgstPackageNames is a pointer to the array
+value; its purpose is described below.
+
+All that remains is to get each package's name array filled with the
+appropriate name objects. This is accomplished by executing a series of
+PostScript programs whose names are <package>names.ps, one per package; this
+is the first thing done in a product's makevm.ps file.
+
+For example, fontsnames.ps contains something like:
+
+  mark ... /FontName /FontMatrix ... /OtherSubrs ... 3 registernames
+
+where 3 is the global index for the package (same as PACKAGE_INDEX). The
+name objects preceding the index are the ones to be registered, in the order
+given in fontsnames.h; there must be NUM_PACKAGE_NAMES of them.
+"registernames" is an internaldict operator defined at VM build time only.
+The fontsnames.ps file is regenerated automatically any time fontsnames.h
+has been modified.
+
+Once initialization is complete, C code may access names via the package's
+name array static (fontsNames in this case). This static is of type
+PNameObj. To use a particular name, the package simply indexes into the
+array, using one of the indices defined in the package's name header file.
+For example:
+
+  DictGetP(dict, fontsNames[nm_FontMatrix], &result);
+
+where nm_FontMatrix is the index defined in fontsnames.h for the name
+"FontMatrix". All the names in this array are executable.
+
+All names declared in <package>names.h are defined unconditionally; there is
+no provision for conditional name registration. Also, names that are
+referenced during initialization prior to beginning execution of PostScript
+code must be defined dynamically in the traditional way, using MakePName.
+
+
+3. Operator registration
+
+The operators to be registered by a package can be enumerated and assigned
+sequential indices in much the same way as registered names, but there are
+three additional requirements:
+
+  * Each operator must have a C procedure associated with it. This
+    association must be re-established at the beginning of product
+    execution, since the addresses of the product's C procedures are
+    not known at the time the VM is built.
+
+  * Certain operators must be conditionally defined according to the
+    set of language features that a product is to support. This selection
+    must be done at compile time in a product but at execution time
+    in the PostScript system that builds the VM for the product.
+
+  * The operator names must be registered with operator (command) values in
+    some dictionary (usually systemdict, but sometimes internaldict or
+    statusdict).
+
+A package's operators are divided into operator sets (OpSets) that
+correspond to distinct language extensions or distinct dictionaries in which
+the operators are to be registered. Operators and operator sets are declared
+in the <package>names.h header files (e.g., fontsnames.h), along with the
+registered names described above. Here is an example:
+
+  OpSet(ops_fonts1, 1, systemdict)
+    Op(ashow, PSAShow)
+    ...
+    Op(widthshow, PSWidthShow)
+
+  OpSet(ops_fonts2, 2, systemdict)
+    Op(cshow, PSCShow)
+    ...
+    Op(rootfont, PSRootFont)
+
+The first two arguments of the OpSet macro specify a name and a number to
+identify each operator set. The name and number must both be unique within
+the package; the number must not be zero (it is regenerated automatically).
+The third argument identifies the dictionary in which the operator are to be
+registered.
+
+The arguments of each Op macro specify the name of an operator and the name
+of the C procedure that implements the operator. All operators belong to the
+operator set most recently declared by OpSet. It is OK for an operator to
+belong to multiple OpSets, so long as only one of those OpSets is selected
+in any given product.
+
+For each OpSet, the update_registered_names shell script generates a
+fragment of initialization code in <OpSet name>.c (for example,
+ops_fonts.c). Details of their contents are given later. These are intended
+to be included as part of package initialization.
+
+At "romreg" initialization time, each package incorporates (via #include
+statements) one or more of these code fragments. This inclusion can be
+conditioned on any appropriate compile-time or execution-time conditions.
+For example:
+
+    case romreg:
+      ...
+  #include "ops_fonts1.c"
+      ...
+  #if (LANGUAGE_LEVEL >= level_2)
+      if (vLANGUAGE_LEVEL >= level_2)
+  #include "ops_fonts2.c"
+  #endif
+      ...
+      break;
+
+In this example, the OpSet ops_fonts1 is included unconditionally, but
+ops_fonts2 is included according to whether level 2 language features are to
+be supported. LANGUAGE_LEVEL is a compile-time switch, defined in
+environment.h, that determines what level of language features are to be
+included in the compiled code for a product.  vLANGUAGE_LEVEL is an
+execution-time switch (specified on the PS command line) that the level of
+language features that are to be defined in a VM that is being built. (The
+contents of ops_fonts2.c are syntactically a single statement.)
+
+The primary result of including an OpSet's code fragment is to execute a
+statement such as:
+
+  RgstOpSet(procs, nProcs, PACKAGE_INDEX*256 + opSetNumber);
+
+The first argument is a pointer to an array of pointers to the C procedures
+for the operators in the OpSet; the second argument is the number of
+procedures. The third argument combines the OpSet number with the package
+number to produce an identifier for the OpSet that is unique across all
+packages.
+
+During VM building, RgstOpSet does the following:
+
+  * Allocates a name array of length nProcs and appends it to the
+    regOpNameArray (in the VMRoot). This array is of type NameArrayObj
+    rather than AryObj; its entries are of type PNameEntry, since full
+    name objects are not needed. Note that this array is not filled
+    in, since the names of the operators aren't known yet.
+
+  * Records the unique OpSet identifier associated with that name array
+    in a parallel VM data structure, regOpIDArray. This is a PostScript
+    string object containing a C array of Int16.
+
+  * Allocates the next nProcs command table entries and fills them in
+    with the supplied C procedures.
+
+The name array is filled in and the operators are defined in dictionaries by
+PostScript code in the <package>names.ps initialization file. This file is
+the same as the one described earlier; it is generated automatically from
+information in <package>names.h. For example:
+
+  mark /ashow ... /widthshow /systemdict 769 registeroperators
+  mark /cshow ... /rootfont /systemdict 770 registeroperators
+
+That is, "registeroperators" takes a list of names (one per operator in the
+OpSet), the dictionary name, and the unique OpSet identifier.
+"registeroperators" is an internaldict operator defined at VM build time
+only; it does the following:
+
+  * Checks whether the unique OpSet identifier is known yet (i.e., has been
+    used in a previous call to RgstOpSet); if not, discards all operands
+    (down to the mark) and does nothing. This skips over conditionally
+    registered operators that are to be excluded during this VM build.
+    (However, a negative OpSet identifier is handled differently; see the
+    next section.)
+
+  * Fills in the corresponding name array in the regOpNameArray.
+
+  * For each name, executes a "def" into the specified dictionary, using
+    the name as key and a command object as value. The command table index
+    for the command object is the index in the current name array plus the
+    sum of the lengths of all earlier name arrays. The dictionary is given
+    as a name object, not a dictionary object; it may refer to one of the
+    standard named dictionaries (/systemdict, /shareddict, /userdict, or
+    /statusdict), or it may be /internaldict.
+
+During initialization of a product with an existing VM, RgstOpSet searches
+the regOpIDArray for the specified OpSet ID. This determines the correct
+position in the regOpNameArray, and therefore the correct range of command
+table indices. It then simply fills in the command table with the supplied C
+procedures. The name arrays and the dictionaries are already set up and do
+not need to be updated.
+
+It is occasionally necessary to translate from a command index to an
+associated name, for example, when reconstituting a full object for a
+command that came from a packed array. This is accomplished simply by
+counting through all the name entries in the regOpNameArray data structure,
+stopping at the ith name where i is the index. Since regOpNameArray is a
+two-level array and the array lengths are easily accessible, this can be
+done reasonably efficiently. In any event, translation from an index to a
+name is done rarely, so efficiency is not an issue.
+
+
+4. RgstExplicit and Opdef
+
+Some operators cannot be registered using this facility but must continue to
+be registered in the traditional way (RgstExplicit or RgstMCmds):
+
+  * Operators that must be executed prior to running the <package>names.ps
+    files that define operator names (for example, "run").
+
+  * Operators defined via the CUSTOMOPS interface.
+
+Such operators are treated as if they belonged to a fictitious operator set.
+One or more fictitious operator sets (each of an arbitrary fixed size) are
+created dynamically as needed and filled in incrementally by successive
+calls to RgstExplicit.
+
+RgstExplicit is presented with both the name and the C procedure for each
+operator; this occurs both at VM build time and product execution time.
+Thus, the operators can be matched by name with their associated command
+indices; the OpSet identifiers do not enter into the picture, and PostScript
+initialization ("registeroperators") is not required for these operators.
+The fictitious OpSets still have regOpNameArray entries and ranges of
+command index values associated with them, however.
+
+Additionally, when building a VM for a product, one needs to register some
+operators (particularly statusdict operators) that are not defined in the
+version of the PostScript system that is building the VM. This is the
+function of the existing "opdef" facility, which continues to be available.
+"opdef" assigns an operator entry in much the same way as RgstExplicit, in
+the expectation that a real RgstExplicit will occur during product
+initialization.
+
+It is also possible, and sometimes advantageous, to group such operators
+into OpSets, much the same as the OpSets for the standard operators. For
+example, various groups of statusdict operators in the status package can be
+treated this way. Additionally, a product that has a lot of custom
+statusdict operators might define them all as one operator set, declared in
+a private <product>names.h file.
+
+Such operator sets differ from the standard ones in just one respect: the
+value of PACKAGE_INDEX (therefore the OpSet ID passed to RgstOpSet and
+"registeroperators") is negative instead of positive. The sign of the OpSet
+ID has no effect on RgstOpSet, but it does alter the behavior of
+"registeroperators". When the OpSet ID is negative, "registeroperators"
+registers operator names unconditionally, creating a new OpSet if the ID is
+not already known, whereas normally it does nothing if the ID is not already
+known. Thus, the names are registered and the command table indices are
+assigned, in the expectation that a corresponding RgstOpSet with that ID
+will occur during product initialization.
+
+
+5. Miscellaneous
+
+The garbage collector needs to trace the regNameArray and regOpNameArray
+that are in the VMRoot structure. Each of these is an array of arrays of
+names; since they are ordinary PostScript data structures, tracing them is
+straightforward. This eliminates the need for the garbage collector to
+maintain a separate list of name statics (currently done by MakeStaticPName
+and RgstMNames). [However, that mechanism has not been removed; there are
+still a few non-operator names registered using the old scheme.]
+
+It is not necessary to treat each package's name array static as a root,
+since it is simply a copy of an entry in the top-level VMRoot array, which
+is already traced.
+
+It is no longer necessary to trace command objects, since all operator names
+are already traced as described above. [However, such traces do no harm, so
+I have not removed them.]
+
+The C procedures for operators must now be public instead of private, since
+all the procedures are referenced from a single place in the package. While
+making this change, we must ensure that the names of all such procedures are
+globally unique; a prefix of "PS" has been added to all names that didn't
+already have one.
+
+The procedure for constructing a product is altered to include a new
+PostScript file, registernames.ps, to be the first file loaded by makevm.ps.
+This file is generated by a shell script, make_register_names, which
+enumerates the sources directories of all packages referenced by the
+product. If a <package>names.ps file is present, make_register_names appends
+to registernames.ps a command to run that file.
+
+The name objects for all PostScript errors, defined in error.h, are no
+longer declared as external variables but as references into the name array
+for the vm package. Therefore, the names in error.h must be defined in the
+same order as the ones in vmnames.h. The procedure for keeping these files
+in sync has not been automated; if error names are added, both files must be
+edited.
+
+There is no need to port the update_registered_names shell script to other
+development environments; the <package>names.ps file generated in the Sun
+environment can simply be copied over. Something analogous to
+make_register_names is required, however; alternatively, the
+registernames.ps file can be constructed manually, since it is only 5 lines
+long.
+
+At the time PostScript execution begins during VM building, the only
+standard systemdict operators that are defined are "run" and "stopped".
+These are sufficient to enable the "-e" command line token to invoke
+makevm.ps and for makevm.ps to invoke registernames.ps. Once this is
+accomplished, all operators are defined.
+
+The size of the regOpNameArray in the VMRoot is determined at the
+beginning of VM building; this determines the maximum number of operator
+sets that can be defined. The command line option "-P n" sets this limit to
+n (given in decimal); the cost is 8 bytes of VM per operator set. Exceeding
+the limit causes a limitcheck during VM building.

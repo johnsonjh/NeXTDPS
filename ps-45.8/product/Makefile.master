@@ -1,0 +1,122 @@
+ROOT = ..
+LIBRARY = product
+SRCS =  coordinates.c event.c imident.c imstretch.c ipcscheduler.c ipcstream.c \
+	listener.c mappedstream.c miscops.c machportdevice.c machprebuilt.c \
+	mouse_driver.c nextmain.c nscontexts.c printerdevice.c pscontext.c \
+	stodevfont.c timelog.c windowdevice.c windowgraphics.c windowimage.c \
+	windowops.c wbcontext.c windowbitmap.c dynaloader.c
+
+HDRS =  ipcstream.h ipcscheduler.h imagemessage.h nscontexts.h timelog.h \
+	timeslice.h printerdevice.h printmessage.h wbcontext.h wberror.h \
+	wbprotocol.h
+
+# -I$(ROOT)/device needed by machportdevice.c printerdevice.c 
+#			windowdevice.c windowgraphics.c for framedev.h
+# -I$(ROOT)/device needed by machprebuilt.c for prebuiltconst.h
+#			localprebuilt.h localencoding.h and unixprebuilt.h
+# -DCONTROLLER_TYPE=cont_next1 needed by printerdevice.h for controller.h
+OTHERSWITCHES = -I$(ROOT)/device -DCONTROLLER_TYPE=cont_next1
+
+MISC = Makefile
+
+include $(ROOT)/makefile.common
+
+default-goal: $(LIBDIR)/PS.VM
+
+LIBS =	$(LIB) $(patsubst %, $(LIBDIR)/%.a, $(PACKAGES))
+
+# Customizations to packages
+devpatternSRCS	= ims11d12.c ims12d12notfr.c ims1xd12.c imsxxd12.c im110.c
+deviceSRCS	= clippedmask.c whitemask.c blackmask.c graymask.c \
+		  constantmask.c devinit.c mark.c markimage.c framedev.c
+gcSRCS		= gcimpl.c gcmisc.c gcsharedimpl.c 
+graphicsSRCS	= pathops.c pathreduce.c image.c gstates.c 
+languageSRCS	= exec.c
+postscriptSRCS	= postscript.c customops.c 
+unix_productSRCS= init_table.c 
+streamSRCS	= unixstream.c unixfopen.c 
+fpSRCS		= os_atof.c 
+pslibSRCS	= foreground.c
+
+DEVELOP_PS = $(ROOT)/$(STAGE)-$(ISP)$(PROFILE)/PS
+
+DFONT_PATH = -DFONT_PATH=\"$(DYNAMIC_FONTS)\"
+DPREBUILT_PATH = -DPREBUILT_PATH=\"$(PREBUILT_FONTS)\"
+DSTARTUP_FILE = -DSTARTUP_FILE=\"$(STARTUP_FILE)\"
+DVM_FILE = -DVM_FILE=\"$(VM_FILE)\"
+CUSTOMDICTNAME = nextdict
+COPYRIGHT = $(ROOT)/include/copyright.h
+LINOTYPE = 0
+
+SOURCES = $(ROOT)/$(LIBRARY)
+INIT = $(ROOT)/init
+INIT_FILES = \
+  $(SOURCES)/errs.ps \
+  $(INIT)/print.ps \
+  $(INIT)/flex.ps \
+  $(SOURCES)/frags.ps \
+  $(INIT)/unixmain.ps \
+  $(SOURCES)/stdencode.ps \
+  $(SOURCES)/nextfindfont.ps \
+  $(SOURCES)/service.ps \
+  $(SOURCES)/nextconstants.ps \
+  $(SOURCES)/version.ps \
+  $(SOURCES)/unix.ps \
+  $(INIT)/stats.ps \
+  $(INIT)/systemnames.ps \
+  $(LIBDIR)/exec_copyright.ps \
+  $(LIBDIR)/registernames.ps
+	
+ifeq "$(STAGE)" "DEVELOP"
+    VMFLAGS = -S 600 -U 200 -N 60 -C 300 -T 15 -o 100000
+    PSFLAGS = -u _PrintSOP
+else
+    VMFLAGS = EXPORT -S 500 -U 300 -N 60 -C 300 -T 15 -o 175000
+    PSFLAGS = -e start
+endif
+
+$(LIBDIR)/exec_copyright.ps : $(COPYRIGHT) Makefile
+	@echo '% This is a derived file -- do not edit it' > $@
+	@echo -n 'execdict /copyright (' >> $@
+	/lib/cpp $(COPYRIGHT) -DLINOTYPE=$(LINOTYPE) -DSTUTTER=1 -DBRIEF \
+	  $(SWITCHES) -I../include |\
+	  sed -n -e '/^".*";/{' -e 'p' -e 'd' -e '}' -e '/^"/,/";/p' |\
+	  sed -e 's/^"//' -e 's/";//' >> $@
+	@echo ') readonly put' >> $@
+
+$(LIBDIR)/registernames.ps : $(ROOT)/make-config Makefile
+	@echo '% registernames.ps' > $@
+	@echo '% this is a derived file -- do not edit it' >> $@
+	foreach P $(PACKAGES)
+	    if (-e $(ROOT)$(P)/$(P)names.ps) then
+		@echo "($(ROOT)$(P)/$(P)names.ps) run" >> $@
+	    endif
+	end
+
+# ConstRGBPattern needed for nd_proj
+$(LIBDIR)/PS : $(LIBS)
+	cd $(LIBDIR) ; \
+	$(LD) -o PS $(PSFLAGS) -u _ConstRGBPattern \
+	 -i_os_abort:_abort -i_os_exit:_exit -i_os_bzero:_bzero \
+	 -i_os_bcopy:_bcopy -i_PSYield:_ContextYield \
+	 -y__setjmp \
+	  /lib/crt0.o $(LIBRARY).a \
+	  $(patsubst %, %.a, $(PACKAGES)) \
+	  -sectobjectsymbols __TEXT __text \
+          -seglinkedit -segprot __LINKEDIT rwx r \
+          -u libsys_s -U ___CTOR_LIST__ -U ___DTOR_LIST__ -lsys_s
+	size $@
+
+$(LIBDIR)/PS.VM : $(DEVELOP_PS) makevm.ps $(INIT_FILES) Makefile
+	sed -e "s#/INIT/#$(INIT)#g" \
+	    -e "s#/CUSTOMDICTNAME/#$(CUSTOMDICTNAME)#" \
+	    -e "s#/SOURCES/#$(SOURCES)#g" \
+	    -e "/VAX ONLY/d" \
+	    -e "/PRODUCT ONLY/d" \
+	    makevm.ps > $(LIBDIR)/makevm.ps
+	cd $(LIBDIR); \
+	$(DEVELOP_PS) $(VMFLAGS) -i - \
+	  -K $(STREAMKEY) -F $(FONTKEY) -I $(INTERNALKEY) -V $(VERSION) \
+	  -e "{(makevm.ps) run} stopped {handleerror abort} if ($@) makevm"; \
+	@rm -f makevm.ps
+

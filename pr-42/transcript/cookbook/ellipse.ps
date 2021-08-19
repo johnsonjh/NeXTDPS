@@ -1,0 +1,76 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Drawing an Ellipse     Number: 4
+%-----------------------------------------------------------------------------
+%
+/mtrx matrix def                            % Allocate a matrix for the save
+					    % matrix operation below.
+/ellipse                                    % ellipse adds a counter-clockwise
+  { /endangle exch def                      % segment of an elliptical arc to
+    /startangle exch def                    % the current path. The ellipse
+    /yrad exch def                          % procedure takes six operands:
+    /xrad exch def                          % the x and y coordinates of the
+    /y exch def                             % center of the ellipse (the
+    /x exch def                             % center is defined as the point
+					    % of intersection of the major and
+					    % minor axes), the ``radius'' of
+					    % the ellipse in the x direction,
+					    % the ``radius'' of the ellipse in
+					    % the y direction, the starting
+					    % angle of the elliptical arc and
+					    % the ending angle of the
+					    % elliptical arc.
+							     
+					    % The basic strategy used in
+					    % drawing the ellipse is to
+					    % translate to the center of the
+					    % ellipse, scale the user
+					    % coordinate system by the x and y
+					    % radius values, and then add a
+					    % circular arc, centered at the
+					    % origin with a 1 unit radius to
+					    % the current path. We will be
+					    % transforming the user coordinate
+					    % system with the translate and
+					    % rotate operators to add the
+					    % elliptical arc segment but we
+					    % don't want these transformations
+					    % to affect other parts of the
+					    % program. In other words, we
+					    % would like to localize the
+					    % effect of the transformations.
+					    % Usually the gsave and grestore
+					    % operators would be ideal
+					    % candidates for this task.
+					    % Unfortunately gsave and grestore
+					    % are inappropriate for this
+					    % situation because we cannot save
+					    % the arc segment that we have
+					    % added to the path. Instead we
+					    % will localize the effect of the
+					    % transformations by saving the
+					    % current transformation matrix
+					    % and restoring it explicitly
+					    % after we have added the
+					    % elliptical arc to the path.
+									 
+    /savematrix mtrx currentmatrix def      % Save the current transformation.
+    x y translate                           % Translate to the center of the
+					    % ellipse.
+    xrad yrad scale                         % Scale by the x and y radius
+					    % values.
+    0 0 1 startangle endangle arc           % Add the arc segment to the path.
+    savematrix setmatrix                    % Restore the transformation.
+  } def
+       
+newpath 144 400 72 144 0 360 ellipse stroke % Full ellipse, stroked. Note that
+					    % the y-axis is longer than the
+					    % x-axis.
+newpath 400 400 144 36 0 360 ellipse fill   % Full ellipse, filled. Note that
+					    % the y-axis is shorter than the
+					    % x-axis.
+newpath 300 180 144 72 30 150 ellipse       % Elliptical arc, stroked.
+  stroke
+newpath 480 150 30 50 270 90 ellipse fill   % Elliptical arc, filled.
+								     
+showpage

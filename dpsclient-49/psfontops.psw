@@ -1,0 +1,77 @@
+/* psfontops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSFontDirectory()
+	FontDirectory 
+endps
+
+defineps PSISOLatin1Encoding()
+	ISOLatin1Encoding 
+endps
+
+defineps PSSharedFontDirectory()
+	SharedFontDirectory 
+endps
+
+defineps PSStandardEncoding()
+	StandardEncoding 
+endps
+
+defineps PScachestatus(| int *bsize, *bmax, *msize)
+	cachestatus pop pop pop pop msize bmax bsize
+endps
+
+defineps PScurrentcacheparams()
+	currentcacheparams 
+endps
+
+defineps PScurrentfont()
+	currentfont 
+endps
+
+defineps PSdefinefont()
+	definefont 
+endps
+
+defineps PSfindfont(char *name)
+	/name findfont 
+endps
+
+defineps PSmakefont()
+	makefont 
+endps
+
+defineps PSscalefont(float size)
+	size scalefont
+endps
+
+defineps PSselectfont(char *name; float scale)
+	/name scale selectfont 
+endps
+
+defineps PSsetcachedevice(float wx, wy, llx, lly, urx, ury)
+	wx wy llx lly urx ury setcachedevice 
+endps
+
+defineps PSsetcachelimit(float n)
+	n setcachelimit 
+endps
+
+defineps PSsetcacheparams()
+	setcacheparams 
+endps
+
+defineps PSsetcharwidth(float wx, wy)
+	wx wy setcharwidth 
+endps
+
+defineps PSsetfont(userobject f)
+	f setfont 
+endps
+
+defineps PSundefinefont(char *name)
+	/name undefinefont 
+endps
+

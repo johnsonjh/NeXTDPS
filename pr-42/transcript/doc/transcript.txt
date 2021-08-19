@@ -1,0 +1,792 @@
+
+
+
+
+
+
+
+
+
+                            TRANSCRIPT 2.1
+                               Overview
+
+
+                      Adobe Systems Incorporated
+
+                         1585 Charleston Road
+                            P.O. Box 7900
+                    Mountain View, CA   94309-7900
+
+
+
+
+
+_1.  _I_n_t_r_o_d_u_c_t_i_o_n
+
+     The TRANSCRIPT package is a suite of UNIX programs that enable
+UNIX systems to access state-of-the-art POSTSCRIPT printers.  The
+TRANSCRIPT package transforms UNIX documents and graphics files into
+POSTSCRIPT format.  The POSTSCRIPT language is a device-independent
+_________________________
+POSTSCRIPT is a registered trademark of  Adobe  Systems
+Incorporated.
+TRANSCRIPT is a trademark of Adobe Systems  Incorporat-
+ed.
+UNIX is a trademark of AT&T Bell Laboratories.
+Apple and LaserWriter are trademarks of Apple Computer.
+QMS and LaserGrafix are registered  trademarks  of  QMS
+Incorporated.
+Linotype and Linotronic are trademarks of Linotype.
+Dataproducts is a registered trademark of  Dataproducts
+Corporation.
+VAX, MicroVAX, and Ultrix  are  trademarks  of  Digital
+Equipment Corporation.
+Sun Workstation is a trademark of Sun Microsystems  In-
+corporated.
+Times and Helvetica are registered trademarks of  Lino-
+type.
+Scribe and UNILOGIC are registered trademarks of UNILO-
+GIC, Ltd.
+TeX is a trademark of  the  American  Mathematical  So-
+ciety.
+Documenter's Workbench is a trademark of AT&T Technolo-
+gies.
+Diablo Systems is a Xerox company.
+Tektronix is a registered trademark of  Tektronix  Cor-
+poration.
+Macintosh is a trademark of McIntosh Laboratories, Inc.
+licensed to Apple Computer.
+IBM is a trademark of International Business Machines.
+
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 2 -
+
+
+programming language and print file format for describing the appear-
+ance of printed pages. POSTSCRIPT documents can combine text, graph-
+ics, line art, and scanned images for printing on raster devices.
+POSTSCRIPT files will print _w_i_t_h_o_u_t _m_o_d_i_f_i_c_a_t_i_o_n on any POSTSCRIPT
+printer.
+
+     The TRANSCRIPT package includes translator filters for common
+UNIX document file formats like _t_r_o_f_f, _d_i_t_r_o_f_f, and _p_l_o_t.  It also
+includes filters for "line-printer" listings, Diablo 630 print files,
+and Tektronix 4014 files.  TRANSCRIPT software is fully integrated
+into both the UNIX 4.2BSD and System V line printer spooling architec-
+tures, and includes the communications filters necessary to print job
+banner pages, do page accounting, and perform full RS232 communication
+with a POSTSCRIPT printer.  The TRANSCRIPT package also includes com-
+plete documentation and installation instructions, font metric infor-
+mation, and sample POSTSCRIPT print files.
+
+     The first few sections of this document give a general overview
+of the TRANSCRIPT system.  The TRANSCRIPT system modules and architec-
+ture are then discussed in more depth.  Then follows complete system
+installation instructions and information for system managers.
+
+_2.  _L_i_c_e_n_s_i_n_g _a_n_d _A_v_a_i_l_a_b_i_l_i_t_y
+
+     TRANSCRIPT software is available for both Berkeley 4.2BSD and
+AT&T System V Release 2 UNIX systems.  It has been successfully com-
+piled and run on a wide variety of hardware supporting these systems,
+including VAX and MicroVAX systems, Sun Workstations, and AT&T 3B2's.
+If you are interested in attempting a port yourself, see the notes on
+porting in a later section.
+
+     TRANSCRIPT software is available in source or binary forms under
+license from Adobe Systems Incorporated.  Binaries are available for
+Berkeley 4.2BSD VAX UNIX and Ultrix systems, or for AT&T 3B2 and 3B5
+computers running UNIX System V Release 2 version 2.  TRANSCRIPT
+sources work with 4.2BSD and System V UNIX systems.  The TRANSCRIPT
+package consists of C programs, makefiles, Bourne shell scripts, and a
+few uses of _a_w_k and _s_e_d.  Binaries for other systems may be available
+from those vendors.  For licensing, dealer, or OEM information, con-
+tact Adobe Systems.
+
+     POSTSCRIPT printers are available from a number of manufacturers,
+including Apple Computer, QMS Incorporated, Dataproducts Corporation,
+and Linotype Company.  Hundreds of software packages on dozens of sys-
+tems support the POSTSCRIPT printing standard.
+
+_3.  _T_R_A_N_S_C_R_I_P_T _P_a_c_k_a_g_e _C_o_n_t_e_n_t_s
+
+     The TRANSCRIPT distribution consists of the following hard-copy
+sections:
+
+
+
+
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 3 -
+
+
+
+        Overview (this document)
+        POSTSCRIPT Book Ordering Information
+        Installation Instructions
+        Release Notes
+        TRANSCRIPT Support Information & Customer Comment Form
+        Sample Output
+        Inserts for UNIX User's Manual
+        Magnetic media contents listing
+
+
+     The following directories and files are in the distribution:
+
+Notice   Copyright notice.
+
+Makefile Master makefile that calls Makefile's in subdirectories.
+
+bsd, sysv, config & printer
+         Shell scripts to configure TRANSCRIPT installation for your
+         host.
+
+src/     Sources or configurable binaries.
+
+sh/      Shell scripts.
+
+lib/     Font information, POSTSCRIPT prologue templates.
+
+etc/     UNIX System file information.
+
+man/     UNIX manual pages.
+
+doc/     Additional documentation, including this document.
+
+test/    Some sample POSTSCRIPT programs.
+
+cookbook/Example sources from the POSTSCRIPT cookbook.
+
+goodies/ Useful things of other sorts.
+
+_4.  _T_r_a_n_s_l_a_t_i_o_n _F_i_l_t_e_r_s
+
+_4._1.  _T_e_x_t _F_i_l_e_s o+ _e_n_s_c_r_i_p_t
+
+     One of the most useful parts of the TRANSCRIPT package is a pro-
+gram called _e_n_s_c_r_i_p_t.  It makes listings of text files, with a multi-
+tude of options to control fonts, page headings, rotation, 2-up print-
+ing (two small printed pages on each physical page), etc.  The default
+action of _e_n_s_c_r_i_p_t is to spool its output for printing. At many
+installations, _e_n_s_c_r_i_p_t will be the most frequently used interface to
+POSTSCRIPT printers.
+
+_4._2.  _D_i_t_r_o_f_f o+ _p_s_d_i_t, _p_s_r_o_f_f
+
+     The TRANSCRIPT package also includes a translator for _d_i_t_r_o_f_f
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 4 -
+
+
+(Device Independent Troff). _d_i_t_r_o_f_f is sold and licensed independently
+by AT&T either alone, or in a package known as the _D_o_c_u_m_e_n_t_e_r'_s _W_o_r_k_-
+_b_e_n_c_h (DWB).  In the DWB utilities, _d_i_t_r_o_f_f is known simply as _t_r_o_f_f.
+Adobe does not currently sublicense _d_i_t_r_o_f_f itself, but the translator
+is a part of the TRANSCRIPT distribution.
+
+     _d_i_t_r_o_f_f allows more freedom and power than does original _t_r_o_f_f,
+as some of the restrictions which were imposed by the C/A/T photo-
+typesetter are no longer present. Many more fonts may be referenced at
+one time, and the notion of what character set is provided is more
+flexible.  _d_i_t_r_o_f_f also provides some primitive graphics facilities,
+so that preprocessors like _p_i_c and _i_d_e_a_l can work with it; they cannot
+work with the original _t_r_o_f_f.
+
+     _p_s_d_i_t is the _d_i_t_r_o_f_f intermediate file to POSTSCRIPT converter.
+It takes a _d_i_t_r_o_f_f output file and converts it a into POSTSCRIPT pro-
+gram. Font metric information and the _d_i_t_r_o_f_f device description file
+for the POSTSCRIPT ``virtual device'' are built automatically by shell
+and _a_w_k scripts included and documented in this distribution.  The
+TRANSCRIPT package comes with description entries for many POSTSCRIPT
+font faces.
+
+     _p_s_r_o_f_f is a shell script which runs _d_i_t_r_o_f_f, _p_s_d_i_t, and the line
+printer spooler in an environment to produce good output.
+
+     Some care must be taken when using _e_q_n, _p_i_c, or _i_d_e_a_l, in con-
+junction with these TRANSCRIPT filters.  The versions of these proces-
+sors distributed with _d_i_t_r_o_f_f have various device types compiled-in.
+(So much for device-independence!) The POSTSCRIPT virtual device has a
+``resolution'' of 576 units per inch and a minimum point size of 2.
+_e_q_n, _p_i_c, and _i_d_e_a_l should be modified to understand the -_T_p_s_c flag
+and set their parameters accordingly.  (Actually, these programs
+should look at the device description files, so that no such constants
+need be compiled in!)  See the _p_s_d_i_t and _p_s_r_o_f_f man pages for more
+information.
+
+     Full installation of the _d_i_t_r_o_f_f utilities requires that you have
+_d_i_t_r_o_f_f (or DWB) at your site.  In particular, creation of the font
+widths tables requires a program known as _m_a_k_e_d_e_v (called _d_e_v_c_o_n_f_i_g in
+the UCB-Gremlin package).  The _m_a_k_e_d_e_v is missing from the 3B2 DWB
+package.  This is an error on the part of AT&T.  Contact your AT&T
+service representative for more information.
+
+     _p_s_d_i_t also allows the inclusion of arbitrary POSTSCRIPT code into
+_d_i_t_r_o_f_f-generated documents.  See the man page for _p_s_d_i_t for more
+information.
+
+_4._3.  _T_r_o_f_f o+ _p_s_c_a_t, _p_s_c_a_t_m_a_p, _a_n_d _p_t_r_o_f_f
+
+     Support for original _t_r_o_f_f comes in the form of three programs
+and associated font information. (In DWB, original _t_r_o_f_f is known as
+_o_t_r_o_f_f.) The TRANSCRIPT package comes with font tables for a number of
+font families, including Times and Helvetica, which are resident in
+ROM on all POSTSCRIPT printers. In addition, the user has the ability
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 5 -
+
+
+to build new font mappings.  For example, _t_r_o_f_f and _p_s_c_a_t could be
+told to use Times-Roman, Times-Italic, and Helvetica-Bold in positions
+1, 2, and 3.  The user also has control over character mappings, and
+can bind an arbitrary POSTSCRIPT procedure to a _t_r_o_f_f character code.
+This enables incorporation of things like logotypes, or scanned images
+into _t_r_o_f_f documents.
+
+     _p_s_c_a_t is the C/A/T to POSTSCRIPT converter.  It takes _t_r_o_f_f out-
+put format files (which consist of control codes for a C/A/T photo-
+typesetter) and converts them into POSTSCRIPT programs.  _p_s_c_a_t_m_a_p
+builds font correspondence tables and troff width tables to be used by
+_t_r_o_f_f and _p_s_c_a_t.  The user may build a correspondence table which
+associates an action with each character in the _t_r_o_f_f character set.
+The most common action is to print a character in a POSTSCRIPT font.
+Other possible actions are to "fake" ligatures not present in a
+POSTSCRIPT font, and to invoke an arbitrary POSTSCRIPT procedure of
+the user's creation.  The TRANSCRIPT package comes with correspondence
+tables already built for a number of font families.  When _t_r_o_f_f is
+run, the proper font width tables must be loaded (and the proper font
+faces mounted) for the correct production of POSTSCRIPT documents.
+_p_s_c_a_t must then be run with a correspondence table for the font set
+that _t_r_o_f_f ran with.  The user must forego the ability to use arbi-
+trary ._f_p commands in a _t_r_o_f_f document; however, with a proper
+correspondence table, this should not be a problem.
+
+     _p_t_r_o_f_f is a shell script which runs _t_r_o_f_f, _p_s_c_a_t, and the spooler
+in an environment to produce good output - managing ._f_p commands and
+correspondence tables automatically.
+
+_4._4.  _P_l_o_t _F_o_r_m_a_t o+ _p_s_p_l_o_t
+
+     _p_s_p_l_o_t, a UNIX _p_l_o_t format filter is also provided. _p_l_o_t format
+is documented in plot(5), and produced by plot(3), plot(1), and
+graph(1).  The translation of plot format to POSTSCRIPT programs is
+fairly straightforward.  Plot commands are translated almost one-for-
+one into POSTSCRIPT procedure calls.  The binding decisions of what
+actually takes place are all present in the POSTSCRIPT prologue of the
+translated file.  Thus, if the user is not content with the dashing
+pattern of lines, the size of text, or the scale of the final image,
+for example, a simple edit to the prologue can change the look of the
+printed page without the need to change the translation filter itself.
+
+     AT&T has removed _p_l_o_t format support from UNIX System V, but
+_p_s_p_l_o_t is supplied with all TRANSCRIPT systems.
+
+_4._5.  _D_i_a_b_l_o _6_3_0 o+ _p_s_6_3_0
+
+     _p_s_6_3_0 is a translator for Diablo 630 print files.  The Diablo is
+a popular daisy-wheel printer.  This filter can be useful as a post-
+processor for applications which only know about fixed-pitch printing
+devices.  For example, it can be used for printing files generated
+with the -_T_x_e_r_o_x option to _n_r_o_f_f.  In addition, programs like Scribe
+have the ability to generate Diablo print files.  Note that some
+POSTSCRIPT printers also have a built-in Diablo _e_m_u_l_a_t_i_o_n mode.  The
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 6 -
+
+
+translator allows a little more control in the printing process as
+well as the "capture" of the POSTSCRIPT version of the document.
+
+_4._6.  _T_e_k_t_r_o_n_i_x _4_0_1_4 o+ _p_s_4_0_1_4
+
+     _p_s_4_0_1_4 converts Tektronix 4014 display files into POSTSCRIPT pro-
+grams for printing.  Tektronix 4014 format is a popular vector-
+oriented (calligraphic) display representation, and many programs have
+options to drive Tektronix 4014 display devices.  _p_s_4_0_1_4 allows these
+programs to produce hardcopy output on POSTSCRIPT printers.
+
+_4._7.  _P_a_g_e _S_e_l_e_c_t_i_o_n o+ _p_s_r_e_v
+
+     _p_s_r_e_v is a filter which will select and reverse subsets of pages
+from a POSTSCRIPT print file which conforms to certain file structur-
+ing conventions.  It is useful for printing small portions of larger
+documents.  Page reversal may also be performed automatically on a
+printer-by-printer basis.
+
+_5.  _P_O_S_T_S_C_R_I_P_T _P_r_i_n_t _F_i_l_e_s _a_n_d _M_a_g_i_c _N_u_m_b_e_r_s
+
+     TRANSCRIPT determines if a spooled file is a POSTSCRIPT print
+file by examining the first few bytes of the input for the POSTSCRIPT
+"magic number".  If the file begins with "%!" - a percent sign and an
+exclamation mark - TRANSCRIPT assumes that the file is a POSTSCRIPT
+program to be _e_x_e_c_u_t_e_d by the printer.  Moreover, if the file begins
+with "%!PS-Adobe-", TRANSCRIPT assumes that the files may be page-
+reversed with the filter _p_s_r_v for printing in the proper collating
+sequence.  If the file does not begin with the magic number, TRAN-
+SCRIPT assumes that the file is a text file to be _l_i_s_t_e_d on the
+printer, and formats it with the filter _p_s_t_e_x_t.  This convention must
+be used since sending a file which is not a POSTSCRIPT program to a
+POSTSCRIPT printer will almost certainly produce undesired results.
+The POSTSCRIPT magic number and other comment conventions are
+explained more fully in the _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l from
+Addison-Wesley.
+
+_6.  _U_N_I_X _S_y_s_t_e_m _V _S_p_o_o_l_e_r _I_n_t_e_r_f_a_c_e
+
+     TRANSCRIPT works with the UNIX System V Release 2 _L_i_n_e _P_r_i_n_t_e_r
+_S_p_o_o_l_i_n_g _U_t_i_l_i_t_i_e_s. The Line Printer Spooling Utilities are necessary
+for spooling and printing POSTSCRIPT files from a System V system.
+System Administrators should familiarize themselves with _l_p(1),
+_l_p_s_t_a_t(1), _l_p_a_d_m_i_n(1M), _l_p_s_c_h_e_d(1M), and related software.
+
+_6._1.  _p_s_i_n_t_e_r_f_a_c_e
+
+     The System V _l_p/_l_p_s_c_h_e_d spooler allows printer interface programs
+to be specified for particular printers or printer-classes.  _p_s_i_n_t_e_r_-
+_f_a_c_e is the top-level spooler interface invoked by _l_p_s_c_h_e_d to print on
+a POSTSCRIPT printer.  (It is the _i_n_t_e_r_f_a_c_e program presented to _l_p_a_d_-
+_m_i_n when installing a POSTSCRIPT printer.) _p_s_i_n_t_e_r_f_a_c_e is a shell
+script that is responsible for parsing spooler arguments, validating a
+print request, printing banner break pages, performing job logging,
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 7 -
+
+
+and, or course, printing.  A particular instance of _p_s_i_n_t_e_r_f_a_c_e is
+created and installed with the _m_k_p_r_i_n_t_e_r shell script described in the
+Installation Instructions.
+
+     _p_s_i_n_t_e_r_f_a_c_e invokes several other TRANSCRIPT programs to accom-
+plish its task: _p_s_b_a_n_n_e_r is used to create banner break pages, _p_s_t_e_x_t
+is used to format files which do not begin with the POSTSCRIPT magic
+number, _p_s_r_v is used to page-reverse files when appropriate, and
+_p_s_c_o_m_m performs actual communication with a POSTSCRIPT printer.  _p_s_i_n_-
+_t_e_r_f_a_c_e performs job logging in a printer-specific log file.  This
+file also contains any stream or error output generated by the print
+jobs. _p_s_i_n_t_e_r_f_a_c_e can be configured to vary its functions: banner
+pages may be printed before or after a print job (or both or neither).
+Page reversal may be enabled or disabled (some POSTSCRIPT printers do
+not require it, as they stack pages in the correct order).  _p_s_i_n_t_e_r_-
+_f_a_c_e recognizes 3 TRANSCRIPT-specific options (using the -_o switch to
+_l_p): -_h suppresses the printing of banner pages, -_r forces page-
+reversal _o_f_f, and -_m causes the stream output of the job to be sent to
+the user with _m_a_i_l(1).
+
+     It is also possible to independently configure TRANSCRIPT's
+behavior for each printer.  The file
+/usr/spool/lp/transcript/_p_r_i_n_t_e_r.opt can set environment variables
+which influence the operation of _p_s_i_n_t_e_r_f_a_c_e.  These are listed below.
+The _p_s_i_n_t_e_r_f_a_c_e script sets the initial value for each.  Note that
+Bourne shell syntax must be used in both _p_s_i_n_t_e_r_f_a_c_e, and the
+_p_r_i_n_t_e_r.opt file.  Many of the variables take a number value, and
+specify whether an action should take place or not; 1 means do the
+action, and 0 means don't do it.
+
+REVERSE=_n_u_m_b_e_r.............Reverse the page order
+BANNERFIRST=_n_u_m_b_e_r.........Print banner at start of job
+BANNERLAST=_n_u_m_b_e_r..........Print banner at end of job
+BANNERPRO=_f_i_l_e _n_a_m_e........Banner prolog file
+VERBOSELOG=_n_u_m_b_e_r..........Print verbose log messages
+PSTEMPDIR=_D_i_r_e_c_t_o_r_y _n_a_m_e...Directory for temp files
+
+One could turn off page reversal for a particular printer by adding
+this line to the _p_r_i_n_t_e_r.opt file:
+     REVERSE=0
+Or change the banner page for a particular printer by redefining the
+BANNERPRO value.
+
+_6._2.  _J_o_b _L_o_g_g_i_n_g _a_n_d _P_r_i_n_t_e_r _S_t_a_t_u_s
+
+     _p_s_i_n_t_e_r_f_a_c_e performs job logging and printer status reporting for
+each POSTSCRIPT printer on a system.  The file
+/usr/spool/lp/transcript/_p_r_i_n_t_e_r-log contains job-by-job information
+about _p_r_i_n_t_e_r's activity.  The log file contains error messages from
+the various spooling utilities, and is one of the first places to look
+if there is a problem with a printer.  If also contains a record of
+all stream output _f_r_o_m the printer.  Thus, if a user wishes to have
+the printer communicate information back to the host, output to the
+POSTSCRIPT stream "%stdout" (or from the POSTSCRIPT "print" operator)
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 8 -
+
+
+will appear in this file. Printer error conditions are logged here.
+Problems like out-of-paper or paper-jam can be detected by examining
+the "tail" of the log file. Since the log file can get rather large,
+it is a good idea to rotate or truncate the log file on a regular
+basis.  (At Adobe, we do this on a daily basis, see etc/daily.sysv for
+a _c_r_o_n_t_a_b template to do this.)
+
+_7.  _4._2_B_S_D _S_p_o_o_l_e_r _I_n_t_e_r_f_a_c_e
+
+     TRANSCRIPT works with the 4.2BSD UNIX Line Printer Spooler.  See
+the 4.2 document titled _4._2_B_S_D _L_i_n_e _P_r_i_n_t_e_r _S_p_o_o_l_e_r _M_a_n_u_a_l by Ralph
+Campbell, and the UNIX manual pages for _l_p_r(1), _l_p_q(1), _p_r_i_n_t_c_a_p(5),
+_l_p_c(8), and _l_p_d(8) for more information.  System Administrators should
+familiarize themselves with these documents.
+
+_7._1.  _p_s_i_n_t._s_h
+
+     _p_s_i_n_t._s_h is the top-level _l_p_d-invoked interface for POSTSCRIPT
+printers.  _p_s_i_n_t._s_h is a shell script that gets invoked under dif-
+ferent names to perform different functions.  File links allow
+_p_s_i_n_t._s_h to be invoked as any of the allowable printcap filter types.
+These links, and associated printcap entries identify _p_s_i_n_t._s_h as one
+of _p_s{_i,_o,_c,_d,_g,_n,_r,_t,_v}_f, representing the if, of, cf, df, gf, nf,
+rf, tf, and vf printcap filters respectively.  Note that not all of
+these translators are present in TRANSCRIPT. _p_s_i_n_t._s_h will issue an
+error message for an unavailable translator type.
+
+     It is also possible to independently configure TRANSCRIPT's
+behavior for each printer.  The ._o_p_t_i_o_n_s file in the spooling direc-
+tory can set environment variables which influence the operation of
+_p_s_i_n_t._s_h.  These are listed below.  The _p_s_i_n_t._s_h script sets the ini-
+tial value for each.  Note that Bourne shell syntax must be used in
+both _p_s_i_n_t._s_h and the ._o_p_t_i_o_n_s file.  Many of the variables take a
+number value, and specify whether an action should take place or not;
+1 means do the action, and 0 means don't do it.
+
+REVERSE=_P_r_o_g_r_a_m _n_a_m_e.......Program to reverse page order
+BANNERFIRST=_n_u_m_b_e_r.........Print banner at start of job
+BANNERLAST=_n_u_m_b_e_r..........Print banner at end of job
+(See note below)           0=No banner at end
+                           1=Don't unlink .banner file
+                           2=Unlink .banner after use
+BANNERPRO=_f_i_l_e _n_a_m_e........Banner prolog file
+VERBOSELOG=_n_u_m_b_e_r..........Print verbose log messages
+PSTEXT=_P_r_o_g_r_a_m _n_a_m_e........Converts text to POSTSCRIPT
+
+_N_o_t_e: Due to some problems with the design of _l_p_d(_8), there is no
+implementation of BANNERLAST that will work in all cases.  Two options
+are provided:
+1) BANNERLAST=1.  This prints out a banner between each copy in a
+multiple-copy job.  It also may print out _t_h_e _p_r_e_v_i_o_u_s _u_s_e_r'_s banner
+on a job that has specified no banner (_l_p_r -h).
+2) BANNERLAST=2.  This never prints a banner on a job that has speci-
+fied no banner (_l_p_r -h).  However, it prints a banner after _t_h_e _f_i_r_s_t
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 9 -
+
+
+_c_o_p_y only in a multiple-copy job.  It should be after all copies or
+after the final copy.
+
+One could turn off page reversal for a particular printer by adding
+this line to the ._o_p_t_i_o_n_s file:
+     REVERSE=
+Or change the banner page for a particular printer by redefining the
+BANNERPRO value.
+
+_7._2.  _p_s_i_f, _p_s_c_o_m_m, _p_s_t_e_x_t, _p_s_r_v
+
+     As the "if" filter _p_s_i_n_t._s_h does basic printing.  The program
+_p_s_c_o_m_m is the lowest-level filter, responsible for actual communica-
+tion with the printer, error handling, status reporting, etc.  It uses
+the "magic number" rules described above to distinguish between text
+and POSTSCRIPT files.  It will run _p_s_t_e_x_t and _p_s_r_v to format and
+page-reverse files as necessary, based on printer options and the
+file's "magic number".
+
+_7._3.  _p_s_o_f, _p_s_b_a_n_n_e_r, _b_a_n_n_e_r._p_r_o
+
+     As the "of" filter, _p_s_i_n_t._s_h runs _p_s_b_a_n_n_e_r, which is responsible
+for formatting job banner break pages.  It creates a file containing
+the banner page, and _p_s_c_o_m_m actually prints it.  _p_s_b_a_n_n_e_r only knows
+how to deal with the "short" banner format, so the _s_b printcap entry
+_m_u_s_t be specified with no argument.  The environment variables BANNER-
+FIRST and BANNERLAST, plus the _s_h printcap entry, determine exactly
+how the banner page gets printed.  If _s_h is specified in the printcap
+entry, no banner page will get printed for any job, and banner strings
+will not appear in the log file.  If _s_h is not specified, then the
+values of BANNERFIRST and BANNERLAST are taken into account.  These
+may be set independently, and determine whether the banner page should
+be printed before and/or after the job.  In either case, if VERBOSELOG
+is set, the banner string will appear in the log file before the job
+is sent.  Any user can omit the printing of a banner page by specify-
+ing the -h option to _l_p_r or _e_n_s_c_r_i_p_t.  Since banner pages take time,
+paper, and toner to print, you should decide whether they are impor-
+tant for your site.  (At Adobe, we run without _s_h in the printcap
+file, and with VERBOSELOG on and BANNERFIRST and BANNERLAST off.  This
+allows lots of information to appear in the printer log file, without
+wasting paper for banner pages.)  Note that since the banner page is
+actually printed by _p_s_c_o_m_m, these pages will be charged in the
+accounting file.
+
+     The format of the banner page is specified by BANNERPRO in
+_p_s_i_n_t._s_h.  This takes as input the short banner string presented by
+the spooler to the "of" filter and formats a page displaying the
+information. If you want a different banner page design, you can
+achieve it by changing BANNERPRO.
+
+_7._4.  _p_s_g_f, _p_s_n_f, _p_s_t_f, _p_s_v_f, _p_s_r_f, _p_s_d_f, _p_s_c_f, _p_s_b_a_d
+
+     As the other translation filters, _p_s_i_n_t._s_h sets up a pipeline
+between a translator program and _p_s_c_o_m_m.  This allows the file format
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 10 -
+
+
+flags to _l_p_r to work correctly, but in all cases, much more func-
+tionality is provided by using the translators explicitly and spooling
+the generated POSTSCRIPT files.  Note that when using _l_p_r to do trans-
+lation, the "cost" of the format translation is placed on the printer
+spooler. The printer may have to wait without printing while the docu-
+ment translation takes place, thus reducing job throughput.  It is far
+more advantageous to spool only POSTSCRIPT files, and place the burden
+of translation on user processes.
+
+     The translation filter entries may also specify that the transla-
+tor is not available (e.g., a _c_i_f_p_l_o_t filter) by calling _p_s_b_a_d.  In
+this case they log an error message, and print an error page.
+
+_7._5.  _L_o_g _F_i_l_e_s, _P_r_i_n_t_e_r _S_t_a_t_u_s, _a_n_d _J_o_b _A_c_c_o_u_n_t_i_n_g
+
+     The "lf" entry in the printcap file specifies the printer log
+file.  This file contains error messages from the various spooling
+utilities.  (_L_p_d will complain here if an output filter malfunctions.)
+It also contains a record of all stream output _f_r_o_m the printer.
+Thus, if a user wishes to have the printer communicate information
+back to the host, output to the POSTSCRIPT stream "%stdout" (or from
+the POSTSCRIPT "print" operator) will appear in this file.  Printer
+error messages (e.g., out of paper) will also appear here.  If VER-
+BOSELOG is turned on (the default), job banner strings and start and
+end markers will appear in the log file, helping to delimit other out-
+put.
+
+     TRANSCRIPT will also communicate printer status using the
+"status" file in the printer spooling directory.  The contents of this
+file gets printed by a _l_p_q or _l_p_c _s_t_a_t_u_s request.  When TRANSCRIPT
+detects a printer error (e.g., out of paper, paper jam), a message to
+that effect will appear in the status file.
+
+     If a proper "af" entry is present in the printcap file, _p_s_c_o_m_m
+will perform job page accounting.  We suggest running with accounting
+on, if only to give you a better idea of printer usage, and to help
+keep track of total pages printed.
+
+     Since the log file and accounting file can get rather large, it
+is a good idea to rotate the log file and summarize the accounting
+data regularly.  (At Adobe, we do it on a daily basis, see
+etc/daily.bsd for a template to do this.)
+
+_8.  _D_o_w_n_l_o_a_d_a_b_l_e _U_t_i_l_i_t_i_e_s
+
+     The TRANSCRIPT release comes with two POSTSCRIPT programs that
+can be downloaded (sent) to the printer.  These are described below.
+They both affect the printer in a way that is _p_e_r_m_a_n_e_n_t _u_n_t_i_l _t_h_e
+_p_r_i_n_t_e_r _i_s _r_e_b_o_o_t_e_d _o_r _p_o_w_e_r-_c_y_c_l_e_d.  _N_o_t_e: They must be downloaded
+again after the printer is rebooted in order to restore their effect.
+
+     At Adobe, these files are spooled by root to our printers once an
+hour using a _c_r_o_n-invoked process.  See the hourly _c_r_o_n entry tem-
+plates under etc/ and see _c_r_o_n(8)).  These templates have been set up
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 11 -
+
+
+to download both files, which may not be appropriate to your site.
+Since the file(s) are downloaded only once per hour, there will prob-
+ably be some time after your printer reboots before the file(s) are
+downloaded again.
+
+     The permanency of these POSTSCRIPT programs arises because they
+``exit the server loop'' before making changes.  This requires that
+the printer password be incorporated into each file to be downloaded.
+If you change the printer password at your site, make sure to change
+the passwords in any POSTSCRIPT programs that exit the server loop.
+Also, if your printer password is sensitive don't forget to protect
+the download files and spooling directory.
+
+_8._1.  _E_r_r_o_r _p_a_g_e _p_r_i_n_t_i_n_g
+
+     The file _l_i_b/_e_h_a_n_d_l_e_r._p_s is a POSTSCRIPT program which will
+modify the printer's behavior for POSTSCRIPT errors.  The default
+action is to send an error message over the output channel (which will
+appear in the log file), and abort the current job. _e_h_a_n_d_l_e_r._p_s causes
+the printer to print the current page with some space taken over to
+describe the error and dump the operand stack.  It also sends the
+error message to the log file.  Note that this file contains the
+LaserWriter server-loop password.
+
+     We recommend that you download this file to all your printers,
+since it gives users a better idea of what happened when a POSTSCRIPT
+job fails.  Although the errors appear in the log files in any case,
+many users won't think to look there.
+
+_8._2.  _L_a_s_e_r_W_r_i_t_e_r _1._0 _p_a_t_c_h
+
+     The first version of the Apple LaserWriter had a few bugs in the
+serial I/O driver which can cause communications problems.  You can
+find the version of your printer on the start-up page which is printed
+when the printer is power-cycled or reboots.  It is in the left-bottom
+corner of the hindmost of the three pages displayed.  If you have a
+version 1.0 printer, read on.
+
+     The file _l_i_b/_u_a_r_t_p_a_t_c_h._p_s may be downloaded to an Apple Laser-
+Writer 1.0 (it is simply ignored by all other POSTSCRIPT printers).
+The patch fixes three known bugs in the LaserWriter serial I/O driver.
+These bugs include the first two noted under "Input/output problems"
+on page 308 of the _P_O_S_T_S_C_R_I_P_T _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l and a bug
+related to voluminous serial output created by the LaserWriter.  Down-
+loading the patch will guarantee better performance and fewer errors
+in the operation of TRANSCRIPT.  Note that this file contains the
+LaserWriter server-loop password.
+
+_9.  _P_o_r_t_i_n_g _t_o _O_t_h_e_r _S_y_s_t_e_m_s
+
+     Most TRANSCRIPT modules are quite portable.  The translation
+filters make fairly light use of UNIX system calls and attempt to use
+only common C library subroutines.  The translation filters have no
+knowledge of the spooling or communications system they are generating
+
+
+
+                           24 July 1987
+
+
+
+
+
+                                - 12 -
+
+
+files for.  The actual spooler communications interface programs are,
+of necessity, more system dependent.  They make intimate use of termi-
+nal driver facilities, _i_o_c_t_l's and several other low-level UNIX system
+calls.  They should serve as a good model as to how to implement com-
+munications with the printer.  Anticipate about two man-weeks worth of
+effort to port TRANSCRIPT to another variety of UNIX system.
+
+     TRANSCRIPT does not provide its own spooler.  Older UNIX Systems
+without a general spooling architecture will face the problem of modi-
+fying an existing spooler (or writing a new one) for handling spooling
+requests and managing a queue.
+
+     Please let us know if you succeed in porting TRANSCRIPT to
+another system.  In particular, we like to know whether you are wil-
+ling to share your experience with other TRANSCRIPT customers.  Also
+let us know if you have trouble porting TRANSCRIPT that is related to
+the TRANSCRIPT code itself.  We are always looking to increase the
+portability of TRANSCRIPT.
+
+_1_0.  _P_O_S_T_S_C_R_I_P_T _S_o_f_t_w_a_r_e _a_n_d _O_t_h_e_r _R_e_s_o_u_r_c_e_s
+
+     The POSTSCRIPT language is the subject of two books by Adobe Sys-
+tems and published by Addison-Wesley.  These books are available in
+many bookstores or from Adobe Systems.  Ordering information is on a
+separate sheet in the TRANSCRIPT package.
+
+     POSTSCRIPT and TRANSCRIPT are often topics on several USENET
+newsgroups.  The groups comp.text, comp.text.desktop, comp.laser-
+printers, comp.periphs, comp.sys.mac, and comp.sources.mac may be of
+interest.  Also, there are a number of mailing lists on the ARPAnet
+that are concerned with TRANSCRIPT and/or POSTSCRIPT issues.  Here are
+the mail addresses of three of them:
+
+        LASER-LOVERS-REQUEST@BRILLIG.UMD.EDU
+        INFO-POSTSCRIPT-REQUEST@SUSHI.STANFORD.EDU
+        DESKTOP-REQUEST%PLAID@SUN.COM
+
+
+Several other UNIX software packages support POSTSCRIPT.  Among them:
+
+        the Scribe Document Production System from Unilogic, Ltd. of Pittsburgh, PA.
+        a TeX DVI to POSTSCRIPT converter from ArborText, Inc. of Ann Arbor, MI.
+        a public domain DVI to POSTSCRIPT converter (contact the UNIX-TeX people)
+
+Hundreds of Apple Macintosh applications and IBM-PC applications can
+generate POSTSCRIPT print files.
+
+     Adobe Systems publishes a newsletter - _C_o_l_o_p_h_o_n - about
+POSTSCRIPT printers and software.  As a TRANSCRIPT customer, you will
+automatically be on our mailing list.  We also attempt to maintain a
+comprehensive list of software supporting POSTSCRIPT.  For more infor-
+mation, contact Adobe Systems.
+
+
+
+
+
+                           24 July 1987
+
+

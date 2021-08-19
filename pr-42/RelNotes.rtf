@@ -1,0 +1,415 @@
+{\rtf0\ansi{\fonttbl\f0\fswiss Helvetica;\f1\froman Times;\f2\fmodern Courier;}
+\paperw12240
+\paperh12840
+\margl380
+\margr520
+\f0\b0\i0\ul0\ql\fs30\fi0\li0\gray0\up0\dn0 \
+
+\f1\fs48\li1440 Preliminary 2.0 Release Notes: \
+Printing
+\fs30 \
+
+\fs28 \
+\
+\
+
+\pard\tx1800\li1440 This file contains information about the following topics:\
+
+\pard\li1440 \
+
+\pard\tx1800\li1440 ·	The print spoolers, lpd and npd\
+·	PrintManager\
+·	PrinterTester\
+·	/dev/np Printer device
+\pard\li1440 \
+\
+\
+
+\b\fs36\li0 \
+The Print Spoolers, lpd and npd\
+
+\b0\fs28\li1440 \
+\
+
+\pard\tx1800\li1440 The following sections describe new features, changes, and known problems associated with this release of the print spoolers, npd and lpd.\
+
+\pard\li1440 \
+\
+\
+
+\b\li720 New Features\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following new features have been added to the print spoolers, npd and lpd, since Release 1.0.\
+\
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	There is a new command-line program ± 
+\b fontloader
+\b0  ±  that is used to download fonts.  It generates a PostScript job that will install fonts in a printer semi-permanently (the fonts stay until the printer is power-cycled or reset).  The user must spool the generated job; the most likely use of fontloader
+\b  
+\b0 is to pipe its output into lpr.  For more info see the man page.\
+\
+·	Npd now does accounting for the local NeXT 400 dpi laser printer.  This works the same way as lpd.  You create an "af" entry in the printer database that specified the file to write accounting information in and create that file.  For every print job, npd will write the owner of the job, the host he printed from, and the number of pages printed in the format expected by the 
+\b pac
+\b0  program.\
+\
+·	Npd now supports banner pages for the local NeXT 400 dpi laser printer.  This works in the following way.  The optional properties "BannerBefore" and/or "BannerAfter" in the printer database specify the path to a file containing a PostScript prologue for the banner.  This prologue must define an operator "Banner":\
+\
+
+\pard\li2520 printer user job date 
+\b Banner
+\b0  ±\
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 \
+	Npd provides each of the arguments to 
+\b Banner
+\b0  as strings.  
+\i Printer
+\i0  will be the name of the printer, 
+\i user
+\i0  the name of the user printing the job, 
+\i job
+\i0  the job name, 
+\i  
+\i0 and 
+\i date
+\i0  the current time and day.\
+	\
+	If the "BannerBefore" exists, npd will use the file it points to to print a banner before the job is started.  If "BannerAfter" exists, npd will use the file it points to to print a banner after the job has completed.  A default banner file can be found in 
+\f2 /usr/lib/NextPrinter/banner.pro
+\f1 .  The typical entry used on the NeXT 400 dpi laser printer would be to use the default banner file as "BannerAfter".\
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Changes\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following changes have been made to the printer daemons, npd and lpd, since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Npd has been completely rewritten in Objective-C.  The goal was to provide improved performance and reliability without rearchitecting the whole spooling system.  It now uses the "machportdevice" support in the window server to image the page rather than the obsolete "printerdevice."  As a result, npd now handles the printer device, /dev/np.  This greatly simplifies error recovery and status reporting.\
+\
+·	Npd now caches the information about the printer queue.  This will improve PrintManager's Queue window performance.\
+\
+·	Npd is much more vigorous about logging its errors.  It really shouldn't crash without saying why.\
+\
+·	It has always been the case that you need to open the printer door to reset the printer after a paper jam.  The user is now reminded of this.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Npd now sets the uid and gid of the PostScript context to that of the person who submitted the print job.  If that person's home directory is available on the system that is printing, then fonts found in ~/Library/Fonts will work.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	When a remote "root" account prints, the uid and gid of the PostScript context is always set to that of "nobody."  If you are concerned about security, you can have all remote jobs run with the uid and gid of nobody.  All you need to do is add the property "RemoteAsNobody" to the printer's NetInfo entry.  The property doesn't need a value, it just needs to exist.  You also need to remove the "_writers" property in the "/printers" NetInfo directory in the local NetInfo domain to keep someone from removing your "RemoteAsNobody" property.\
+\
+·	If there is a %%BoundingBox comment at the beginning of a document, npd will constrain the PostScript interpreter to those values.  This minimizes the impact of printing on the system by reducing the memory needed for the page bitmap.  If the document have bogus values in this comment, then you can simply remove the comment and everything will work fine.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Lpd had a security bug that was reported to us by the Internet CERT (
+\i something
+\i0  Emergency Response Team).  This has been fixed.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Npd figures out which printer entry is the local printer by looking for the printer that has the property "if" with the value "/usr/lib/NextPrinter/npcomm".  If you want to change the input filter of the local printer, it must keep the same name.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Npd will now time out manual feed jobs if no paper is inserted after three minutes.  It will then print from the cassette.\
+\
+·	lpr now uses the PrinterResolution default to set NeXT-printer printing resolution.  This value is usually the last value set in the Print panel.\
+\
+·	Non-NeXT printers now report all errors in /usr/adm/lpd-errs.  In 1.0 errors were not reported anywhere. \
+
+\pard\li1440 \
+\
+\
+
+\b\li720 Known Problems\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following are known problems in the printer daemons, npd and lpd.  They will be corrected in a future release.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Npd on very rare occasions gets caught in a spin loop while freeing memory and starts eating up cycles.  You should kill it and restart it, and everything will recover just fine.\
+\
+·	/usr/lib/NextPrinter/npcomm, the program that sends a PostScript file from lpd to npd has a problem with documents that have Encapsulated PostScript files imbedded in them which aren't surrounded by the appropriate %%BeginDocument:/%%EndDocument comments, especially if the EPS file has %%Page: and %%Trailer comments.  The EPS spec says that these comments should always be there, but npcomm should be more robust.  You can fix the documents by putting the appropriate comments around the imbedded EPS file.\
+\
+·	If you are printing to a remote system which has a full disk, your print job will sit on your system waiting for space to be made on the remote system.  The problem is that you will not get notified of this.\
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Future Directions\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following new features are planned for future releases of the printer daemons, npd and lpd.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	We are pretty sure that the whole spooling architecture will be redesigned with many massive changes.\
+\
+\
+\
+\
+
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\fs36 PrintManager
+\pard \
+
+\b0\fs28\li1440 \
+\
+
+\pard\tx1800\li1440 The following sections describe new features, changes, and known problems associated with this release of PrintManager.\
+
+\pard\li1440 \
+\
+\
+
+\b\li720 New Features\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following new features have been added to PrintManager since Release 1.0.\
+\
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	About 60 new printer types have been added.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	You can now set the status of a printer to "Unavailable" as well as the old "Private" and "Public."  This makes the printer invisible to the ChoosePrinter panels in applications.  This is implemented by putting an "_ignore" property in the printer database.\
+\
+	If you want to disconnect a local NeXT printer, first make it Unavailable, then you should power the printer down with PrinterTester, then you can disconnect the printer.\
+\
+·	PrintManager no longer overwrites the information in the NetInfo database.  Rather, it only makes the changes that it needs to and preserves the rest of the information in NetInfo directory.\
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Changes\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following changes have been made to PrintManager since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	You can no longer have multiple Queue windows for the same printer.\
+\
+·	A printer's Queue window will close if you bring up the Configure window.\
+\
+·	If  you want to add a local printer to the system without rebooting, attach the printer to the printer port, and start PrintManager.  Select the local printer entry and click Configure.  The status of the printer should be "Unavailable."  Change this to "Public" or "Private" as appropriate.  The printer will now be available to applications.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	There must always be one and only one printer entry for the local NeXT 400 dpi Laser Printer.  This is required by npd.  PrintManager will no longer let you delete or add entries for the local NeXT printer.\
+\
+·	You should now be able to change the name of a printer while it is printing.\
+\
+·	PrintManager will now create the appropriate spool directory when you create or rename a printer.\
+\
+·	The default printer is no longer marked with a check mark in the Chooser window of PrintManager.\
+\
+
+\pard\li1440 \
+\
+
+\b\li720 Known Problems\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following are known problems in PrintManager.  They will be corrected in a future release.\
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 \
+·	Examining the queue in PrintManager is too slow.  The information you get can be as much as 15 seconds out of date.  This is a result of the fact that PrintManager periodically polls npd to see what's in the queue.\
+\
+·	You can't publish a printer to more than one domain with PrintManager.  You can, however, copy the remote printer entry from one domain to another with NetInfoManager to achieve the same effect.\
+\
+·	The Pause and Continue functionality of the Queue window doesn't work that well.  First of all, it will only work on the local system.  If you pause the queue on a remote system what that really does is pause sending of new jobs to the print server.  It doesn't pause the jobs on the print server.  Second, the 1.0 PrintManager added a bogus "lo" property to the printer database.  This breaks the Pause/Continue functionality.  You can fix this by Configuring the printer with a 2.0 PrintManager.  This will remove the bogus "lo" entry.\
+\
+·	If you have a job selected in the Queue window and the queue changes, your selection stays in the same row rather than with the job you selected.\
+\
+·	The Configure panel will hang when you are exporting to a machine that is powered down.  The machine has to be up and running for the Configure to complete.\
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Future Directions\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following new features are planned for future releases of PrintManager.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Product marketing is currently testing how successfully they can connect a variety of PostScript devices to our serial ports.  Each device that they show works will be added to the list of printer types in the PrintManager Configure window.\
+\
+·	The Configure panel should have support for selecting whether or not you want banner pages.\
+\
+
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\fs36 \
+\
+PrinterTester
+\pard \
+
+\b0\fs28\li1440 \
+\
+
+\pard\tx1800\li1440 The following sections describe new features, changes, and known problems associated with this release of PrinterTester.\
+
+\pard\li1440 \
+\
+\
+
+\b\li720 New Features\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 No new features have been added to PrinterTester since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 \
+
+\pard\li1440 \
+
+\b\li720 Changes\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following changes have been made to PrinterTester since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	The PrinterTester should no longer hang when you try to test a printer that is not connected.\
+
+\pard\li1440 \
+\
+\
+
+\b\li720 Known Problems\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following are known problems in PrinterTester.  They will be corrected in a future release.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	If you power off the printer in PrinterTester and then print a file, the printer power will come back on.  PrinterTester doesn't notice this.\
+\
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Future Directions\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following new features are planned for future releases of PrinterTester.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	<Description of feature.>\
+\
+·	<Description of feature.>\
+\
+
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\fs36 \
+\
+/dev/np Printer Device
+\pard \
+
+\b0\fs28\li1440 \
+\
+
+\pard\tx1800\li1440 The following sections describe new features, changes, and known problems associated with this release of /dev/np.\
+
+\pard\li1440 \
+\
+\
+
+\b\li720 New Features\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 No new features have been added to /dev/np since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 \
+
+\pard\li1440 \
+
+\b\li720 Incompatible Changes\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following incompatible changes have been made to /dev/np since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	Asynchronous write support has been removed from /dev/np.  The support added questionable value and far too much complexity.  FIOASYNC is now quietly ignored for backwards compatability.\
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Other Changes\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following additional changes have been made to /dev/np since Release 1.0.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	The device driver support has been significantly rewritten.  The no longer is any np_buddy thread.  Error reporting is now consistent and correct.  Performance has been greatly enhanced.\
+\
+·	<Description of change.>\
+\
+
+\pard\li1440 \
+\
+
+\b\li720 Known Problems\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following are known problems in /dev/np.  They will be corrected in a future release.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	
+\i No known problems.
+\i0 \
+\
+\
+
+\pard\li1440 \
+
+\b\li720 Future Directions\
+
+\b0\li1440 \
+
+\pard\tx1800\li1440 The following new features are planned for future releases of /dev/np.\
+
+\pard\li1440 \
+
+\pard\tx1800\tx2160\tx2520\tx2880\fi-360\li1800 ·	<Description of feature.>\
+\
+·	<Description of feature.>\
+\
+
+}

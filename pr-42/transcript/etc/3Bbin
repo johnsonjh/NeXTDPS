@@ -1,0 +1,102 @@
+
+# etc/3Bbin
+# Copyright (c) 1985,1987 Adobe Systems Incorporated.
+# RCSID: $Header: 3Bbin,v 2.2 87/11/17 16:25:03 byron Rel $
+
+set -x
+
+# this sh script installs 3B binaries when you don't have a C compiler or Make
+
+if test -r ./config ; then
+	. ./config
+else
+	echo "./config missing!"
+	echo "run etc/3Bbin from the TranScript top-level directory!"
+fi	
+
+INSTDIR=`pwd`
+
+mv $PSLIBDIR $PSLIBDIR.old
+mkdir $PSLIBDIR
+chown $OWNER $PSLIBDIR
+chgrp $GROUP $PSLIBDIR
+chmod 755 $PSLIBDIR
+
+LPROGS="map psbanner pscomm psrv pstext"
+BPROGS="enscript ps4014 ps630 pscat pscatmap psdit psplot psrev"
+
+cd $BINDIR
+rm $BPROGS
+cd $INSTDIR/src
+cp $BPROGS $BINDIR
+cd $BINDIR
+chown $OWNER $BPROGS
+chgrp $GROUP $BPROGS
+chmod 755 $BPROGS
+
+cd $INSTDIR/src
+cp $LPROGS $PSLIBDIR
+cd $PSLIBDIR
+chown $OWNER $LPROGS
+chgrp $GROUP $LPROGS
+chmod 755 $LPROGS
+
+cd $BINDDIR
+$LINK $BPROGS $PSLIBDIR
+
+cd $INSTDIR
+
+# install lib and troff font files
+
+LIBFILES="banner.pro enscript.pro pstext.pro \
+	ps4014.pro ps630.pro ps4014.pro pscat.pro psplot.pro psdit.pro \
+	ehandler.ps uartpatch.ps bogusmsg.ps \
+	font.map"
+
+cd $PSLIBDIR 
+rm -rf - $LIBFILES *.afm
+
+cd $INSTDIR/lib
+cp $LIBFILES *.afm $PSLIBDIR
+cd $PSLIBDIR
+chown $OWNER $LIBFILES *.afm 
+chgrp $GROUP $LIBFILES *.afm
+chmod 644 $LIBFILES *.afm
+rm -rf troff.font ditroff.font
+mkdir troff.font ditroff.font
+
+cd $INSTDIR/lib
+cp troff.font/* $PSLIBDIR/troff.font
+cd $PSLIBDIR/troff.font
+chown $OWNER . *
+chgrp $GROUP . *
+mkdir /usr/lib/font/ps
+cp ft* *.ct *.head /usr/lib/font/ps
+cd /usr/lib/font/ps
+chown $OWNER . *
+chgrp $GROUP . *
+chmod 755 .
+chmod 644 *
+
+cd $INSTDIR/lib
+cp ditroff.font/* $PSLIBDIR/ditroff.font
+cd $PSLIBDIR/ditroff.font
+chown $OWNER . * 
+chgrp $GROUP . *
+mkdir /usr/lib/font/devpsc
+cp *.aux *.map *.out DESC /usr/lib/font/devpsc
+cd /usr/lib/font/devpsc
+chown $OWNER . * 
+chgrp $GROUP . *
+chmod 755 .
+chmod 644 *
+
+# install shell script
+
+cd $INSTDIR/sh
+cp ptroff psroff $BINDIR
+cd $BINDIR
+chown $OWNER ptroff psroff
+chgrp $GROUP ptroff psroff
+chmod 755 ptroff psroff
+

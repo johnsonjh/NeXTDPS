@@ -1,0 +1,72 @@
+# etc/printcap.notes
+#
+# These notes pertain to BSD UNIX systems only.
+#
+# Notes on printcap entry for a PostScript printer
+# driven by TranScript software over an rs232 tty line.
+#
+# See the printcap(5) in the UNIX manual for more information
+# about the structure and contents of the file /etc/printcap.
+#
+# At least one PostScript printer in the database should
+# have the alias "PostScript", as this will be the default
+# printer for users without the PRINTER environment variable
+# set (on the conservative assumption that the default printer
+# at an installation will not be a PostScript printer).
+# When TranScript software uses this default, it will send
+# to the FIRST printer in the printcap file with the alias
+# PostScript.
+#
+# If you desire, you may edit /etc/printcap to reflect the following options.
+#
+# To turn off printer accounting, remove the "af" entry.
+#
+# To turn off banner logging and/or banner string printing in the 
+# log file, add an "sh" entry.
+#
+# To discard all logging (NOT recommended) change the
+# "lf" entry to "lf=/dev/null".
+#
+# Do NOT add an "st" entry (for anything by "st=status") as
+# the pscomm program expects to report status there.
+#
+# The stty bits specified below are:
+# fs == set flag bits	== CBREAK|TANDEM
+# fc == clear flag bits	== EVENP|ODDP|RAW|CRMOD|ECHO|LCASE
+# xs == set mode bits	== LDECCTQ|LLITOUT
+# xc == clear mode bits == --
+
+# PostScript printer driven by TranScript software
+# PostScript and TranScript are trademarks of Adobe Systems Incorporated
+PRINTER|ps|postscript|PostScript:\
+	:lp=/dev/PRINTER:sd=SPOOLDIR/PRINTER:\
+	:lf=LOGDIR/PRINTER-log:af=ACCTDIR/PRINTER.acct:\
+	:br#9600:rw:fc#0000374:fs#0000003:xc#0:xs#0040040:mx#0:sf:sb:\
+	:if=PSLIBDIR/psif:\
+	:of=PSLIBDIR/psof:gf=PSLIBDIR/psgf:\
+	:nf=PSLIBDIR/psnf:tf=PSLIBDIR/pstf:\
+	:rf=PSLIBDIR/psrf:vf=PSLIBDIR/psvf:\
+	:cf=PSLIBDIR/pscf:df=PSLIBDIR/psdf:
+
+
+# Here is an entry for a networked printer.
+# Accounting (if done) is done at the remote machine.
+#
+# You must create a local spooling directory.
+# The local log file gets used only if something is seriously
+# wrong for the local line printer daemon.  Otherwise, all normal
+# spooling messages go in the remote log file (i.e., on the host 
+# with the printer).
+# 
+# All translation via printcap entries (e.g. gf) takes place on
+# the remote machine (the machine with the printer attached).
+# No filters are specified for networked printers.
+#
+# Note that it may be necessary to add this host to the remote
+# host's /.rhosts file of "trusted" hosts, in order for certain
+# remote commands (e.g., lprm) to work.
+
+NETWORKPRINTER|PostScript|TranScript net printer:\
+	:lp=:rm=HOST_WITH_PRINTER:rp=PRINTER_NAME_ON_THAT_HOST:\
+	:sd=/usr/spool/LOCAL_SPOOL_DIR:lf=LOCAL_LOG_FILE:mx#0:
+

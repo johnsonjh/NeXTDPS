@@ -1,0 +1,62 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Faces and Sizes     Number: 11
+%-----------------------------------------------------------------------------
+%
+/smallfont                                  % For efficiency reasons, programs
+  /Times-Roman findfont 9 scalefont def     % that use several different
+/normalfont                                 % typefaces in different sizes
+  /Times-Roman findfont 12 scalefont def    % will typically "define" the
+/largefont                                  % fonts that are to be used at the
+  /Times-Roman findfont 18 scalefont def    % beginning of the program. These
+/italicfont                                 % "defined" fonts are then used
+  /Times-Italic findfont 12 scalefont def   % later throughout the program in
+/boldfont                                   % setfont operations. By defining
+  /Times-Bold findfont 12 scalefont def     % the fonts at the outset, we save
+					    % time later by not having to
+					    % perform findfind-scalefont
+					    % operations each time a setfont
+					    % is done. Here we are setting up
+					    % several face and size
+					    % combinations with
+					    % findfont-scalefont sequences.
+					    % The resulting font dictionaries
+					    % are assigned to suitably named
+					    % variables. The variable names
+					    % have been chosen to be as
+					    % descriptive as possible yet
+					    % actually we could have chosen
+					    % any names that adhere to the
+					    % PostScript name syntax. We will
+					    % later use these variables with
+					    % the setfont operator.
+234 548 moveto
+largefont setfont                           % Begin with the 18 point Times
+					    % Roman font.
+(Architecture) show
+		   
+234 518 moveto
+normalfont setfont                          % Switch to the normal size, 12
+					    % point Times Roman.
+(In the sense in which) show
+italicfont setfont                          % Switch to the italic face.
+( Architecture ) show                       % Notice that an additional moveto
+					    % operation is not necessary. The
+					    % text is placed where the last
+					    % show operation left off.
+234 506 moveto
+normalfont setfont                          % Switch back to the 12 point
+					    % Times Roman.
+(is an art,) show
+boldfont setfont                            % Switch to the bold face.
+( Typography ) show
+normalfont setfont                          % Switch back to the 12 point
+					    % Times Roman.
+(is an art.) show
+		 
+234 472 moveto
+smallfont setfont                           % Switch to the small point size,
+					    % 9 point Times Roman.
+(Beatrice Warde) show
+		     
+showpage

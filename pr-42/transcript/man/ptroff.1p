@@ -1,0 +1,192 @@
+.TH PTROFF 1 "12 Nov 1985" "Adobe Systems"
+\" RCSID: $Header: ptroff.1p,v 2.2 87/11/17 16:48:19 byron Rel $
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: ptroff.1p,v 2.2 87/11/17 16:48:19 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.SH NAME
+ptroff \- troff to a P\s-2OST\s+2S\s-2CRIPT\s+2 printer
+.SH SYNOPSIS
+.B ptroff
+[
+.B \-t
+] [
+.BI \-F family
+] [
+.I "troff options"
+] [
+.I "spool options"
+] [
+.I files
+]
+.SH DESCRIPTION
+.I ptroff
+is a shell script that runs 
+.RI [ o ] troff (1)
+in an environment to produce output on a \*(PS printer.  It uses 
+.I pscat
+to convert 
+.I troff
+C/A/T output to a \*(PS print file, and spools this for printing.
+If no 
+.I files
+are specified, the standard input is used.
+.PP
+In addition to the standard
+.RI [ o ] troff
+options, the following options are understood by 
+.I ptroff.
+.TP
+.B \-t
+sends the \*(PS output to the standard output,
+rather than spooling it to a printer.
+Note that this overrides the meaning of the 
+.I troff
+.B \-t 
+option; if you want the C/A/T file, run 
+.RI [ o ] troff
+directly.
+.TP
+.BI \-F " fontfamily"
+names a font family to load into 
+.RI [ o ] troff
+and
+.IR pscat.
+.I Fontfamily 
+is used to name both a 
+.I *\.head
+file containing 
+.I troff
+``fp'' commands, and a 
+.I *\.ct 
+file containing a character mapping for 
+.IR pscat .
+Fontfamilies ``Times'' and ``Helvetica'' are probably
+defined at your site,  others may be available.
+.PP
+In 4.2bsd UNIX systems, the following spooler options are passed on to
+.IR lpr .
+.TP
+.BI \-P printer
+causes the output to be sent to the named printer.
+.TP
+.BI \-# n
+causes 
+.I n 
+copies of the output to be produced.  The default is one.
+.TP
+.B \-h
+suppress the printing of the job burst page.
+.TP
+.BI \-C " class"
+set the job classification for use on the burst page.
+.TP
+.BI \-J " name"
+set the job name for use on the burst page.  Otherwise, the name of the
+first input file will be used.
+.TP
+.BI \-m
+send mail after files have been printed.
+.PP
+In System V UNIX systems, the following spooler options are passed on to
+.IR lp .
+.TP
+.BI \-d dest
+causes the output to be sent to the named destination.
+.TP
+.BI \-n n
+causes 
+.I n 
+copies of the output to be produced.  The default is one.
+.TP
+.B \-h
+suppress the printing of the job burst page.
+.TP
+.B \-r
+don't page-reverse the output.
+.TP
+.BI \-s
+suppress messages from 
+.IR lp .
+.TP
+.BI \-m
+send mail after files have been printed.
+.TP
+.BI \-w
+write to user's terminal after files have been printed.
+.SH ENVIRONMENT
+.IP "PRINTER (4.2bsd)"
+the name of a printer (as in the 
+.B \-P
+option) for 
+.I lpr
+to use.  If no 
+.B \-P 
+option is specified,
+.I lpr
+will use this printer.  If neither
+.B \-P
+nor PRINTER is set,
+.I ptroff
+will spool to a printer named ``PostScript''.
+.IP "LPDEST (System V)"
+the name of a printer (as in the 
+.B \-d
+option) for 
+.I lp
+to use.  If no 
+.B \-d 
+option is specified,
+.I lp
+will use this printer.  If neither
+.B \-d
+nor LPDEST is set,
+.I ptroff
+will spool to a printer class named ``PostScript''.
+.SH "FILES"
+.TP 2.2i
+XTROFFFONTDIRX/*.ct
+character correspondence tables for 
+.IR pscat .
+.TP
+XTROFFFONTDIRX/*.head
+.I troff
+headers containing ``.fp'' commands.
+.TP
+XTROFFFONTDIRX/ftXX 
+font width files for 
+.IR troff .
+.TP
+XPSLIBDIRX/pscat.pro
+default \*(PS prologue for 
+.IR pscat .
+.SH "SEE ALSO"
+pscat(1), pscatmap(8).
+.br
+4.2bsd: troff(1).
+.br
+System V: otroff(1).
+.br
+J. F. Ossanna,
+.I Nroff/Troff user's manual
+.br
+.I
+Documenter's Workbench
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH BUGS
+Because of the character mapping tables used, explicit
+use of the ``.fp'' troff directive will usually produce the
+wrong result.  Users must build and reference correct tables with
+.IR pscatmap (8)
+for non-standard ``.fp'' combinations to work.
+.PP
+More flexibility is allowed by using 
+.IR troff ,
+.IR pscat ,
+and the spooler separately.
+.SH NOTES
+\*(PS is a trademark of Adobe Systems Incorporated.
+.br
+Times and Helvetica are registered trademark of Allied Corporation.
+.br
+Documenter's Workbench is a trademark of AT&T Technologies.

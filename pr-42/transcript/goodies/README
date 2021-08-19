@@ -1,0 +1,16 @@
+transcript/goodies/
+
+gbind.ps
+	Adobe's graphics binder.  
+	An exercise in PostScript code modification.
+	(see it's header comments)
+
+psops.sh
+	A shell script for PostScript operator one-liners.
+	You can use this to build an on-line reference
+	(e.g., an Emacs description database file).
+
+electric-ps.ml
+	Emacs macros that define "Electric-PS" mode, which
+	makes it more fun to edit PostScript source using
+	the Emacs editor.

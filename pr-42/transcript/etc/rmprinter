@@ -1,0 +1,50 @@
+#!/bin/sh
+# etc/rmprinter.bsd
+# Copyright (c) 1985,1987 Adobe Systems Incorporated. All rights reserved.
+# GOVERNMENT END USERS: See notice of rights in Notice file in release directory.
+# RCSID: $Header: rmprinter.bsd,v 2.2 87/11/17 16:26:24 byron Rel $
+#
+# usage: rmprinter PRINTER
+
+PATH=${PATH}:/etc:/usr/etc
+export PATH
+
+set -u
+if test $# != 1 ; then
+	echo usage: rmprinter PRINTER
+	exit 1
+fi
+
+PRINTER=$1
+export PRINTER
+
+if test -r ../config ; then
+	. ../config
+else
+	echo "../config file missing!"
+	exit 1
+fi	
+
+if test -r ../printer ; then
+	. ../printer
+else
+	echo "../printer file missing!"
+	exit 1
+fi
+
+# shut down the printer
+lpc stop $PRINTER
+lpc disable $PRINTER
+lpc abort $PRINTER
+lprm -P$PRINTER -
+
+# remove the device
+rm -f /dev/${PRINTER}
+
+# remove spool, log and accounting files
+rm -rf ${LOGDIR}/${PRINTER}-log* ${ACCTDIR}/${PRINTER}.acct*
+rm -rf ${SPOOLDIR}/${PRINTER}
+
+echo "remove the entry for $PRINTER from /etc/printcap"
+
+exit 0

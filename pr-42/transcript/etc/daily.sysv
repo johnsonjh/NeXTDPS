@@ -1,0 +1,17 @@
+
+# etc/daily.sysv
+#
+# this code is included as part of our daily.sh file
+# which is invoked by cron(8) with the following crontab
+# entry:
+# 1 0 * * * sh </usr/adm/daily.sh >/usr/adm/daily.log 2>&1
+# 
+
+# replace LIST OF POSTSCRIPT PRINTERS with the names of your printers
+printers="LIST OF POSTSCRIPT PRINTERS"
+for p in $printers
+do
+	# rotate log files
+	cp SPOOLDIR/transcript/PRINTER-log SPOOLDIR/transcript/PRINTER-log.1
+	cp /dev/null SPOOLDIR/transcript/PRINTER-log
+done

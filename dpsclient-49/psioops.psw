@@ -1,0 +1,121 @@
+/* psioops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSequals()
+	=
+endps
+
+defineps PSequalsequals()
+	==
+endps
+
+defineps PSbytesavailable( | int *n)
+	bytesavailable n 
+endps
+
+defineps PSclosefile()
+	closefile 
+endps
+
+defineps PScurrentfile()
+	currentfile 
+endps
+
+defineps PSdeletefile(char *filename)
+	(filename) deletefile 
+endps
+
+defineps PSecho(boolean b)
+	b echo 
+endps
+
+defineps PSfile(char *name, *access)
+	(name) (access) file 
+endps
+
+defineps PSfilenameforall()
+	filenameforall 
+endps
+
+defineps PSfileposition( | int *pos)
+	fileposition pos 
+endps
+
+defineps PSflush()
+	flush 
+endps
+
+defineps PSflushfile()
+	flushfile 
+endps
+
+defineps PSprint()
+	print 
+endps
+
+defineps PSprintobject(int tag)
+	tag printobject
+endps
+
+defineps PSpstack()
+	pstack 
+endps
+
+defineps PSread(| boolean *b)
+	read b
+endps
+
+defineps PSreadhexstring(| boolean *b)
+	readhexstring b
+endps
+
+defineps PSreadline(| boolean *b)
+	readline b
+endps
+
+defineps PSreadstring(| boolean *b)
+	readstring b
+endps
+
+defineps PSrenamefile(char *old, *new)
+	(old) (new) renamefile 
+endps
+
+defineps PSresetfile()
+	resetfile 
+endps
+
+defineps PSsetfileposition(int pos)
+	pos setfileposition 
+endps
+
+defineps PSstack()
+	stack 
+endps
+
+defineps PSstatus( | boolean *b)
+	status b 
+endps
+
+defineps PStoken(| boolean *b)
+	token b
+endps
+
+defineps PSwrite()
+	write 
+endps
+
+defineps PSwritehexstring()
+	writehexstring 
+endps
+
+defineps PSwriteobject(int tag)
+	tag writeobject
+endps
+
+defineps PSwritestring()
+	writestring 
+endps
+

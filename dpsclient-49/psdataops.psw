@@ -1,0 +1,225 @@
+/* psdataops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PSaload()
+	aload 
+endps
+
+defineps PSanchorsearch(| boolean *truth)
+	anchorsearch truth
+endps
+
+defineps PSarray(int len)
+	len array 
+endps
+
+defineps PSastore()
+	astore 
+endps
+
+defineps PSbegin()
+	begin 
+endps
+
+defineps PSclear()
+	clear 
+endps
+
+defineps PScleartomark()
+	cleartomark 
+endps
+
+defineps PScopy(int n)
+	n copy
+endps
+
+defineps PScount( | int *n)
+	count n 
+endps
+
+defineps PScounttomark( | int *n)
+	counttomark n 
+endps
+
+defineps PScvi()
+	cvi 
+endps
+
+defineps PScvlit()
+	cvlit 
+endps
+
+defineps PScvn()
+	cvn 
+endps
+
+defineps PScvr()
+	cvr 
+endps
+
+defineps PScvrs()
+	cvrs 
+endps
+
+defineps PScvs()
+	cvs 
+endps
+
+defineps PScvx()
+	cvx 
+endps
+
+defineps PSdef()
+	def 
+endps
+
+defineps PSdict(int len)
+	len dict 
+endps
+
+defineps PSdictstack()
+	dictstack 
+endps
+
+defineps PSdup()
+	dup 
+endps
+
+defineps PSend()
+	end 
+endps
+
+defineps PSexch()
+	exch 
+endps
+
+defineps PSexecstack()
+	execstack 
+endps
+
+defineps PSexecuteonly()
+	executeonly 
+endps
+
+defineps PSget()
+	get 
+endps
+
+defineps PSgetinterval()
+	getinterval 
+endps
+
+defineps PSindex(int i)
+	i index 
+endps
+
+defineps PSknown( | boolean *b)
+	known b 
+endps
+
+defineps PSlength( | int *len)
+	length len 
+endps
+
+defineps PSload()
+	load 
+endps
+
+defineps PSmark()
+	mark 
+endps
+
+defineps PSmatrix()
+	matrix 
+endps
+
+defineps PSmaxlength( | int *len)
+	maxlength len 
+endps
+
+defineps PSnoaccess()
+	noaccess 
+endps
+
+defineps PSnull()
+	null 
+endps
+
+defineps PSpackedarray()
+	packedarray 
+endps
+
+defineps PSpop()
+	pop 
+endps
+
+defineps PSput()
+	put 
+endps
+
+defineps PSputinterval()
+	putinterval 
+endps
+
+defineps PSrcheck( | boolean *b)
+	rcheck b 
+endps
+
+defineps PSreadonly()
+	readonly 
+endps
+
+defineps PSroll(int n, j)
+	n j roll 
+endps
+
+defineps PSscheck( | boolean *b)
+	scheck b 
+endps
+
+defineps PSsearch(| boolean *b)
+	search b
+endps
+
+defineps PSshareddict()
+	shareddict 
+endps
+
+defineps PSstatusdict()
+	statusdict 
+endps
+
+defineps PSstore()
+	store 
+endps
+
+defineps PSstring(int len)
+	len string 
+endps
+
+defineps PSstringwidth(char *s | float *xp, *yp)
+	(s) stringwidth yp xp 
+endps
+
+defineps PSsystemdict()
+	systemdict 
+endps
+
+defineps PSuserdict()
+	userdict 
+endps
+
+defineps PSwcheck( | boolean *b)
+	wcheck b 
+endps
+
+defineps PSwhere(| boolean *b)
+	where b
+endps
+
+defineps PSxcheck( | boolean *b)
+	xcheck b 
+endps
+

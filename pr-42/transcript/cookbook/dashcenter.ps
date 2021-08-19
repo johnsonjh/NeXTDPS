@@ -1,0 +1,101 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Centered Dash Patterns     Number: 9
+%-----------------------------------------------------------------------------
+%
+/centerdash                                 % The procedure ``centerdash''
+  { /pattern exch def                       % will center a dash pattern on a
+					    % path such that the dashes at the
+					    % end points are identical. It
+					    % takes an array describing the
+					    % dash pattern as its argument.
+    /pathlen pathlength def                 % In order to center the dash
+    /patternlength 0 def                    % pattern on the path we need to
+    pattern                                 % determine the length of the
+      { /segmentlength exch def             % path. (See definition of
+	/patternlength patternlength        % ``pathlength'' below.) First
+	  segmentlength add def             % determine the total length of
+      } forall                              % the repeating pattern by summing
+					    % the elements of the dash array.
+									     
+    pattern length 2 mod 0 ne               % If the pattern array is an odd
+      { /patternlength patternlength        % number of elements double its
+	2 mul def } if                      % length so that we can get
+					    % identical end points.
+    /first pattern 0 get def                % Get the length of the first
+					    % element in the pattern array to
+					    % be used in later computations.
+    /last patternlength first sub def       % Compute length of last part of
+					    % pattern.
+						      
+    /n pathlen last sub patternlength       % Now we wish to compute the
+      idiv def                              % offset provided to the setdash
+    /endpart pathlen patternlength n mul    % operator such that the dashes at
+      sub last sub 2 div def                % the end points are identical.
+    /offset first endpart sub def           % Think of the path as begin
+					    % composed of 4 different parts: 2
+					    % identical end parts, 1 part
+					    % which is composed of ``n''
+					    % repeating pattern pieces and 1
+					    % part which is the last piece of
+					    % the pattern. We can compute the
+					    % values of the last piece and the
+					    % part composed of ``n'' repeating
+					    % pattern pieces and solve for the
+					    % end part. The amount of offset
+					    % is then given by the difference
+					    % in length of the first part and
+					    % the end part.
+    pattern offset setdash                  % Set the dashing for the stroke
+  } def                                     % using the offset computed above.
+									      
+/pathlength                                 % The procedure ``pathlength''
+  { flattenpath                             % computes the length of any given
+    /dist 0 def                             % path. It does so by first
+    { /yfirst exch def /xfirst exch def}    % ``flattening'' the path with the
+    { /ynext exch def /xnext exch def       % ``flattenpath'' operator.
+      /dist dist ynext yfirst sub dup mul   % ``flattenpath'' converts any
+	xnext xfirst sub dup mul            % curveto and arc segments in a
+	add sqrt add def                    % path to a series of lineto
+      /yfirst ynext def /xfirst xnext def}  % segments. Then the
+					    % ``pathforall'' operator is used
+					    % to access all the segments in
+					    % the path so that the length of
+					    % each segment can be determined
+					    % and added to a total.
+    {}                                      % The curveto procedure does
+    {}                                      % nothing since there shouldn't be
+    pathforall                              % any curveto segments in the path
+					    % after a flattenpath.
+    dist                                    % Leave the length of the path on
+					    % the operand stack.
+  } def
+5 setlinewidth                              % Set up a line width.
+								  
+newpath                                     % This example illustrates the
+  72 500 moveto 378 500 lineto              % centering of a very simple dash
+[30] centerdash                             % pattern in which the unfilled
+stroke                                      % dashes have the same length as
+					    % the filled ones.
+							      
+newpath                                     % This example is similar to the
+  72 400 moveto 378 400 lineto              % above example except that the
+[30 50] centerdash                          % unfilled dashes are longer than
+stroke                                      % the filled ones.
+							      
+newpath                                     % This example illustrates the
+  72 300 moveto 378 300 lineto              % centering of a dot-dash pattern.
+[30 10 5 10] centerdash
+stroke
+      
+newpath                                     % This example illustrates the
+  72 200 moveto 378 200 lineto              % centering of an asymetric
+[30 15 10] centerdash                       % pattern.
+stroke
+      
+newpath                                     % This final example illustrates
+  225 390 300 240 300 arc                   % the centering of a dash pattern
+[40 10] centerdash                          % on an arbitrary path, in this
+stroke                                      % case an arc.
+							  
+showpage

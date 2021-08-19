@@ -1,0 +1,51 @@
+
+/*
+	PSevent.psw
+	This pswrap file generates C functions corresponding
+	to all the event operators.
+	
+	Copyright (c) 1988 NeXT, Inc. as an unpublished work.
+	All rights reserved.
+
+	Created Leo 10Feb87
+	
+	Modified:
+	
+	05May87	leo	Currenthowpost
+	13Jan88	trey	added return arg to postevent
+	17Aug88	trey	wrap accounting
+
+*/
+
+defineps PSprinteventtimes() printeventtimes
+endps
+
+defineps PSiniteventtimes() initeventtimes
+endps
+
+defineps PSposteventbycontext(int type; float x, y; int time, flags, win, subtype, data1, data2, context | boolean *success)
+	type x y time flags win subtype data1 data2 context
+	posteventbycontext success
+endps
+
+defineps PSsetflushexposures(boolean flag)
+	flag setflushexposures
+endps
+
+defineps PSsetwaitcursorenabled(boolean flag)
+	flag currentcontext setwaitcursorenabled
+endps
+
+defineps PScurrentwaitcursorenabled( | boolean *flag)
+	currentcontext currentwaitcursorenabled flag
+endps
+
+defineps PSsetactiveapp(int cntxt)
+	cntxt setactiveapp
+endps
+
+defineps PScurrentactiveapp( | int *cntxt)
+	currentactiveapp cntxt
+endps
+
+

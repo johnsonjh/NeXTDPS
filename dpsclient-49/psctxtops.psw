@@ -1,0 +1,77 @@
+/* psctxtops.psw
+  Copyright (c) 1988 Adobe Systems Incorporated.
+  All rights reserved.
+  */
+
+defineps PScondition()
+	condition 
+endps
+
+defineps PScurrentcontext( | int *cid)
+	currentcontext cid 
+endps
+
+defineps PScurrentobjectformat( | int *code)
+	currentobjectformat code 
+endps
+
+defineps PSdefineusername(int i; char *username)
+	i /username defineusername 
+endps
+
+defineps PSdefineuserobject()
+	defineuserobject 
+endps
+
+defineps PSdetach()
+	detach 
+endps
+
+defineps PSexecuserobject(int index)
+	index execuserobject 
+endps
+
+defineps PSfork()
+	fork 
+endps
+
+defineps PSjoin()
+	join 
+endps
+
+defineps PSlock()
+	lock 
+endps
+
+defineps PSmonitor()
+	monitor 
+endps
+
+defineps PSnotify()
+	notify 
+endps
+
+defineps PSsetobjectformat(int code)
+	code setobjectformat 
+endps
+
+defineps PSsetvmthreshold(int i)
+	i setvmthreshold 
+endps
+
+defineps PSundefineuserobject(int index)
+	index undefineuserobject 
+endps
+
+defineps PSuserobject()
+	userobject 
+endps
+
+defineps PSwait()
+	wait 
+endps
+
+defineps PSyield()
+	yield 
+endps
+

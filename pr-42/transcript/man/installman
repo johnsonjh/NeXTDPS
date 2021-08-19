@@ -1,0 +1,8 @@
+
+section=$1
+mandir=$2
+ext=`expr $mandir : '.*\(.\)$'`
+for i in *.$section
+do
+	cp $i $mandir/`basename $i .$section`.$ext
+done

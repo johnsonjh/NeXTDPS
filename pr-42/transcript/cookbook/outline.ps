@@ -1,0 +1,74 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Making an Outlined Font     Number: 22
+%-----------------------------------------------------------------------------
+%
+/makeoutlinedict 5 dict def                 % Local storage for the procedure
+					    % MakeOutlineFont.
+/MakeOutlineFont                            % MakeOutlineFont takes one of
+  { makeoutlinedict begin                   % PostScript's standard filled
+    /strokeweight exch def                  % fonts and makes an outlined font
+    /newfontname exch def                   % out of it. It takes three
+    /basefontname exch def                  % arguments: the name of the font
+					    % on which to base the outline
+					    % version, the new name for the
+					    % outline font and a strokeweight
+					    % to use on the outline.
+								    
+    /basefontdict basefontname findfont def % Get the dictionary of the font
+					    % on which the outline version
+					    % will be based.
+    /outfontdict basefontdict maxlength     % Create a dictionary to hold the
+      1 add dict def                        % description for the outline
+					    % font. Make it one entry larger
+					    % to accomodate an entry for the
+					    % strokewidth used on the outline.
+    basefontdict                            % Copy all the entries in the base
+      { exch dup /FID ne                    % font dictionary to the outline
+	  {exch outfontdict 3 1 roll put}   % dictionary except for the FID.
+	  {pop pop}                         % Ignore FID pair.
+	  ifelse
+      } forall
+    outfontdict /FontName newfontname put   % Insert the new name into the
+					    % dictionary.
+    outfontdict /PaintType 2 put            % Change the paint type to
+					    % outline.
+    outfontdict /StrokeWidth strokeweight   % Insert the strokeweight into the
+					    % dictionary.
+      put
+    newfontname outfontdict definefont pop  % Now make the outline dictionary
+    end                                     % into a PostScript font. We will
+  } def                                     % ignore the modified dictionary
+					    % returned on the stack by the
+					    % definefont operator.
+								  
+/Helvetica-Bold /Helvetica-Outline0 0       % We will create an outline font
+  MakeOutlineFont                           % based on Helvetica-Bold named
+/Helvetica-Outline0 findfont 24 scalefont   % Helvetica-Outline0. By
+  setfont 72 542 moveto (outline) show      % specifying a stroke weight of
+/Helvetica-Outline0 findfont 36 scalefont   % zero, we will always get a one
+  setfont (outline) show                    % pixel wide outline around each
+					    % character, no matter what the
+					    % font's point size.
+								
+/Helvetica-Bold /Helvetica-Outline1         % Here we are creating a font with
+  1000 36 div MakeOutlineFont               % a heavier stroke weight. The
+/Helvetica-Outline1 findfont 24 scalefont   % stroke weight is always
+  setfont 72 502 moveto (outline) show      % specified in the character
+/Helvetica-Outline1 findfont 36 scalefont   % coordinate system (1000 units).
+  setfont (outline) show                    % The value specified here,
+					    % 1000/36 will yield a one point
+					    % wide outline when the font is
+					    % scaled to 36 points in size.
+					    % Note that this outline weight
+					    % changes with different point
+					    % sizes.
+						    
+/Helvetica-Bold /Helvetica-Outline2         % A strokeweight value of 1000/24
+  1000 24 div MakeOutlineFont               % yields a one point wide outline
+/Helvetica-Outline2 findfont 24 scalefont   % when the font is scaled to 24
+  setfont 72 462 moveto (outline) show      % points in size. It yields a 1.5
+/Helvetica-Outline2 findfont 36 scalefont   % point outline when the font is
+  setfont (outline) show                    % scaled to 36 points in size
+					    % (36/24 = 1.5).
+showpage

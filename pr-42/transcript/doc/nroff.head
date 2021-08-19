@@ -1,0 +1,3 @@
+.\" Use this as a preamble to make .txt files with nroff
+.\" Command: nroff -Tlpr -ms nroff.head <file>
+.nr LL 7i

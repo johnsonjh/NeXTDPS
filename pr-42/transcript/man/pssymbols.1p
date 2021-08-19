@@ -1,0 +1,271 @@
+.TH PSSYMBOLS 1 "20 Aug 87" "Adobe Systems"
+\" Copyright (c) 1987 Adobe Systems Incorporated. All Rights Reserved.
+\" ATTN GOVERNMENT END USERS: See notice of rights in file XPSLIBDIRX/Notice
+\" RCSID: $Header: pssymbols.1p,v 2.2 87/11/17 16:48:12 byron Rel $
+.ds PS P\s-2OST\s+2S\s-2CRIPT\s+2
+.ds TS T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH NAME
+PSSYMBOLS \- List of symbols for \fIditroff\fP in T\s-2RAN\s+2S\s-2CRIPT\s+2
+.SH DESCRIPTION
+The following is a list of the symbols that are available in
+.I psroff(1)
+( or
+.I ditroff
+) in \*(TS.
+The list gives the name of the symbol which is used in
+.I troff,
+and a short description.
+If this page is printed on a \*(PS printer using
+.I psroff,
+the actual representation for the symbol is also shown.
+(
+.I psroff
+or
+.I ditroff
+must be used;
+.I ptroff
+will not work. )
+The description for each symbol is the name by which the symbol is
+known in Adobe fonts.
+The name can be used to find the character in font documentation for
+the appropriate font(s).
+.PP
+Many of the symbols below are from the Symbols font.
+Some are in each alphabetic font.
+Those marked with "*" are constructed with \*(PS code, and so are not
+necessarily from any font.
+Characters similar to many of the latter do appear in fonts, though,
+so the description usually shows the name of a similar character.
+.sp
+.if n \{\
+.ta .75i +2i +.75i
+.ft B
+Sym.	Description	Sym.	Description
+.ft P
+.nr QL 2       \" Number of entries per line
+\}
+.if t \{\
+.ta .4i +.4i +1.2i +.4i +.4i +1.2i +.4i +.4i
+.ft B
+Rep	Sym.	Description	Rep	Sym.	Description	Rep	Sym.	Description
+.ft P
+.nr QL 3       \" Number of entries per line
+\}
+.nr QC 0 1     \" Counter variable
+.de QQ
+.if n .as QX \\\\\\$1	\\$2
+.if t .as QX \\$1	\\\\\\$1	\\$2
+.ie \\n+(QC=\\n(QL \{\
+\\*(QX
+.br
+.rm QX
+.nr QC 0
+.\}
+.el .as QX \t
+..
+.br
+\&  \" Kludge to start first entry at beginning of line
+.br
+.QQ \(a+ "circleplus"
+.QQ \(aa "acute"
+.QQ \(ae "ae"
+.QQ \(al "aleph"
+.QQ \(an "logicaland"
+.QQ \(ap "similar"
+.QQ \(ax "circlemultiply"
+.QQ \(be "breve"
+.QQ \(br "boxrule*"
+.QQ \(bs "heart"
+.QQ \(bt "perpendicular"
+.QQ \(bu "bullet*"
+.QQ \(bv "boldvertical*"
+.QQ \(bx "box*"
+.QQ \(ca "intersection"
+.QQ \(cd "cedilla"
+.QQ \(ci "circle*"
+.QQ \(cm "element"
+.QQ \(co "copyright"
+.QQ \(cr "carriagereturn"
+.QQ \(ct "cent"
+.QQ \(cu "union"
+.QQ \(d< "guillemotleft"
+.QQ \(d> "guillemotright"
+.QQ \(da "arrowdown"
+.QQ \(dd "daggerdbl"
+.QQ \(de "degree"
+.QQ \(dg "dagger"
+.QQ \(di "divide"
+.QQ \(dm "diamond"
+.QQ \(dt "dotaccent"
+.QQ \(em "emdash"
+.QQ \(en "endash"
+.QQ \(eq "equal"
+.QQ \(es "emptyset"
+.QQ \(fa "universal"
+.QQ \(fi "fi-ligature"
+.QQ \(fl "fl-ligature"
+.QQ \(fm "minute"
+.QQ \(ga "grave"
+.QQ \(gr "gradient"
+.QQ \(hc "caron"
+.QQ \(hy "hyphen"
+.QQ \(ib "reflexsubset"
+.QQ \(if "infinity"
+.QQ \(im "arrowdblright"
+.QQ \(io "arrowdblboth"
+.QQ \(ip "reflexsuperset"
+.QQ \(is "integral*"
+.QQ \(l< "angleleft"
+.QQ \(la "logicaland"
+.QQ \(lb "braceleftbt*"
+.QQ \(lc "bracketlefttp*"
+.QQ \(lf "bracketleftbt*"
+.QQ \(lh "arrowdblleft"
+.QQ \(lk "braceleftmid*"
+.QQ \(lo "logicalor"
+.QQ \(lq "quotedblleft"
+.QQ \(lt "parenlefttp*"
+.QQ \(m. "dotmath"
+.QQ \(ma "macron"
+.QQ \(mc "macron"
+.QQ \(mi "minus"
+.QQ \(mo "element"
+.QQ \(mt "minute"
+.QQ \(mu "multiply"
+.QQ \(n' "quotesingle"
+.QQ \(no "logicalnot"
+.QQ \(o/ "oslash"
+.QQ \(ob "outlinebullet*"
+.QQ \(oe "oe"
+.QQ \(og "ogonek"
+.QQ \(or "bar"
+.QQ \(pd "partialdiff"
+.QQ \(pl "plus"
+.QQ \(pm "perthousand"
+.QQ \(po "sterling"
+.QQ \(pp "paragraph"
+.QQ \(ps "sterling"
+.QQ \(pt "proportional"
+.QQ \(r> "angleright"
+.QQ \(rb "parenrightbt*"
+.QQ \(rc "bracketrighttp*"
+.QQ \(rf "bracketrightbt*"
+.QQ \(rg "registerserif"
+.QQ \(rh "arrowdblright"
+.QQ \(ri "ring"
+.QQ \(rk "bracerightmid*"
+.QQ \(rn "radicalex*"
+.QQ \(rq "quotedblright"
+.QQ \(rt "parenrighttp*"
+.QQ \(ru "rule*"
+.QQ \(sb "propersubset"
+.QQ \(sc "section"
+.QQ \(sd "second"
+.QQ \(sl "slash"
+.QQ \(sp "propersuperset"
+.QQ \(sq "square*"
+.QQ \(sr "radical*"
+.QQ \(ss "germandbls"
+.QQ \(te "existential"
+.QQ \(tf "therefore"
+.QQ \(tm "trademarkserif"
+.QQ \(ts "sigma1"
+.QQ \(ua "arrowup"
+.QQ \(ui "dotlessi"
+.QQ \(ul "underline*"
+.QQ \(um "dieresis"
+.QQ \(vr "verticalrule*"
+.QQ \(yi "yen"
+.QQ \(yn "yen"
+.QQ \(+- "plusminus"
+.QQ \(-> "arrowright*"
+.QQ \(.. "dieresis"
+.QQ \(** "asteriskmath"
+.QQ \(== "equivalence*"
+.QQ \(~= "approxequal"
+.QQ \(!! "exclamdown"
+.QQ \(!= "notequal"
+.QQ \(!m "notelement"
+.QQ \(!s "notsubset"
+.QQ \($D "florin"
+.QQ \($J "yen"
+.QQ \(:> "arrowdblright"
+.QQ \(<- "arrowleft*"
+.QQ \(<: "arrowdblleft"
+.QQ \(<= "lessequal"
+.QQ \(<> "arrowboth"
+.QQ \(>= "greaterequal"
+.QQ \(?? "questiondown"
+.QQ \(12 "1/2*"
+.QQ \(13 "1/3*"
+.QQ \(14 "1/4*"
+.QQ \(18 "1/8*"
+.QQ \(23 "2/3*"
+.QQ \(34 "3/4*"
+.QQ \(38 "3/8*"
+.QQ \(58 "5/8*"
+.QQ \(78 "7/8*"
+.QQ \(AE "AE"
+.QQ \(I! "exclamdown"
+.QQ \(I? "questiondown"
+.QQ \(O/ "Oslash"
+.QQ \(OE "OE"
+.QQ \(PL "Lslash"
+.QQ \(Pl "lslash"
+.QQ \(*A "Alpha"
+.QQ \(*B "Beta"
+.QQ \(*C "Xi"
+.QQ \(*D "Delta"
+.QQ \(*E "Epsilon"
+.QQ \(*F "Phi"
+.QQ \(*G "Gamma"
+.QQ \(*H "Theta"
+.QQ \(*I "Iota"
+.QQ \(*K "Kappa"
+.QQ \(*L "Lambda"
+.QQ \(*M "Mu"
+.QQ \(*N "Nu"
+.QQ \(*O "Omicron"
+.QQ \(*P "Pi"
+.QQ \(*Q "Psi"
+.QQ \(*R "Rho"
+.QQ \(*S "Sigma"
+.QQ \(*T "Tau"
+.QQ \(*U "Upsilon"
+.QQ \(*W "Omega"
+.QQ \(*X "Chi"
+.QQ \(*Y "Eta"
+.QQ \(*Z "Zeta"
+.QQ \(*a "alpha"
+.QQ \(*b "beta"
+.QQ \(*c "xi"
+.QQ \(*d "delta"
+.QQ \(*e "epsilon"
+.QQ \(*f "phi"
+.QQ \(*g "gamma"
+.QQ \(*h "theta"
+.QQ \(*i "iota"
+.QQ \(*k "kappa"
+.QQ \(*l "lambda"
+.QQ \(*m "mu"
+.QQ \(*n "nu"
+.QQ \(*o "omicron"
+.QQ \(*p "pi"
+.QQ \(*q "psi"
+.QQ \(*r "rho"
+.QQ \(*s "sigma"
+.QQ \(*t "tau"
+.QQ \(*u "upsilon"
+.QQ \(*w "omega"
+.QQ \(*x "chi"
+.QQ \(*y "eta"
+.QQ \(*z "zeta"
+\*(QX
+.SH "SEE ALSO"
+transcript(1), psroff(1)
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+\*(PS is a registered trademark of Adobe Systems Incorporated.
+.br
+\*(TS is a trademark of Adobe Systems Incorporated.

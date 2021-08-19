@@ -1,0 +1,69 @@
+.\" Copyright (c) 1989 NeXT, Inc.
+.\" All rights reserved.
+.\"
+.\"	@(#)screenafm.1	1.0 (NeXT) 02/16/89
+.\"
+.TH SCREENAFM 1 "June 15, 1989"
+.UC 4
+.SH NAME
+screenafm \- Build screen font metric file from bitmap description files
+.SH SYNOPSIS
+.B /usr/bin/screenafm
+.B fontname
+.B bdffile ...
+.SH DESCRIPTION
+.I screenafm
+is used to build Adobe Font Metric (AFM) files for the screen width
+versions of a particular font.  
+.I screenafm 
+is usually executed as part of the font installation procedure
+for a font.
+It takes as input a font metric file for the font
+as a whole, and a number of standard
+Adobe Bitmap Description format (BDF) files.
+It produces one font metrics file for each BDF fileit is
+given, describing the character widths for that size of that
+font if screen widths are being used.
+The Bitmap Distribution
+Format files provided as input to
+.B screenafm
+must be given in order from smallest to largest.
+.PP
+The AFM files output by
+.I screenafm
+should be placed in the afm directory where the font is 
+being installed.
+.PP
+For more information about how to create and install fonts,
+see the document
+.B Fonts in NextStep
+available from NeXT Technical Services.
+.PP
+When
+.I screenafm
+is run, it looks for the afm file for the given font in the
+current directory, in the directory
+.I ../afm,
+and then in the three standard afm file
+directories (see below).  The inclusion of
+.I ../afm
+is often helpful when working in a conventional font source tree.
+.LP
+.PP
+.SH SEE ALSO
+.B prebuild(1)
+.SH FILES
+.nf
+.ta \w'/LocalLibrary/Fonts/{outline,bitmap,afm}   'u
+/NextLibrary/Fonts/{outline,bitmap,afm}	location of NeXT-provided fonts
+/LocalLibrary/Fonts/{outline,bitmap,afm}	location of locally-provided fonts
+~/Library/Fonts/{outline,bitmap,afm}	location of user-provided fonts
+.fi
+.DT
+.SH BUGS
+.B screenafm
+shouldn't exist at all.  This information could be directly
+obtained from the output files produced by 
+.I prebuild.
+
+

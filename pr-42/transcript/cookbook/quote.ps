@@ -1,0 +1,91 @@
+%!
+% Cookbook Example Program from First Printing, Revised 7 Jan 1985
+% Program: Simple Text     Number: 10
+%-----------------------------------------------------------------------------
+%
+/Times-Roman findfont 12 scalefont          % Before any text can be "drawn"
+setfont                                     % on the output page, a font must
+					    % be selected and scaled properly.
+					    % This is accomplished by the
+					    % first line in the program.
+318 552 moveto
+(The tendency of the best) show             % The findfont operator is the
+318 552 12 sub moveto                       % first operator used when setting
+(typography has been and) show              % up a font. findfont takes a
+318 552 24 sub moveto                       % PostScript font name as its
+(still should be in the) show               % argument. (The PostScript font
+318 552 36 sub moveto                       % names available will vary from
+(path of simplicity,) show                  % installation to installation but
+318 552 48 sub moveto                       % it is possible to write a
+(legibility, and orderly) show              % PostScript program to find out
+					    % what they are). When the
+					    % findfont operator has been
+					    % executed, it pushes a
+					    % dictionary, called a ``font
+					    % dictionary,'' onto the operand
+					    % stack. This font dictionary
+					    % contains the information
+					    % required by PostScript to
+					    % construct characters in the font
+					    % 1 unit in size.
+318 552 60 sub moveto
+(arrangement.) show                         % Once we have this 1 unit font
+318 552 72 sub moveto                       % available, we must scale it to
+(Theodore Low De Vinne) show                % the desired point size. Although
+					    % this could be accomplished by
+showpage                                    % using the scale operator, it may
+					    % be inconvenient since it will
+					    % scale everything including the
+					    % coordinates to be used for
+					    % placement of characters on the
+					    % page. The scalefont operator
+					    % scales only the characters in
+					    % the font. scalefont takes a font
+					    % dictionary (the one left on the
+					    % stack by the findfont operator)
+					    % and a number which is used to
+					    % scale the font. The scalefont
+					    % operator pushes a new font
+					    % dictionary that contains the
+					    % proper scaling information in
+					    % addition to all the other font
+					    % dictionary information onto the
+					    % operand stack.
+							    
+					    % When PostScript "draws" text
+					    % onto the page, it uses the
+					    % "current font." The current font
+					    % is set using the setfont
+					    % operator. setfont takes a font
+					    % dictionary (in this case the
+					    % result of the findfont-scalefont
+					    % operations) as its argument.
+									  
+					    % Finally we wish to draw text on
+					    % the page. This last step has two
+					    % parts to it: positioning the
+					    % text on the page and indicating
+					    % which characters are to be drawn
+					    % at that position. Positioning
+					    % the text is accomplished by
+					    % using the moveto operator.
+					    % Indicating which characters are
+					    % to be drawn is accomplished by
+					    % using the show operator. The
+					    % show operator takes a string as
+					    % its argument. The origin of the
+					    % first character in the string is
+					    % placed at the current point and
+					    % then the current point is
+					    % shifted by the width of the
+					    % character. (This is the reason
+					    % for the moveto operation - it
+					    % sets the current point). This
+					    % process is repeated for each
+					    % character in the string, and
+					    % when finished, show will leave
+					    % the current point positioned
+					    % after the last character drawn.
+					    % Each new line of text to be
+					    % printed must be repositioned
+					    % using the moveto operator.
